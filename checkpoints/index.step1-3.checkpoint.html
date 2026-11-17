@@ -1,0 +1,1615 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f5e9" />
+  <meta name="description" content="Mae Chawi – AVOCADO ORCHARD | เรื่องราวอะโวคาโดสดจากไร่แม่ฉวี (Step 1–3: จากต้นอะโวคาโด ร่วงตามแรงโน้มถ่วง สู่เขียงไม้)" />
+  <title>Mae Chawi – AVOCADO ORCHARD | ไร่แม่ฉวี</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #183526;
+      --ink-soft: #355844;
+      --muted: #5c7265;
+      --cream-1: #f7f5e9;
+      --cream-2: #f4efe0;
+      --cream-3: #f8eed9;
+      --sage: #739938;
+      --forest: #214d34;
+      --wood: #9e6b43;
+      --line: rgba(24, 53, 38, 0.11);
+      --p: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream-1);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", "Noto Sans Thai", Tahoma, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--sage);
+      outline-offset: 4px;
+    }
+
+    /* ================= HEADER & NAV ================= */
+    .header {
+      height: 78px;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      right: 0;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 clamp(20px, 5vw, 84px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 245, 233, 0.86);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 12px;
+      min-width: 210px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      background: var(--forest);
+      border-radius: 50% 50% 46% 46%;
+      display: grid;
+      place-items: center;
+      color: #eff5c3;
+      flex: none;
+      box-shadow: 0 6px 16px rgba(33, 77, 52, 0.22);
+    }
+
+    .brand-name {
+      display: block;
+      font: 700 26px/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .brand-sub {
+      display: block;
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      font-weight: 800;
+      margin-top: 4px;
+      color: var(--ink-soft);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2.2vw, 34px);
+    }
+
+    .nav button,
+    .nav a {
+      border: 0;
+      background: transparent;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav button:hover,
+    .nav a:hover {
+      color: var(--ink);
+      background: rgba(115, 153, 56, 0.12);
+    }
+
+    .nav button.is-active {
+      color: var(--forest);
+      background: rgba(115, 153, 56, 0.2);
+      font-weight: 800;
+    }
+
+    .nav .nav-shop {
+      padding: 12px 22px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .nav .nav-shop:hover {
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .global-progress {
+      position: fixed;
+      top: 77px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 101;
+      pointer-events: none;
+      background: rgba(24, 53, 38, 0.06);
+    }
+
+    .global-progress i {
+      height: 100%;
+      display: block;
+      width: calc(var(--p) * 100%);
+      background: linear-gradient(90deg, #6a9933, #2b6643);
+    }
+
+    /* ================= STORYTELLING STAGE (STEP 1-3) ================= */
+    .story {
+      height: 440svh;
+      position: relative;
+    }
+
+    .stage {
+      height: 100svh;
+      min-height: 620px;
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* Ambient background layers for Step 1, 2, 3 */
+    .bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      will-change: opacity;
+    }
+
+    .bg-step-1 {
+      background: radial-gradient(circle at 72% 40%, #fffef5 0%, #f7f5e9 55%, #e5edd6 115%);
+      opacity: 1;
+    }
+
+    .bg-step-2 {
+      background: radial-gradient(circle at 68% 48%, #fffdf2 0%, #f5f0dc 58%, #e9e4c8 118%);
+      opacity: 0;
+    }
+
+    .bg-step-3 {
+      background: radial-gradient(circle at 70% 56%, #fffbf0 0%, #faefd8 60%, #efd8b4 125%);
+      opacity: 0;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      min-width: 320px;
+      min-height: 320px;
+      border-radius: 50%;
+      right: 8%;
+      top: 20%;
+      background: rgba(215, 232, 174, 0.38);
+      filter: blur(58px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hairline {
+      position: absolute;
+      top: 78px;
+      bottom: 0;
+      left: 46%;
+      border-left: 1px solid rgba(33, 77, 52, 0.07);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ================= LEFT COPY STACK ================= */
+    .copy-stack {
+      position: absolute;
+      z-index: 12;
+      left: clamp(24px, 6.5vw, 118px);
+      top: 52%;
+      transform: translateY(-50%);
+      width: min(40vw, 540px);
+      pointer-events: none;
+    }
+
+    .scene-copy {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      opacity: 0;
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+
+    .scene-copy.is-interactive {
+      pointer-events: auto;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      font-weight: 800;
+      color: var(--sage);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 28px;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .badge-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(33, 77, 52, 0.22);
+      border-radius: 999px;
+      padding: 8px 16px;
+      color: var(--forest);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .scene-copy h1,
+    .scene-copy h2.step-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(54px, 6.2vw, 108px);
+      letter-spacing: -0.04em;
+      line-height: 0.94;
+      margin: 0 0 22px;
+      color: var(--ink);
+    }
+
+    .scene-copy h1 em,
+    .scene-copy h2.step-title em {
+      color: var(--sage);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .scene-copy p {
+      font-size: clamp(14px, 1.08vw, 16.5px);
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 0 26px;
+    }
+
+    .scene-copy .script-line {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-size: clamp(24px, 2.4vw, 34px);
+      color: var(--wood);
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+
+    .primary-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--forest);
+      color: #fff;
+      padding: 14px 24px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12.5px;
+      box-shadow: 0 12px 24px rgba(33, 77, 52, 0.16);
+      transition: transform 0.2s, background 0.2s;
+      pointer-events: auto;
+    }
+
+    .primary-cta:hover {
+      transform: translateY(-2px);
+      background: #2f6947;
+    }
+
+    /* ================= RIGHT VISUAL STAGE (SHARED COORDINATE SYSTEM) ================= */
+    .stage-art {
+      position: absolute;
+      z-index: 8;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* STEP 1 LAYER: AVOCADO TREE */
+    .tree-layer {
+      position: absolute;
+      left: 3%;
+      top: -12%;
+      width: 94%;
+      height: 94%;
+      z-index: 2;
+      will-change: transform, opacity;
+      transform-origin: 50% 45%;
+    }
+
+    .tree-ground-shadow {
+      position: absolute;
+      left: 27%;
+      bottom: 1.5%;
+      width: 48%;
+      height: 6%;
+      background: radial-gradient(ellipse at center, rgba(38, 28, 16, 0.28) 0%, rgba(38, 28, 16, 0) 72%);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .tree-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      filter: drop-shadow(0 18px 28px rgba(25, 56, 43, 0.12));
+    }
+
+    /* Real photographic stem connecting the underside of the branch at (35.8%, 55.9%) to the hero avocado pedicel */
+    .hero-stem-img {
+      position: absolute;
+      left: 35.27%;
+      top: 55.90%;
+      width: 0.95%;
+      height: 3.72%;
+      object-fit: fill;
+      z-index: 4;
+      pointer-events: none;
+      transform-origin: 56% 6%;
+      filter: drop-shadow(0 2px 3px rgba(24, 42, 18, 0.18));
+    }
+
+    /* STEP 2 LAYER: GRAVITY MOTION LINES & FLOATING LEAVES */
+    .fall-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      opacity: 0;
+      will-change: opacity, transform;
+      pointer-events: none;
+    }
+
+    .wind-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* STEP 3 LAYER: EMPTY WOODEN CUTTING BOARD */
+    .board-layer {
+      position: absolute;
+      left: 5%;
+      top: 41%;
+      width: 90%;
+      aspect-ratio: 2000 / 1333;
+      z-index: 4;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+    }
+
+    .board-ambient-shadow {
+      position: absolute;
+      left: 12%;
+      top: 22%;
+      width: 78%;
+      height: 66%;
+      background: radial-gradient(ellipse at center, rgba(64, 41, 18, 0.24) 0%, rgba(64, 41, 18, 0) 72%);
+      transform: rotate(-11deg);
+      filter: blur(12px);
+      z-index: 1;
+    }
+
+    .board-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      filter: drop-shadow(0 20px 30px rgba(72, 46, 20, 0.16));
+    }
+
+    /* Contact shadow directly on the wooden cutting board surface beneath the falling/bouncing fruit */
+    .avocado-board-shadow {
+      position: absolute;
+      /* Aligned with the landing spot on the cutting board (x=54.5% of stage-art -> ~55% of board-layer, y=50% of board-layer) */
+      left: 54.8%;
+      top: 51.5%;
+      width: 22%;
+      height: 9.5%;
+      transform: translate(-50%, -50%) scale(0.4);
+      background: radial-gradient(ellipse at center, rgba(42, 24, 9, 0.58) 0%, rgba(68, 41, 17, 0.25) 48%, rgba(68, 41, 17, 0) 76%);
+      border-radius: 50%;
+      z-index: 3;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* THE SINGLE PERSISTENT HERO AVOCADO (USED CONTINUOUSLY IN STEP 1, 2, AND 3) */
+    .hero-avocado-wrap {
+      position: absolute;
+      /* At progress=0, pedicel (48.4% X, 4.6% Y) locks directly onto the bottom collar of #hero-stem */
+      left: 29.88%;
+      top: 43.43%;
+      width: 14.0%;
+      aspect-ratio: 2000 / 1695;
+      z-index: 6;
+      will-change: transform;
+      transform-origin: 48.4% 50%;
+    }
+
+    .hero-avocado-img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2000 / 1695;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 12px 18px rgba(20, 42, 26, 0.24));
+      /* Strictly preserve original fruit shape and proportions */
+      transform: none;
+    }
+
+    /* Inactive placeholder hook for future Step 4-6 (kept strictly hidden per requirements) */
+    .phase-2-stage-hook {
+      display: none !important;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Ghost step numeral */
+    .ghost-label {
+      position: absolute;
+      right: 4vw;
+      bottom: 5vh;
+      font: 700 clamp(76px, 14vw, 220px)/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.05em;
+      color: rgba(24, 53, 38, 0.045);
+      user-select: none;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Bottom HUD & Step Counter */
+    .scene-counter {
+      position: absolute;
+      left: clamp(24px, 6.5vw, 118px);
+      bottom: 32px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+    }
+
+    .counter-track {
+      width: 128px;
+      height: 2px;
+      background: rgba(33, 77, 52, 0.14);
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .counter-track::after {
+      content: "";
+      height: 100%;
+      background: var(--forest);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(var(--p) * 100%);
+    }
+
+    .progress-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(33, 77, 52, 0.08);
+      color: var(--forest);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+
+    .scroll-tip {
+      position: absolute;
+      right: clamp(20px, 5vw, 84px);
+      bottom: 32px;
+      z-index: 15;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+
+    .scroll-tip i {
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--ink-soft);
+    }
+
+    /* Right Quick-Jump Rail */
+    .rail {
+      position: fixed;
+      z-index: 50;
+      right: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .rail button {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      background: transparent;
+      padding: 4px 0;
+      color: var(--ink-soft);
+      opacity: 0.65;
+      transition: opacity 0.2s;
+    }
+
+    .rail span {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      opacity: 0;
+      transition: opacity 0.2s;
+      background: rgba(247, 245, 233, 0.9);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .rail b {
+      height: 9px;
+      width: 9px;
+      display: block;
+      border: 1.5px solid var(--forest);
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .rail button:hover span,
+    .rail button.active span {
+      opacity: 1;
+    }
+
+    .rail button.active {
+      opacity: 1;
+    }
+
+    .rail button.active b {
+      background: var(--sage);
+      border-color: var(--sage);
+      transform: scale(1.35);
+    }
+
+    /* ================= BELOW THE FOLD: PHASE STATUS & COLLECTION ================= */
+    .below {
+      padding: 100px clamp(22px, 6.5vw, 118px) 120px;
+      background: #f5f2e6;
+      border-top: 1px solid var(--line);
+    }
+
+    .phase-banner {
+      background: #fffef8;
+      border: 1px solid rgba(33, 77, 52, 0.14);
+      border-radius: 22px;
+      padding: 28px 32px;
+      margin-bottom: 72px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 12px 32px rgba(24, 53, 38, 0.05);
+    }
+
+    .phase-banner-info h3 {
+      font: 600 28px/1.2 "Cormorant Garamond", Georgia, serif;
+      margin: 6px 0 8px;
+      color: var(--ink);
+    }
+
+    .phase-banner-info p {
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    .phase-steps-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .phase-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+    }
+
+    .phase-pill.done {
+      background: #e3f0d3;
+      color: #1f4d31;
+      border: 1px solid rgba(31, 77, 49, 0.2);
+    }
+
+    .phase-pill.next {
+      background: #f3efe2;
+      color: #6c7a6f;
+      border: 1px dashed rgba(31, 77, 49, 0.25);
+    }
+
+    .below-kicker {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.21em;
+      color: var(--sage);
+      font-weight: 800;
+    }
+
+    .below h2 {
+      font: 600 clamp(38px, 4.8vw, 72px)/1.04 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.03em;
+      margin: 12px 0 20px;
+      max-width: 720px;
+    }
+
+    .below > p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 42px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product {
+      background: #fffef8;
+      border: 1px solid rgba(33, 77, 52, 0.11);
+      border-radius: 24px;
+      overflow: hidden;
+      min-width: 0;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .product:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(24, 53, 38, 0.08);
+    }
+
+    .product-visual {
+      height: 240px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 45%, #f6faec 0%, #e6eed6 100%);
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    .product:nth-child(2) .product-visual {
+      background: radial-gradient(circle at 50% 45%, #fdf8ea 0%, #f3e6c5 100%);
+    }
+
+    .product:nth-child(3) .product-visual {
+      background: radial-gradient(circle at 50% 45%, #f8faee 0%, #e5ecd2 100%);
+    }
+
+    .product-visual img {
+      max-height: 185px;
+      max-width: 86%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 18px rgba(32, 54, 34, 0.18));
+    }
+
+    .product-data {
+      padding: 26px 26px 28px;
+    }
+
+    .product-data small {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--sage);
+      font-weight: 800;
+    }
+
+    .product h3 {
+      font: 600 28px/1.25 "Cormorant Garamond", Georgia, serif;
+      margin: 8px 0 8px;
+    }
+
+    .product p {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--muted);
+      min-height: 46px;
+      margin: 0 0 14px;
+    }
+
+    .product button {
+      border: 1px solid var(--forest);
+      background: transparent;
+      color: var(--forest);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .product button:hover {
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .note-bar {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    footer {
+      background: #173826;
+      color: #f7f6e9;
+      padding: 52px clamp(22px, 6.5vw, 118px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    footer strong {
+      font: 600 36px/1 "Cormorant Garamond", Georgia, serif;
+    }
+
+    footer p {
+      font-size: 12.5px;
+      line-height: 1.8;
+      color: #b7d2b9;
+      margin: 6px 0 0;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translate(-50%, 30px);
+      background: #1c4630;
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 14px 22px;
+      border-radius: 14px;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 15px 42px rgba(20, 44, 30, 0.32);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* ================= RESPONSIVE: TABLET & MOBILE ================= */
+    @media (max-width: 980px) {
+      .nav button:not(.nav-shop) {
+        display: none;
+      }
+      .copy-stack {
+        left: 5vw;
+        width: 44vw;
+      }
+      .stage-art {
+        right: 1vw;
+        width: 52vw;
+      }
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header {
+        height: 64px;
+        padding: 0 16px;
+      }
+      .brand-name {
+        font-size: 21px;
+      }
+      .brand-mark {
+        width: 32px;
+        height: 32px;
+      }
+      .brand-sub {
+        font-size: 7.5px;
+      }
+      .brand {
+        min-width: 0;
+      }
+      .nav .nav-shop {
+        padding: 9px 14px;
+        font-size: 11px;
+      }
+      .global-progress {
+        top: 63px;
+      }
+      .hairline {
+        display: none;
+      }
+      .story {
+        height: 410svh;
+      }
+      .stage {
+        height: 100svh;
+        min-height: 560px;
+      }
+      .copy-stack {
+        left: 20px;
+        top: 208px;
+        transform: none;
+        width: calc(100% - 40px);
+      }
+      .eyebrow {
+        margin-bottom: 6px;
+        font-size: 9.5px;
+      }
+      .badge-outline {
+        font-size: 9px;
+        padding: 4px 10px;
+        margin-bottom: 6px;
+      }
+      .scene-copy h1,
+      .scene-copy h2.step-title {
+        font-size: clamp(34px, 9.5vw, 46px);
+        line-height: 0.96;
+        margin-bottom: 8px;
+      }
+      .scene-copy p {
+        font-size: 12px;
+        line-height: 1.55;
+        margin-bottom: 10px;
+        max-width: 96%;
+      }
+      .scene-copy .script-line {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .primary-cta {
+        font-size: 11px;
+        padding: 9px 15px;
+      }
+      .stage-art {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 42px;
+        transform: translateX(-50%);
+        width: min(86vw, 356px);
+        aspect-ratio: 1 / 1;
+      }
+      .rail,
+      .scroll-tip,
+      .ghost-label {
+        display: none;
+      }
+      .scene-counter {
+        left: 20px;
+        bottom: 14px;
+        font-size: 9.5px;
+        gap: 10px;
+      }
+      .counter-track {
+        width: 72px;
+      }
+      .below {
+        padding: 68px 20px 84px;
+      }
+      .phase-banner {
+        padding: 20px;
+        margin-bottom: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="#story" aria-label="Mae Chawi หน้าแรก">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="24" height="24">
+          <path d="M16 4c6 4 11 10 9 17-2 7-14 9-18 0C4 14 10 8 16 4Z" fill="#b5d67b"/>
+          <path d="M16 4c1 9-2 14-6 20" stroke="#224a31" stroke-width="2" fill="none"/>
+          <ellipse cx="19" cy="20" rx="3" ry="5" fill="#355e39"/>
+        </svg>
+      </span>
+      <span>
+        <span class="brand-name">Mae Chawi</span>
+        <span class="brand-sub">AVOCADO ORCHARD · ไร่แม่ฉวี</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <button type="button" data-jump="0.00" class="is-active">01 ต้นอะโวคาโด</button>
+      <button type="button" data-jump="0.40">02 ผลร่วงจากต้น</button>
+      <button type="button" data-jump="0.96">03 ตกลงบนเขียง</button>
+      <a class="nav-shop" href="#products">เลือกซื้ออะโวคาโด ↗</a>
+    </nav>
+  </header>
+
+  <div class="global-progress" aria-hidden="true"><i></i></div>
+
+  <main>
+    <!-- STICKY GSAP SCROLLTRIGGER STORYTELLING: STEP 1 TO STEP 3 -->
+    <section id="story" class="story" aria-label="เรื่องราวอะโวคาโดไร่แม่ฉวี Step 1 ถึง Step 3">
+      <div class="stage" id="stage">
+        <div class="bg-stack" aria-hidden="true">
+          <div class="bg-layer bg-step-1" id="bg-step-1"></div>
+          <div class="bg-layer bg-step-2" id="bg-step-2"></div>
+          <div class="bg-layer bg-step-3" id="bg-step-3"></div>
+        </div>
+        <div class="ambient-orb" id="ambient-orb" aria-hidden="true"></div>
+        <div class="hairline" aria-hidden="true"></div>
+
+        <!-- LEFT EDITORIAL COPY STACK -->
+        <div class="copy-stack">
+          <!-- STEP 1 COPY -->
+          <article class="scene-copy is-interactive" id="copy-step-1" aria-label="Step 1 เปิดหน้าแรกด้วยต้นอะโวคาโด">
+            <div class="eyebrow">STEP 01 · THE ORCHARD TREE</div>
+            <div class="badge-outline">MAE CHAWI · ไร่แม่ฉวี อะโวคาโดออร์แกนิก</div>
+            <h1>Fresh from<br><em>the tree.</em></h1>
+            <p>เปิดเรื่องราวจากต้นอะโวคาโดในไร่แม่ฉวี ผลอะโวคาโดสดห้อยอยู่บนกิ่งไม้ เติบโตตามธรรมชาติท่ามกลางสายลมและแสงแดดอ่อน รอจังหวะสุกพร้อมเก็บเกี่ยว</p>
+            <a class="primary-cta" href="#products">พบกับอะโวคาโดของเรา <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <!-- STEP 2 COPY -->
+          <article class="scene-copy" id="copy-step-2" aria-label="Step 2 ลูกอะโวคาโดร่วงจากต้นตามแรงโน้มถ่วง" aria-hidden="true">
+            <div class="eyebrow">STEP 02 · GRAVITY &amp; MOTION</div>
+            <h2 class="step-title">Picked by<br><em>nature's time.</em></h2>
+            <p>เมื่อเลื่อนหน้าเว็บลง ลูกอะโวคาโดหนึ่งลูกปลิดจากขั้วกิ่ง หมุนตัวเล็กน้อยและเคลื่อนลงตามแรงโน้มถ่วงอย่างเป็นธรรมชาติ โดยคงรูปทรงและสัดส่วนเดิมตลอดการเดินทาง</p>
+            <div class="script-line">One single fruit, guided by gravity.</div>
+          </article>
+
+          <!-- STEP 3 COPY -->
+          <article class="scene-copy" id="copy-step-3" aria-label="Step 3 ลูกอะโวคาโดลูกเดิมตกลงบนเขียงและเด้งเล็กน้อย" aria-hidden="true">
+            <div class="eyebrow">STEP 03 · ON THE WOODEN BOARD</div>
+            <div class="badge-outline">READY FOR PREPARATION · STEP 1–3 COMPLETE</div>
+            <h2 class="step-title">Landed on<br><em>the board.</em></h2>
+            <p>เข้าสู่ฉากเขียงไม้เปล่า ลูกอะโวคาโดลูกเดิมตกลงสัมผัสพื้นเขียงและเด้งรับน้ำหนักเล็กน้อยก่อนหยุดนิ่ง พร้อมรองรับการผ่าและจัดเสิร์ฟใน Step 4–6 ถัดไป</p>
+            <div class="script-line">Naturally balanced. Ready for the blade.</div>
+          </article>
+        </div>
+
+        <!-- RIGHT VISUAL STAGE (1:1 COORDINATE SYSTEM FOR DESKTOP & MOBILE) -->
+        <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันต้นอะโวคาโดและเขียงไม้">
+          <!-- STEP 1: AVOCADO TREE LAYER -->
+          <div class="tree-layer" id="tree-layer">
+            <div class="tree-ground-shadow" id="tree-ground-shadow"></div>
+            <img
+              class="tree-img"
+              id="avocado-tree-img"
+              src="Pic/avocado-tree.png.png"
+              alt="ต้นอะโวคาโดไร่แม่ฉวีพร้อมผลห้อยบนกิ่ง"
+              width="2000"
+              height="2000"
+            />
+            <!-- Real photographic stem connecting branch underside at (35.8%, 55.9%) to hero avocado top pedicel -->
+            <img
+              class="hero-stem-img"
+              id="hero-stem"
+              src="Pic/avocado-stem.png"
+              alt=""
+              aria-hidden="true"
+              width="36"
+              height="136"
+            />
+          </div>
+
+          <!-- STEP 2: GRAVITY FALL AMBIANCE LAYER -->
+          <div class="fall-layer" id="fall-layer" aria-hidden="true">
+            <svg class="wind-lines" viewBox="0 0 800 800" fill="none">
+              <path d="M 285 170 C 275 310, 290 440, 280 580" stroke="#7d9e3b" stroke-width="2" stroke-dasharray="10 18" stroke-linecap="round" opacity="0.38" />
+              <path d="M 485 130 C 495 280, 480 430, 492 590" stroke="#4f7c45" stroke-width="2.5" stroke-dasharray="14 22" stroke-linecap="round" opacity="0.32" />
+              <path d="M 390 95 C 385 245, 405 390, 398 540" stroke="#99b85b" stroke-width="1.8" stroke-dasharray="8 16" stroke-linecap="round" opacity="0.4" />
+              <!-- Subtle floating orchard leaves -->
+              <path d="M 235 340 C 255 320, 285 335, 270 362 C 252 375, 225 360, 235 340 Z" fill="#6d9944" opacity="0.45" />
+              <path d="M 535 280 C 558 265, 582 282, 565 308 C 548 320, 522 302, 535 280 Z" fill="#8bb355" opacity="0.4" />
+            </svg>
+          </div>
+
+          <!-- STEP 3: EMPTY WOODEN CUTTING BOARD LAYER -->
+          <div class="board-layer" id="board-layer">
+            <div class="board-ambient-shadow"></div>
+            <img
+              class="board-img"
+              id="cutting-board-img"
+              src="Pic/cutting-board.png.png"
+              alt="เขียงไม้ธรรมชาติสำหรับรองรับผลอะโวคาโด"
+              width="2000"
+              height="1333"
+            />
+            <!-- Dynamic contact shadow underneath the falling & bouncing avocado -->
+            <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
+          </div>
+
+          <!-- SINGLE CONTINUOUS HERO AVOCADO (SAME ELEMENT ACROSS STEP 1, 2, AND 3) -->
+          <div class="hero-avocado-wrap" id="hero-avocado-wrap">
+            <img
+              class="hero-avocado-img"
+              id="hero-avocado"
+              src="Pic/avocado-whole.png.png"
+              alt="ลูกอะโวคาโดไร่แม่ฉวีลูกเดียวกันตลอดทั้งฉาก"
+              width="2000"
+              height="1695"
+            />
+          </div>
+
+          <!-- PHASE 2 EXTENSION HOOK (STEP 4-6 PLACEHOLDER - DO NOT ACTIVATE IN STEP 1-3) -->
+          <div
+            class="phase-2-stage-hook"
+            id="phase-2-stage-hook"
+            data-phase="step-4-to-6-prepared"
+            data-handoff-board-x="54.5%"
+            data-handoff-board-y="70.5%"
+            aria-hidden="true"
+          ></div>
+        </div>
+
+        <div class="ghost-label" id="ghost-label" aria-hidden="true">01</div>
+
+        <!-- BOTTOM PROGRESS HUD -->
+        <div class="scene-counter" aria-live="polite">
+          <span id="step-number">01 / 03</span>
+          <span class="counter-track"></span>
+          <span id="step-name">ORCHARD TREE</span>
+          <span class="progress-pill" id="step-progress-pct">0%</span>
+        </div>
+
+        <div class="scroll-tip" id="scroll-tip" aria-hidden="true">
+          SCROLL TO EXPLORE <i></i> ↓
+        </div>
+      </div>
+    </section>
+
+    <!-- BELOW THE FOLD: PHASE 1-3 COMPLETION & COLLECTION -->
+    <section class="below" id="products">
+      <div class="phase-banner" aria-label="สถานะการพัฒนาโปรเจกต์">
+        <div class="phase-banner-info">
+          <div class="below-kicker">DEVELOPMENT MILESTONE · PHASE 1 ACTIVE</div>
+          <h3>Step 1–3 พัฒนาสมบูรณ์ด้วย GSAP ScrollTrigger พร้อมโครงสร้างรองรับ Step 4–6</h3>
+          <p>
+            ใช้ผลอะโวคาโดลูกเดียวกัน (<code>Pic/avocado-whole.png.png</code>) ต่อเนื่องตั้งแต่ห้อยบนต้น (Step 1) → หมุนเล็กน้อยและร่วงตามแรงโน้มถ่วง (Step 2) → ตกลงบนเขียงเปล่า (<code>Pic/cutting-board.png.png</code>) และเด้งรับน้ำหนักอย่างสมจริงโดยไม่เสียรูปทรง (Step 3)
+          </p>
+        </div>
+        <div class="phase-steps-pills">
+          <span class="phase-pill done">✓ Step 1: ต้นอะโวคาโด</span>
+          <span class="phase-pill done">✓ Step 2: ร่วงตามแรงโน้มถ่วง</span>
+          <span class="phase-pill done">✓ Step 3: ตกเขียง &amp; เด้งเบาๆ</span>
+          <span class="phase-pill next">⏳ Step 4–6: เตรียม Hook รองรับแล้ว</span>
+        </div>
+      </div>
+
+      <div class="below-kicker">THE MAE CHAWI COLLECTION</div>
+      <h2>Good food begins<br>with good fruit.</h2>
+      <p>จากสวนของเรา สู่เมนูโปรดของคุณ เลือกอะโวคาโดที่เหมาะกับการรับประทานและสร้างสรรค์เมนูได้ตามใจ ข้อมูลสินค้าด้านล่างเป็นตัวอย่างสำหรับพัฒนาร้านจริง</p>
+
+      <div class="product-grid">
+        <article class="product">
+          <div class="product-visual">
+            <img src="Pic/avocado-whole.png.png" alt="อะโวคาโดผลสดไร่แม่ฉวี" loading="lazy" width="2000" height="1695" />
+          </div>
+          <div class="product-data">
+            <small>01 · WHOLE FRUIT</small>
+            <h3>อะโวคาโดผลสด</h3>
+            <p>ผลสดเก็บเกี่ยวจากต้น สำหรับนำไปบ่มและสร้างสรรค์เมนูสุขภาพที่บ้าน</p>
+            <button type="button" data-order="อะโวคาโดผลสด">สอบถามสินค้า ↗</button>
+          </div>
+        </article>
+
+        <article class="product">
+          <div class="product-visual">
+            <img src="Pic/avocado-halves.png.png" alt="อะโวคาโดสุกพร้อมทาน" loading="lazy" width="2000" height="1538" />
+          </div>
+          <div class="product-data">
+            <small>02 · READY TO EAT</small>
+            <h3>อะโวคาโดสุกพร้อมทาน</h3>
+            <p>เนื้อเนียนนุ่มมันกำลังดี เหมาะกับการผ่า ตักทานสด และหั่นสไลซ์</p>
+            <button type="button" data-order="อะโวคาโดสุกพร้อมทาน">สอบถามสินค้า ↗</button>
+          </div>
+        </article>
+
+        <article class="product">
+          <div class="product-visual">
+            <img src="Pic/avocado-slices.png.png" alt="ชุดอะโวคาโดทำเมนูสลัด" loading="lazy" width="2000" height="2000" />
+          </div>
+          <div class="product-data">
+            <small>03 · FOR YOUR RECIPE</small>
+            <h3>ชุดอะโวคาโดทำเมนู</h3>
+            <p>คัดพิเศษสำหรับเมนูสลัด สมูทตี้ หรือโทสต์หน้าอะโวคาโด</p>
+            <button type="button" data-order="ชุดอะโวคาโดทำเมนู">สอบถามสินค้า ↗</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="note-bar">
+        ✳ ต้นแบบนี้แสดงผล Step 1–3 ตามข้อกำหนด และยังไม่เชื่อมระบบชำระเงินจริง กรุณาระบุ LINE Official ของร้านใน <code>STORE.lineUrl</code> ก่อนเปิดใช้งานจริง
+      </div>
+    </section>
+  </main>
+
+  <aside class="rail" aria-label="ข้ามไปแต่ละช่วงของ Step 1–3">
+    <button type="button" data-jump="0.00" class="active" aria-label="ไป Step 1 ต้นอะโวคาโด">
+      <span>01 TREE</span><b></b>
+    </button>
+    <button type="button" data-jump="0.40" aria-label="ไป Step 2 ผลร่วงตามแรงโน้มถ่วง">
+      <span>02 FALL</span><b></b>
+    </button>
+    <button type="button" data-jump="0.96" aria-label="ไป Step 3 ตกลงบนเขียง">
+      <span>03 BOARD</span><b></b>
+    </button>
+  </aside>
+
+  <footer>
+    <div>
+      <strong>Mae Chawi.</strong>
+      <p>Grown with care. Made for your table.<br>ไร่แม่ฉวี · AVOCADO ORCHARD</p>
+    </div>
+    <p>ติดต่อร้าน: เพิ่ม LINE / เบอร์โทรจริงในไฟล์ก่อนเปิดขาย<br>© 2026 Mae Chawi – AVOCADO ORCHARD (Step 1–3 GSAP ScrollTrigger Build)</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- GSAP & ScrollTrigger (Local files with CDN fallback) -->
+  <script src="js/gsap.min.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+  <script>
+    (() => {
+      'use strict';
+
+      const STORE = { lineUrl: '' };
+      const root = document.documentElement;
+      const storySection = document.getElementById('story');
+      const stepNumberEl = document.getElementById('step-number');
+      const stepNameEl = document.getElementById('step-name');
+      const stepProgressPctEl = document.getElementById('step-progress-pct');
+      const ghostLabelEl = document.getElementById('ghost-label');
+      const railButtons = [...document.querySelectorAll('.rail button')];
+      const navStepButtons = [...document.querySelectorAll('.nav button[data-jump]')];
+      const copyNodes = [
+        document.getElementById('copy-step-1'),
+        document.getElementById('copy-step-2'),
+        document.getElementById('copy-step-3')
+      ];
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Expose state & Phase 2 extension hook for Step 4–6
+      window.MAE_CHAWI_STAGE_STATE = {
+        phase: 'STEP_1_TO_3',
+        progress: 0,
+        activeStep: 1,
+        heroAvocadoSelector: '#hero-avocado-wrap',
+        boardSelector: '#board-layer',
+        // Exact resting state of #hero-avocado-wrap at the end of Step 3 (progress = 1.0)
+        // so Step 4 (knife cut & split halves) can continue from this exact coordinate:
+        step3FinalState: {
+          xPercent: 109.5,
+          yPercent: 132.0,
+          scale: 1.62,
+          rotation: 0
+        },
+        registerStep4To6Timeline: null
+      };
+
+      const STEP_NAMES = ['ORCHARD TREE', 'GRAVITY FALL', 'WOODEN BOARD'];
+
+      function updateHUD(progress) {
+        const p = Math.min(1, Math.max(0, progress));
+        root.style.setProperty('--p', p.toFixed(4));
+        stepProgressPctEl.textContent = `${Math.round(p * 100)}%`;
+
+        // Step boundaries:
+        // Step 1 (Orchard Tree): 0.00 -> 0.18
+        // Step 2 (Gravity Fall): 0.18 -> 0.62
+        // Step 3 (Wooden Board & Bounce): 0.62 -> 1.00
+        const stepIdx = p >= 0.62 ? 2 : p >= 0.18 ? 1 : 0;
+        window.MAE_CHAWI_STAGE_STATE.progress = p;
+        window.MAE_CHAWI_STAGE_STATE.activeStep = stepIdx + 1;
+
+        stepNumberEl.textContent = `0${stepIdx + 1} / 03`;
+        stepNameEl.textContent = STEP_NAMES[stepIdx];
+        ghostLabelEl.textContent = `0${stepIdx + 1}`;
+
+        railButtons.forEach((btn, idx) => btn.classList.toggle('active', idx === stepIdx));
+        navStepButtons.forEach((btn, idx) => btn.classList.toggle('is-active', idx === stepIdx));
+
+        copyNodes.forEach((node, idx) => {
+          const isCurrent = idx === stepIdx;
+          node.classList.toggle('is-interactive', isCurrent);
+          node.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+        });
+      }
+
+      // Initialize baseline states explicitly so scrolling back to 0% is always 100% deterministic
+      gsap.set('#copy-step-1', { autoAlpha: 1, yPercent: -50 });
+      gsap.set('#copy-step-2', { autoAlpha: 0, yPercent: -38 });
+      gsap.set('#copy-step-3', { autoAlpha: 0, yPercent: -38 });
+
+      gsap.set('#bg-step-1', { autoAlpha: 1 });
+      gsap.set('#bg-step-2', { autoAlpha: 0 });
+      gsap.set('#bg-step-3', { autoAlpha: 0 });
+
+      gsap.set('#tree-layer', { xPercent: 0, yPercent: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-stem', { rotation: 0, scaleY: 1 });
+      gsap.set('#fall-layer', { autoAlpha: 0, yPercent: 12 });
+      gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, autoAlpha: 0 });
+      gsap.set('#avocado-board-shadow', { autoAlpha: 0, scale: 0.35 });
+
+      // Single continuous fruit (#hero-avocado-wrap) initial state on the tree branch (Step 1)
+      gsap.set('#hero-avocado-wrap', {
+        xPercent: 0,
+        yPercent: 0,
+        scale: 1,
+        rotation: 0
+      });
+
+      // Master GSAP ScrollTrigger Timeline (Normalized duration = 100 units for clear % mapping)
+      const masterTL = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: storySection,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.55,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => updateHUD(self.progress)
+        }
+      });
+
+      // =========================================================================
+      // STEP 1 (0 -> 12): Fruit hangs on the avocado tree, gently pulls on stem before detaching
+      // =========================================================================
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: -1.5,
+        yPercent: 1.2,
+        duration: 7,
+        ease: 'sine.inOut'
+      }, 0);
+
+      masterTL.to('#hero-stem', {
+        rotation: -1.5,
+        scaleY: 1.05,
+        duration: 7,
+        ease: 'sine.inOut'
+      }, 0);
+
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: 2.0,
+        yPercent: 3.2,
+        duration: 5,
+        ease: 'sine.in'
+      }, 7);
+
+      // Stem recoils slightly upward as the avocado detaches at t=11
+      masterTL.to('#hero-stem', {
+        rotation: 3.5,
+        scaleY: 0.92,
+        duration: 5,
+        ease: 'back.out(2)'
+      }, 11);
+
+      // =========================================================================
+      // STEP 2 (12 -> 68): Fruit detaches, rotates slightly, and falls with gravity
+      // =========================================================================
+      // Background & Copy transition: Step 1 -> Step 2
+      masterTL.to('#bg-step-2', { autoAlpha: 1, duration: 14 }, 14);
+      masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 14);
+      masterTL.to('#copy-step-2', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 20);
+
+      // Tree recedes upward as camera tracks the falling fruit downward
+      masterTL.to('#tree-layer', {
+        yPercent: -78,
+        scale: 1.05,
+        autoAlpha: 0,
+        duration: 46,
+        ease: 'power1.inOut'
+      }, 14);
+
+      // Wind lines & floating leaves appear during mid-air gravity fall
+      masterTL.to('#fall-layer', {
+        autoAlpha: 1,
+        yPercent: -8,
+        duration: 18,
+        ease: 'sine.out'
+      }, 18);
+
+      masterTL.to('#fall-layer', {
+        autoAlpha: 0,
+        yPercent: -28,
+        duration: 16,
+        ease: 'sine.in'
+      }, 48);
+
+      // Continuous horizontal drift from tree branch (xPercent: 0) to cutting board center (xPercent: 109.5)
+      masterTL.to('#hero-avocado-wrap', {
+        xPercent: 109.5,
+        duration: 60,
+        ease: 'sine.inOut'
+      }, 12);
+
+      // Uniform scale interpolation (scaleX === scaleY always — preserves exact fruit proportions)
+      masterTL.to('#hero-avocado-wrap', {
+        scale: 1.62,
+        duration: 60,
+        ease: 'power1.inOut'
+      }, 12);
+
+      // Gravitational vertical acceleration from tree branch (yPercent: 4) down to board surface (yPercent: 132)
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 132.0,
+        duration: 60,
+        ease: 'power2.in'
+      }, 12);
+
+      // Slight natural rotational rock during freefall
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: -14,
+        duration: 20,
+        ease: 'sine.inOut'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: 15,
+        duration: 22,
+        ease: 'sine.inOut'
+      }, 32);
+
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: -7,
+        duration: 18,
+        ease: 'sine.in'
+      }, 54);
+
+      // =========================================================================
+      // STEP 3 (52 -> 100): Empty cutting board enters; same fruit lands & bounces slightly
+      // =========================================================================
+      // Background & Copy transition: Step 2 -> Step 3
+      masterTL.to('#bg-step-3', { autoAlpha: 1, duration: 14 }, 54);
+      masterTL.to('#copy-step-2', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 54);
+      masterTL.to('#copy-step-3', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 60);
+
+      // Empty cutting board rises smoothly into position BEFORE the avocado lands at t=72
+      masterTL.to('#board-layer', {
+        yPercent: 0,
+        scale: 1,
+        autoAlpha: 1,
+        duration: 18,
+        ease: 'power2.out'
+      }, 50);
+
+      // Shadow pre-appears softly on the board as the avocado approaches the surface (t=62 -> 72)
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.92,
+        scale: 1.0,
+        duration: 10,
+        ease: 'power2.in'
+      }, 62);
+
+      // --- IMPACT 1 AT t=72 & BOUNCE 1 UP (t=72 -> 79) ---
+      // Subtle board micro-recoil on first impact
+      masterTL.to('#board-layer', {
+        yPercent: 1.4,
+        duration: 2.5,
+        ease: 'power2.out'
+      }, 72);
+      masterTL.to('#board-layer', {
+        yPercent: 0,
+        duration: 4.5,
+        ease: 'power2.inOut'
+      }, 74.5);
+
+      // Avocado rebounds upward off the cutting board (preserving 100% of its shape/proportions)
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 92.0,
+        rotation: 6,
+        duration: 7.5,
+        ease: 'power2.out'
+      }, 72);
+
+      // Contact shadow widens and softens slightly while fruit is airborne in bounce 1
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.48,
+        scale: 1.26,
+        duration: 7.5,
+        ease: 'power2.out'
+      }, 72);
+
+      // --- IMPACT 2 AT t=86.5 (t=79.5 -> 86.5) ---
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 132.0,
+        rotation: -3,
+        duration: 7,
+        ease: 'power2.in'
+      }, 79.5);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.95,
+        scale: 0.98,
+        duration: 7,
+        ease: 'power2.in'
+      }, 79.5);
+
+      // --- BOUNCE 2 (SMALL MICRO-HOP) (t=86.5 -> 91) ---
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 118.0,
+        rotation: 1.8,
+        duration: 4.5,
+        ease: 'power2.out'
+      }, 86.5);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.72,
+        scale: 1.08,
+        duration: 4.5,
+        ease: 'power2.out'
+      }, 86.5);
+
+      // --- FINAL SETTLE ON CUTTING BOARD (t=91 -> 96, holds steady 96 -> 100) ---
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 132.0,
+        rotation: 0,
+        duration: 5,
+        ease: 'power2.in'
+      }, 91);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.96,
+        scale: 1.0,
+        duration: 5,
+        ease: 'power2.in'
+      }, 91);
+
+      // Hold final resting pose on the cutting board from 96 -> 100 (ready for Step 4–6)
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 132.0,
+        rotation: 0,
+        duration: 4
+      }, 96);
+
+      // Navigation jump helper
+      function jumpToProgress(targetProgress) {
+        const p = Math.min(1, Math.max(0, targetProgress));
+        const top = storySection.getBoundingClientRect().top + window.scrollY;
+        const maxScroll = Math.max(1, storySection.offsetHeight - window.innerHeight);
+        window.scrollTo({
+          top: top + maxScroll * p,
+          behavior: 'smooth'
+        });
+      }
+
+      document.querySelectorAll('[data-jump]').forEach((btn) => {
+        btn.addEventListener('click', () => jumpToProgress(Number(btn.dataset.jump)));
+      });
+
+      // Product inquiry toast (honest placeholder before real LINE URL is provided)
+      function showToast(message) {
+        const el = document.getElementById('toast');
+        el.textContent = message;
+        el.classList.add('show');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => el.classList.remove('show'), 3600);
+      }
+
+      document.querySelectorAll('[data-order]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const item = btn.dataset.order;
+          if (STORE.lineUrl) {
+            window.open(STORE.lineUrl, '_blank', 'noopener,noreferrer');
+            return;
+          }
+          const message = `สวัสดีค่ะ/ครับ สนใจสอบถามสินค้า: ${item} จากร้าน Mae Chawi – AVOCADO ORCHARD`;
+          try {
+            await navigator.clipboard.writeText(message);
+            showToast('คัดลอกข้อความสอบถามสินค้าแล้ว · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl');
+          } catch (err) {
+            showToast(`สนใจ: ${item} · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl`);
+          }
+        });
+      });
+
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+        updateHUD(masterTL.scrollTrigger ? masterTL.scrollTrigger.progress : 0);
+      });
+    })();
+  </script>
+</body>
+</html>
