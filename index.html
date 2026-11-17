@@ -395,51 +395,130 @@
       user-select: none;
     }
 
-    /* STEP 1 LAYER: AVOCADO TREE (UNCHANGED) */
-    .tree-layer {
+    /* ================= STEP 1 CINEMATIC SCENERY LAYERS (SEPARATED ASSETS) ================= */
+    .step1-scenery {
       position: absolute;
-      left: 3%;
-      top: -12%;
-      width: 94%;
-      height: 94%;
-      z-index: 2;
+      inset: 0;
+      z-index: 5;
+      overflow: hidden;
+      pointer-events: none;
       will-change: transform, opacity;
-      transform-origin: 50% 45%;
     }
 
-    .tree-ground-shadow {
+    .step1-canvas-stage {
       position: absolute;
-      left: 27%;
-      bottom: 1.5%;
-      width: 48%;
-      height: 6%;
-      background: radial-gradient(ellipse at center, rgba(38, 28, 16, 0.28) 0%, rgba(38, 28, 16, 0) 72%);
-      border-radius: 50%;
-      z-index: 1;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
     }
 
-    .tree-img {
-      position: relative;
+    .step1-stage-content {
+      position: absolute;
+      left: -106.9%;
+      top: -54.15%;
+      width: 288.78%;
+      height: 162.57%;
+      pointer-events: none;
+    }
+
+    .step1-layer-img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: fill;
       display: block;
-      z-index: 2;
-      filter: drop-shadow(0 18px 28px rgba(25, 56, 43, 0.12));
+      will-change: transform;
     }
 
-    /* Real photographic stem connecting the underside of the branch at (35.8%, 55.9%) to the hero avocado pedicel */
-    .hero-stem-img {
+    .step1-bg-mountain {
+      will-change: transform;
+    }
+
+    /* Fog 01: Midground drifting mist */
+    .step1-fog-01 {
+      mix-blend-mode: screen;
+      opacity: 0.45;
+      animation: fog-drift-01 22s ease-in-out infinite alternate;
+    }
+
+    /* Fog 02: Foreground drifting mist in opposite direction */
+    .step1-fog-02 {
+      mix-blend-mode: screen;
+      opacity: 0.38;
+      animation: fog-drift-02 28s ease-in-out infinite alternate;
+    }
+
+    /* Hanging fruit 01 (right upper branch) */
+    .step1-fruit-h01 {
       position: absolute;
-      left: 35.27%;
-      top: 55.90%;
-      width: 0.95%;
-      height: 3.72%;
-      object-fit: fill;
-      z-index: 4;
+      left: 71.59%;
+      top: 51.75%;
+      width: 6.70%;
+      height: 15.83%;
+      object-fit: contain;
+      transform-origin: 50% 5%;
+      animation: fruit-sway-1 4.4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 10px rgba(20, 42, 26, 0.22));
+    }
+
+    /* Hanging fruit 02 (right lower branch) */
+    .step1-fruit-h02 {
+      position: absolute;
+      left: 77.09%;
+      top: 59.19%;
+      width: 6.88%;
+      height: 16.37%;
+      object-fit: contain;
+      transform-origin: 50% 5%;
+      animation: fruit-sway-2 5.1s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 10px rgba(20, 42, 26, 0.22));
+    }
+
+    /* Foreground leaves subtle breeze sway */
+    .step1-leaves-img {
+      transform-origin: 15% 15%;
+      animation: leaves-breeze 7.5s ease-in-out infinite alternate;
+    }
+
+    /* Subtle cream gradient on left for crystal-clear typography legibility */
+    .step1-vignette {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(54vw, 720px);
+      background: linear-gradient(90deg, rgba(247, 245, 233, 0.96) 0%, rgba(247, 245, 233, 0.85) 38%, rgba(247, 245, 233, 0.22) 68%, transparent 100%);
       pointer-events: none;
-      transform-origin: 56% 6%;
-      filter: drop-shadow(0 2px 3px rgba(24, 42, 18, 0.18));
+    }
+
+    @keyframes fog-drift-01 {
+      0% { transform: translate3d(-2%, 0, 0); }
+      100% { transform: translate3d(2.5%, 0, 0); }
+    }
+
+    @keyframes fog-drift-02 {
+      0% { transform: translate3d(2%, 0, 0); }
+      100% { transform: translate3d(-3%, 0, 0); }
+    }
+
+    @keyframes fruit-sway-1 {
+      0% { transform: rotate(-2.2deg); }
+      100% { transform: rotate(1.8deg); }
+    }
+
+    @keyframes fruit-sway-2 {
+      0% { transform: rotate(1.6deg); }
+      100% { transform: rotate(-2.4deg); }
+    }
+
+    @keyframes leaves-breeze {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(0.4deg) scale(1.008) translate(1px, -1px); }
+      100% { transform: rotate(-0.3deg) scale(1.004) translate(-1px, 1px); }
     }
 
     /* STEP 2 LAYER: GRAVITY MOTION LINES & FLOATING LEAVES (UNCHANGED) */
@@ -515,7 +594,7 @@
       left: 29.88%;
       top: 43.43%;
       width: 14.0%;
-      aspect-ratio: 2000 / 1695;
+      aspect-ratio: 1 / 1;
       z-index: 6;
       will-change: transform, opacity;
       transform-origin: 48.4% 50%;
@@ -523,8 +602,8 @@
 
     .hero-avocado-img {
       width: 100%;
-      height: auto;
-      aspect-ratio: 2000 / 1695;
+      height: 100%;
+      aspect-ratio: 1 / 1;
       object-fit: contain;
       display: block;
       filter: drop-shadow(0 12px 18px rgba(20, 42, 26, 0.24));
@@ -1258,7 +1337,7 @@
       }
       .copy-stack {
         left: 20px;
-        top: 305px;
+        top: 218px;
         transform: none;
         width: calc(100% - 40px);
       }
@@ -1300,16 +1379,38 @@
         width: min(86vw, 356px);
         aspect-ratio: 1 / 1;
       }
+      .step1-canvas-stage {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 42px;
+        transform: translateX(-50%);
+        width: min(86vw, 356px);
+        aspect-ratio: 1 / 1;
+      }
+      .step1-vignette {
+        width: 100%;
+        height: 52%;
+        top: 0;
+        bottom: auto;
+        background: linear-gradient(180deg, rgba(247, 245, 233, 0.98) 0%, rgba(247, 245, 233, 0.92) 50%, rgba(247, 245, 233, 0.2) 80%, transparent 100%);
+      }
       .rail,
       .scroll-tip,
       .ghost-label {
         display: none;
       }
       .scene-counter {
-        left: 20px;
-        bottom: 14px;
+        left: 16px;
+        bottom: 12px;
         font-size: 9.5px;
         gap: 10px;
+        background: rgba(247, 245, 233, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 5px 12px;
+        border-radius: 999px;
+        box-shadow: 0 4px 12px rgba(24, 53, 38, 0.08);
       }
       .counter-track {
         width: 72px;
@@ -1376,6 +1477,29 @@
         <div class="ambient-orb" id="ambient-orb" aria-hidden="true"></div>
         <div class="hairline" aria-hidden="true"></div>
 
+        <!-- STEP 1: CINEMATIC MOUNTAIN ORCHARD SCENERY (REBUILT FROM SEPARATED LAYERS) -->
+        <div class="step1-scenery" id="step1-scenery" aria-label="ฉากสวนอะโวคาโดบนภูเขา Step 1">
+          <div class="step1-canvas-stage">
+            <div class="step1-stage-content">
+              <!-- Mountain Background -->
+              <img class="step1-layer-img step1-bg-mountain" id="step1-bg-mountain" src="public/assets/step1/step1-bg-mountain.png" alt="" />
+              <!-- Midground Fog 01 -->
+              <img class="step1-layer-img step1-fog-01" src="public/assets/step1/step1-fog-01.png" alt="" />
+              <!-- Avocado Tree (Hero Subject) -->
+              <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดไร่แม่ฉวี" />
+              <!-- Hanging Fruit 01 (Right upper branch) -->
+              <img class="step1-fruit-h01" src="public/assets/step1/step1-avocado-hanging-01.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 1" />
+              <!-- Hanging Fruit 02 (Right lower branch) -->
+              <img class="step1-fruit-h02" src="public/assets/step1/step1-avocado-hanging-02.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 2" />
+              <!-- Foreground Fog 02 -->
+              <img class="step1-layer-img step1-fog-02" src="public/assets/step1/step1-fog-02.png" alt="" />
+              <!-- Foreground Leaves (Framing corners) -->
+              <img class="step1-layer-img step1-leaves-img" src="public/assets/step1/step1-leaves-foreground.png" alt="" />
+            </div>
+          </div>
+          <div class="step1-vignette" aria-hidden="true"></div>
+        </div>
+
         <!-- LEFT EDITORIAL COPY STACK -->
         <div class="copy-stack">
           <!-- STEP 1 COPY -->
@@ -1434,29 +1558,6 @@
 
         <!-- RIGHT VISUAL STAGE (1:1 COORDINATE SYSTEM FOR DESKTOP & MOBILE) -->
         <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันต้นอะโวคาโด เขียงไม้ การแยกสองซีก และสไลซ์บนเขียง">
-          <!-- STEP 1: AVOCADO TREE LAYER (UNCHANGED) -->
-          <div class="tree-layer" id="tree-layer">
-            <div class="tree-ground-shadow" id="tree-ground-shadow"></div>
-            <img
-              class="tree-img"
-              id="avocado-tree-img"
-              src="Pic/avocado-tree.png.png"
-              alt="ต้นอะโวคาโดไร่แม่ฉวีพร้อมผลห้อยบนกิ่ง"
-              width="2000"
-              height="2000"
-            />
-            <!-- Real photographic stem connecting branch underside at (35.8%, 55.9%) to hero avocado top pedicel -->
-            <img
-              class="hero-stem-img"
-              id="hero-stem"
-              src="Pic/avocado-stem.png"
-              alt=""
-              aria-hidden="true"
-              width="36"
-              height="136"
-            />
-          </div>
-
           <!-- STEP 2: GRAVITY FALL AMBIANCE LAYER (UNCHANGED) -->
           <div class="fall-layer" id="fall-layer" aria-hidden="true">
             <svg class="wind-lines" viewBox="0 0 800 800" fill="none">
@@ -1488,10 +1589,10 @@
             <img
               class="hero-avocado-img"
               id="hero-avocado"
-              src="Pic/avocado-whole.png.png"
+              src="public/assets/step1/step1-avocado-falling.png"
               alt="ลูกอะโวคาโดไร่แม่ฉวีลูกเดียวกันตลอดทั้งฉาก"
-              width="2000"
-              height="1695"
+              width="1254"
+              height="1254"
             />
           </div>
 
@@ -1723,6 +1824,7 @@
         phase: 'STEP_1_TO_6_CINEMATIC_ZOOM',
         progress: 0,
         activeStep: 1,
+        step1ScenerySelector: '#step1-scenery',
         heroAvocadoSelector: '#hero-avocado-wrap',
         boardSelector: '#board-layer',
         halvesSelector: '#halves-layer',
@@ -1820,8 +1922,8 @@
       gsap.set('#bg-step-6', { autoAlpha: 0 });
       gsap.set('#bg-next-section', { autoAlpha: 0 });
 
-      gsap.set('#tree-layer', { xPercent: 0, yPercent: 0, scale: 1, autoAlpha: 1 });
-      gsap.set('#hero-stem', { rotation: 0, scaleY: 1 });
+      gsap.set('#step1-scenery', { autoAlpha: 1, yPercent: 0 });
+      gsap.set('#step1-bg-mountain', { yPercent: 0 });
       gsap.set('#fall-layer', { autoAlpha: 0, yPercent: 12 });
       gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, autoAlpha: 0 });
       gsap.set('#avocado-board-shadow', { autoAlpha: 0, scale: 0.35 });
@@ -1863,7 +1965,7 @@
       });
 
       // =========================================================================
-      // STEP 1 (0 -> 12): UNCHANGED FROM CHECKPOINT v1.0-step1-3
+      // STEP 1 (0 -> 12): CINEMATIC ORCHARD TREE & MOUNTAIN SCENERY
       // =========================================================================
       masterTL.to('#hero-avocado-wrap', {
         rotation: -1.5,
@@ -1872,11 +1974,11 @@
         ease: 'sine.inOut'
       }, 0);
 
-      masterTL.to('#hero-stem', {
-        rotation: -1.5,
-        scaleY: 1.05,
-        duration: 7,
-        ease: 'sine.inOut'
+      // Subtle mountain background parallax on scroll
+      masterTL.to('#step1-bg-mountain', {
+        yPercent: -4,
+        duration: 12,
+        ease: 'none'
       }, 0);
 
       masterTL.to('#hero-avocado-wrap', {
@@ -1886,13 +1988,6 @@
         ease: 'sine.in'
       }, 7);
 
-      masterTL.to('#hero-stem', {
-        rotation: 3.5,
-        scaleY: 0.92,
-        duration: 5,
-        ease: 'back.out(2)'
-      }, 11);
-
       // =========================================================================
       // STEP 2 (12 -> 68): UNCHANGED FROM CHECKPOINT v1.0-step1-3
       // =========================================================================
@@ -1900,11 +1995,12 @@
       masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 14);
       masterTL.to('#copy-step-2', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 20);
 
-      masterTL.to('#tree-layer', {
-        yPercent: -78,
-        scale: 1.05,
+      // Step 1 mountain orchard scenery smoothly moves up and fades out into Step 2
+      masterTL.to('#step1-scenery', {
+        yPercent: -45,
+        scale: 1.03,
         autoAlpha: 0,
-        duration: 46,
+        duration: 36,
         ease: 'power1.inOut'
       }, 14);
 
