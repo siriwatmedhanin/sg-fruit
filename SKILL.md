@@ -1,78 +1,71 @@
 ---
-name: mae-chawi-avocado-scroll-step1-to-5
-description: Skill documentation and implementation reference for Mae Chawi – AVOCADO ORCHARD scrollytelling website (Step 1–5 with GSAP ScrollTrigger, ready for Step 6)
+name: mae-chawi-avocado-scroll-new-structure
+description: Skill documentation and implementation reference for Mae Chawi – AVOCADO ORCHARD scrollytelling website with the pure fruit structure (Step 1 to Step 5: Tree, Fall, Board, Two Halves, Slices, and prepared for Step 6 Salad Plate)
 ---
 
-# Mae Chawi – AVOCADO ORCHARD (Scrollytelling Skill · Step 1–5)
+# Mae Chawi – AVOCADO ORCHARD (Pure Fruit Scrollytelling Skill · Step 1–5)
 
-เอกสาร Skill นี้บันทึกโครงสร้างสถาปัตยกรรม พิกัดเลเยอร์ และการตั้งค่า **GSAP + ScrollTrigger** ของโปรเจกต์ **Mae Chawi – AVOCADO ORCHARD** (`F:\Khet\งานส่วนตัว\mae-chawi-website\index.html`) สำหรับ **Step 1–5** พร้อมจุดเชื่อมต่อสำหรับ **Step 6**
-
----
-
-## 1. ข้อมูล Checkpoint สำรอง (Step 1–3 Baseline)
-
-ก่อนเริ่มพัฒนา Step 4–5 ได้ทำการสำรองเวอร์ชัน **Step 1–3** ที่ผ่านการอนุมัติแล้วไว้ดังนี้:
-- **Git Commit**: `31d7ba7` (`Checkpoint: Completed and approved Step 1-3 before adding Step 4-5`)
-- **Git Tag**: `v1.0-step1-3`
-- **Backup Files**:
-  - `F:\Khet\งานส่วนตัว\mae-chawi-website\checkpoints\index.step1-3.checkpoint.html`
-  - `F:\Khet\งานส่วนตัว\mae-chawi-website\checkpoints\SKILL.step1-3.checkpoint.md`
+เอกสาร Skill นี้บันทึกโครงสร้างสถาปัตยกรรม พิกัดเลเยอร์ และการตั้งค่า **GSAP + ScrollTrigger** ของโปรเจกต์ **Mae Chawi – AVOCADO ORCHARD** (`F:\Khet\งานส่วนตัว\mae-chawi-website\index.html`) ตามโครงสร้างใหม่ที่เน้นความบริสุทธิ์ของผลไม้ (**ไม่มีภาพมือผ่า ไม่มีมีด และไม่มีเขียงไม้เข้ม**) พร้อมเตรียมระบบเชื่อมต่อสำหรับ **Step 6 (เทชิ้นอะโวคาโดลงจานสลัด)**
 
 ---
 
-## 2. รายการไฟล์ Asset ที่ตรวจสอบและใช้งานจริง (Step 1–5)
+## 1. โครงสร้างใหม่ของเว็บไซต์ (6 ขั้นตอน)
+
+1. **Step 1 — ต้นอะโวคาโด**: เปิดหน้าแรกด้วยต้นอะโวคาโด มีผลห้อยอยู่บนกิ่งด้วยขั้วไม้จริง แกว่งตัวเบาๆ ตามสายลม
+2. **Step 2 — ลูกอะโวคาโดร่วงจากต้น**: เมื่อ Scroll ลง ผลอะโวคาโดปลิดจากขั้ว หมุนตัวเล็กน้อยและเคลื่อนลงตามแรงโน้มถ่วง
+3. **Step 3 — ลูกอะโวคาโดตกลงบนเขียง**: เปลี่ยนเข้าสู่ฉากเขียงไม้สีอ่อน ลูกอะโวคาโดตกลงกระทบพื้นเขียง เด้ง 2 จังหวะอย่างเป็นธรรมชาติและหยุดนิ่งบนเขียง
+4. **Step 4 — อะโวคาโดแยกออกเป็น 2 ซีก**: ผลอะโวคาโดจาก Step 3 เปลี่ยนภาพแบบ Smooth Transition เป็นอะโวคาโดผ่าครึ่ง 2 ซีกบนเขียงไม้สีอ่อนใบเดิม จากนั้นซีกซ้ายและซีกขวาค่อยๆ แยกออกจากกันตาม Scroll เผยให้เห็นเมล็ดและเนื้อสีเขียวเนียนนุ่มชัดเจน (**ไม่มีมือ ไม่มีมีด เขียงไม้สีอ่อนคงเดิม**)
+5. **Step 5 — อะโวคาโดสไลซ์อยู่บนเขียง**: เปลี่ยนจาก 2 ซีกเป็นชิ้นสไลซ์เรียงสวยบนเขียงไม้ใบเดิมอย่างต่อเนื่องไม่กระพริบ และคงภาพสไลซ์บนเขียงไว้เพื่อเตรียมต่อ Step 6
+6. **Step 6 — ชิ้นอะโวคาโดเทลงจานสลัด**: เตรียมระบบ DOM Hook (`#step-6-stage-hook`) และ State (`window.MAE_CHAWI_STAGE_STATE`) สำหรับต่อยอดในรอบถัดไป
+
+---
+
+## 2. รายการไฟล์ Asset ที่ใช้งานจริง
 
 | ไฟล์ใน `Pic/` | ขนาดจริง (px) | สัดส่วน | การใช้งานในโปรเจกต์ |
 | :--- | :--- | :--- | :--- |
 | `Pic/avocado-tree.png.png` | `2000 × 2000` | `1 : 1` | ต้นอะโวคาโดใน Step 1–2 (`#avocado-tree-img`) |
 | `Pic/avocado-stem.png` | `36 × 136` | `9 : 34` | ขั้วกิ่งไม้จริงที่สกัดจากภาพต้นไม้ เชื่อมท้องกิ่งเข้ากับขั้วบนสุดของลูกอะโวคาโด (`#hero-stem`) |
-| `Pic/avocado-whole.png.png` | `2000 × 1695` | `1.18 : 1` | ลูกอะโวคาโดลูกหลักลูกเดียวกันตลอด Step 1–3 และช่วงซูมต้น Step 4 (`#hero-avocado`) |
-| `Pic/cutting-board.png.png` (`cutting-board.png`) | `2000 × 1333` | `1.50 : 1` | เขียงไม้ธรรมชาติใน Step 3, Step 4B (รองรับผลผ่าครึ่ง) และ Step 5 (รองรับชิ้นสไลซ์) (`#cutting-board-img`) |
-| `Pic/hand-cutting.png` (`hand-cutting.png.png`) | `2000 × 1523` | `1.313 : 1` | ภาพมุมสูงมือกำลังใช้มีดผ่าอะโวคาโดบนเขียง พร้อมมะนาว พริกหวานสีเหลือง และมะเขือเทศราชินีในถ้วย (`#hand-cutting-img` ใน Step 4A) |
-| `Pic/avocado-halves.png` (`avocado-halves.png.png`) | `2000 × 1538` | `1.30 : 1` | อะโวคาโดผ่าครึ่ง 2 ซีก (ซีกซ้ายมีเมล็ด `X=16.6%..48.4%`, ซีกขวาไร้เมล็ด `X=51.6%..83.4%`) ใช้แยกซีกอย่างนุ่มนวลใน Step 4B |
-| `Pic/avocado-slices-on-board2.png` (`avocado-slices-on-board2.png.png`) | `2000 × 1116` | `1.792 : 1` | อะโวคาโดหั่นสไลซ์เรียง 3 กลุ่มบนพื้นโปร่งใส วางทับบนเขียงไม้ `#board-layer` ใน Step 5 อย่างต่อเนื่องไม่กระพริบ |
-| `Pic/avocado-slices.png.png` (`avocado-slices.png`) | `2000 × 2000` | `1 : 1` | ใช้ในการ์ดสินค้า Collection ด้านล่าง |
-| `Pic/salad-plate.png.png` | `2000 × 2000` | `1 : 1` | **ยังไม่เปิดใช้งานใน Step 1–5** (เตรียมไว้สำหรับ Step 6 เท่านั้น) |
+| `Pic/avocado-whole.png.png` | `2000 × 1695` | `1.18 : 1` | ลูกอะโวคาโดผลสดลูกหลักลูกเดียวกันตลอด Step 1–3 (`#hero-avocado`) |
+| `Pic/cutting-board.png.png` (`cutting-board.png`) | `2000 × 1333` | `1.50 : 1` | เขียงไม้สีอ่อนธรรมชาติ รองรับผลอะโวคาโดใน Step 3, 4 และ 5 อย่างต่อเนื่องไม่เปลี่ยนใบ (`#cutting-board-img`) |
+| `Pic/avocado-halves.png` (`avocado-halves.png.png`) | `2000 × 1538` | `1.30 : 1` | อะโวคาโดผ่าครึ่ง 2 ซีก แบ่งด้วย `clip-path` กึ่งกลาง (`X=50%`): ซีกซ้ายมีเมล็ด และซีกขวาไร้เมล็ด ใช้แยกออกจากกันใน Step 4 |
+| `Pic/avocado-slices-on-board2.png` (`avocado-slices-on-board2.png.png`) | `2000 × 1116` | `1.792 : 1` | อะโวคาโดหั่นสไลซ์เรียง 3 กลุ่มบนพื้นโปร่งใส วางทับบนเขียงไม้สีอ่อนใน Step 5 อย่างต่อเนื่องไม่กระพริบ |
+| `Pic/salad-plate.png.png` | `2000 × 2000` | `1 : 1` | จานสลัดเตรียมพร้อมสำหรับ Step 6 |
 
 ---
 
-## 3. สถาปัตยกรรม GSAP ScrollTrigger Timeline (Step 1–5 = `180` Timeline Units)
+## 3. การวางตำแหน่งและการจัดกึ่งกลางเลเยอร์ (Zero Jump Alignment)
 
-- ความสูงของ `<section id="story" class="story">` ปรับเป็น **`712svh`** (Desktop) และ **`660svh`** (Mobile) เพื่อคงความเร็วการเลื่อนต่อ 1 หน่วยเวลาของ Step 1–3 (`0..100`) ให้เหมือนเดิมทุกประการ
-- ใช้ `scrub: 0.55` และ `invalidateOnRefresh: true` รองรับการเลื่อนลงและเลื่อนย้อนกลับ (`100% -> 0%`) ได้อย่างแม่นยำ
+เพื่อให้การเปลี่ยนผ่านจาก **Step 3 (ผลเต็มลูก) → Step 4 (สองซีก) → Step 5 (ชิ้นสไลซ์)** เป็นไปอย่างราบรื่น ไม่มีการกระโดดของตำแหน่ง (Zero Position Jump) ได้กำหนดพิกัดกึ่งกลางของทุกเลเยอร์บนเขียงไม้สีอ่อนให้ตรงกันในอัตราส่วนของ `#stage-art`:
 
-### ลำดับเวลาใน `masterTL` (`0` ถึง `180`)
-
-1. **Step 1 — เปิดหน้าแรกด้วยต้นอะโวคาโด (`t = 0 .. 12`, Scroll `0% .. 10%`) — *ไม่เปลี่ยนแปลงจาก v1.0***
-   - `#tree-layer` แสดงต้นอะโวคาโดพร้อม `#hero-stem` (`Pic/avocado-stem.png`) และ `#hero-avocado-wrap` ห้อยอยู่ใต้ท้องกิ่ง
-   - ลูกอะโวคาโดแกว่งตัวเบาๆ ก่อนปลิดออกจากขั้ว
-
-2. **Step 2 — ลูกอะโวคาโดร่วงตามแรงโน้มถ่วง (`t = 12 .. 68`, Scroll `10% .. 34%`) — *ไม่เปลี่ยนแปลงจาก v1.0***
-   - `#tree-layer` เลื่อนขึ้นด้านบน (`yPercent: -78`, `autoAlpha: 0`)
-   - `#hero-avocado-wrap` เคลื่อนที่ด้วยความเร่งโน้มถ่วง (`power2.in`) หมุนตัวเล็กน้อย (`-14° -> +15° -> -7°`)
-
-3. **Step 3 — ตกลงบนเขียงและเด้งเล็กน้อย (`t = 50 .. 100`, Scroll `34% .. 56%`) — *ไม่เปลี่ยนแปลงจาก v1.0***
-   - `#board-layer` เลื่อนขึ้นมารองรับที่ `t = 50..68`
-   - `#hero-avocado-wrap` ตกกระทบผิวเขียงที่ `t = 72` และเด้ง 2 จังหวะ (`72 -> 79.5 -> 86.5 -> 91 -> 96`) ก่อนหยุดนิ่งบนเขียง
-
-4. **Step 4 — ผ่าอะโวคาโด (`t = 100 .. 150`, Scroll `56% .. 83%`)**
-   - **Sub-step 4A (`t = 100 .. 113`)**: ค่อยๆ ซูมเข้าหาลูกอะโวคาโดบนเขียง (`#board-layer` ขยายสู่ `scale: 1.16`, `#hero-avocado-wrap` ขยายสู่ `scale: 1.92`) ก่อน Crossfade อย่างนุ่มนวลเข้าสู่ `#hand-cutting-layer` (`Pic/hand-cutting.png`)
-   - **Sub-step 4B (`t = 113 .. 123`)**: แสดงฉากมุมสูง `Pic/hand-cutting.png` พร้อมมะนาว พริกหวานสีเหลือง และมะเขือเทศราชินีในถ้วยครบถ้วน โดยใช้เป็นฉากเปลี่ยนภาพอย่างนุ่มนวล (`scale: 1.0 -> 1.025`) ไม่บิดภาพมือหรือมีด และไม่แกล้งขยับมือเทียม
-   - **Sub-step 4C (`t = 123 .. 150`)**: เปลี่ยนจาก `Pic/hand-cutting.png` กลับสู่ `#board-layer` พร้อม `#halves-layer` (`Pic/avocado-halves.png`) ที่แยกเป็น 2 เลเยอร์ย่อยด้วย `clip-path: inset(0 50% 0 0)` (`#avocado-half-left`) และ `clip-path: inset(0 0 0 50%)` (`#avocado-half-right`)
-   - เมื่อเลื่อน Scroll ช่วง `t = 129 .. 147` ทั้งสองซีกจะค่อยๆ แยกออกจากกันอย่างนุ่มนวล (`xPercent: 8.5 -> -4.2, rotation: 2° -> -6.5°` และ `xPercent: -8.5 -> +4.2, rotation: -2° -> +6.5°`)
-   - **เทคนิคสำคัญป้องกันรอยต่อเงา (Drop-Shadow Seam Prevention)**: กำหนด `filter: drop-shadow(...)` ไว้ที่ Container แม่ (`.halves-layer` และ `.slices-layer`) แทนการใส่บน `<img>` ที่มี `clip-path` เพื่อให้เบราว์เซอร์ตัด `clip-path` บนพื้นหลังโปร่งใส (`alpha = 0`) ก่อนคำนวณเงา
-
-5. **Step 5 — อะโวคาโดสไลซ์บนเขียง (`t = 150 .. 180`, Scroll `83% .. 100%`)**
-   - รักษา `#board-layer` ให้แสดงผลต่อเนื่อง (`autoAlpha: 1` ตลอดตั้งแต่ Step 4C ถึงจบ Step 5) จึงไม่เกิดอาการกระพริบ (Zero Flicker)
-   - Crossfade อย่างนุ่มนวลจาก `#halves-layer` (`autoAlpha: 1 -> 0`) เข้าสู่ `#slices-layer` (`Pic/avocado-slices-on-board2.png`, `autoAlpha: 0 -> 1`)
-   - ชิ้นสไลซ์ทั้ง 3 กลุ่ม (`#slices-group-left`, `#slices-group-center`, `#slices-group-right`) ค่อยๆ คลี่ตัวเข้าตำแหน่งนิ่งบนเขียงในช่วง `t = 152 .. 168` และคงภาพไว้จนถึง `t = 180` (`100%`) เพื่อเตรียมส่งต่อเข้าสู่ **Step 6**
+| เลเยอร์ | Left / Top / Width | Center X ในฉาก | Center Y ในฉาก | หมายเหตุ |
+| :--- | :--- | :--- | :--- | :--- |
+| **Step 3: Whole Avocado** | `left: 29.88%`, `top: 43.43%`, `width: 14%` + GSAP `xP: 109.5%, yP: 132%` | `52.2%` | `65.0%` | ผลเต็มลูกหยุดนิ่งบนเขียง |
+| **Step 4: Two Halves** | `left: 28.2%`, `top: 46.55%`, `width: 48%` | `52.2%` | `65.2%` | ตรงกับจุดศูนย์กลางของลูกเดิมเป๊ะ |
+| **Step 5: Slices on Board** | `left: 22.0%`, `top: 48.5%`, `width: 60%` | `52.0%` | `65.2%` | ตรงกับพื้นที่กึ่งกลางเดิมบนเขียง |
 
 ---
 
-## 4. จุดเชื่อมต่อสำหรับพัฒนาต่อ Step 6 ในรอบถัดไป
+## 4. สถาปัตยกรรม GSAP ScrollTrigger Timeline (`0` ถึง `180` หน่วยเวลา)
 
-ใน `index.html` ได้เตรียม Hook และ State สำหรับต่อยอดสู่ **Step 6 (จัดเสิร์ฟลงจานสลัด)** ไว้ที่:
-- **DOM Placeholder**: `<div class="step-6-stage-hook" id="step-6-stage-hook" data-phase="step-6-prepared" data-slices-selector="#slices-layer" data-board-selector="#board-layer" aria-hidden="true"></div>`
-- **Global State Object**: `window.MAE_CHAWI_STAGE_STATE`
-  - `step5FinalState`: `{ boardVisible: true, slicesVisible: true, slicesRotation: -8 }`
-- ในรอบถัดไปสามารถขยายความยาว Timeline ต่อจาก `t = 180` เพื่อนำชิ้นอะโวคาโดสไลซ์จาก `#slices-layer` บน `#board-layer` เคลื่อนเข้าสู่ฉากจานสลัด (`Pic/salad-plate.png.png`) ได้ทันทีโดยไม่ต้องแก้ไขโค้ดของ Step 1–5
+### ลำดับเหตุการณ์ใน `masterTL`
+1. **Step 1 (`t = 0 .. 12`)**: ผลอะโวคาโดห้อยบนต้นไม้พร้อมขั้วกิ่ง แกว่งตัวตามธรรมชาติ
+2. **Step 2 (`t = 12 .. 68`)**: ปลิดจากขั้วและร่วงลงตามแรงโน้มถ่วง (`power2.in`), หมุนตัว `-14°` ถึง `+15°`
+3. **Step 3 (`t = 50 .. 100`)**: เขียงไม้สีอ่อนเลื่อนขึ้นมารองรับ ผลอะโวคาโดตกลงบนเขียงที่ `t = 72`, เด้ง 2 จังหวะ และหยุดนิ่งสนิทที่ `t = 96..100`
+4. **Step 4 ใหม่ (`t = 100 .. 150`)**:
+   - `t = 100 .. 107`: Crossfade จากผลเต็มลูก `#hero-avocado-wrap` เข้าสู่ `#halves-layer` ที่สองซีกประกบชิดกันกึ่งกลาง (เขียงไม้ `#board-layer` แสดงผลคงเดิม 100% ไม่มีการกระพริบ)
+   - `t = 108 .. 142`: สองซีกค่อยๆ สไลด์แยกออกจากกันตามการเลื่อน Scroll (`#avocado-half-left` ไปทางซ้าย, `#avocado-half-right` ไปทางขวา) เผยให้เห็นเมล็ดและเนื้ออะโวคาโดชัดเจน
+   - `t = 142 .. 150`: คงสภาพสองซีกที่แยกออกบนเขียงอย่างนิ่งสงบ
+5. **Step 5 (`t = 150 .. 180`)**:
+   - `t = 150 .. 160`: Crossfade อย่างนุ่มนวลจากสองซีกเป็นชิ้นสไลซ์ `#slices-layer` บนเขียงไม้สีอ่อนใบเดิม
+   - `t = 152 .. 168`: ชิ้นสไลซ์คลี่ตัวเรียงสวยบนเขียง
+   - `t = 168 .. 180`: คงภาพสไลซ์บนเขียงไม้ไว้อย่างมั่นคง เพื่อส่งต่อเข้าสู่ **Step 6**
+
+---
+
+## 5. จุดเชื่อมต่อรองรับ Step 6 (เทชิ้นอะโวคาโดลงจานสลัด)
+
+- **DOM Anchor**: `<div class="step-6-stage-hook" id="step-6-stage-hook" data-phase="step-6-prepared" data-slices-selector="#slices-layer" data-board-selector="#board-layer" aria-hidden="true"></div>`
+- **Global State**: `window.MAE_CHAWI_STAGE_STATE`
+  - `step5FinalState`: `{ boardVisible: true, slicesVisible: true, slicesRotation: 0, readyForStep6Pour: true }`
+- ในการพัฒนา Step 6 สามารถต่อยอด Timeline โดยนำชิ้นสไลซ์จาก `#slices-layer` ลอยเอียงเทลงสู่จานสลัด `Pic/salad-plate.png.png` ได้ทันที

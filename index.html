@@ -521,36 +521,12 @@
       transform: none;
     }
 
-    /* ================= STEP 4 LAYER A: HAND-CUTTING SCENE WITH PROPS ================= */
-    .hand-cutting-layer {
-      position: absolute;
-      left: 1%;
-      top: 8%;
-      width: 98%;
-      aspect-ratio: 2000 / 1523;
-      z-index: 7;
-      opacity: 0;
-      will-change: transform, opacity;
-      transform-origin: 48% 52%;
-      pointer-events: none;
-    }
-
-    .hand-cutting-img {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 2000 / 1523;
-      object-fit: contain;
-      display: block;
-      /* Preserve natural proportions of hands, knife, lemon, bell pepper, and tomatoes */
-      filter: drop-shadow(0 22px 34px rgba(42, 30, 16, 0.18));
-    }
-
-    /* ================= STEP 4 LAYER B: AVOCADO HALVES SEPARATING ON BOARD ================= */
+    /* ================= STEP 4 LAYER: AVOCADO HALVES SEPARATING ON BOARD (NO HANDS / NO KNIFE) ================= */
     .halves-layer {
       position: absolute;
-      left: 28.5%;
-      top: 48.2%;
-      width: 52%;
+      left: 28.2%;
+      top: 46.55%;
+      width: 48%;
       aspect-ratio: 2000 / 1538;
       z-index: 7;
       opacity: 0;
@@ -597,9 +573,9 @@
     /* ================= STEP 5 LAYER: AVOCADO SLICES ON WOODEN BOARD ================= */
     .slices-layer {
       position: absolute;
-      left: 23.5%;
-      top: 51.2%;
-      width: 62%;
+      left: 22.0%;
+      top: 48.5%;
+      width: 60%;
       aspect-ratio: 2000 / 1116;
       z-index: 8;
       opacity: 0;
@@ -1164,7 +1140,7 @@
       <button type="button" data-jump="0.00" class="is-active">01 ต้นอะโวคาโด</button>
       <button type="button" data-jump="0.22">02 ผลร่วงจากต้น</button>
       <button type="button" data-jump="0.53">03 ตกลงบนเขียง</button>
-      <button type="button" data-jump="0.67">04 ผ่าอะโวคาโด</button>
+      <button type="button" data-jump="0.72">04 แยกออกเป็น 2 ซีก</button>
       <button type="button" data-jump="0.96">05 สไลซ์บนเขียง</button>
       <a class="nav-shop" href="#products">เลือกซื้ออะโวคาโด ↗</a>
     </nav>
@@ -1214,13 +1190,13 @@
             <div class="script-line">Naturally balanced. Ready for the blade.</div>
           </article>
 
-          <!-- STEP 4 COPY -->
-          <article class="scene-copy" id="copy-step-4" aria-label="Step 4 ผ่าอะโวคาโดและแยกออกเป็นสองซีก" aria-hidden="true">
-            <div class="eyebrow">STEP 04 · FRESHLY CUT</div>
-            <div class="badge-outline">CREAMY TEXTURE · PERFECTLY RIPE</div>
-            <h2 class="step-title">Slice into<br><em>goodness.</em></h2>
-            <p>ซูมเข้าหาผลอะโวคาโดสุกกำลังดีบนเขียง ก่อนผ่าครึ่งอย่างประณีตท่ามกลางเครื่องเคียงสดใหม่ เผยเนื้อสีเขียวเนียนนุ่มและเมล็ดสีน้ำตาลที่แยกออกเป็นสองซีกอย่างนุ่มนวล</p>
-            <div class="script-line">Rich, buttery, and naturally wholesome.</div>
+          <!-- STEP 4 COPY (NO HANDS / NO KNIFE) -->
+          <article class="scene-copy" id="copy-step-4" aria-label="Step 4 อะโวคาโดแยกออกเป็น 2 ซีก" aria-hidden="true">
+            <div class="eyebrow">STEP 04 · TWO HALVES</div>
+            <div class="badge-outline">TWO FRESH HALVES · PERFECTLY RIPE</div>
+            <h2 class="step-title">Split into<br><em>two halves.</em></h2>
+            <p>ลูกอะโวคาโดบนเขียงไม้แยกออกเป็นสองซีกอย่างนุ่มนวลตามการเลื่อนหน้าเว็บ เผยเนื้อสีเขียวเนียนนุ่มและเมล็ดสีน้ำตาลเด่นชัด คงความสดใหม่และตำแหน่งต่อเนื่องจากลูกเดิมบนเขียง</p>
+            <div class="script-line">Naturally divided. Pure and wholesome.</div>
           </article>
 
           <!-- STEP 5 COPY -->
@@ -1228,13 +1204,13 @@
             <div class="eyebrow">STEP 05 · SLICED ON THE BOARD</div>
             <div class="badge-outline">STEP 1–5 COMPLETE · READY FOR STEP 6</div>
             <h2 class="step-title">Crafted in<br><em>every slice.</em></h2>
-            <p>เปลี่ยนจากอะโวคาโดผ่าครึ่งเป็นชิ้นสไลซ์เรียงสวยบนเขียงไม้ เนื้อเนียนละเอียดคงรูปสวยในทุกชิ้น พร้อมสำหรับการจัดเสิร์ฟลงจานสลัดในขั้นตอนถัดไป</p>
+            <p>เปลี่ยนจากอะโวคาโดสองซีกเป็นชิ้นสไลซ์เรียงสวยบนเขียงไม้ เนื้อเนียนละเอียดคงรูปสวยในทุกชิ้น พร้อมสำหรับการจัดเสิร์ฟลงจานสลัดในขั้นตอนถัดไป</p>
             <a class="primary-cta" href="#products">เลือกซื้อผลสดจากไร่ <span aria-hidden="true">↗</span></a>
           </article>
         </div>
 
         <!-- RIGHT VISUAL STAGE (1:1 COORDINATE SYSTEM FOR DESKTOP & MOBILE) -->
-        <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันต้นอะโวคาโด เขียงไม้ การผ่า และสไลซ์บนเขียง">
+        <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันต้นอะโวคาโด เขียงไม้ การแยกสองซีก และสไลซ์บนเขียง">
           <!-- STEP 1: AVOCADO TREE LAYER (UNCHANGED) -->
           <div class="tree-layer" id="tree-layer">
             <div class="tree-ground-shadow" id="tree-ground-shadow"></div>
@@ -1296,19 +1272,7 @@
             />
           </div>
 
-          <!-- STEP 4A: OVERHEAD HAND-CUTTING SCENE WITH LEMON, BELL PEPPER & TOMATO PROPS -->
-          <div class="hand-cutting-layer" id="hand-cutting-layer">
-            <img
-              class="hand-cutting-img"
-              id="hand-cutting-img"
-              src="Pic/hand-cutting.png"
-              alt="ภาพมุมสูงมือกำลังใช้มีดผ่าอะโวคาโดบนเขียงพร้อมมะนาว พริกหวานสีเหลือง และมะเขือเทศราชินี"
-              width="2000"
-              height="1523"
-            />
-          </div>
-
-          <!-- STEP 4B: AVOCADO HALVES SEPARATING SMOOTHLY ON THE BOARD -->
+          <!-- STEP 4: AVOCADO HALVES SEPARATING SMOOTHLY ON THE BOARD (NO HANDS / NO KNIFE) -->
           <div class="halves-layer" id="halves-layer">
             <div class="halves-board-shadow" id="halves-board-shadow"></div>
             <img
@@ -1392,16 +1356,16 @@
           <div class="below-kicker">DEVELOPMENT MILESTONE · STEP 1–5 ACTIVE</div>
           <h3>Step 1–5 พัฒนาสมบูรณ์ด้วย GSAP ScrollTrigger พร้อมคงภาพสไลซ์บนเขียงเพื่อเตรียมต่อ Step 6</h3>
           <p>
-            รักษาดีไซน์และแอนิเมชันของ Step 1–3 ไว้ครบถ้วน 100% และต่อยอดสู่ Step 4 (ซูมเข้าหาผลอะโวคาโด → เปลี่ยนเข้าสู่ฉากมือผ่า <code>Pic/hand-cutting.png</code> พร้อมมะนาว พริกหวาน มะเขือเทศ → แสดงผลผ่าครึ่ง <code>Pic/avocado-halves.png</code> แยกสองซีกอย่างนุ่มนวล) และ Step 5 (เปลี่ยนเป็นอะโวคาโดสไลซ์บนเขียง <code>Pic/avocado-slices-on-board2.png</code> อย่างต่อเนื่องไม่กระพริบ)
+            รักษาดีไซน์และแอนิเมชันของ Step 1–3 ไว้ครบถ้วน 100% พร้อม Step 4 ใหม่ (ลูกอะโวคาโดบนเขียงไม้แยกออกเป็น 2 ซีกอย่างนุ่มนวลตาม Scroll โดยไม่มีภาพมือหรือมีด) และ Step 5 (เปลี่ยนจาก 2 ซีกเป็นอะโวคาโดสไลซ์บนเขียงไม้ใบเดิมอย่างต่อเนื่องไม่กระพริบ)
           </p>
         </div>
         <div class="phase-steps-pills">
           <span class="phase-pill done">✓ Step 1: ต้นอะโวคาโด</span>
           <span class="phase-pill done">✓ Step 2: ร่วงตามแรงโน้มถ่วง</span>
           <span class="phase-pill done">✓ Step 3: ตกเขียง &amp; เด้งเบาๆ</span>
-          <span class="phase-pill done">✓ Step 4: มือผ่า &amp; แยกสองซีก</span>
+          <span class="phase-pill done">✓ Step 4: แยกออกเป็น 2 ซีก</span>
           <span class="phase-pill done">✓ Step 5: อะโวคาโดสไลซ์บนเขียง</span>
-          <span class="phase-pill next">⏳ Step 6: เตรียม Hook รองรับแล้ว</span>
+          <span class="phase-pill next">⏳ Step 6: เทลงจานสลัด (เตรียมระบบไว้แล้ว)</span>
         </div>
       </div>
 
@@ -1463,8 +1427,8 @@
     <button type="button" data-jump="0.53" aria-label="ไป Step 3 ตกลงบนเขียง">
       <span>03 BOARD</span><b></b>
     </button>
-    <button type="button" data-jump="0.67" aria-label="ไป Step 4 ผ่าอะโวคาโด">
-      <span>04 CUT</span><b></b>
+    <button type="button" data-jump="0.72" aria-label="ไป Step 4 แยกออกเป็น 2 ซีก">
+      <span>04 HALVES</span><b></b>
     </button>
     <button type="button" data-jump="0.96" aria-label="ไป Step 5 อะโวคาโดสไลซ์บนเขียง">
       <span>05 SLICE</span><b></b>
@@ -1514,7 +1478,6 @@
         activeStep: 1,
         heroAvocadoSelector: '#hero-avocado-wrap',
         boardSelector: '#board-layer',
-        handCuttingSelector: '#hand-cutting-layer',
         halvesSelector: '#halves-layer',
         slicesSelector: '#slices-layer',
         step3FinalState: {
@@ -1523,10 +1486,15 @@
           scale: 1.62,
           rotation: 0
         },
+        step4FinalState: {
+          halvesSeparated: true,
+          boardVisible: true
+        },
         step5FinalState: {
           boardVisible: true,
           slicesVisible: true,
-          slicesRotation: -8
+          slicesRotation: 0,
+          readyForStep6Pour: true
         },
         registerStep6Timeline: null
       };
@@ -1535,14 +1503,14 @@
         'ORCHARD TREE',
         'GRAVITY FALL',
         'WOODEN BOARD',
-        'FRESHLY CUT',
+        'TWO HALVES',
         'SLICED ON BOARD'
       ];
 
       // Total timeline duration = 180 units:
       // 0..100   => Step 1–3 (100% identical to v1.0-step1-3)
-      // 100..150 => Step 4 (Zoom to fruit -> hand-cutting.png -> avocado-halves.png separating)
-      // 150..180 => Step 5 (Smooth transition to avocado-slices-on-board2.png resting on board)
+      // 100..150 => Step 4 (Smooth transition to two halves & gradual separation on board, no hands/knife)
+      // 150..180 => Step 5 (Smooth transition to avocado slices resting on board)
       function updateHUD(progress) {
         const p = Math.min(1, Math.max(0, progress));
         const t = p * 180;
@@ -1596,15 +1564,14 @@
       });
 
       // Step 4 & Step 5 layers initial state
-      gsap.set('#hand-cutting-layer', { autoAlpha: 0, scale: 0.93, yPercent: 3 });
-      gsap.set('#halves-layer', { autoAlpha: 0, scale: 0.95, rotation: -6 });
-      gsap.set('#avocado-half-left', { xPercent: 8.5, yPercent: -1, rotation: 2 });
-      gsap.set('#avocado-half-right', { xPercent: -8.5, yPercent: 1, rotation: -2 });
+      gsap.set('#halves-layer', { autoAlpha: 0, scale: 1.0, rotation: 0 });
+      gsap.set('#avocado-half-left', { xPercent: 3.5, yPercent: -0.5, rotation: 1.0 });
+      gsap.set('#avocado-half-right', { xPercent: -3.5, yPercent: 0.5, rotation: -1.0 });
 
-      gsap.set('#slices-layer', { autoAlpha: 0, scale: 0.96, rotation: -8 });
-      gsap.set('#slices-group-left', { xPercent: 4, yPercent: 1, rotation: 2 });
+      gsap.set('#slices-layer', { autoAlpha: 0, scale: 0.98, rotation: 0 });
+      gsap.set('#slices-group-left', { xPercent: 3, yPercent: 0.5, rotation: 1.5 });
       gsap.set('#slices-group-center', { xPercent: 0, yPercent: 0, rotation: 0 });
-      gsap.set('#slices-group-right', { xPercent: -4, yPercent: -1, rotation: -2 });
+      gsap.set('#slices-group-right', { xPercent: -3, yPercent: -0.5, rotation: -1.5 });
 
       // Master GSAP ScrollTrigger Timeline (0..180 units)
       const masterTL = gsap.timeline({
@@ -1811,138 +1778,93 @@
       }, 96);
 
       // =========================================================================
-      // STEP 4 (100 -> 150): ZOOM INTO FRUIT -> HAND-CUTTING SCENE -> SEPARATING HALVES
+      // STEP 4 (100 -> 150): SMOOTH TRANSITION TO TWO HALVES & GRADUAL SEPARATION (NO HANDS / NO KNIFE)
       // =========================================================================
       // Copy & Background transition: Step 3 -> Step 4
       masterTL.to('#bg-step-4', { autoAlpha: 1, duration: 12 }, 101);
-      masterTL.to('#copy-step-3', { autoAlpha: 0, yPercent: -64, duration: 9, ease: 'power1.inOut' }, 101);
-      masterTL.to('#copy-step-4', { autoAlpha: 1, yPercent: -50, duration: 11, ease: 'power1.out' }, 106);
+      masterTL.to('#copy-step-3', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 101);
+      masterTL.to('#copy-step-4', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 106);
 
-      // Sub-step 4A (100 -> 114): Gently zoom into the whole avocado on the cutting board
+      // Light wooden cutting board remains 100% visible and anchored (no dark board, zero flicker)
       masterTL.to('#board-layer', {
-        scale: 1.16,
-        yPercent: -6,
-        duration: 12,
-        ease: 'power1.inOut'
+        scale: 1.0,
+        yPercent: 0,
+        duration: 8,
+        ease: 'none'
       }, 100);
 
+      // Seamless crossfade: Whole fruit -> Two halves touching together on the board
       masterTL.to('#hero-avocado-wrap', {
-        scale: 1.92,
-        yPercent: 115.0,
-        duration: 12,
+        autoAlpha: 0,
+        duration: 7,
         ease: 'power1.inOut'
       }, 100);
-
-      // Smooth crossfade from zoomed board+fruit into full hand-cutting.png scene (preserving all props & hand/knife proportions)
-      masterTL.to('#board-layer', {
-        autoAlpha: 0,
-        duration: 8,
-        ease: 'sine.inOut'
-      }, 106);
-
-      masterTL.to('#hero-avocado-wrap', {
-        autoAlpha: 0,
-        duration: 8,
-        ease: 'sine.inOut'
-      }, 106);
 
       masterTL.to('#avocado-board-shadow', {
         autoAlpha: 0,
-        duration: 8,
-        ease: 'sine.inOut'
-      }, 106);
-
-      masterTL.to('#hand-cutting-layer', {
-        autoAlpha: 1,
-        scale: 1.0,
-        yPercent: 0,
-        duration: 10,
-        ease: 'power2.out'
-      }, 105);
-
-      // Sub-step 4B (114 -> 123): Gentle cinematic hold on hand-cutting.png (no fake hand wiggling)
-      masterTL.to('#hand-cutting-layer', {
-        scale: 1.025,
-        duration: 9,
-        ease: 'sine.inOut'
-      }, 114);
-
-      // Sub-step 4C (123 -> 150): Transition from hand-cutting.png to avocado-halves.png on the board & smoothly separate the two halves
-      masterTL.to('#hand-cutting-layer', {
-        autoAlpha: 0,
-        scale: 1.05,
-        duration: 6.5,
-        ease: 'sine.inOut'
-      }, 123);
-
-      masterTL.to('#board-layer', {
-        autoAlpha: 1,
-        scale: 1.04,
-        yPercent: -2,
-        duration: 6.5,
-        ease: 'power2.out'
-      }, 124);
+        duration: 7,
+        ease: 'power1.inOut'
+      }, 100);
 
       masterTL.to('#halves-layer', {
         autoAlpha: 1,
-        scale: 1.0,
-        duration: 6.5,
-        ease: 'power2.out'
-      }, 124.5);
+        duration: 7,
+        ease: 'power1.inOut'
+      }, 100);
 
-      // Smoothly separate the left half (with seed) and right half (seedless) as the user scrolls (129 -> 147)
+      // Two halves smoothly slide and separate across the board as the user scrolls (108 -> 142)
       masterTL.to('#avocado-half-left', {
-        xPercent: -4.2,
-        yPercent: 1.2,
-        rotation: -6.5,
-        duration: 18,
+        xPercent: -7.0,
+        yPercent: 1.5,
+        rotation: -5.5,
+        duration: 34,
         ease: 'power2.inOut'
-      }, 129);
+      }, 108);
 
       masterTL.to('#avocado-half-right', {
-        xPercent: 4.2,
-        yPercent: -1.2,
-        rotation: 6.5,
-        duration: 18,
+        xPercent: 7.0,
+        yPercent: -1.5,
+        rotation: 5.5,
+        duration: 34,
         ease: 'power2.inOut'
-      }, 129);
+      }, 108);
 
-      // Hold the separated halves briefly until t=150
+      // Hold separated halves steadily until t=150
       masterTL.to('#halves-layer', {
         scale: 1.0,
-        duration: 3
-      }, 147);
+        duration: 8
+      }, 142);
 
       // =========================================================================
       // STEP 5 (150 -> 180): SMOOTH FLICKER-FREE TRANSITION TO AVOCADO SLICES ON BOARD
       // =========================================================================
       // Copy & Background transition: Step 4 -> Step 5
       masterTL.to('#bg-step-5', { autoAlpha: 1, duration: 12 }, 150);
-      masterTL.to('#copy-step-4', { autoAlpha: 0, yPercent: -64, duration: 9, ease: 'power1.inOut' }, 150);
-      masterTL.to('#copy-step-5', { autoAlpha: 1, yPercent: -50, duration: 11, ease: 'power1.out' }, 155);
+      masterTL.to('#copy-step-4', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 150);
+      masterTL.to('#copy-step-5', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 155);
 
-      // Keep #board-layer 100% visible (zero flicker!) while gently settling to scale 1.02
+      // Keep #board-layer 100% visible (zero flicker!)
       masterTL.to('#board-layer', {
-        scale: 1.02,
+        scale: 1.0,
         yPercent: 0,
-        duration: 14,
-        ease: 'sine.inOut'
+        duration: 12,
+        ease: 'none'
       }, 150);
 
       // Smoothly crossfade from separated halves (#halves-layer) into sliced sections (#slices-layer) on the same board
       masterTL.to('#halves-layer', {
         autoAlpha: 0,
         scale: 0.96,
-        duration: 12,
-        ease: 'sine.inOut'
-      }, 151);
+        duration: 10,
+        ease: 'power1.inOut'
+      }, 150);
 
       masterTL.to('#slices-layer', {
         autoAlpha: 1,
         scale: 1.0,
-        duration: 13,
-        ease: 'power2.out'
-      }, 151);
+        duration: 10,
+        ease: 'power1.inOut'
+      }, 150);
 
       // Subtle fanning-out settle of the three sliced avocado groups on the cutting board (152 -> 168)
       masterTL.to('#slices-group-left', {
