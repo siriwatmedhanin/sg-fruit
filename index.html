@@ -438,6 +438,17 @@
       will-change: transform;
     }
 
+    .step1-tree-img {
+      transform-origin: 67.6% 95.6%;
+      animation: tree-breeze-sway 8.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes tree-breeze-sway {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(0.4deg); }
+      100% { transform: rotate(-0.35deg); }
+    }
+
     /* Fog 01: Midground drifting mist */
     .step1-fog-01 {
       mix-blend-mode: screen;
@@ -588,22 +599,37 @@
       will-change: transform, opacity;
     }
 
+    /* Real photographic stem connecting branch underside to hero avocado top pedicel */
+    .hero-stem-img {
+      position: absolute;
+      left: 25.3%;
+      top: 35.5%;
+      width: 1.4%;
+      height: 7.8%;
+      object-fit: fill;
+      z-index: 5;
+      pointer-events: none;
+      transform-origin: 50% 0%;
+      filter: drop-shadow(0 2px 4px rgba(24, 42, 18, 0.22));
+      will-change: transform;
+    }
+
     /* THE SINGLE PERSISTENT HERO AVOCADO (USED CONTINUOUSLY IN STEP 1, 2, AND 3) */
     .hero-avocado-wrap {
       position: absolute;
-      left: 29.88%;
-      top: 43.43%;
-      width: 14.0%;
-      aspect-ratio: 1 / 1;
+      left: 12.88%;
+      top: 42.13%;
+      width: 26.5%;
+      aspect-ratio: 2000 / 1695;
       z-index: 6;
       will-change: transform, opacity;
-      transform-origin: 48.4% 50%;
+      transform-origin: 49.5% 49.2%;
     }
 
     .hero-avocado-img {
       width: 100%;
       height: 100%;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 2000 / 1695;
       object-fit: contain;
       display: block;
       filter: drop-shadow(0 12px 18px rgba(20, 42, 26, 0.24));
@@ -1584,15 +1610,26 @@
             <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
           </div>
 
+          <!-- Real photographic stem connecting branch underside to hero avocado top pedicel -->
+          <img
+            class="hero-stem-img"
+            id="hero-stem"
+            src="public/assets/step1/avocado-stem.png"
+            alt=""
+            aria-hidden="true"
+            width="36"
+            height="136"
+          />
+
           <!-- SINGLE CONTINUOUS HERO AVOCADO (SAME ELEMENT ACROSS STEP 1, 2, AND 3) -->
           <div class="hero-avocado-wrap" id="hero-avocado-wrap">
             <img
               class="hero-avocado-img"
               id="hero-avocado"
-              src="public/assets/step1/step1-avocado-falling.png"
+              src="public/assets/step1/avocado-whole.png"
               alt="ลูกอะโวคาโดไร่แม่ฉวีลูกเดียวกันตลอดทั้งฉาก"
-              width="1254"
-              height="1254"
+              width="2000"
+              height="1695"
             />
           </div>
 
@@ -1832,9 +1869,9 @@
         saladSelector: '#salad-layer',
         nextSectionSelector: '#next-section-layer',
         step3FinalState: {
-          xPercent: 109.5,
-          yPercent: 132.0,
-          scale: 1.62,
+          xPercent: 98.9,
+          yPercent: 52.7,
+          scale: 1.08,
           rotation: 0
         },
         step4FinalState: {
@@ -1923,7 +1960,9 @@
       gsap.set('#bg-next-section', { autoAlpha: 0 });
 
       gsap.set('#step1-scenery', { autoAlpha: 1, yPercent: 0 });
+      gsap.set('#step1-stage-content', { yPercent: 0, xPercent: 0 });
       gsap.set('#step1-bg-mountain', { yPercent: 0 });
+      gsap.set('#hero-stem', { rotation: 0, scaleY: 1, autoAlpha: 1 });
       gsap.set('#fall-layer', { autoAlpha: 0, yPercent: 12 });
       gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, autoAlpha: 0 });
       gsap.set('#avocado-board-shadow', { autoAlpha: 0, scale: 0.35 });
@@ -1967,6 +2006,21 @@
       // =========================================================================
       // STEP 1 (0 -> 12): CINEMATIC ORCHARD TREE & MOUNTAIN SCENERY
       // =========================================================================
+      // Coordinated Scene Container camera glide: mountain, tree, and background move coherently
+      masterTL.to('#step1-stage-content', {
+        yPercent: -2.0,
+        duration: 12,
+        ease: 'none'
+      }, 0);
+
+      // Subtle mountain depth parallax anchored to the base knoll
+      masterTL.to('#step1-bg-mountain', {
+        yPercent: 0.6,
+        duration: 12,
+        ease: 'none'
+      }, 0);
+
+      // Fruit gently sways on the branch
       masterTL.to('#hero-avocado-wrap', {
         rotation: -1.5,
         yPercent: 1.2,
@@ -1974,11 +2028,11 @@
         ease: 'sine.inOut'
       }, 0);
 
-      // Subtle mountain background parallax on scroll
-      masterTL.to('#step1-bg-mountain', {
-        yPercent: -4,
-        duration: 12,
-        ease: 'none'
+      masterTL.to('#hero-stem', {
+        rotation: -1.5,
+        scaleY: 1.05,
+        duration: 7,
+        ease: 'sine.inOut'
       }, 0);
 
       masterTL.to('#hero-avocado-wrap', {
@@ -1988,12 +2042,27 @@
         ease: 'sine.in'
       }, 7);
 
+      // Stem recoils slightly upward as the avocado detaches cleanly at t=11..12
+      masterTL.to('#hero-stem', {
+        rotation: 3.5,
+        scaleY: 0.92,
+        duration: 4,
+        ease: 'back.out(2)'
+      }, 11);
+
       // =========================================================================
       // STEP 2 (12 -> 68): UNCHANGED FROM CHECKPOINT v1.0-step1-3
       // =========================================================================
       masterTL.to('#bg-step-2', { autoAlpha: 1, duration: 14 }, 14);
       masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 14);
       masterTL.to('#copy-step-2', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 20);
+
+      // Stem fades out as camera tilts down into Step 2 freefall
+      masterTL.to('#hero-stem', {
+        autoAlpha: 0,
+        duration: 8,
+        ease: 'power1.out'
+      }, 14);
 
       // Step 1 mountain orchard scenery smoothly moves up and fades out into Step 2
       masterTL.to('#step1-scenery', {
@@ -2019,19 +2088,19 @@
       }, 48);
 
       masterTL.to('#hero-avocado-wrap', {
-        xPercent: 109.5,
+        xPercent: 98.9,
         duration: 60,
         ease: 'sine.inOut'
       }, 12);
 
       masterTL.to('#hero-avocado-wrap', {
-        scale: 1.62,
+        scale: 1.08,
         duration: 60,
         ease: 'power1.inOut'
       }, 12);
 
       masterTL.to('#hero-avocado-wrap', {
-        yPercent: 132.0,
+        yPercent: 52.7,
         duration: 60,
         ease: 'power2.in'
       }, 12);
@@ -2088,7 +2157,7 @@
       }, 74.5);
 
       masterTL.to('#hero-avocado-wrap', {
-        yPercent: 92.0,
+        yPercent: 27.7,
         rotation: 6,
         duration: 7.5,
         ease: 'power2.out'
@@ -2102,7 +2171,7 @@
       }, 72);
 
       masterTL.to('#hero-avocado-wrap', {
-        yPercent: 132.0,
+        yPercent: 52.7,
         rotation: -3,
         duration: 7,
         ease: 'power2.in'
@@ -2116,7 +2185,7 @@
       }, 79.5);
 
       masterTL.to('#hero-avocado-wrap', {
-        yPercent: 118.0,
+        yPercent: 43.7,
         rotation: 1.8,
         duration: 4.5,
         ease: 'power2.out'
@@ -2130,7 +2199,7 @@
       }, 86.5);
 
       masterTL.to('#hero-avocado-wrap', {
-        yPercent: 132.0,
+        yPercent: 52.7,
         rotation: 0,
         duration: 5,
         ease: 'power2.in'
@@ -2144,7 +2213,7 @@
       }, 91);
 
       masterTL.to('#hero-avocado-wrap', {
-        yPercent: 132.0,
+        yPercent: 52.7,
         rotation: 0,
         duration: 4
       }, 96);
