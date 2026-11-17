@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f5e9" />
+  <meta name="description" content="Mae Chawi — เรื่องราวอะโวคาโดสด จากต้น สู่เขียง และจานสลัด" />
+  <title>Mae Chawi — From Tree to Table</title>
+  <style>
+    :root {
+      --ink:#19382b; --muted:#62756a; --cream:#f7f5e9; --lime:#d8ed7e; --green:#285e43;
+      --p:0; --tree-fall:0; --board-drop:0; --knife-drop:0; --knife-out:0; --reveal:0; --split:0; --pour:0;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:Tahoma,"Noto Sans Thai",Arial,sans-serif;overflow-x:hidden}
+    button,a{font:inherit}
+    a{color:inherit}
+    button{cursor:pointer}
+    button:focus-visible,a:focus-visible{outline:3px solid #86af2c;outline-offset:4px}
+    .header{height:78px;position:fixed;z-index:100;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(20px,5vw,92px);border-bottom:1px solid rgba(26,63,41,.12);background:rgba(248,247,235,.85);backdrop-filter:blur(18px)}
+    .brand{display:flex;align-items:center;text-decoration:none;gap:11px;min-width:188px}
+    .brand-mark{width:37px;height:37px;background:#24563e;border-radius:50% 50% 46% 46%;display:grid;place-items:center;color:#eff5c3;flex:none}
+    .brand-name{display:block;font:700 24px/1 Georgia,serif;letter-spacing:-.04em}
+    .brand-sub{display:block;font-size:9px;letter-spacing:.16em;font-weight:800;margin-top:6px}
+    .nav{display:flex;align-items:center;gap:clamp(18px,2.5vw,46px)}
+    .nav button,.nav a{border:0;background:transparent;text-decoration:none;color:#345541;font-size:12px;font-weight:800;white-space:nowrap}
+    .nav button:hover,.nav a:hover{color:#80a72b}
+    .nav .nav-shop{padding:13px 22px;border:1px solid #19382b;border-radius:999px;background:#19382b;color:#fff}
+    .nav .nav-shop:hover{background:#37654b;color:#fff}
+    .global-progress{position:fixed;top:77px;left:0;right:0;height:3px;z-index:101;pointer-events:none;background:transparent}
+    .global-progress i{height:100%;display:block;width:calc(var(--p)*100%);background:#8ab03a;transition:width .1s linear}
+    .story{height:420svh;position:relative}
+    .stage{height:100svh;min-height:600px;position:sticky;top:0;overflow:hidden;isolation:isolate}
+    .story-scene{position:absolute;inset:0;opacity:0;will-change:opacity;overflow:hidden;pointer-events:none}
+    .scene-one{background:radial-gradient(circle at 71% 42%,#fffdf1 0%,#f7f5e9 57%,#e7eed9 120%);opacity:1}
+    .scene-two{background:radial-gradient(circle at 70% 53%,#fffbed 0%,#faf1d9 61%,#f3dfbd 130%)}
+    .scene-three{background:radial-gradient(circle at 69% 43%,#fdfdf2 0%,#eaf0dd 73%,#c8dec4 130%)}
+    .scene-one:before,.scene-two:before,.scene-three:before{content:"";position:absolute;width:38vw;height:38vw;min-width:300px;min-height:300px;background:rgba(228,235,190,.35);border-radius:50%;right:10%;top:24%;filter:blur(50px)}
+    .scene-two:before{background:rgba(248,219,163,.35)}.scene-three:before{background:rgba(196,226,166,.35)}
+    .hairline{position:absolute;top:0;bottom:0;left:49%;border-left:1px solid rgba(58,86,60,.06);pointer-events:none}
+    .scene-copy{position:absolute;z-index:7;left:clamp(24px,7vw,130px);top:50%;transform:translateY(-49%);width:min(42vw,570px);pointer-events:none}
+    .eyebrow{font-size:11px;letter-spacing:.22em;font-weight:800;color:#7d9e3b;margin-bottom:26px;display:flex;align-items:center;gap:11px}
+    .eyebrow:before{content:"";display:inline-block;width:27px;height:1px;background:currentColor}
+    h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(55px,6.5vw,116px);letter-spacing:-.075em;line-height:.96;margin:0 0 25px}
+    h1 em{color:#709f43;font-weight:400}
+    .scene-copy p{font-size:clamp(14px,1.13vw,17px);line-height:1.95;color:#577166;max-width:420px;margin:0 0 31px}
+    .scene-copy .script-line{font-family:Georgia,serif;font-style:italic;font-size:clamp(24px,2.7vw,39px);color:#c8835e;line-height:1.3;margin-bottom:18px}
+    .scene-art{position:absolute;right:-1%;top:50%;transform:translateY(-50%);height:min(81svh,780px);width:min(60vw,900px);min-height:420px;display:grid;place-items:center}
+    .scene-art svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 12px 17px rgba(54,58,34,.10))}
+    .scene-art .sway{transform-origin:center;animation:sway 4.8s ease-in-out infinite alternate}
+    .scene-art .sway-slow{transform-origin:center;animation:sway 6.8s ease-in-out infinite alternate-reverse}
+    @keyframes sway{to{transform:rotate(2deg) translateX(3px)}}
+    .fruit-fall{transform-box:fill-box;transform-origin:center;transform:translate(calc(var(--tree-fall)*-135px),calc(var(--tree-fall)*515px)) rotate(calc(var(--tree-fall)*80deg));will-change:transform}
+    .board-fruit{opacity:calc(1 - var(--reveal));transform-box:fill-box;transform-origin:center;transform:translateY(calc((1 - var(--board-drop))*-320px)) rotate(calc((1 - var(--board-drop))*-20deg))}
+    .cut-halves{opacity:var(--reveal)}
+    .half-left{transform-box:fill-box;transform-origin:center;transform:translateX(calc(var(--split)*-80px)) rotate(calc(var(--split)*-14deg))}
+    .half-right{transform-box:fill-box;transform-origin:center;transform:translateX(calc(var(--split)*83px)) rotate(calc(var(--split)*13deg))}
+    .knife-action{transform-box:fill-box;transform-origin:68% 25%;transform:translate(calc(var(--knife-drop)*-52px + var(--knife-out)*280px),calc(var(--knife-drop)*160px - var(--knife-out)*330px)) rotate(calc(var(--knife-drop)*-17deg + var(--knife-out)*28deg))}
+    .salad-slice{opacity:var(--pour);transform-box:fill-box;transform-origin:center;transform:translate(calc(var(--pour)*var(--tx)),calc(var(--pour)*var(--ty))) rotate(calc(var(--pour)*var(--r)))}
+    .pour-bowl{transform-box:fill-box;transform-origin:center;transform:rotate(calc(var(--pour)*-21deg))}
+    .slice-one{--tx:-190px;--ty:268px;--r:110deg}.slice-two{--tx:-118px;--ty:310px;--r:-40deg}.slice-three{--tx:-44px;--ty:350px;--r:70deg}.slice-four{--tx:-245px;--ty:370px;--r:-90deg}.slice-five{--tx:-112px;--ty:405px;--r:145deg}
+    .ghost-label{position:absolute;right:4vw;bottom:6vh;font:700 clamp(70px,15vw,250px)/1 Georgia,serif;letter-spacing:-.07em;color:rgba(21,67,42,.035);user-select:none}
+    .badge-outline{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(32,82,53,.2);border-radius:50px;padding:10px 18px;color:#2f6144;font-size:11px;font-weight:800;letter-spacing:.11em;margin-bottom:22px;background:rgba(255,255,255,.5)}
+    .primary-cta{display:inline-flex;align-items:center;gap:18px;border:0;border-radius:50px;background:#254e36;color:white;padding:15px 23px;text-decoration:none;font-weight:700;font-size:12px;box-shadow:0 10px 22px rgba(31,73,50,.13);pointer-events:auto}
+    .primary-cta:hover{transform:translateY(-2px);background:#3d694b}
+    .scene-counter{position:absolute;left:clamp(24px,7vw,130px);bottom:38px;z-index:15;display:flex;align-items:center;gap:16px;color:#64816d;font-size:11px;font-weight:800;letter-spacing:.16em}
+    .counter-track{width:132px;height:1px;background:#d7dfc9;position:relative}
+    .counter-track:after{content:"";height:2px;background:#2d714d;position:absolute;left:0;top:0;width:calc(var(--p)*100%)}
+    .scroll-tip{position:absolute;right:clamp(18px,5vw,90px);bottom:32px;z-index:15;font-size:10px;letter-spacing:.2em;display:flex;align-items:center;gap:12px;font-weight:800;color:#517561}
+    .scroll-tip i{display:block;width:30px;height:1px;background:#517561}
+    .rail{position:fixed;z-index:50;right:24px;top:48%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px}
+    .rail button{display:flex;justify-content:flex-end;align-items:center;gap:12px;border:0;background:transparent;padding:4px 0;color:#657f6c;opacity:.7;transition:opacity .2s}
+    .rail span{font-size:10px;letter-spacing:.12em;font-weight:800;opacity:0;transition:opacity .2s}
+    .rail b{height:8px;width:8px;display:block;border:1px solid #47734e;border-radius:50%;background:transparent;transition:background .2s,transform .2s}
+    .rail button.active{opacity:1}.rail button.active span{opacity:1}.rail button.active b{background:#46763f;transform:scale(1.45)}
+    .below{padding:110px clamp(22px,7vw,130px) 130px;background:#f6f4e9}
+    .below-kicker{text-transform:uppercase;font-size:11px;letter-spacing:.21em;color:#729351;font-weight:800}
+    .below h2{font:500 clamp(40px,5vw,78px)/1.08 Georgia,serif;letter-spacing:-.065em;margin:14px 0 22px;max-width:750px}
+    .below>p{font-size:15px;line-height:1.9;color:#647567;max-width:650px;margin-bottom:45px}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .product{background:#fffef6;border:1px solid rgba(42,72,40,.1);border-radius:24px;overflow:hidden;min-width:0}
+    .product-visual{height:255px;display:grid;place-items:center;background:#e8eed9;overflow:hidden}
+    .product:nth-child(2) .product-visual{background:#f5eaca}.product:nth-child(3) .product-visual{background:#ebecd8}
+    .product-visual svg{height:85%;max-width:90%;filter:drop-shadow(10px 16px 16px #3247222d)}
+    .product-data{padding:28px 28px 30px}.product-data small{font-size:10px;letter-spacing:.15em;color:#81935e;font-weight:800}
+    .product h3{font:500 27px/1.3 Georgia,serif;margin:9px 0 7px}.product p{font-size:13px;line-height:1.7;color:#758373;min-height:44px}
+    .product button{border:1px solid #2c583d;background:transparent;color:#27523a;padding:12px 19px;border-radius:999px;font-size:12px;font-weight:800;margin-top:10px}
+    .product button:hover{background:#29573b;color:white}
+    .note-bar{margin-top:30px;display:flex;align-items:center;gap:10px;color:#7a877c;font-size:12px}
+    footer{background:#1b422f;color:#f7f6e9;padding:55px clamp(22px,7vw,130px);display:flex;justify-content:space-between;align-items:center;gap:20px}
+    footer strong{font:500 37px Georgia,serif}footer p{font-size:12px;line-height:1.8;color:#b7d2b9}
+    .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,30px);background:#1f4834;color:white;font-size:13px;line-height:1.6;padding:15px 22px;border-radius:14px;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;box-shadow:0 15px 50px #1e362b4d}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .reduced-summary{display:none}
+    @media (max-width:950px){.nav button:not(.nav-shop){display:none}.scene-copy{left:6vw;width:46vw}.scene-art{right:-6%;width:64vw}.rail{right:10px}.scroll-tip{right:22px}.product-grid{gap:12px}.product-visual{height:190px}}
+    @media (max-width:680px){
+      .header{height:66px;padding:0 19px}.brand-name{font-size:20px}.brand-mark{height:33px;width:33px}.brand-sub{display:block;font-size:7px}.brand{min-width:0}.nav{gap:0}.nav .nav-shop{padding:10px 13px;font-size:11px}.global-progress{top:65px}
+      .story{height:370svh}.stage{height:100svh;min-height:520px}.scene-copy{left:22px;top:118px;transform:none;width:calc(100% - 44px)}.scene-copy .eyebrow{margin-bottom:14px;font-size:9px}.scene-copy h1{font-size:clamp(52px,13.5vw,75px);line-height:.96;max-width:330px;margin-bottom:13px}.scene-copy p{max-width:310px;font-size:12px;line-height:1.72;margin-bottom:16px}.scene-copy .script-line{font-size:24px}.badge-outline{font-size:9px;padding:8px 13px;margin-bottom:11px}
+      .scene-art{right:-12%;top:auto;bottom:1%;transform:none;height:55svh;min-height:320px;width:110vw;max-width:none;opacity:.98}.scene-two .scene-art{right:-9%}.scene-three .scene-art{right:-10%;bottom:1%}
+      .primary-cta{font-size:11px;padding:12px 17px}.rail{display:none}.scene-counter{left:22px;bottom:20px;font-size:9px}.counter-track{width:60px}.scroll-tip{display:none}.ghost-label{display:none}.below{padding:75px 20px}.below h2{font-size:45px}.below>p{font-size:13px}.product-grid{grid-template-columns:1fr}.product-visual{height:210px}.product-data{padding:22px}footer{padding:38px 20px;display:block}footer strong{font-size:30px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}.story{height:auto}.stage{height:auto;min-height:0;position:relative}.story-scene{position:relative;inset:auto;min-height:660px;opacity:1!important;pointer-events:auto}.scene-art .sway,.scene-art .sway-slow{animation:none}.scene-counter,.scroll-tip,.rail{display:none}.scene-two .board-fruit{opacity:0}.scene-two .cut-halves{opacity:1}.scene-one .fruit-fall{transform:translate(-135px,220px)}.scene-three .salad-slice{opacity:1;transform:translate(var(--tx),var(--ty))}
+      @media(max-width:680px){.story-scene{min-height:720px}}
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="#story" aria-label="Mae Chawi หน้าแรก">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="27" height="27"><path d="M16 4c6 4 11 10 9 17-2 7-14 9-18 0C4 14 10 8 16 4Z" fill="#b5d67b"/><path d="M16 4c1 9-2 14-6 20" stroke="#224a31" stroke-width="2" fill="none"/><ellipse cx="19" cy="20" rx="3" ry="5" fill="#355e39"/></svg></span>
+      <span><span class="brand-name">Mae Chawi</span><span class="brand-sub">AVOCADO ORCHARD · ไร่แม่ฉวี</span></span>
+    </a>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <button type="button" data-jump="0.01">01 จากต้น</button>
+      <button type="button" data-jump="0.42">02 ผ่าสด</button>
+      <button type="button" data-jump="0.79">03 ลงจาน</button>
+      <a class="nav-shop" href="#products">เลือกซื้ออะโวคาโด ↗</a>
+    </nav>
+  </header>
+  <div class="global-progress" aria-hidden="true"><i></i></div>
+  <main>
+    <section id="story" class="story" aria-label="เรื่องราวจากต้นอะโวคาโดสู่จานสลัด">
+      <div class="stage">
+        <!-- SCENE 01: Fruit drops from a tree -->
+        <article class="story-scene scene-one" id="scene-tree" aria-label="ฉาก 1 อะโวคาโดร่วงจากต้น">
+          <div class="hairline"></div>
+          <div class="scene-copy">
+            <div class="eyebrow">CHAPTER 01 · FROM THE TREE</div>
+            <h1>Fresh from<br><em>the tree.</em></h1>
+            <p>จากกิ่งก้านที่เติบโตตามธรรมชาติ สู่ผลอะโวคาโดที่เต็มไปด้วยความสดใหม่ — ทุกลูกมีเรื่องราวของมัน</p>
+            <a class="primary-cta" href="#products">พบกับอะโวคาโดของเรา <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="scene-art" aria-hidden="true">
+            <svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ภาพต้นอะโวคาโดและผลที่กำลังร่วง">
+              <defs>
+                <linearGradient id="trunk" x1="0" x2="1"><stop stop-color="#5b6e3e"/><stop offset=".45" stop-color="#9b8757"/><stop offset="1" stop-color="#4f693b"/></linearGradient>
+                <radialGradient id="leafGrad"><stop stop-color="#9cc773"/><stop offset=".55" stop-color="#4f8750"/><stop offset="1" stop-color="#24653f"/></radialGradient>
+                <linearGradient id="avoSkin" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#a0b85a"/><stop offset=".38" stop-color="#506e35"/><stop offset="1" stop-color="#1b412c"/></linearGradient>
+                <radialGradient id="avoLight" cx=".28" cy=".22" r=".86"><stop stop-color="#b0cd65"/><stop offset=".48" stop-color="#6c883f"/><stop offset="1" stop-color="#2a4a2e"/></radialGradient>
+                <filter id="leafBlur"><feGaussianBlur stdDeviation="6"/></filter>
+              </defs>
+              <!-- distant leaves -->
+              <g opacity=".3" filter="url(#leafBlur)"><ellipse cx="715" cy="105" rx="245" ry="150" fill="#8aaf66"/><ellipse cx="400" cy="119" rx="205" ry="110" fill="#91b56c"/><ellipse cx="850" cy="300" rx="140" ry="235" fill="#b4ca80"/></g>
+              <!-- sturdy branches -->
+              <path d="M800 790 C772 650 780 525 696 385 C633 283 552 219 442 147 M703 392 C685 258 730 123 840 -5 M670 352 C560 337 428 307 307 182 M772 567 C688 474 568 467 474 437" fill="none" stroke="url(#trunk)" stroke-width="49" stroke-linecap="round"/>
+              <path d="M796 773 Q775 554 709 400 M709 400 Q642 277 457 163" fill="none" stroke="#cfba7a" stroke-opacity=".3" stroke-width="8" stroke-linecap="round"/>
+              <g class="sway-slow">
+                <g fill="url(#leafGrad)">
+                  <ellipse cx="280" cy="110" rx="140" ry="87" transform="rotate(-12 280 110)"/><ellipse cx="432" cy="77" rx="162" ry="93"/><ellipse cx="594" cy="58" rx="175" ry="90"/><ellipse cx="749" cy="91" rx="181" ry="112"/><ellipse cx="860" cy="220" rx="156" ry="134"/><ellipse cx="351" cy="231" rx="174" ry="91" transform="rotate(11 351 231)"/><ellipse cx="531" cy="252" rx="177" ry="97"/><ellipse cx="685" cy="262" rx="169" ry="99"/>
+                </g>
+                <g fill="#acd27b" opacity=".82"><ellipse cx="251" cy="158" rx="22" ry="66" transform="rotate(-65 251 158)"/><ellipse cx="380" cy="95" rx="23" ry="65" transform="rotate(42 380 95)"/><ellipse cx="561" cy="107" rx="23" ry="76" transform="rotate(58 561 107)"/><ellipse cx="660" cy="207" rx="21" ry="69" transform="rotate(-58 660 207)"/><ellipse cx="830" cy="119" rx="22" ry="71" transform="rotate(30 830 119)"/><ellipse cx="403" cy="285" rx="20" ry="57" transform="rotate(-25 403 285)"/></g>
+                <g fill="#255b3c" opacity=".6"><ellipse cx="310" cy="115" rx="18" ry="77" transform="rotate(-48 310 115)"/><ellipse cx="505" cy="38" rx="19" ry="62" transform="rotate(48 505 38)"/><ellipse cx="724" cy="80" rx="22" ry="76" transform="rotate(-61 724 80)"/><ellipse cx="556" cy="262" rx="18" ry="63" transform="rotate(-60 556 262)"/></g>
+              </g>
+              <!-- hanging fruit -->
+              <g><path d="M440 215l-7 49M663 198l-6 66M797 290l2 41" stroke="#51683e" stroke-width="8" stroke-linecap="round"/>
+                <g transform="translate(430 307)"><path d="M0-42 C-49-39-54 19-30 48C-11 72 22 66 37 40C54 10 40-43 0-42Z" fill="url(#avoSkin)"/><path d="M-22-27Q-34 13-23 35" fill="none" stroke="#d9e09b" stroke-opacity=".25" stroke-width="8" stroke-linecap="round"/></g>
+                <g transform="translate(659 308) scale(.81)"><path d="M0-42 C-49-39-54 19-30 48C-11 72 22 66 37 40C54 10 40-43 0-42Z" fill="url(#avoLight)"/></g>
+                <g transform="translate(796 365) scale(.76)"><path d="M0-42 C-49-39-54 19-30 48C-11 72 22 66 37 40C54 10 40-43 0-42Z" fill="url(#avoSkin)"/></g>
+              </g>
+              <!-- falling hero fruit independent of tree -->
+              <g transform="translate(534 236)"><g class="fruit-fall"><path d="M0-56Q-10-71-4-84" stroke="#5c7c3b" stroke-width="9" stroke-linecap="round"/><path d="M0-55 C-62-55-79 32-41 77C-21 101 20 104 45 76C82 30 61-56 0-55Z" fill="url(#avoLight)" stroke="#274a30" stroke-width="5"/><path d="M-27-36Q-53 23-27 67" stroke="#e4e4a5" stroke-width="13" stroke-opacity=".32" stroke-linecap="round" fill="none"/><ellipse cx="8" cy="69" rx="11" ry="6" fill="#254a2c" opacity=".25"/></g></g>
+            </svg>
+          </div>
+          <div class="ghost-label">01</div>
+        </article>
+        <!-- SCENE 02: Hand and blade cut an avocado on a board -->
+        <article class="story-scene scene-two" id="scene-cut" aria-label="ฉาก 2 ผ่าอะโวคาโดบนเขียง" aria-hidden="true">
+          <div class="hairline"></div>
+          <div class="scene-copy">
+            <div class="eyebrow">CHAPTER 02 · FRESHLY CUT</div>
+            <h1>Slice into<br><em>goodness.</em></h1>
+            <p>ผลสุกกำลังดี วางลงบนเขียง ก่อนใช้มีดผ่าอย่างประณีต เผยเนื้อสีเขียวนุ่มและเมล็ดสีน้ำตาล</p>
+            <div class="script-line">Naturally delicious.</div>
+          </div>
+          <div class="scene-art" aria-hidden="true">
+            <svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="boardWood" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8ab73"/><stop offset=".5" stop-color="#c68e5a"/><stop offset="1" stop-color="#9c6740"/></linearGradient>
+                <radialGradient id="avocadoCut" cx=".4" cy=".3"><stop stop-color="#f6f3a4"/><stop offset=".5" stop-color="#deeb7f"/><stop offset=".85" stop-color="#89b44b"/><stop offset="1" stop-color="#47733d"/></radialGradient>
+                <radialGradient id="pit" cx=".3" cy=".3"><stop stop-color="#ba824e"/><stop offset=".56" stop-color="#8e5634"/><stop offset="1" stop-color="#5b321f"/></radialGradient>
+                <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e5edf0"/><stop offset=".55" stop-color="#aab7bd"/><stop offset="1" stop-color="#f8fcfa"/></linearGradient>
+                <linearGradient id="hand" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8d5af"/><stop offset=".6" stop-color="#dca67d"/><stop offset="1" stop-color="#bd7d5e"/></linearGradient>
+              </defs>
+              <!-- board shadow and grain -->
+              <g transform="rotate(-7 485 390)"><rect x="132" y="201" width="676" height="402" rx="57" fill="#4d3820" opacity=".18" transform="translate(5 19)"/><rect x="132" y="196" width="676" height="402" rx="57" fill="url(#boardWood)" stroke="#b27d4f" stroke-width="6"/><rect x="153" y="215" width="634" height="366" rx="40" fill="none" stroke="#f7d7a0" stroke-opacity=".55" stroke-width="5"/><circle cx="748" cy="254" r="22" fill="#92623c" stroke="#dfb781" stroke-width="6"/>
+                <g fill="none" stroke="#82522d" stroke-width="2" opacity=".26"><path d="M187 274C390 235 587 272 727 283"/><path d="M180 327C371 293 559 333 766 316"/><path d="M176 470C368 442 593 464 765 443"/><path d="M193 531C369 495 552 532 748 506"/><path d="M213 557C409 543 534 562 739 548"/></g>
+              </g>
+              <!-- whole fruit drops onto board -->
+              <g transform="translate(470 393)"><g class="board-fruit"><ellipse cx="8" cy="78" rx="120" ry="22" fill="#735b38" opacity=".19"/><path d="M-3-102 C-80-96-111-25-99 47 C-91 101-27 127 36 109 C105 91 123 14 89-50 C70-89 39-102-3-102Z" fill="#3c6137" stroke="#2d482b" stroke-width="8"/><path d="M-32-85 Q-93-16-60 70" fill="none" stroke="#a9bc6f" stroke-width="16" stroke-linecap="round" opacity=".55"/><path d="M-5-98 Q-11-116-1-128" stroke="#547347" stroke-width="10" stroke-linecap="round"/></g></g>
+              <!-- two avocado halves after cut -->
+              <g class="cut-halves">
+                <g transform="translate(430 402) rotate(-8)"><g class="half-left"><ellipse cx="0" cy="102" rx="110" ry="19" fill="#69401f" opacity=".12"/><path d="M0-110C-74-109-109-36-96 35 C-84 104-28 131 25 114 C90 93 113 21 82-51C60-92 37-109 0-110Z" fill="#2f5735" stroke="#3a552b" stroke-width="8"/><path d="M0-94C-65-94-95-27-80 34 C-65 91-18 112 24 95C76 77 92 18 67-44C52-77 25-95 0-94Z" fill="url(#avocadoCut)"/><ellipse cx="0" cy="18" rx="44" ry="54" fill="url(#pit)"/><ellipse cx="-15" cy="-1" rx="11" ry="18" fill="#d5a36b" opacity=".4"/></g></g>
+                <g transform="translate(534 393) rotate(8)"><g class="half-right"><ellipse cx="0" cy="102" rx="108" ry="19" fill="#69401f" opacity=".12"/><path d="M0-108C-72-111-108-29-94 39C-83 105-30 129 22 112 C85 91 112 20 84-50C61-94 36-107 0-108Z" fill="#2f5735" stroke="#3a552b" stroke-width="8"/><path d="M0-91C-57-99-91-21-78 34C-69 91-18 113 23 96C69 78 89 17 67-42C54-77 27-94 0-91Z" fill="url(#avocadoCut)"/><ellipse cx="1" cy="18" rx="45" ry="54" fill="#c8d66b" stroke="#9fb75b" stroke-width="10" opacity=".7"/></g></g>
+              </g>
+              <!-- stylized supporting hand entering from left -->
+              <g opacity=".95"><path d="M45 470C92 470 139 463 190 448 L266 419 Q286 402 308 408 Q326 415 312 436 Q334 430 342 444 Q349 461 323 469L272 497Q195 535 55 536Z" fill="url(#hand)" stroke="#b67f60" stroke-width="4"/><path d="M263 430Q285 428 308 437M249 453Q282 450 312 461" fill="none" stroke="#a66a52" opacity=".6" stroke-width="3"/></g>
+              <!-- animated blade and hand -->
+              <g class="knife-action">
+                <g transform="rotate(24 532 200)"><path d="M491 33Q515 18 540 43L578 121L550 163L505 89Z" fill="url(#hand)" stroke="#bc8d6d" stroke-width="5"/><path d="M515 132L555 118L602 222L571 247Z" fill="#334238" stroke="#23362e" stroke-width="5"/><circle cx="541" cy="152" r="4" fill="#b9c4aa"/><circle cx="566" cy="213" r="4" fill="#b9c4aa"/><path d="M572 240L620 340Q608 371 557 436L529 302Z" fill="url(#metal)" stroke="#859b9e" stroke-width="4"/><path d="M572 240L552 305L569 388" fill="none" stroke="white" stroke-width="5" opacity=".65"/></g>
+              </g>
+            </svg>
+          </div>
+          <div class="ghost-label">02</div>
+        </article>
+        <!-- SCENE 03: sliced avocado pours into salad -->
+        <article class="story-scene scene-three" id="scene-salad" aria-label="ฉาก 3 เทอะโวคาโดสไลซ์ลงจานสลัด" aria-hidden="true">
+          <div class="hairline"></div>
+          <div class="scene-copy">
+            <div class="eyebrow">CHAPTER 03 · READY TO SERVE</div>
+            <div class="badge-outline">FRESH · CREAMY · NATURAL</div>
+            <h1>Made for<br><em>your table.</em></h1>
+            <p>หั่นสไลซ์เป็นชิ้นสวย เทลงจานสลัดที่เตรียมไว้ ได้ทั้งสีสัน ความสดใหม่ และความอร่อยจากธรรมชาติ</p>
+            <a class="primary-cta" href="#products">เลือกซื้อผลสดจากไร่ <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="scene-art" aria-hidden="true">
+            <svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="plateWhite" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white"/><stop offset=".72" stop-color="#eeeede"/><stop offset="1" stop-color="#c5d3b6"/></linearGradient>
+                <linearGradient id="sliceFill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5e99b"/><stop offset=".55" stop-color="#dce77b"/><stop offset="1" stop-color="#8dab54"/></linearGradient>
+              </defs>
+              <!-- table dressing -->
+              <ellipse cx="520" cy="514" rx="296" ry="164" fill="#657b55" opacity=".16"/>
+              <ellipse cx="506" cy="485" rx="300" ry="170" fill="url(#plateWhite)" stroke="#e8e8dc" stroke-width="15"/>
+              <ellipse cx="506" cy="483" rx="258" ry="130" fill="#f2f2e2" stroke="#cbd6ba" stroke-width="8"/>
+              <g opacity=".99">
+                <g fill="#4f8b43" stroke="#38743b" stroke-width="3"><path d="M360 473Q286 396 389 394Q438 401 434 480Z"/><path d="M430 500Q392 365 475 391Q545 429 453 516Z"/><path d="M529 466Q554 371 615 400Q669 454 562 483Z"/><path d="M570 540Q657 490 650 552Q636 608 565 574Z"/><path d="M393 547Q292 520 336 471Q397 455 420 546Z"/><path d="M479 561Q465 483 533 489Q580 524 539 574Z"/></g>
+                <g fill="#a8c86e" opacity=".9"><path d="M340 468Q378 392 423 474Q374 485 340 468Z"/><path d="M499 448Q550 402 578 463Q545 489 499 448Z"/><path d="M562 532Q616 501 621 546Q586 581 562 532Z"/><path d="M393 543Q354 490 427 520Q438 544 393 543Z"/></g>
+                <g fill="none" stroke="#a0c86a" stroke-width="6" stroke-linecap="round"><path d="M360 475l31-37M434 475l23-42M552 462l25-32M389 526l-18-26"/></g>
+                <g fill="#d4db7a" stroke="#7ca366" stroke-width="5"><ellipse cx="340" cy="507" rx="35" ry="16" transform="rotate(-27 340 507)"/><ellipse cx="577" cy="511" rx="40" ry="15" transform="rotate(20 577 511)"/><ellipse cx="510" cy="570" rx="38" ry="15" transform="rotate(-16 510 570)"/></g>
+                <g fill="#ecddaf" opacity=".95"><circle cx="402" cy="457" r="6"/><circle cx="541" cy="509" r="6"/><circle cx="465" cy="565" r="6"/><circle cx="573" cy="551" r="6"/></g>
+              </g>
+              <!-- tilted serving bowl -->
+              <g transform="translate(670 178)"><g class="pour-bowl"><ellipse cx="0" cy="3" rx="137" ry="55" fill="#d6a47b" opacity=".25"/><path d="M-137-12Q-110 125 0 138Q111 121 137-12Z" fill="#ecddbf" stroke="#c9bfa8" stroke-width="7"/><ellipse cx="0" cy="-13" rx="137" ry="52" fill="#fffdf1" stroke="#d4d2c3" stroke-width="8"/><ellipse cx="0" cy="-16" rx="108" ry="35" fill="#bacc82"/><path d="M-65-19Q-8-65 50-17" stroke="#f0eba7" stroke-width="18" fill="none" stroke-linecap="round"/></g></g>
+              <!-- slices have individual independent trajectories -->
+              <g transform="translate(693 173)"><g class="salad-slice slice-one"><path d="M-64-4Q0-87 65-4Q0 68-64-4Z" fill="#3e7642" stroke="#32603b" stroke-width="7"/><path d="M-51-6Q0-66 52-6Q0 48-51-6Z" fill="url(#sliceFill)"/></g></g>
+              <g transform="translate(679 155) scale(.9)"><g class="salad-slice slice-two"><path d="M-64-4Q0-87 65-4Q0 68-64-4Z" fill="#3e7642" stroke="#32603b" stroke-width="7"/><path d="M-51-6Q0-66 52-6Q0 48-51-6Z" fill="url(#sliceFill)"/></g></g>
+              <g transform="translate(692 131) scale(.92)"><g class="salad-slice slice-three"><path d="M-64-4Q0-87 65-4Q0 68-64-4Z" fill="#3e7642" stroke="#32603b" stroke-width="7"/><path d="M-51-6Q0-66 52-6Q0 48-51-6Z" fill="url(#sliceFill)"/></g></g>
+              <g transform="translate(730 147) scale(.85)"><g class="salad-slice slice-four"><path d="M-64-4Q0-87 65-4Q0 68-64-4Z" fill="#3e7642" stroke="#32603b" stroke-width="7"/><path d="M-51-6Q0-66 52-6Q0 48-51-6Z" fill="url(#sliceFill)"/></g></g>
+              <g transform="translate(711 154) scale(.8)"><g class="salad-slice slice-five"><path d="M-64-4Q0-87 65-4Q0 68-64-4Z" fill="#3e7642" stroke="#32603b" stroke-width="7"/><path d="M-51-6Q0-66 52-6Q0 48-51-6Z" fill="url(#sliceFill)"/></g></g>
+              <g fill="none" stroke="#a3b875" stroke-width="3" opacity=".58"><path d="M280 615q120 32 240 8M545 620q53-7 91-36"/></g>
+            </svg>
+          </div>
+          <div class="ghost-label">03</div>
+        </article>
+        <div class="scene-counter"><span id="step-number">01 / 03</span><span class="counter-track"></span><span id="step-name">ORCHARD</span></div>
+        <div class="scroll-tip">SCROLL TO EXPLORE <i></i> ↓</div>
+      </div>
+    </section>
+    <section class="below" id="products">
+      <div class="below-kicker">THE MAE CHAWI COLLECTION</div>
+      <h2>Good food begins<br>with good fruit.</h2>
+      <p>จากสวนของเรา สู่เมนูโปรดของคุณ เลือกอะโวคาโดที่เหมาะกับการรับประทานและสร้างสรรค์เมนูได้ตามใจ ข้อมูลสินค้าเป็นตัวอย่างสำหรับพัฒนาร้านจริง</p>
+      <div class="product-grid">
+        <article class="product"><div class="product-visual"><svg viewBox="0 0 240 210" aria-hidden="true"><path d="M120 21Q112 11 123 4" stroke="#668550" stroke-width="9" stroke-linecap="round" fill="none"/><path d="M120 23C53 17 35 105 64 157Q85 194 133 185C193 177 205 119 179 64Q162 26 120 23Z" fill="#496d37" stroke="#2c5230" stroke-width="6"/><path d="M97 35Q62 79 83 144" stroke="#b0c87a" stroke-width="11" opacity=".5" fill="none" stroke-linecap="round"/></svg></div><div class="product-data"><small>01 · WHOLE FRUIT</small><h3>อะโวคาโดผลสด</h3><p>ผลสดสำหรับนำไปบ่มและสร้างสรรค์เมนูที่บ้าน</p><button type="button" data-order="อะโวคาโดผลสด">สอบถามสินค้า ↗</button></div></article>
+        <article class="product"><div class="product-visual"><svg viewBox="0 0 240 210" aria-hidden="true"><path d="M120 20C38 19 32 100 59 155Q81 193 130 187Q194 174 193 112Q186 28 120 20Z" fill="#315b36" stroke="#31583c" stroke-width="8"/><path d="M120 34C52 34 48 100 74 148Q95 173 130 172Q177 162 178 109Q170 46 120 34Z" fill="#dce885"/><ellipse cx="122" cy="119" rx="32" ry="40" fill="#9a6a41" stroke="#6e4835" stroke-width="5"/><ellipse cx="110" cy="109" rx="9" ry="15" fill="#d3aa77" opacity=".5"/></svg></div><div class="product-data"><small>02 · READY TO EAT</small><h3>อะโวคาโดสุกพร้อมทาน</h3><p>เนื้อนุ่ม เหมาะกับการผ่า ตัก และหั่นสไลซ์</p><button type="button" data-order="อะโวคาโดสุกพร้อมทาน">สอบถามสินค้า ↗</button></div></article>
+        <article class="product"><div class="product-visual"><svg viewBox="0 0 250 210" aria-hidden="true"><ellipse cx="135" cy="168" rx="93" ry="20" fill="#52653a" opacity=".18"/><path d="M84 19C28 17 18 91 48 140Q70 173 102 164Q152 152 144 90Q136 24 84 19Z" fill="#315d38" stroke="#2b5535" stroke-width="7"/><path d="M86 34C42 32 35 91 61 131Q80 154 101 148Q133 139 129 89Q123 41 86 34Z" fill="#cddf7b"/><path d="M169 35C125 28 110 93 134 138Q156 175 196 162Q227 148 224 100Q218 45 169 35Z" fill="#38633a" stroke="#2c5535" stroke-width="7"/><path d="M171 48C135 42 128 98 150 131Q166 158 191 147Q210 137 209 100Q207 58 171 48Z" fill="#dce88d"/><ellipse cx="173" cy="114" rx="21" ry="29" fill="#97643f"/></svg></div><div class="product-data"><small>03 · FOR YOUR RECIPE</small><h3>ชุดอะโวคาโดทำเมนู</h3><p>สำหรับเมนูสลัด สมูทตี้ หรือขนมปังหน้าอะโวคาโด</p><button type="button" data-order="ชุดอะโวคาโดทำเมนู">สอบถามสินค้า ↗</button></div></article>
+      </div>
+      <div class="note-bar">✳ ต้นแบบนี้ยังไม่เชื่อมชำระเงิน และยังไม่มีราคาสินค้าจริง กรุณาแก้ไขข้อมูลร้านก่อนเผยแพร่</div>
+    </section>
+  </main>
+  <aside class="rail" aria-label="ข้ามไปแต่ละฉาก"><button type="button" data-jump="0.04" class="active" aria-label="ไปฉากที่ 1"><span>TREE</span><b></b></button><button type="button" data-jump="0.47" aria-label="ไปฉากที่ 2"><span>CUT</span><b></b></button><button type="button" data-jump="0.83" aria-label="ไปฉากที่ 3"><span>SERVE</span><b></b></button></aside>
+  <footer><div><strong>Mae Chawi.</strong><p>Grown with care. Made for your table.<br>ไร่แม่ฉวี · AVOCADO ORCHARD</p></div><p>ติดต่อร้าน: เพิ่ม LINE / เบอร์โทรจริงในไฟล์ก่อนเปิดขาย<br>© 2026 Mae Chawi — Web animation prototype</p></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    (() => {
+      'use strict';
+      // CONFIGURATION: Add real store links only after verifying them.
+      const STORE = { lineUrl: '' }; // Example: 'https://line.me/R/ti/p/@YOUR_ID'
+      const root = document.documentElement;
+      const story = document.getElementById('story');
+      const scenes = [...document.querySelectorAll('.story-scene')];
+      const rail = [...document.querySelectorAll('.rail button')];
+      const railRoot = document.querySelector('.rail');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+      const clamp = n => Math.min(1, Math.max(0, n));
+      const smooth = (a,b,x) => { const t = clamp((x-a)/(b-a)); return t*t*(3-2*t); };
+      let scheduled = false; let activeScene = -1;
+      function draw() {
+        scheduled = false;
+        if(reduced.matches) return;
+        const rect = story.getBoundingClientRect();
+        const available = Math.max(1, story.offsetHeight - window.innerHeight);
+        const p = clamp(-rect.top / available);
+        const storyVisible = rect.top < innerHeight && rect.bottom > innerHeight*0.35;
+        railRoot.style.opacity = storyVisible ? '1' : '0';
+        railRoot.style.pointerEvents = storyVisible ? 'auto' : 'none';
+        const a = clamp(p / .32);
+        const b = clamp((p - .31) / .35);
+        const c = clamp((p - .66) / .34);
+        const o1 = 1 - smooth(.25,.36,p);
+        const o2 = smooth(.27,.36,p) * (1-smooth(.61,.72,p));
+        const o3 = smooth(.63,.72,p);
+        root.style.setProperty('--p', p.toFixed(4));
+        root.style.setProperty('--tree-fall', smooth(.24,.89,a).toFixed(4));
+        root.style.setProperty('--board-drop', smooth(.04,.35,b).toFixed(4));
+        root.style.setProperty('--knife-drop', smooth(.36,.58,b).toFixed(4));
+        root.style.setProperty('--reveal', smooth(.59,.67,b).toFixed(4));
+        root.style.setProperty('--split', smooth(.69,.92,b).toFixed(4));
+        root.style.setProperty('--knife-out', smooth(.66,.88,b).toFixed(4));
+        root.style.setProperty('--pour', smooth(.13,.92,c).toFixed(4));
+        [o1,o2,o3].forEach((op,i) => {
+          scenes[i].style.opacity = op.toFixed(3);
+          scenes[i].style.pointerEvents = op>.6?'auto':'none';
+          scenes[i].setAttribute('aria-hidden', op>.5?'false':'true');
+        });
+        const sceneIndex = o3>.5?2:o2>.5?1:0;
+        if(sceneIndex!==activeScene){
+          activeScene=sceneIndex;
+          document.getElementById('step-number').textContent=`0${sceneIndex+1} / 03`;
+          document.getElementById('step-name').textContent=['ORCHARD','PREPARE','SERVE'][sceneIndex];
+          rail.forEach((btn,i) => btn.classList.toggle('active',i===sceneIndex));
+        }
+      }
+      function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(draw)}}
+      function jump(progress){
+        const top=story.getBoundingClientRect().top+window.scrollY;
+        const max=Math.max(1,story.offsetHeight-window.innerHeight);
+        window.scrollTo({top:top+max*progress,behavior:reduced.matches?'instant':'smooth'});
+      }
+      document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>jump(Number(btn.dataset.jump))));
+      addEventListener('scroll',schedule,{passive:true});
+      addEventListener('resize',schedule,{passive:true});
+      if(reduced.addEventListener)reduced.addEventListener('change',schedule);
+      function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),3500)}
+      document.querySelectorAll('[data-order]').forEach(btn => btn.addEventListener('click',async()=>{
+        const item=btn.dataset.order;
+        if(STORE.lineUrl){window.open(STORE.lineUrl,'_blank','noopener,noreferrer');return}
+        const message=`สวัสดีค่ะ/ครับ สนใจสอบถามสินค้า: ${item} จากร้าน Mae Chawi`;
+        try { await navigator.clipboard.writeText(message); toast('คัดลอกข้อความสอบถามสินค้าแล้ว · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl'); }
+        catch(e){toast('สนใจ: '+item+' · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl')}
+      }));
+      // Refresh after DOM has layout; supports backward/forward navigation and deep links.
+      schedule();requestAnimationFrame(schedule);addEventListener('load',schedule,{once:true});
+    })();
+  </script>
+</body>
+</html>
