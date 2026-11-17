@@ -20,10 +20,13 @@ $mimeTypes = @{
 while ($true) {
     try {
         $client = $listener.AcceptTcpClient()
+        $client.ReceiveTimeout = 3000
+        $client.SendTimeout = 3000
         $stream = $client.GetStream()
         $reader = New-Object System.IO.StreamReader($stream, [System.Text.Encoding]::ASCII, $false, 1024, $true)
         $requestLine = $reader.ReadLine()
         if ($null -ne $requestLine) {
+            $method = ($requestLine -split ' ')[0].ToUpper()
             while (($headerLine = $reader.ReadLine()) -ne "") {
                 if ($null -eq $headerLine) { break }
             }
@@ -38,22 +41,26 @@ while ($true) {
             if (Test-Path -LiteralPath $filePath -PathType Leaf) {
                 $ext = [System.IO.Path]::GetExtension($filePath).ToLower()
                 $contentType = if ($mimeTypes.ContainsKey($ext)) { $mimeTypes[$ext] } else { "application/octet-stream" }
-                $body = [System.IO.File]::ReadAllBytes($filePath)
-                $header = "HTTP/1.1 200 OK`r`nContent-Type: $contentType`r`nContent-Length: $($body.Length)`r`nCache-Control: no-cache`r`nConnection: close`r`n`r`n"
+                $fileBytes = [System.IO.File]::ReadAllBytes($filePath)
+                $header = "HTTP/1.1 200 OK`r`nContent-Type: $contentType`r`nContent-Length: $($fileBytes.Length)`r`nCache-Control: no-cache`r`nConnection: close`r`n`r`n"
                 $headerBytes = [System.Text.Encoding]::ASCII.GetBytes($header)
                 $stream.Write($headerBytes, 0, $headerBytes.Length)
-                $stream.Write($body, 0, $body.Length)
+                if ($method -ne "HEAD") {
+                    $stream.Write($fileBytes, 0, $fileBytes.Length)
+                }
             } else {
                 $body = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found: $urlPath")
                 $header = "HTTP/1.1 404 Not Found`r`nContent-Type: text/plain; charset=utf-8`r`nContent-Length: $($body.Length)`r`nConnection: close`r`n`r`n"
                 $headerBytes = [System.Text.Encoding]::ASCII.GetBytes($header)
                 $stream.Write($headerBytes, 0, $headerBytes.Length)
-                $stream.Write($body, 0, $body.Length)
+                if ($method -ne "HEAD") {
+                    $stream.Write($body, 0, $body.Length)
+                }
             }
         }
         $stream.Close()
         $client.Close()
     } catch {
-        # Ignore transient socket disconnects
+        # Catch and continue on socket errors/timeouts
     }
 }
