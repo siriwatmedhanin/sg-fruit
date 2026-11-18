@@ -1,11 +1,11 @@
 ---
-name: mae-chawi-avocado-scroll
-description: Comprehensive skill documentation and technical reference for Mae Chawi – AVOCADO ORCHARD scrollytelling website (Step 1–6, Cinematic Zoom Transition, GSAP ScrollTrigger timeline, layer geometry, scale calibration, and reverse-scroll guarantees).
+name: sg-fruit-seasonal-scroll
+description: Comprehensive skill documentation and technical reference for SG FRUIT – เอสจี ผลไม้ตามฤดูกาล scrollytelling website (Step 1–6, Cinematic Zoom Transition, GSAP ScrollTrigger timeline, layer geometry, scale calibration, and reverse-scroll guarantees).
 ---
 
-# Mae Chawi – AVOCADO ORCHARD (Scrollytelling Master Skill & Architecture Guide)
+# SG FRUIT – เอสจี ผลไม้ตามฤดูกาล (Scrollytelling Master Skill & Architecture Guide)
 
-เอกสาร Skill นี้บันทึกสถาปัตยกรรมโครงสร้างเว็บไซต์ พิกัดเรขาคณิต การปรับจูนสเกลภาพ และการตั้งค่า **GSAP + ScrollTrigger** ทั้งหมดของโปรเจกต์ **Mae Chawi – AVOCADO ORCHARD** (`F:\Khet\งานส่วนตัว\mae-chawi-website\index.html`) ครอบคลุมการทำงานตั้งแต่ Step 1 ถึง Step 6 และ Cinematic Zoom Transition อย่างสมบูรณ์ 100%
+เอกสาร Skill นี้บันทึกสถาปัตยกรรมโครงสร้างเว็บไซต์ พิกัดเรขาคณิต การปรับจูนสเกลภาพ การตั้งค่าแบรนด์ **SG FRUIT (เอสจี ผลไม้ตามฤดูกาล)** โลโก้ `Pic/Logo ตัวนูน-02.png` และการตั้งค่า **GSAP + ScrollTrigger** ทั้งหมดของโปรเจกต์ (`F:\Khet\งานส่วนตัว\mae-chawi-website\index.html`) ครอบคลุมการทำงานตั้งแต่ Step 1 ถึง Step 6 และ Cinematic Zoom Transition อย่างสมบูรณ์ 100%
 
 ---
 

@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#f7f5e9" />
-  <meta name="description" content="Mae Chawi – AVOCADO ORCHARD | เรื่องราวอะโวคาโดสดจากไร่แม่ฉวี (Step 1–5: จากต้นอะโวคาโด ร่วงตามแรงโน้มถ่วง ตกลงเขียง ผ่าครึ่ง และสไลซ์บนเขียง)" />
-  <title>Mae Chawi – AVOCADO ORCHARD | ไร่แม่ฉวี</title>
+  <meta name="description" content="SG FRUIT – เอสจี ผลไม้ตามฤดูกาล | คัดสรรผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพสดใหม่ทุกวัน" />
+  <title>SG FRUIT | เอสจี ผลไม้ตามฤดูกาล</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
@@ -82,29 +82,38 @@
     }
 
     .brand-mark {
-      width: 38px;
-      height: 38px;
-      background: var(--forest);
-      border-radius: 50% 50% 46% 46%;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(33, 77, 52, 0.14);
+      border-radius: 50%;
       display: grid;
       place-items: center;
-      color: #eff5c3;
       flex: none;
-      box-shadow: 0 6px 16px rgba(33, 77, 52, 0.22);
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(33, 77, 52, 0.14);
+    }
+
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transform: scale(1.26);
     }
 
     .brand-name {
       display: block;
       font: 700 26px/1 "Cormorant Garamond", Georgia, serif;
-      letter-spacing: -0.02em;
+      letter-spacing: 0.02em;
       color: var(--ink);
     }
 
     .brand-sub {
       display: block;
-      font-size: 9.5px;
-      letter-spacing: 0.16em;
-      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
       margin-top: 4px;
       color: var(--ink-soft);
     }
@@ -280,7 +289,6 @@
       left: 0;
       top: 0;
       width: 100%;
-      transform: translateY(-50%);
       opacity: 0;
       will-change: transform, opacity;
       pointer-events: none;
@@ -343,21 +351,29 @@
       font-style: italic;
     }
 
+    .scene-copy .step-highlight {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 700;
+      color: var(--forest);
+      letter-spacing: 0.01em;
+      margin: -8px 0 12px;
+    }
+
     .scene-copy p {
       font-size: clamp(14px, 1.08vw, 16.5px);
       line-height: 1.85;
       color: var(--muted);
       max-width: 440px;
-      margin: 0 0 26px;
+      margin: 0 0 16px;
     }
 
     .scene-copy .script-line {
       font-family: "Cormorant Garamond", Georgia, serif;
       font-style: italic;
-      font-size: clamp(24px, 2.4vw, 34px);
+      font-size: clamp(22px, 2.2vw, 31px);
       color: var(--wood);
       line-height: 1.25;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     .primary-cta {
@@ -1289,6 +1305,19 @@
       gap: 20px;
     }
 
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-brand-mark {
+      width: 52px;
+      height: 52px;
+      background: #f7f5e9;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
     footer strong {
       font: 600 36px/1 "Cormorant Garamond", Georgia, serif;
     }
@@ -1410,7 +1439,7 @@
       }
       .copy-stack {
         left: 20px;
-        top: 218px;
+        top: 242px;
         transform: none;
         width: calc(100% - 40px);
       }
@@ -1425,19 +1454,23 @@
       }
       .scene-copy h1,
       .scene-copy h2.step-title {
-        font-size: clamp(34px, 9.5vw, 46px);
+        font-size: clamp(32px, 9.0vw, 44px);
         line-height: 0.96;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+      }
+      .scene-copy .step-highlight {
+        font-size: 13px;
+        margin: -2px 0 4px;
       }
       .scene-copy p {
-        font-size: 12px;
-        line-height: 1.55;
-        margin-bottom: 10px;
+        font-size: 11.8px;
+        line-height: 1.5;
+        margin-bottom: 6px;
         max-width: 96%;
       }
       .scene-copy .script-line {
-        font-size: 18px;
-        margin-bottom: 6px;
+        font-size: 16.5px;
+        margin-bottom: 8px;
       }
       .primary-cta {
         font-size: 11px;
@@ -1508,27 +1541,23 @@
 </head>
 <body>
   <header class="header">
-    <a class="brand" href="#story" aria-label="Mae Chawi หน้าแรก">
+    <a class="brand" href="#story" aria-label="SG FRUIT เอสจี ผลไม้ตามฤดูกาล หน้าแรก">
       <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" width="24" height="24">
-          <path d="M16 4c6 4 11 10 9 17-2 7-14 9-18 0C4 14 10 8 16 4Z" fill="#b5d67b"/>
-          <path d="M16 4c1 9-2 14-6 20" stroke="#224a31" stroke-width="2" fill="none"/>
-          <ellipse cx="19" cy="20" rx="3" ry="5" fill="#355e39"/>
-        </svg>
+        <img class="brand-logo-img" src="Pic/Logo ตัวนูน-02.png" alt="SG FRUIT Logo" width="44" height="44" />
       </span>
       <span>
-        <span class="brand-name">Mae Chawi</span>
-        <span class="brand-sub">AVOCADO ORCHARD · ไร่แม่ฉวี</span>
+        <span class="brand-name">SG FRUIT</span>
+        <span class="brand-sub">เอสจี ผลไม้ตามฤดูกาล</span>
       </span>
     </a>
     <nav class="nav" aria-label="เมนูหลัก">
-      <button type="button" data-jump="0.00" class="is-active">01 ต้นอะโวคาโด</button>
+      <button type="button" data-jump="0.00" class="is-active">01 เริ่มต้นความสด</button>
       <button type="button" data-jump="0.133">02 ผลร่วงจากต้น</button>
       <button type="button" data-jump="0.317">03 ตกลงบนเขียง</button>
       <button type="button" data-jump="0.433">04 แยกออกเป็น 2 ซีก</button>
       <button type="button" data-jump="0.577">05 สไลซ์บนเขียง</button>
       <button type="button" data-jump="0.727">06 จานสลัด</button>
-      <a class="nav-shop" href="#products">เลือกซื้ออะโวคาโด ↗</a>
+      <a class="nav-shop" href="#products">เลือกซื้อผลไม้ตามฤดูกาล ↗</a>
     </nav>
   </header>
 
@@ -1536,7 +1565,7 @@
 
   <main>
     <!-- STICKY GSAP SCROLLTRIGGER STORYTELLING: STEP 1 TO STEP 6 & CINEMATIC ZOOM -->
-    <section id="story" class="story" aria-label="เรื่องราวอะโวคาโดไร่แม่ฉวี Step 1 ถึง Step 6 และ Cinematic Zoom">
+    <section id="story" class="story" aria-label="เรื่องราวความสดตามฤดูกาล SG FRUIT · เอสจี ผลไม้ตามฤดูกาล Step 1 ถึง Step 6 และ Cinematic Zoom">
       <div class="stage" id="stage">
         <div class="bg-stack" aria-hidden="true">
           <div class="bg-layer bg-step-1" id="bg-step-1"></div>
@@ -1550,8 +1579,8 @@
         <div class="ambient-orb" id="ambient-orb" aria-hidden="true"></div>
         <div class="hairline" aria-hidden="true"></div>
 
-        <!-- STEP 1: CINEMATIC MOUNTAIN ORCHARD SCENERY (REBUILT FROM SEPARATED LAYERS) -->
-        <div class="step1-scenery" id="step1-scenery" aria-label="ฉากสวนอะโวคาโดบนภูเขา Step 1">
+        <!-- STEP 1: CINEMATIC MOUNTAIN SCENERY (REBUILT FROM SEPARATED LAYERS) -->
+        <div class="step1-scenery" id="step1-scenery" aria-label="ฉากเริ่มต้นเรื่องราวความสดตามฤดูกาล Step 1">
           <div class="step1-canvas-stage">
             <div class="step1-stage-content" id="step1-stage-content">
               <!-- Mountain Background -->
@@ -1561,7 +1590,7 @@
               <!-- Shared Tree & Branch Motion Group -->
               <div class="step1-tree-motion-group" id="step1-tree-motion-group">
                 <!-- Avocado Tree (Hero Subject) -->
-                <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดไร่แม่ฉวี" />
+                <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดจุดเริ่มต้นความสดตามฤดูกาล SG FRUIT" />
                 <!-- Hanging Fruit 01 (Right upper branch) -->
                 <img class="step1-fruit-h01" src="public/assets/step1/step1-avocado-hanging-01.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 1" />
                 <!-- Hanging Fruit 02 (Right lower branch) -->
@@ -1579,12 +1608,14 @@
         <!-- LEFT EDITORIAL COPY STACK -->
         <div class="copy-stack">
           <!-- STEP 1 COPY -->
-          <article class="scene-copy is-interactive" id="copy-step-1" aria-label="Step 1 เปิดหน้าแรกด้วยต้นอะโวคาโด">
-            <div class="eyebrow">STEP 01 · THE ORCHARD TREE</div>
-            <div class="badge-outline">MAE CHAWI · ไร่แม่ฉวี อะโวคาโดออร์แกนิก</div>
-            <h1>Fresh from<br><em>the tree.</em></h1>
-            <p>เปิดเรื่องราวจากต้นอะโวคาโดในไร่แม่ฉวี ผลอะโวคาโดสดห้อยอยู่บนกิ่งไม้ เติบโตตามธรรมชาติท่ามกลางสายลมและแสงแดดอ่อน รอจังหวะสุกพร้อมเก็บเกี่ยว</p>
-            <a class="primary-cta" href="#products">พบกับอะโวคาโดของเรา <span aria-hidden="true">↗</span></a>
+          <article class="scene-copy is-interactive" id="copy-step-1" aria-label="Step 1 เริ่มต้นเรื่องราวความสดตามฤดูกาล SG FRUIT">
+            <div class="eyebrow">STEP 01 · THE SEASON BEGINS</div>
+            <div class="badge-outline">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</div>
+            <h1>Fresh from<br><em>the season.</em></h1>
+            <div class="step-highlight">เริ่มต้นจากความสด</div>
+            <p>เปิดเรื่องราวของวัตถุดิบสดประจำฤดูกาล ผ่านหนึ่งในผลไม้ที่โดดเด่นอย่างอะโวคาโด ก่อนส่งต่อไปสู่ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพ ที่เราคัดสรรมาเพื่อทุกมื้อของคุณ</p>
+            <div class="script-line">From seasonal freshness to everyday selection.</div>
+            <a class="primary-cta" href="#products">เลือกชมผลไม้ตามฤดูกาล <span aria-hidden="true">↗</span></a>
           </article>
 
           <!-- STEP 2 COPY -->
@@ -1627,13 +1658,13 @@
             <div class="eyebrow">STEP 06 · THE SALAD BOWL</div>
             <div class="badge-outline">CULINARY PERFECTION · READY TO SERVE</div>
             <h2 class="step-title">Served in<br><em>fresh perfection.</em></h2>
-            <p>ชิ้นอะโวคาโดสไลซ์สดใหม่จัดวางลงบนจานสลัดอย่างประณีต เข้าคู่กับผักสดกรอบและน้ำสลัดสูตรพิเศษ เผยความสดและคุณค่าทางอาหารจากไร่สู่จานอาหารของคุณ</p>
-            <div class="script-line">From our orchard branches to your table.</div>
+            <p>ชิ้นอะโวคาโดสไลซ์สดใหม่จัดวางลงบนจานสลัดอย่างประณีต เข้าคู่กับผักสดกรอบและวัตถุดิบคุณภาพ เผยความสดและคุณค่าทางอาหารที่เราคัดสรรสู่จานอาหารของคุณ</p>
+            <div class="script-line">From seasonal selection to your table.</div>
           </article>
         </div>
 
         <!-- RIGHT VISUAL STAGE (1:1 COORDINATE SYSTEM FOR DESKTOP & MOBILE) -->
-        <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันต้นอะโวคาโด เขียงไม้ การแยกสองซีก และสไลซ์บนเขียง">
+        <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันเรื่องราวความสดตามฤดูกาล SG FRUIT">
           <!-- STEP 2: GRAVITY FALL AMBIANCE LAYER (UNCHANGED) -->
           <div class="fall-layer" id="fall-layer" aria-hidden="true">
             <svg class="wind-lines" viewBox="0 0 800 800" fill="none">
@@ -1687,7 +1718,7 @@
                       class="hero-avocado-img"
                       id="hero-avocado"
                       src="public/assets/step1/avocado-whole.png"
-                      alt="ลูกอะโวคาโดไร่แม่ฉวีลูกเดียวกันตลอดทั้งฉาก"
+                      alt="ลูกอะโวคาโดสดลูกเดียวกันตลอดทั้งฉาก"
                       width="2000"
                       height="1695"
                     />
@@ -1754,7 +1785,7 @@
               class="salad-img"
               id="salad-img"
               src="Pic/salad-plate.png"
-              alt="จานสลัดอะโวคาโดสดไร่แม่ฉวีพร้อมเสิร์ฟ"
+              alt="จานสลัดผักและอะโวคาโดสดพร้อมเสิร์ฟ"
               width="2000"
               height="1333"
             />
@@ -1764,15 +1795,15 @@
         <!-- CINEMATIC ZOOM TARGET: NEXT SECTION EDITORIAL BRAND OVERLAY -->
         <div class="next-section-layer" id="next-section-layer" aria-hidden="true">
           <div class="next-section-inner">
-            <span class="next-section-badge">ORCHARD TO TABLE · ไร่แม่ฉวี</span>
-            <h2 class="next-title">Savor the pure taste<br>of <em>organic living.</em></h2>
-            <p class="next-desc">ทุกผลผลิตจากไร่แม่ฉวีผ่านการดูแลอย่างพิถีพิถัน ปลูกด้วยวิถีธรรมชาติ เพื่อส่งมอบคุณภาพและรสชาติที่แท้จริงสู่จานโปรดของคุณ</p>
+            <span class="next-section-badge">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</span>
+            <h2 class="next-title">From seasonal freshness<br>to <em>everyday selection.</em></h2>
+            <p class="next-desc">คัดสรรผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพด้วยความใส่ใจในทุกวัน เพื่อส่งมอบความสดใหม่และรสชาติที่ดีที่สุดสู่ทุกมื้อของคุณ</p>
             <div class="next-actions">
-              <a class="next-cta-primary" href="#products">เลือกซื้อผลสดจากไร่ <span aria-hidden="true">↗</span></a>
+              <a class="next-cta-primary" href="#products">เลือกชมผลไม้และผักสด <span aria-hidden="true">↗</span></a>
               <button type="button" class="next-cta-secondary" data-jump="0.00">ชมเรื่องราวอีกครั้ง ↺</button>
             </div>
             <div class="next-scroll-prompt">
-              <span></span> SCROLL DOWN TO EXPLORE PRODUCTS <span></span>
+              <span></span> SCROLL DOWN TO EXPLORE SELECTION <span></span>
             </div>
           </div>
         </div>
@@ -1783,7 +1814,7 @@
         <div class="scene-counter" aria-live="polite">
           <span id="step-number">01 / 06</span>
           <span class="counter-track"></span>
-          <span id="step-name">ORCHARD TREE</span>
+          <span id="step-name">THE SEASON BEGINS</span>
           <span class="progress-pill" id="step-progress-pct">0%</span>
         </div>
 
@@ -1793,77 +1824,77 @@
       </div>
     </section>
 
-    <!-- BELOW THE FOLD: PHASE 1-5 COMPLETION & COLLECTION -->
+    <!-- BELOW THE FOLD: SEASONAL FRUIT & VEGETABLE SELECTION -->
     <section class="below" id="products">
-      <div class="phase-banner" aria-label="สถานะการพัฒนาโปรเจกต์">
+      <div class="phase-banner" aria-label="ข้อมูลการคัดสรรสินค้า SG FRUIT">
         <div class="phase-banner-info">
-          <div class="below-kicker">DEVELOPMENT MILESTONE · STEP 1–6 &amp; CINEMATIC ZOOM ACTIVE</div>
-          <h3>Step 1–6 และ Cinematic Zoom Transition พัฒนาสมบูรณ์ด้วย GSAP ScrollTrigger พร้อมเปิดฉาก Next Section แบบเต็มหน้าจอ</h3>
+          <div class="below-kicker">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</div>
+          <h3>ศูนย์รวมผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักสดคุณภาพ คัดสรรสดใหม่เพื่อทุกมื้อของคุณ</h3>
           <p>
-            รักษาดีไซน์และแอนิเมชันของ Step 1–5 ไว้ครบถ้วน 100% พร้อม Step 6 (ชิ้นอะโวคาโดเทลงจานสลัดจนแสดงจานสลัดสมบูรณ์) และ Cinematic Zoom Transition (ซูมเข้าสู่จุดกึ่งกลางของจานสลัดอย่างนุ่มนวล พร้อม Crossfade เข้าสู่หน้าแบรนด์ถัดไปอย่างต่อเนื่องและเลื่อนย้อนกลับได้)
+            เริ่มต้นเรื่องราวความสดจากอะโวคาโดหนึ่งผล ก่อนเชื่อมต่อไปสู่โลกของผลไม้ตามฤดูกาล ผลไม้นำเข้า ผลไม้ไทย และผักคุณภาพ ที่ SG FRUIT คัดสรรมาอย่างตั้งใจในทุกวัน
           </p>
         </div>
         <div class="phase-steps-pills">
-          <span class="phase-pill done">✓ Step 1: ต้นอะโวคาโด</span>
-          <span class="phase-pill done">✓ Step 2: ร่วงตามแรงโน้มถ่วง</span>
-          <span class="phase-pill done">✓ Step 3: ตกเขียง &amp; เด้งเบาๆ</span>
-          <span class="phase-pill done">✓ Step 4: แยกออกเป็น 2 ซีก</span>
-          <span class="phase-pill done">✓ Step 5: อะโวคาโดสไลซ์บนเขียง</span>
-          <span class="phase-pill done">✓ Step 6: เทลงจานสลัด &amp; Zoom</span>
+          <span class="phase-pill done">✓ ผลไม้ตามฤดูกาล</span>
+          <span class="phase-pill done">✓ ผลไม้ไทยคัดเกรด</span>
+          <span class="phase-pill done">✓ ผลไม้นำเข้าพรีเมียม</span>
+          <span class="phase-pill done">✓ ผักสดและสลัดคุณภาพ</span>
+          <span class="phase-pill done">✓ คัดความสดใหม่ทุกวัน</span>
+          <span class="phase-pill done">✓ พร้อมส่งถึงบ้านคุณ</span>
         </div>
       </div>
 
-      <div class="below-kicker">THE MAE CHAWI COLLECTION</div>
-      <h2>Good food begins<br>with good fruit.</h2>
-      <p>จากสวนของเรา สู่เมนูโปรดของคุณ เลือกอะโวคาโดที่เหมาะกับการรับประทานและสร้างสรรค์เมนูได้ตามใจ ข้อมูลสินค้าด้านล่างเป็นตัวอย่างสำหรับพัฒนาร้านจริง</p>
+      <div class="below-kicker">SG FRUIT · SEASONAL SELECTION</div>
+      <h2>Fresh from the season<br>for every meal.</h2>
+      <p>จากความสดตามฤดูกาล สู่ทุกมื้อโปรดของคุณ เลือกผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพที่เหมาะกับการรับประทานและสร้างสรรค์เมนูได้ตามใจ</p>
 
       <div class="product-grid">
         <article class="product">
           <div class="product-visual">
-            <img src="Pic/avocado-whole.png.png" alt="อะโวคาโดผลสดไร่แม่ฉวี" loading="lazy" width="2000" height="1695" />
+            <img src="Pic/avocado-whole.png.png" alt="ผลไม้ตามฤดูกาลและผลไม้นำเข้า SG FRUIT" loading="lazy" width="2000" height="1695" />
           </div>
           <div class="product-data">
-            <small>01 · WHOLE FRUIT</small>
-            <h3>อะโวคาโดผลสด</h3>
-            <p>ผลสดเก็บเกี่ยวจากต้น สำหรับนำไปบ่มและสร้างสรรค์เมนูสุขภาพที่บ้าน</p>
-            <button type="button" data-order="อะโวคาโดผลสด">สอบถามสินค้า ↗</button>
+            <small>01 · SEASONAL &amp; IMPORTED FRUITS</small>
+            <h3>ผลไม้ตามฤดูกาลและนำเข้า</h3>
+            <p>คัดสรรผลไม้สดประจำฤดูกาล ทั้งอะโวคาโด ผลไม้ไทย และผลไม้นำเข้าคุณภาพดีในทุกวัน</p>
+            <button type="button" data-order="ผลไม้ตามฤดูกาลและผลไม้นำเข้า">สอบถามสินค้า ↗</button>
           </div>
         </article>
 
         <article class="product">
           <div class="product-visual">
-            <img src="Pic/avocado-halves.png.png" alt="อะโวคาโดสุกพร้อมทาน" loading="lazy" width="2000" height="1538" />
+            <img src="Pic/avocado-halves.png.png" alt="ผลไม้คัดพิเศษพร้อมทาน SG FRUIT" loading="lazy" width="2000" height="1538" />
           </div>
           <div class="product-data">
-            <small>02 · READY TO EAT</small>
-            <h3>อะโวคาโดสุกพร้อมทาน</h3>
-            <p>เนื้อเนียนนุ่มมันกำลังดี เหมาะกับการผ่า ตักทานสด และหั่นสไลซ์</p>
-            <button type="button" data-order="อะโวคาโดสุกพร้อมทาน">สอบถามสินค้า ↗</button>
+            <small>02 · READY TO ENJOY</small>
+            <h3>ผลไม้คัดพิเศษพร้อมทาน</h3>
+            <p>คัดระดับความสุกและความสดใหม่พอดีสำหรับรับประทานสด หรือจัดเซ็ตผลไม้ประจำวัน</p>
+            <button type="button" data-order="ผลไม้คัดพิเศษพร้อมทาน">สอบถามสินค้า ↗</button>
           </div>
         </article>
 
         <article class="product">
           <div class="product-visual">
-            <img src="Pic/avocado-slices.png.png" alt="ชุดอะโวคาโดทำเมนูสลัด" loading="lazy" width="2000" height="2000" />
+            <img src="Pic/avocado-slices.png.png" alt="ผักสดคุณภาพและชุดสลัด SG FRUIT" loading="lazy" width="2000" height="2000" />
           </div>
           <div class="product-data">
-            <small>03 · FOR YOUR RECIPE</small>
-            <h3>ชุดอะโวคาโดทำเมนู</h3>
-            <p>คัดพิเศษสำหรับเมนูสลัด สมูทตี้ หรือโทสต์หน้าอะโวคาโด</p>
-            <button type="button" data-order="ชุดอะโวคาโดทำเมนู">สอบถามสินค้า ↗</button>
+            <small>03 · FRESH VEGETABLES &amp; SALAD</small>
+            <h3>ผักสดและวัตถุดิบเมนูสุขภาพ</h3>
+            <p>ผักสดสะอาดและวัตถุดิบคุณภาพ คัดพิเศษสำหรับเมนูสลัด สมูทตี้ และมื้ออาหารของครอบครัว</p>
+            <button type="button" data-order="ผักสดและวัตถุดิบเมนูสุขภาพ">สอบถามสินค้า ↗</button>
           </div>
         </article>
       </div>
 
       <div class="note-bar">
-        ✳ ต้นแบบนี้แสดงผล Step 1–5 ตามข้อกำหนด และยังไม่เชื่อมระบบชำระเงินจริง กรุณาระบุ LINE Official ของร้านใน <code>STORE.lineUrl</code> ก่อนเปิดใช้งานจริง
+        ✳ กรุณาระบุลิงก์ LINE Official ของร้าน SG FRUIT (เอสจี ผลไม้ตามฤดูกาล) ใน <code>STORE.lineUrl</code> ก่อนเปิดใช้งานระบบสั่งซื้อจริง
       </div>
     </section>
   </main>
 
   <aside class="rail" aria-label="ข้ามไปแต่ละช่วงของ Step 1–6">
-    <button type="button" data-jump="0.00" class="active" aria-label="ไป Step 1 ต้นอะโวคาโด">
-      <span>01 TREE</span><b></b>
+    <button type="button" data-jump="0.00" class="active" aria-label="ไป Step 1 เริ่มต้นความสด">
+      <span>01 SEASON</span><b></b>
     </button>
     <button type="button" data-jump="0.133" aria-label="ไป Step 2 ผลร่วงตามแรงโน้มถ่วง">
       <span>02 FALL</span><b></b>
@@ -1883,11 +1914,16 @@
   </aside>
 
   <footer>
-    <div>
-      <strong>Mae Chawi.</strong>
-      <p>Grown with care. Made for your table.<br>ไร่แม่ฉวี · AVOCADO ORCHARD</p>
+    <div class="footer-brand">
+      <span class="brand-mark footer-brand-mark" aria-hidden="true">
+        <img class="brand-logo-img" src="Pic/Logo ตัวนูน-02.png" alt="SG FRUIT Logo" width="52" height="52" />
+      </span>
+      <div>
+        <strong>SG FRUIT</strong>
+        <p>เอสจี ผลไม้ตามฤดูกาล · ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพ<br>From seasonal freshness to everyday selection.</p>
+      </div>
     </div>
-    <p>ติดต่อร้าน: เพิ่ม LINE / เบอร์โทรจริงในไฟล์ก่อนเปิดขาย<br>© 2026 Mae Chawi – AVOCADO ORCHARD (Step 1–6 &amp; Cinematic Zoom Build)</p>
+    <p>ติดต่อร้าน: เพิ่ม LINE / เบอร์โทรจริงในไฟล์ก่อนเปิดขาย<br>© 2026 SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</p>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1921,7 +1957,7 @@
       gsap.registerPlugin(ScrollTrigger);
 
       // Expose state & stage elements for verification
-      window.MAE_CHAWI_STAGE_STATE = {
+      window.SG_FRUIT_STAGE_STATE = window.MAE_CHAWI_STAGE_STATE = {
         phase: 'STEP_1_TO_6_CINEMATIC_ZOOM',
         progress: 0,
         activeStep: 1,
@@ -1955,7 +1991,7 @@
       };
 
       const STEP_NAMES = [
-        'ORCHARD TREE',
+        'THE SEASON BEGINS',
         'GRAVITY FALL',
         'WOODEN BOARD',
         'TWO HALVES',
@@ -2008,12 +2044,12 @@
       }
 
       // Initialize baseline states explicitly so scrolling back to 0% is always 100% deterministic
-      gsap.set('#copy-step-1', { autoAlpha: 1, yPercent: -50 });
-      gsap.set('#copy-step-2', { autoAlpha: 0, yPercent: -38 });
-      gsap.set('#copy-step-3', { autoAlpha: 0, yPercent: -38 });
-      gsap.set('#copy-step-4', { autoAlpha: 0, yPercent: -38 });
-      gsap.set('#copy-step-5', { autoAlpha: 0, yPercent: -38 });
-      gsap.set('#copy-step-6', { autoAlpha: 0, yPercent: -38 });
+      gsap.set('#copy-step-1', { autoAlpha: 1, yPercent: -50, y: 0 });
+      gsap.set('#copy-step-2', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-3', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-4', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-5', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-6', { autoAlpha: 0, yPercent: -38, y: 0 });
 
       gsap.set('#bg-step-1', { autoAlpha: 1 });
       gsap.set('#bg-step-2', { autoAlpha: 0 });
@@ -2123,7 +2159,7 @@
       }
 
       // =========================================================================
-      // STEP 1 (0 -> 12): CINEMATIC ORCHARD TREE & MOUNTAIN SCENERY
+      // STEP 1 (0 -> 12): CINEMATIC SEASONAL TREE & MOUNTAIN SCENERY
       // =========================================================================
       // Coordinated Scene Container camera glide: mountain, tree, stem, and attached fruit move coherently
       masterTL.to('#step1-stage-content', {
@@ -2176,7 +2212,7 @@
         ease: 'sine.inOut'
       }, 12);
 
-      // Step 1 mountain orchard scenery smoothly moves up and fades out into Step 2
+      // Step 1 mountain scenery smoothly moves up and fades out into Step 2
       masterTL.to('#step1-scenery', {
         yPercent: -45,
         scale: 1.03,
@@ -2593,7 +2629,7 @@
             window.open(STORE.lineUrl, '_blank', 'noopener,noreferrer');
             return;
           }
-          const message = `สวัสดีค่ะ/ครับ สนใจสอบถามสินค้า: ${item} จากร้าน Mae Chawi – AVOCADO ORCHARD`;
+          const message = `สวัสดีค่ะ/ครับ สนใจสอบถามสินค้า: ${item} จากร้าน SG FRUIT (เอสจี ผลไม้ตามฤดูกาล)`;
           try {
             await navigator.clipboard.writeText(message);
             showToast('คัดลอกข้อความสอบถามสินค้าแล้ว · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl');
