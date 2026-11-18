@@ -66,7 +66,7 @@
       outline-offset: 3px;
     }
 
-    /* ================= HEADER & NAV (PHASE 9) ================= */
+    /* ================= HEADER & NAV ================= */
     .header {
       height: var(--header-h);
       position: fixed;
@@ -277,7 +277,7 @@
       background: linear-gradient(90deg, #6a9933, #2b6643);
     }
 
-    /* ================= FIXED VISUAL STAGE OVERLAY (STEP 1 & STEPS 3-6 + CONTINUOUS HERO AVOCADO) ================= */
+    /* ================= LAYER 1: FIXED STAGE BACKDROP (z-index: 1) ================= */
     .stage-backdrop {
       position: fixed;
       inset: 0;
@@ -286,6 +286,7 @@
       overflow: hidden;
     }
 
+    /* ================= LAYER 2: FIXED VISUAL STAGE (STEP 1 & STEPS 3-6, z-index: 10) ================= */
     .stage {
       height: 100svh;
       min-height: 600px;
@@ -294,6 +295,28 @@
       z-index: 10;
       overflow: hidden;
       pointer-events: none;
+    }
+
+    /* ================= LAYER 4: GLOBAL AVOCADO OVERLAY (FALLS IN FRONT OF ENTIRE SHOP, z-index: 65) ================= */
+    .global-avocado-overlay {
+      position: fixed;
+      inset: 0;
+      height: 100svh;
+      min-height: 600px;
+      z-index: 65;
+      pointer-events: none !important;
+      overflow: visible;
+    }
+
+    .global-avocado-stage {
+      position: absolute;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none !important;
+      user-select: none;
     }
 
     /* Ambient background layers */
@@ -364,7 +387,7 @@
       position: absolute;
       top: var(--header-h);
       bottom: 0;
-      left: 46%;
+      left: 42%;
       border-left: 1px solid rgba(33, 77, 52, 0.07);
       pointer-events: none;
       z-index: 2;
@@ -374,10 +397,10 @@
     .copy-stack {
       position: absolute;
       z-index: 12;
-      left: clamp(24px, 6.5vw, 118px);
+      left: clamp(24px, 5vw, 92px);
       top: 52%;
       transform: translateY(-50%);
-      width: min(40vw, 540px);
+      width: min(36vw, 460px);
       pointer-events: none;
     }
 
@@ -434,10 +457,10 @@
     .scene-copy h2.step-title {
       font-family: "Cormorant Garamond", Georgia, serif;
       font-weight: 600;
-      font-size: clamp(54px, 6.2vw, 108px);
+      font-size: clamp(50px, 5.6vw, 96px);
       letter-spacing: -0.04em;
       line-height: 0.94;
-      margin: 0 0 22px;
+      margin: 0 0 20px;
       color: var(--ink);
     }
 
@@ -457,17 +480,17 @@
     }
 
     .scene-copy p {
-      font-size: clamp(14px, 1.08vw, 16.5px);
+      font-size: clamp(13.5px, 1.02vw, 15.5px);
       line-height: 1.85;
       color: var(--muted);
-      max-width: 440px;
+      max-width: 400px;
       margin: 0 0 16px;
     }
 
     .scene-copy .script-line {
       font-family: "Cormorant Garamond", Georgia, serif;
       font-style: italic;
-      font-size: clamp(22px, 2.2vw, 31px);
+      font-size: clamp(20px, 2vw, 28px);
       color: var(--wood);
       line-height: 1.25;
       margin-bottom: 18px;
@@ -506,6 +529,14 @@
       aspect-ratio: 1 / 1;
       pointer-events: none;
       user-select: none;
+    }
+
+    /* Receiving scene group in Step 3–6 aligned directly beneath the pure vertical drop line (xPercent = 0) of the branch avocado */
+    .receiving-scene-group {
+      position: absolute;
+      inset: 0;
+      transform: translateX(-26.2085%);
+      pointer-events: none;
     }
 
     /* ================= STEP 1 CINEMATIC SCENERY LAYERS (UNCHANGED) ================= */
@@ -689,12 +720,12 @@
       will-change: transform, opacity;
     }
 
-    /* Shared Scene & Tree Kinematic Wrappers in #stage-art */
+    /* Shared Scene & Tree Kinematic Wrappers in #global-avocado-stage */
     .hero-stem-motion-root,
     .hero-fruit-motion-root {
       position: absolute;
       inset: 0;
-      pointer-events: none;
+      pointer-events: none !important;
       will-change: transform, opacity;
     }
 
@@ -711,7 +742,7 @@
       inset: 0;
       transform-origin: 88.32% 101.27%;
       will-change: transform;
-      pointer-events: none;
+      pointer-events: none !important;
     }
 
     .hero-branch-pendulum-layer {
@@ -719,7 +750,7 @@
       inset: 0;
       transform-origin: 25.38% 35.15%;
       will-change: transform;
-      pointer-events: none;
+      pointer-events: none !important;
     }
 
     .hero-stem-img {
@@ -730,13 +761,13 @@
       height: 8.55%;
       object-fit: fill;
       z-index: 7;
-      pointer-events: none;
+      pointer-events: none !important;
       transform-origin: 22.6% 2%;
       filter: drop-shadow(0 2px 4px rgba(24, 42, 18, 0.22));
       will-change: transform;
     }
 
-    /* THE SINGLE PERSISTENT HERO AVOCADO (USED CONTINUOUSLY IN STEP 1, 2, AND 3) */
+    /* THE SINGLE PERSISTENT HERO AVOCADO (FALLS VERTICALLY THROUGH STEP 2 SHOP ONTO STEP 3 BOARD) */
     .hero-avocado-wrap {
       position: absolute;
       left: 12.88%;
@@ -746,6 +777,7 @@
       z-index: 6;
       will-change: transform, opacity;
       transform-origin: 49.5% 49.2%;
+      pointer-events: none !important;
     }
 
     .hero-avocado-sway {
@@ -753,6 +785,7 @@
       height: 100%;
       transform-origin: 49.5% 3.0%;
       will-change: transform;
+      pointer-events: none !important;
     }
 
     .hero-avocado-img {
@@ -761,8 +794,9 @@
       aspect-ratio: 2000 / 1695;
       object-fit: contain;
       display: block;
-      filter: drop-shadow(0 14px 22px rgba(20, 42, 26, 0.24));
+      filter: drop-shadow(0 16px 26px rgba(20, 42, 26, 0.28));
       transform: none;
+      pointer-events: none !important;
     }
 
     /* STEP 4 LAYER: AVOCADO HALVES */
@@ -1058,7 +1092,7 @@
     /* Bottom HUD & Step Counter */
     .scene-counter {
       position: absolute;
-      left: clamp(24px, 6.5vw, 118px);
+      left: clamp(24px, 5vw, 92px);
       bottom: 26px;
       z-index: 15;
       display: flex;
@@ -1136,6 +1170,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      transition: opacity 0.25s;
     }
 
     .rail button {
@@ -1193,45 +1228,55 @@
       position: relative;
     }
 
+    .scroll-journey {
+      position: relative;
+    }
+
     /* STEP 1 SCROLL TRACK */
     .step1-scroll-track {
-      height: 168svh;
+      height: 138svh;
       position: relative;
       pointer-events: none;
     }
 
-    /* ================= STEP 2: SG FRUIT FULL E-COMMERCE SHOP (PHASE 2-5) ================= */
+    /* ================= STEP 2: FULL-WIDTH 5-COLUMN PRODUCT SHOP ================= */
     .shop-section {
       position: relative;
-      padding: 44px clamp(20px, 4.5vw, 72px) 84px;
-      scroll-margin-top: calc(var(--header-h) + 12px);
-      /* Notice: no z-index on .shop-section itself so .shop-main (z:15) sits above fixed .stage (z:10) while .shop-story-aside (z:6) sits behind #hero-avocado-wrap! */
+      z-index: 15;
+      padding: 36px clamp(16px, 3.5vw, 56px) 76px;
+      scroll-margin-top: calc(var(--header-h) + 8px);
     }
 
     .shop-container {
-      max-width: 1460px;
+      max-width: 1480px;
+      width: 100%;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: minmax(0, 7fr) minmax(290px, 3fr);
-      gap: clamp(24px, 3vw, 44px);
-      align-items: start;
+      display: block;
     }
 
-    /* Left 70%: Product Shopping Area */
     .shop-main {
       position: relative;
-      z-index: 15;
+      width: 100%;
       background: rgba(247, 245, 233, 0.92);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(33, 77, 52, 0.12);
       border-radius: 32px;
-      padding: clamp(24px, 3.2vw, 44px);
+      padding: clamp(22px, 2.8vw, 40px);
       box-shadow: 0 20px 50px rgba(24, 53, 38, 0.06);
     }
 
     .shop-header {
-      margin-bottom: 26px;
+      margin-bottom: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .shop-header-left {
+      max-width: 720px;
     }
 
     .shop-eyebrow {
@@ -1243,7 +1288,7 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .shop-eyebrow::before {
@@ -1255,20 +1300,19 @@
 
     .shop-headline {
       font-family: "Noto Sans Thai", "Plus Jakarta Sans", sans-serif;
-      font-size: clamp(28px, 3.1vw, 44px);
+      font-size: clamp(26px, 2.8vw, 40px);
       font-weight: 700;
       line-height: 1.2;
       letter-spacing: -0.02em;
       color: var(--ink);
-      margin: 0 0 12px;
+      margin: 0 0 8px;
     }
 
     .shop-description {
-      font-size: clamp(14px, 1.08vw, 16px);
-      line-height: 1.75;
+      font-size: clamp(13.5px, 1.02vw, 15.5px);
+      line-height: 1.7;
       color: var(--muted);
-      max-width: 680px;
-      margin: 0 0 14px;
+      margin: 0;
     }
 
     .shop-demo-banner {
@@ -1284,85 +1328,13 @@
       font-weight: 700;
     }
 
-    /* Mobile Compact Avocado Story Preview (Hidden on Desktop, Visible on Mobile/Tablet) */
-    .mobile-story-preview {
-      display: none;
-      position: relative;
-      background: linear-gradient(135deg, #fffef8 0%, #f1ebd8 100%);
-      border: 1px solid rgba(33, 77, 52, 0.14);
-      border-radius: 22px;
-      padding: 16px 18px;
-      margin-bottom: 22px;
-      align-items: center;
-      gap: 16px;
-      overflow: hidden;
-    }
-
-    .mobile-story-slot {
-      width: 84px;
-      height: 84px;
-      border-radius: 18px;
-      background: radial-gradient(circle at 50% 45%, #f9fced 0%, #e4eed0 100%);
-      border: 1px solid rgba(115, 153, 56, 0.22);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .mobile-story-slot img {
-      width: 72%;
-      height: 72%;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 12px rgba(24, 53, 38, 0.2));
-      animation: mobile-avo-float 3.6s ease-in-out infinite alternate;
-    }
-
-    @keyframes mobile-avo-float {
-      0% { transform: translateY(-4px) rotate(-5deg); }
-      100% { transform: translateY(4px) rotate(6deg); }
-    }
-
-    .mobile-story-copy {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .mobile-story-copy small {
-      display: block;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      color: var(--sage);
-      margin-bottom: 4px;
-    }
-
-    .mobile-story-copy strong {
-      display: block;
-      font-size: 14px;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .mobile-story-copy button {
-      border: 0;
-      background: transparent;
-      padding: 0;
-      color: var(--forest);
-      font-size: 12px;
-      font-weight: 800;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
     /* Toolbar: Search + Categories + Sort */
     .shop-toolbar {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -1377,7 +1349,7 @@
     .shop-search-wrap {
       position: relative;
       flex: 1 1 260px;
-      max-width: 420px;
+      max-width: 440px;
     }
 
     .shop-search-icon {
@@ -1392,7 +1364,7 @@
 
     .shop-search-input {
       width: 100%;
-      height: 44px;
+      height: 42px;
       padding: 0 38px 0 42px;
       border-radius: 999px;
       border: 1px solid rgba(33, 77, 52, 0.18);
@@ -1456,8 +1428,8 @@
     }
 
     .shop-sort-select {
-      height: 42px;
-      padding: 0 34px 0 16px;
+      height: 40px;
+      padding: 0 32px 0 16px;
       border-radius: 999px;
       border: 1px solid rgba(33, 77, 52, 0.18);
       background: #fffef9;
@@ -1474,7 +1446,7 @@
     }
 
     .shop-cat-btn {
-      padding: 9px 18px;
+      padding: 8px 18px;
       border-radius: 999px;
       border: 1px solid rgba(33, 77, 52, 0.16);
       background: #fffef9;
@@ -1513,22 +1485,22 @@
       opacity: 0.85;
     }
 
-    /* Product Grid (Phase 4: 3 cols large desktop, 2 cols medium/mobile) */
+    /* Full-Width 5-Column Product Grid on Desktop (5 columns × 3 rows = 15 items) */
     .shop-product-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
     }
 
     .shop-card {
       background: var(--card-bg);
       border: 1px solid rgba(33, 77, 52, 0.11);
-      border-radius: 22px;
+      border-radius: 20px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
-      box-shadow: 0 6px 20px rgba(24, 53, 38, 0.04);
+      box-shadow: 0 6px 18px rgba(24, 53, 38, 0.04);
     }
 
     .shop-card:hover {
@@ -1563,22 +1535,22 @@
 
     .shop-card-badges-top {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 10px;
+      left: 10px;
       z-index: 2;
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
     }
 
     .shop-badge {
       display: inline-flex;
       align-items: center;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 999px;
-      font-size: 10.5px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
 
     .shop-badge-cat {
@@ -1596,18 +1568,18 @@
 
     .shop-badge-demo {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      right: 10px;
       z-index: 2;
       background: rgba(24, 53, 38, 0.72);
       color: #f7f5e9;
-      font-size: 9.5px;
-      letter-spacing: 0.1em;
-      padding: 3px 8px;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      padding: 2px 7px;
     }
 
     .shop-card-body {
-      padding: 16px 18px 18px;
+      padding: 13px 14px 15px;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -1617,29 +1589,29 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 6px;
+      margin-bottom: 5px;
     }
 
     .shop-card-sku {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       color: var(--muted);
     }
 
     .shop-card-status {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 10.5px;
+      gap: 4px;
+      font-size: 9.5px;
       font-weight: 700;
       color: var(--forest);
     }
 
     .shop-card-status i {
-      width: 6px;
-      height: 6px;
+      width: 5.5px;
+      height: 5.5px;
       border-radius: 50%;
       background: var(--sage);
       display: inline-block;
@@ -1654,10 +1626,10 @@
     }
 
     .shop-card-title {
-      margin: 0 0 4px;
-      font-size: 17px;
+      margin: 0 0 3px;
+      font-size: 15.5px;
       font-weight: 700;
-      line-height: 1.35;
+      line-height: 1.3;
       color: var(--ink);
     }
 
@@ -1676,18 +1648,18 @@
     }
 
     .shop-card-unit {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .shop-card-price-row {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
       margin-top: auto;
-      margin-bottom: 14px;
+      margin-bottom: 11px;
     }
 
     .shop-card-price {
@@ -1696,26 +1668,26 @@
     }
 
     .shop-card-price .currency {
-      font-size: 14px;
-      margin-right: 2px;
+      font-size: 13px;
+      margin-right: 1px;
     }
 
     .shop-card-price .amount {
-      font-size: 22px;
+      font-size: 20px;
       letter-spacing: -0.02em;
     }
 
     .shop-card-price .unit-slash {
-      font-size: 11.5px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--muted);
-      margin-left: 3px;
+      margin-left: 2px;
     }
 
     .shop-card-incart-pill {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 3px 9px;
+      padding: 2px 7px;
       border-radius: 999px;
       background: #e4f0c8;
       color: var(--forest);
@@ -1724,16 +1696,16 @@
     .shop-card-actions {
       display: grid;
       grid-template-columns: auto 1fr;
-      gap: 8px;
+      gap: 6px;
     }
 
     .shop-btn-detail {
-      padding: 10px 13px;
+      padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid rgba(33, 77, 52, 0.22);
       background: transparent;
       color: var(--ink-soft);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
@@ -1746,19 +1718,19 @@
     }
 
     .shop-btn-add {
-      padding: 10px 14px;
+      padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid var(--forest);
       background: var(--forest);
       color: #fff;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
       transition: background 0.2s, transform 0.15s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .shop-btn-add:hover {
@@ -1790,8 +1762,8 @@
 
     /* Pagination Bar */
     .shop-pagination {
-      margin-top: 26px;
-      padding-top: 18px;
+      margin-top: 24px;
+      padding-top: 16px;
       border-top: 1px solid var(--line);
     }
 
@@ -1838,113 +1810,9 @@
       background: rgba(115, 153, 56, 0.12);
     }
 
-    /* Right 30%: Sticky Falling Avocado Animation Panel (Phase 2.1 & Phase 7) */
-    .shop-story-aside {
-      position: sticky;
-      top: calc(var(--header-h) + 18px);
-      z-index: 8;
-    }
-
-    .shop-avocado-panel {
-      position: relative;
-      height: calc(100svh - var(--header-h) - 36px);
-      min-height: 500px;
-      max-height: 740px;
-      background: radial-gradient(circle at 50% 42%, rgba(255, 254, 248, 0.92) 0%, rgba(244, 239, 224, 0.88) 68%, rgba(229, 237, 214, 0.85) 100%);
-      border: 1px solid rgba(33, 77, 52, 0.14);
-      border-radius: 32px;
-      padding: 26px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      box-shadow: 0 18px 42px rgba(24, 53, 38, 0.06);
-    }
-
-    .shop-panel-top {
-      position: relative;
-      z-index: 2;
-    }
-
-    .shop-panel-kicker {
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 0.2em;
-      color: var(--sage);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .shop-panel-sub {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-style: italic;
-      font-size: 22px;
-      color: var(--ink-soft);
-      margin: 0;
-    }
-
-    /* Target slot where #hero-avocado-wrap floats inside Step 2 */
-    .shop-avocado-slot {
-      position: relative;
-      flex: 1;
-      width: 100%;
-      min-height: 240px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .shop-panel-wind-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
-    .shop-panel-bottom {
-      position: relative;
-      z-index: 20;
-      background: rgba(255, 254, 249, 0.90);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(33, 77, 52, 0.12);
-      border-radius: 20px;
-      padding: 16px 18px;
-      text-align: center;
-      pointer-events: auto;
-    }
-
-    .shop-panel-question {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--ink);
-      margin: 0 0 6px;
-    }
-
-    .shop-panel-invite {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 0;
-      background: transparent;
-      color: var(--forest);
-      font-size: 12.5px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 999px;
-      transition: background 0.2s;
-    }
-
-    .shop-panel-invite:hover {
-      background: rgba(115, 153, 56, 0.15);
-    }
-
     /* ================= STORY CONTINUATION TRACK (STEPS 3–6 & CINEMATIC ZOOM) ================= */
     .story {
-      height: 880svh;
+      height: 820svh;
       position: relative;
       pointer-events: none;
     }
@@ -2726,10 +2594,10 @@
       transform: translate(-50%, 0);
     }
 
-    /* ================= RESPONSIVE: TABLET & MOBILE (PHASE 8 & 12) ================= */
-    @media (max-width: 1220px) {
+    /* ================= RESPONSIVE: TABLET & MOBILE ================= */
+    @media (max-width: 1180px) {
       .shop-product-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
@@ -2740,15 +2608,6 @@
       .mobile-menu-toggle {
         display: inline-flex;
       }
-      .shop-container {
-        grid-template-columns: 1fr;
-      }
-      .shop-story-aside {
-        display: none;
-      }
-      .mobile-story-preview {
-        display: flex;
-      }
       .about-inner {
         grid-template-columns: 1fr;
       }
@@ -2756,12 +2615,19 @@
         grid-template-columns: 1fr 1fr;
       }
       .copy-stack {
-        left: 5vw;
-        width: 44vw;
+        left: 4vw;
+        width: 42vw;
       }
-      .stage-art {
+      .stage-art,
+      .global-avocado-stage {
         right: 1vw;
         width: 52vw;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .shop-product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -2797,16 +2663,16 @@
         display: none;
       }
       .step1-scroll-track {
-        height: 155svh;
+        height: 128svh;
       }
       .story {
-        height: 820svh;
+        height: 780svh;
       }
       .shop-section {
-        padding: 24px 12px 64px;
+        padding: 22px 12px 56px;
       }
       .shop-main {
-        padding: 20px 14px;
+        padding: 18px 14px;
         border-radius: 24px;
       }
       .shop-product-grid {
@@ -2881,7 +2747,8 @@
         padding: 10px 18px;
       }
       .stage-art,
-      .step1-canvas-stage {
+      .step1-canvas-stage,
+      .global-avocado-stage {
         right: auto;
         left: 50%;
         top: auto;
@@ -2909,7 +2776,7 @@
       }
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 360px) {
       .shop-product-grid {
         grid-template-columns: 1fr;
       }
@@ -2925,7 +2792,7 @@
   </style>
 </head>
 <body>
-  <!-- ================= HEADER & NAVBAR (PHASE 9) ================= -->
+  <!-- ================= HEADER & NAVBAR ================= -->
   <header class="header">
     <a class="brand" href="#home" data-nav-target="home" aria-label="SG FRUIT เอสจี ผลไม้ตามฤดูกาล หน้าแรก">
       <span class="brand-mark" aria-hidden="true">
@@ -2968,7 +2835,7 @@
 
   <div class="global-progress" aria-hidden="true"><i></i></div>
 
-  <!-- ================= FIXED STAGE BACKDROP (z-index: 1, behind Shop Panel) ================= -->
+  <!-- ================= LAYER 1: FIXED STAGE BACKDROP (z-index: 1) ================= -->
   <div class="stage-backdrop" aria-hidden="true">
     <div class="bg-stack">
       <div class="bg-layer bg-step-1" id="bg-step-1"></div>
@@ -2982,7 +2849,7 @@
     <div class="ambient-orb" id="ambient-orb"></div>
   </div>
 
-  <!-- ================= FIXED VISUAL STAGE (STEP 1 & STEPS 3–6 + CONTINUOUS HERO AVOCADO) ================= -->
+  <!-- ================= LAYER 2: FIXED VISUAL STAGE (STEP 1 & STEPS 3–6, z-index: 10) ================= -->
   <div class="stage" id="stage" aria-hidden="false">
     <div class="hairline" id="stage-hairline" aria-hidden="true"></div>
 
@@ -3017,7 +2884,7 @@
         <a class="primary-cta" href="#shop" data-nav-target="shop">เลือกซื้อสินค้า <span aria-hidden="true">↗</span></a>
       </article>
 
-      <!-- STEP 2 COPY (Hidden in fixed copy-stack since Step 2 is the Full Shop in <main>) -->
+      <!-- STEP 2 COPY (Placeholder node for index consistency) -->
       <article class="scene-copy" id="copy-step-2" aria-hidden="true"></article>
 
       <!-- STEP 3 COPY -->
@@ -3025,7 +2892,7 @@
         <div class="eyebrow">STEP 03 · THE LANDING</div>
         <div class="badge-outline">READY FOR PREPARATION · ON THE BOARD</div>
         <h2 class="step-title">Landed on<br><em>the board.</em></h2>
-        <p>เข้าสู่ฉากเขียงไม้ธรรมชาติ ลูกอะโวคาโดลูกเดิมเดินทางต่อจากหน้าร้าน ตกลงสัมผัสพื้นเขียงและเด้งรับน้ำหนักอย่างนุ่มนวล พร้อมเข้าสู่ขั้นตอนการผ่าอย่างประณีต</p>
+        <p>เข้าสู่ฉากเขียงไม้ธรรมชาติ ลูกอะโวคาโดลูกเดิมร่วงลงในแนวดิ่งตามแรงโน้มถ่วงผ่านหน้าร้าน ตกลงสัมผัสพื้นเขียงและเด้งรับน้ำหนักอย่างนุ่มนวล พร้อมเข้าสู่ขั้นตอนการผ่าอย่างประณีต</p>
         <div class="script-line">Naturally balanced. Ready for preparation.</div>
       </article>
 
@@ -3057,120 +2924,85 @@
       </article>
     </div>
 
-    <!-- RIGHT VISUAL STAGE (SHARED 1:1 COORDINATE SYSTEM) -->
+    <!-- RIGHT VISUAL STAGE (RECEIVING SCENE FOR STEPS 3–6 ALIGNED TO VERTICAL DROP LINE) -->
     <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันเรื่องราวความสดตามฤดูกาล SG FRUIT">
-      <!-- STEP 3-5: WOODEN CUTTING BOARD LAYER -->
-      <div class="board-layer" id="board-layer">
-        <div class="board-ambient-shadow"></div>
-        <img
-          class="board-img"
-          id="cutting-board-img"
-          src="Pic/cutting-board.png.png"
-          alt="เขียงไม้ธรรมชาติสำหรับรองรับผลอะโวคาโด"
-          width="2000"
-          height="1333"
-        />
-        <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
-      </div>
-
-      <!-- STEM KINEMATIC HIERARCHY -->
-      <div class="hero-stem-motion-root" id="hero-stem-motion-root">
-        <div class="hero-tree-breeze-layer" id="hero-stem-tree-breeze">
-          <div class="hero-branch-pendulum-layer" id="hero-stem-branch-pendulum">
-            <img
-              class="hero-stem-img"
-              id="hero-stem"
-              src="public/assets/step1/avocado-stem-02.png"
-              alt=""
-              aria-hidden="true"
-              width="53"
-              height="241"
-            />
-          </div>
+      <div class="receiving-scene-group" id="receiving-scene-group">
+        <!-- STEP 3-5: WOODEN CUTTING BOARD LAYER -->
+        <div class="board-layer" id="board-layer">
+          <div class="board-ambient-shadow"></div>
+          <img
+            class="board-img"
+            id="cutting-board-img"
+            src="Pic/cutting-board.png.png"
+            alt="เขียงไม้ธรรมชาติสำหรับรองรับผลอะโวคาโด"
+            width="2000"
+            height="1333"
+          />
+          <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
         </div>
-      </div>
 
-      <!-- SINGLE CONTINUOUS HERO AVOCADO (SAME ELEMENT ACROSS STEP 1, STEP 2 SHOP PANEL, AND STEP 3 BOARD) -->
-      <div class="hero-fruit-motion-root" id="hero-fruit-motion-root">
-        <div class="hero-tree-breeze-layer" id="hero-fruit-tree-breeze">
-          <div class="hero-branch-pendulum-layer" id="hero-fruit-branch-pendulum">
-            <div class="hero-avocado-wrap" id="hero-avocado-wrap">
-              <div class="hero-avocado-sway" id="hero-avocado-sway">
-                <img
-                  class="hero-avocado-img"
-                  id="hero-avocado"
-                  src="public/assets/step1/avocado-whole.png"
-                  alt="ลูกอะโวคาโดสดลูกเดียวกันตลอดทั้งฉาก"
-                  width="2000"
-                  height="1695"
-                />
-              </div>
-            </div>
-          </div>
+        <!-- STEP 4: AVOCADO HALVES -->
+        <div class="halves-layer" id="halves-layer">
+          <div class="halves-board-shadow" id="halves-board-shadow"></div>
+          <img
+            class="avocado-half-item avocado-half-left"
+            id="avocado-half-left"
+            src="Pic/avocado-halves.png"
+            alt="อะโวคาโดผ่าครึ่งซีกซ้ายพร้อมเมล็ด"
+            width="2000"
+            height="1538"
+          />
+          <img
+            class="avocado-half-item avocado-half-right"
+            id="avocado-half-right"
+            src="Pic/avocado-halves.png"
+            alt="อะโวคาโดผ่าครึ่งซีกขวาเนื้อเนียน"
+            width="2000"
+            height="1538"
+          />
         </div>
-      </div>
 
-      <!-- STEP 4: AVOCADO HALVES -->
-      <div class="halves-layer" id="halves-layer">
-        <div class="halves-board-shadow" id="halves-board-shadow"></div>
-        <img
-          class="avocado-half-item avocado-half-left"
-          id="avocado-half-left"
-          src="Pic/avocado-halves.png"
-          alt="อะโวคาโดผ่าครึ่งซีกซ้ายพร้อมเมล็ด"
-          width="2000"
-          height="1538"
-        />
-        <img
-          class="avocado-half-item avocado-half-right"
-          id="avocado-half-right"
-          src="Pic/avocado-halves.png"
-          alt="อะโวคาโดผ่าครึ่งซีกขวาเนื้อเนียน"
-          width="2000"
-          height="1538"
-        />
-      </div>
+        <!-- STEP 5: AVOCADO SLICES -->
+        <div class="slices-layer" id="slices-layer">
+          <div class="slices-board-shadow" id="slices-board-shadow"></div>
+          <img
+            class="slices-group-img slices-group-left"
+            id="slices-group-left"
+            src="Pic/avocado-slices-on-board2.png"
+            alt="อะโวคาโดสไลซ์ชุดที่ 1 บนเขียง"
+            width="2000"
+            height="1116"
+          />
+          <img
+            class="slices-group-img slices-group-center"
+            id="slices-group-center"
+            src="Pic/avocado-slices-on-board2.png"
+            alt="อะโวคาโดสไลซ์ชุดที่ 2 บนเขียง"
+            width="2000"
+            height="1116"
+          />
+          <img
+            class="slices-group-img slices-group-right"
+            id="slices-group-right"
+            src="Pic/avocado-slices-on-board2.png"
+            alt="อะโวคาโดสไลซ์ชุดที่ 3 บนเขียง"
+            width="2000"
+            height="1116"
+          />
+        </div>
 
-      <!-- STEP 5: AVOCADO SLICES -->
-      <div class="slices-layer" id="slices-layer">
-        <div class="slices-board-shadow" id="slices-board-shadow"></div>
-        <img
-          class="slices-group-img slices-group-left"
-          id="slices-group-left"
-          src="Pic/avocado-slices-on-board2.png"
-          alt="อะโวคาโดสไลซ์ชุดที่ 1 บนเขียง"
-          width="2000"
-          height="1116"
-        />
-        <img
-          class="slices-group-img slices-group-center"
-          id="slices-group-center"
-          src="Pic/avocado-slices-on-board2.png"
-          alt="อะโวคาโดสไลซ์ชุดที่ 2 บนเขียง"
-          width="2000"
-          height="1116"
-        />
-        <img
-          class="slices-group-img slices-group-right"
-          id="slices-group-right"
-          src="Pic/avocado-slices-on-board2.png"
-          alt="อะโวคาโดสไลซ์ชุดที่ 3 บนเขียง"
-          width="2000"
-          height="1116"
-        />
-      </div>
-
-      <!-- STEP 6: SALAD DISH & CINEMATIC ZOOM -->
-      <div class="salad-layer" id="salad-layer">
-        <div class="salad-ambient-shadow"></div>
-        <img
-          class="salad-img"
-          id="salad-img"
-          src="Pic/salad-plate.png"
-          alt="จานสลัดผักและอะโวคาโดสดพร้อมเสิร์ฟ"
-          width="2000"
-          height="1333"
-        />
+        <!-- STEP 6: SALAD DISH & CINEMATIC ZOOM -->
+        <div class="salad-layer" id="salad-layer">
+          <div class="salad-ambient-shadow"></div>
+          <img
+            class="salad-img"
+            id="salad-img"
+            src="Pic/salad-plate.png"
+            alt="จานสลัดผักและอะโวคาโดสดพร้อมเสิร์ฟ"
+            width="2000"
+            height="1333"
+          />
+        </div>
       </div>
     </div>
 
@@ -3205,123 +3037,127 @@
     </div>
   </div>
 
+  <!-- ================= LAYER 4: GLOBAL AVOCADO OVERLAY (FALLS IN FRONT OF ALL SHOP ELEMENTS, z-index: 65, pointer-events: none) ================= -->
+  <div class="global-avocado-overlay" id="global-avocado-overlay" aria-hidden="true">
+    <div class="global-avocado-stage" id="global-avocado-stage">
+      <!-- STEM KINEMATIC HIERARCHY -->
+      <div class="hero-stem-motion-root" id="hero-stem-motion-root">
+        <div class="hero-tree-breeze-layer" id="hero-stem-tree-breeze">
+          <div class="hero-branch-pendulum-layer" id="hero-stem-branch-pendulum">
+            <img
+              class="hero-stem-img"
+              id="hero-stem"
+              src="public/assets/step1/avocado-stem-02.png"
+              alt=""
+              aria-hidden="true"
+              width="53"
+              height="241"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- SINGLE CONTINUOUS HERO AVOCADO (FALLS VERTICALLY THROUGH FRONT OF SHOP ONTO BOARD) -->
+      <div class="hero-fruit-motion-root" id="hero-fruit-motion-root">
+        <div class="hero-tree-breeze-layer" id="hero-fruit-tree-breeze">
+          <div class="hero-branch-pendulum-layer" id="hero-fruit-branch-pendulum">
+            <div class="hero-avocado-wrap" id="hero-avocado-wrap">
+              <div class="hero-avocado-sway" id="hero-avocado-sway">
+                <img
+                  class="hero-avocado-img"
+                  id="hero-avocado"
+                  src="public/assets/step1/avocado-whole.png"
+                  alt="ลูกอะโวคาโดสดลูกเดียวกันตลอดทั้งฉาก"
+                  width="2000"
+                  height="1695"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= NATURAL DOCUMENT FLOW (<main>) ================= -->
   <main>
-    <!-- STEP 1 SCROLL SPACER -->
-    <section id="home" class="step1-scroll-track" aria-label="Step 1 จุดเริ่มต้นความสดตามฤดูกาล"></section>
+    <div id="scroll-journey" class="scroll-journey">
+      <!-- STEP 1 SCROLL SPACER -->
+      <section id="home" class="step1-scroll-track" aria-label="Step 1 จุดเริ่มต้นความสดตามฤดูกาล"></section>
 
-    <!-- STEP 2: SG FRUIT SHOP (NEW MAIN SHOP — NATURAL DOCUMENT SCROLL) -->
-    <section id="shop" class="shop-section" aria-label="Step 2 เลือกซื้อสินค้า SG FRUIT">
-      <div class="shop-container">
-        <!-- LEFT 70%: PRODUCT SHOPPING AREA -->
-        <div class="shop-main" id="products">
-          <header class="shop-header">
-            <div class="shop-eyebrow">SG FRUIT · SHOP THE SEASON</div>
-            <h2 class="shop-headline">คัดสรรความสด เพื่อทุกวันของคุณ</h2>
-            <p class="shop-description">
-              เลือกช้อปผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด ที่เราคัดสรรมาอย่างใส่ใจ
-            </p>
-            <div class="shop-demo-banner" role="note">
-              <span>✳ ข้อมูลสินค้าและราคาทั้งหมดเป็นข้อมูลสมมติสำหรับทดสอบระบบ (DEMO ONLY) ไม่ใช่ราคาขายจริงของ SG FRUIT</span>
-            </div>
-          </header>
+      <!-- STEP 2: SG FRUIT FULL-WIDTH 5-COLUMN SHOP -->
+      <section id="shop" class="shop-section" aria-label="Step 2 เลือกซื้อสินค้า SG FRUIT">
+        <div class="shop-container">
+          <div class="shop-main" id="products">
+            <header class="shop-header">
+              <div class="shop-header-left">
+                <div class="shop-eyebrow">SG FRUIT · SHOP THE SEASON</div>
+                <h2 class="shop-headline">คัดสรรความสด เพื่อทุกวันของคุณ</h2>
+                <p class="shop-description">
+                  เลือกช้อปผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด ที่เราคัดสรรมาอย่างใส่ใจ
+                </p>
+              </div>
+              <div class="shop-demo-banner" role="note">
+                <span>✳ ข้อมูลสินค้าและราคาทั้งหมดเป็นข้อมูลสมมติสำหรับทดสอบระบบ (DEMO ONLY) ไม่ใช่ราคาขายจริงของ SG FRUIT</span>
+              </div>
+            </header>
 
-          <!-- MOBILE COMPACT AVOCADO STORY PREVIEW (Phase 8) -->
-          <div class="mobile-story-preview" aria-label="ตัวอย่างเรื่องราวอะโวคาโด">
-            <div class="mobile-story-slot" id="shop-avocado-slot-mobile">
-              <img src="public/assets/step1/avocado-whole.png" alt="ผลอะโวคาโดกำลังเดินทางสู่เรื่องราวถัดไป" width="120" height="102" />
-            </div>
-            <div class="mobile-story-copy">
-              <small>STEP 02 · STORY CONTINUES</small>
-              <strong>แล้วผลอะโวคาโดจะเดินทางไปไหน?</strong>
-              <button type="button" data-nav-target="story">เลื่อนเพื่อชมเรื่องราวต่อ ↓</button>
-            </div>
-          </div>
+            <!-- SHOP TOOLBAR: SEARCH, SORT, AVAILABILITY & CATEGORY FILTERS -->
+            <div class="shop-toolbar">
+              <div class="shop-controls-row">
+                <div class="shop-search-wrap">
+                  <span class="shop-search-icon" aria-hidden="true">🔍</span>
+                  <input
+                    type="search"
+                    id="shop-search-input"
+                    class="shop-search-input"
+                    placeholder="ค้นหาชื่อผลไม้ ผักสด หรือรหัสสินค้า..."
+                    aria-label="ค้นหาสินค้าจากชื่อสินค้า"
+                    autocomplete="off"
+                  />
+                  <button type="button" id="shop-search-clear" class="shop-search-clear" hidden aria-label="ล้างคำค้นหา">×</button>
+                </div>
 
-          <!-- SHOP TOOLBAR: SEARCH, SORT, AVAILABILITY & CATEGORY FILTERS -->
-          <div class="shop-toolbar">
-            <div class="shop-controls-row">
-              <div class="shop-search-wrap">
-                <span class="shop-search-icon" aria-hidden="true">🔍</span>
-                <input
-                  type="search"
-                  id="shop-search-input"
-                  class="shop-search-input"
-                  placeholder="ค้นหาชื่อผลไม้ ผักสด หรือรหัสสินค้า..."
-                  aria-label="ค้นหาสินค้าจากชื่อสินค้า"
-                  autocomplete="off"
-                />
-                <button type="button" id="shop-search-clear" class="shop-search-clear" hidden aria-label="ล้างคำค้นหา">×</button>
+                <div class="shop-filter-right">
+                  <label class="shop-avail-check">
+                    <input type="checkbox" id="shop-available-only" />
+                    <span>เฉพาะสินค้าพร้อมจำหน่าย</span>
+                  </label>
+
+                  <select id="shop-sort-select" class="shop-sort-select" aria-label="เรียงลำดับราคาสินค้า">
+                    <option value="default">เรียงตาม: แนะนำ</option>
+                    <option value="price-asc">ราคา: ต่ำ ไป สูง</option>
+                    <option value="price-desc">ราคา: สูง ไป ต่ำ</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="shop-filter-right">
-                <label class="shop-avail-check">
-                  <input type="checkbox" id="shop-available-only" />
-                  <span>เฉพาะสินค้าพร้อมจำหน่าย</span>
-                </label>
+              <div class="shop-category-tabs" id="shop-category-tabs" role="tablist" aria-label="หมวดหมู่สินค้า"></div>
 
-                <select id="shop-sort-select" class="shop-sort-select" aria-label="เรียงลำดับราคาสินค้า">
-                  <option value="default">เรียงตาม: แนะนำ</option>
-                  <option value="price-asc">ราคา: ต่ำ ไป สูง</option>
-                  <option value="price-desc">ราคา: สูง ไป ต่ำ</option>
-                </select>
+              <div class="shop-status-bar">
+                <div id="shop-product-count" aria-live="polite">กำลังโหลดรายการสินค้า...</div>
               </div>
             </div>
 
-            <div class="shop-category-tabs" id="shop-category-tabs" role="tablist" aria-label="หมวดหมู่สินค้า"></div>
+            <!-- PRODUCT GRID (5 Columns × 3 Rows = 15 Mock Products on Desktop) -->
+            <div class="shop-product-grid" id="shop-product-grid" aria-live="polite"></div>
 
-            <div class="shop-status-bar">
-              <div id="shop-product-count" aria-live="polite">กำลังโหลดรายการสินค้า...</div>
+            <!-- EMPTY STATE -->
+            <div class="shop-empty-state" id="shop-empty-state" hidden>
+              <h3>ไม่พบสินค้าที่ตรงกับเงื่อนไขการค้นหา</h3>
+              <p>ลองเปลี่ยนคำค้นหา หรือเลือกดูสินค้าจากหมวดหมู่อื่น ๆ ของร้าน</p>
+              <button type="button" class="primary-cta" id="shop-reset-filters-btn">ดูสินค้าทั้งหมด</button>
             </div>
+
+            <!-- PAGINATION / LOAD MORE -->
+            <div class="shop-pagination" id="shop-pagination"></div>
           </div>
-
-          <!-- PRODUCT GRID (12 Mock Products) -->
-          <div class="shop-product-grid" id="shop-product-grid" aria-live="polite"></div>
-
-          <!-- EMPTY STATE -->
-          <div class="shop-empty-state" id="shop-empty-state" hidden>
-            <h3>ไม่พบสินค้าที่ตรงกับเงื่อนไขการค้นหา</h3>
-            <p>ลองเปลี่ยนคำค้นหา หรือเลือกดูสินค้าจากหมวดหมู่อื่น ๆ ของร้าน</p>
-            <button type="button" class="primary-cta" id="shop-reset-filters-btn">ดูสินค้าทั้งหมด</button>
-          </div>
-
-          <!-- PAGINATION / LOAD MORE -->
-          <div class="shop-pagination" id="shop-pagination"></div>
         </div>
+      </section>
 
-        <!-- RIGHT 30%: STICKY ANIMATED AVOCADO PANEL (Desktop) -->
-        <aside class="shop-story-aside" aria-label="ฉากแอนิเมชันลูกอะโวคาโดร่วงต่อเนื่อง">
-          <div class="shop-avocado-panel" id="shop-avocado-panel">
-            <div class="shop-panel-top">
-              <div class="shop-panel-kicker">STEP 02 · STORY IN MOTION</div>
-              <p class="shop-panel-sub">One single fruit, guided by gravity.</p>
-            </div>
-
-            <!-- Target coordinate slot where the single #hero-avocado-wrap travels through in Step 2 -->
-            <div class="shop-avocado-slot" id="shop-avocado-slot" aria-hidden="true">
-              <svg class="shop-panel-wind-svg" viewBox="0 0 400 500" fill="none">
-                <path d="M 110 60 C 102 180, 118 300, 108 430" stroke="#7d9e3b" stroke-width="1.6" stroke-dasharray="8 16" stroke-linecap="round" opacity="0.35" />
-                <path d="M 290 45 C 298 175, 282 310, 292 445" stroke="#4f7c45" stroke-width="2" stroke-dasharray="12 20" stroke-linecap="round" opacity="0.3" />
-                <path d="M 200 25 C 195 160, 210 295, 202 420" stroke="#99b85b" stroke-width="1.4" stroke-dasharray="6 14" stroke-linecap="round" opacity="0.35" />
-                <path d="M 78 210 C 94 194, 118 206, 106 228 C 92 238, 70 226, 78 210 Z" fill="#6d9944" opacity="0.38" />
-                <path d="M 310 165 C 328 152, 348 166, 334 188 C 320 198, 298 184, 310 165 Z" fill="#8bb355" opacity="0.34" />
-              </svg>
-            </div>
-
-            <div class="shop-panel-bottom">
-              <p class="shop-panel-question">แล้วผลอะโวคาโดจะเดินทางไปไหน?</p>
-              <button type="button" class="shop-panel-invite" data-nav-target="story">
-                <span>เลื่อนเพื่อชมเรื่องราวต่อ</span>
-                <span aria-hidden="true">↓</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- STEPS 3–6 & CINEMATIC ZOOM SCROLL TRACK -->
-    <section id="story" class="story" aria-label="เรื่องราวความสด Step 3 ถึง Step 6 และ Cinematic Zoom"></section>
+      <!-- STEPS 3–6 & CINEMATIC ZOOM SCROLL TRACK -->
+      <section id="story" class="story" aria-label="เรื่องราวความสด Step 3 ถึง Step 6 และ Cinematic Zoom"></section>
+    </div>
 
     <!-- PHASE 10: ABOUT SG FRUIT -->
     <section id="about" class="about-section" aria-label="เกี่ยวกับ SG FRUIT">
@@ -3494,7 +3330,7 @@
     </div>
   </div>
 
-  <!-- ================= DEMO ORDER SUMMARY MODAL (PHASE 6 CHECKOUT) ================= -->
+  <!-- ================= DEMO ORDER SUMMARY MODAL ================= -->
   <div class="modal-overlay" id="order-summary-modal" role="dialog" aria-modal="true" aria-labelledby="order-summary-title" aria-hidden="true">
     <div class="modal-backdrop"></div>
     <div class="modal-dialog">
@@ -3521,6 +3357,7 @@
       'use strict';
 
       const root = document.documentElement;
+      const scrollJourneyEl = document.getElementById('scroll-journey');
       const homeSection = document.getElementById('home');
       const shopSection = document.getElementById('shop');
       const storySection = document.getElementById('story');
@@ -3547,19 +3384,16 @@
         document.getElementById('copy-step-6')
       ];
       const nextSectionLayer = document.getElementById('next-section-layer');
-      const stageArtEl = document.getElementById('stage-art');
-      const shopAvocadoSlot = document.getElementById('shop-avocado-slot');
-      const shopAvocadoPanel = document.getElementById('shop-avocado-panel');
 
-      // Expose state & stage elements for automated verification
+      // Expose state & stage elements for verification
       window.SG_FRUIT_STAGE_STATE = window.MAE_CHAWI_STAGE_STATE = {
-        phase: 'V2_SHOP_FIRST_STORY_CONTINUES',
+        phase: 'V2_FULL_WIDTH_SHOP_VERTICAL_FALL',
         progress: 0,
         activeStep: 1,
         step1ScenerySelector: '#step1-scenery',
+        globalOverlaySelector: '#global-avocado-overlay',
         heroAvocadoSelector: '#hero-avocado-wrap',
         shopSectionSelector: '#shop',
-        shopPanelSelector: '#shop-avocado-panel',
         boardSelector: '#board-layer',
         halvesSelector: '#halves-layer',
         slicesSelector: '#slices-layer',
@@ -3598,83 +3432,49 @@
         }
       }
 
-      if (typeof gsap === 'undefined') {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
         return;
       }
-      if (typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-      }
+      gsap.registerPlugin(ScrollTrigger);
 
-      // Math helpers
       const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-      const lerp = (a, b, t) => a + (b - a) * t;
-      const smoothstep = (t) => {
-        const x = clamp(t, 0, 1);
-        return x * x * (3 - 2 * x);
-      };
 
-      // Cache geometry for Step 1 -> Step 2 Panel -> Step 3 Board coordinate handoff
-      const geom = {
-        s1End: 500,
-        s2End: 1600,
-        storyStart: 1600,
-        storyEnd: 6000,
-        baseWidth: 180,
-        baseHeight: 152,
-        slotOffsetX: 0,
-        slotCenterOffsetY: 0,
-        slotScale: 0.92,
-        dampedShopProgress: 0,
-        initialized: false
-      };
-
-      function measureGeometry() {
-        const vh = window.innerHeight || 800;
-        const vw = window.innerWidth || 1280;
-        const headerH = vw <= 680 ? 64 : 78;
-
-        const shopTopDoc = shopSection ? shopSection.offsetTop : vh * 1.65;
-        const storyTopDoc = storySection ? storySection.offsetTop : shopTopDoc + 1200;
-        const storyHeight = storySection ? storySection.offsetHeight : vh * 8.5;
-
-        geom.s1End = Math.max(240, shopTopDoc - headerH - 16);
-        geom.storyStart = storyTopDoc;
-        geom.s2End = Math.max(geom.s1End + 160, storyTopDoc - vh * 0.62);
-        geom.storyEnd = Math.max(geom.s2End + 400, storyTopDoc + storyHeight - vh);
-
-        if (stageArtEl) {
-          const artRect = stageArtEl.getBoundingClientRect();
-          geom.baseWidth = artRect.width * 0.265;
-          geom.baseHeight = geom.baseWidth * (1695 / 2000);
-          const baseCenterX = artRect.left + artRect.width * 0.1288 + geom.baseWidth * 0.5;
-          const baseCenterY = artRect.top + artRect.height * 0.4213 + geom.baseHeight * 0.5;
-
-          if (vw > 960 && shopAvocadoSlot && shopAvocadoPanel) {
-            const slotRect = shopAvocadoSlot.getBoundingClientRect();
-            const slotCenterX = slotRect.left + slotRect.width * 0.5;
-            // When .shop-avocado-panel is sticky at top: headerH + 18px, its center Y in viewport is deterministic:
-            const stickyPanelTop = headerH + 18;
-            const panelH = Math.min(740, Math.max(500, vh - headerH - 36));
-            const stickySlotCenterY = stickyPanelTop + panelH * 0.48;
-
-            geom.slotOffsetX = slotCenterX - baseCenterX;
-            geom.slotCenterOffsetY = stickySlotCenterY - baseCenterY;
-            const targetPixelWidth = Math.min(210, Math.max(145, slotRect.width * 0.62));
-            geom.slotScale = clamp(targetPixelWidth / Math.max(1, geom.baseWidth), 0.72, 1.12);
-          } else {
-            // Mobile / Tablet: keep fruit centered horizontally in stage-art and tucked cleanly above the board entry
-            geom.slotOffsetX = 0.989 * geom.baseWidth * 0.65;
-            geom.slotCenterOffsetY = -vh * 0.22;
-            geom.slotScale = 0.88;
-          }
-        }
-      }
-
-      // Build paused timeline for Steps 3..6 + Cinematic Zoom (t = 72..300, duration = 228 units)
+      // Initialize baseline states explicitly so scrolling back to 0% is always 100% deterministic
+      gsap.set('#copy-step-1', { autoAlpha: 1, yPercent: -50, y: 0 });
+      gsap.set('#copy-step-2', { autoAlpha: 0, yPercent: -38, y: 0 });
       gsap.set('#copy-step-3', { autoAlpha: 0, yPercent: -38, y: 0 });
       gsap.set('#copy-step-4', { autoAlpha: 0, yPercent: -38, y: 0 });
       gsap.set('#copy-step-5', { autoAlpha: 0, yPercent: -38, y: 0 });
       gsap.set('#copy-step-6', { autoAlpha: 0, yPercent: -38, y: 0 });
+
+      gsap.set('#bg-step-1', { autoAlpha: 1 });
+      gsap.set('#bg-step-2', { autoAlpha: 0 });
+      gsap.set('#bg-step-3', { autoAlpha: 0 });
+      gsap.set('#bg-step-4', { autoAlpha: 0 });
+      gsap.set('#bg-step-5', { autoAlpha: 0 });
+      gsap.set('#bg-step-6', { autoAlpha: 0 });
+      gsap.set('#bg-next-section', { autoAlpha: 0 });
+
+      gsap.set('#step1-scenery', { autoAlpha: 1, yPercent: 0, scale: 1 });
+      gsap.set('#step1-stage-content', { yPercent: 0, xPercent: 0 });
+      gsap.set('#step1-bg-mountain', { yPercent: 0 });
+      gsap.set('#hero-stem-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-fruit-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-stem', { rotation: 0, scaleY: 1, autoAlpha: 1 });
+      gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, rotation: 0, autoAlpha: 0 });
+      gsap.set('#avocado-board-shadow', { autoAlpha: 0, scale: 0.35 });
+
+      // Single continuous fruit (#hero-avocado-wrap) initial state on the tree branch (Step 1)
+      // Notice: xPercent is 0 and x is 0 throughout the ENTIRE fall (pure vertical drop!)
+      gsap.set('#hero-avocado-wrap', {
+        x: 0,
+        y: 0,
+        xPercent: 0,
+        yPercent: 0,
+        scale: 1,
+        rotation: 0,
+        autoAlpha: 1
+      });
 
       gsap.set('#halves-layer', { autoAlpha: 0, scale: 1.0, rotation: 0 });
       gsap.set('#avocado-half-left', { xPercent: 3.5, yPercent: -0.5, rotation: 1.0 });
@@ -3688,122 +3488,230 @@
       gsap.set('#salad-layer', { autoAlpha: 0, scale: 0.9, xPercent: 0, yPercent: 18, rotation: 0 });
       gsap.set('#next-section-layer', { autoAlpha: 0, scale: 1.05 });
 
-      const storyTL = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
+      // =========================================================================
+      // SINGLE MASTER GSAP TIMELINE (0..300 UNITS, ZERO OVERLAPPING TIMELINES)
+      // =========================================================================
+      const masterTL = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'none' }
+      });
 
-      // STEP 4 (100 -> 150)
-      storyTL.to('#bg-step-4', { autoAlpha: 1, duration: 12 }, 101);
-      storyTL.to('#copy-step-3', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 101);
-      storyTL.to('#copy-step-4', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 106);
+      // STEP 1 (0 -> 12): Attached on branch, coherent scene glide
+      masterTL.to('#step1-stage-content', { yPercent: -2.0, duration: 12 }, 0);
+      masterTL.to(['#hero-stem-motion-root', '#hero-fruit-motion-root'], { yPercent: -3.2514, duration: 12 }, 0);
+      masterTL.to('#step1-bg-mountain', { yPercent: 0.6, duration: 12 }, 0);
 
-      storyTL.to('#halves-layer', { autoAlpha: 1, duration: 7, ease: 'power1.inOut' }, 100);
-      storyTL.to('#avocado-half-left', { xPercent: -7.0, yPercent: 1.5, rotation: -5.5, duration: 34, ease: 'power2.inOut' }, 108);
-      storyTL.to('#avocado-half-right', { xPercent: 7.0, yPercent: -1.5, rotation: 5.5, duration: 34, ease: 'power2.inOut' }, 108);
-      storyTL.to('#halves-layer', { scale: 1.0, duration: 8 }, 142);
+      // Stem recoil at detachment (11.5 -> 15)
+      masterTL.to('#hero-stem', {
+        rotation: -2.2,
+        scaleY: 0.95,
+        duration: 3.5,
+        ease: 'back.out(2)'
+      }, 11.5);
 
-      // STEP 5 (150 -> 180)
-      storyTL.to('#bg-step-5', { autoAlpha: 1, duration: 12 }, 150);
-      storyTL.to('#copy-step-4', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 150);
-      storyTL.to('#copy-step-5', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 155);
+      // STEP 2 (12 -> 72): PURE VERTICAL GRAVITY FALL IN FRONT OF FULL-WIDTH SHOP
+      // Notice: NO xPercent / x tween on #hero-avocado-wrap! It falls straight down vertically (xPercent = 0)
+      masterTL.to('#bg-step-2', { autoAlpha: 1, duration: 10 }, 12);
+      masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 12);
 
-      storyTL.to('#halves-layer', { autoAlpha: 0, scale: 0.96, duration: 10, ease: 'power1.inOut' }, 150);
-      storyTL.to('#slices-layer', { autoAlpha: 1, scale: 1.0, duration: 10, ease: 'power1.inOut' }, 150);
-      storyTL.to('#slices-group-left', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
-      storyTL.to('#slices-group-center', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
-      storyTL.to('#slices-group-right', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
-      storyTL.to('#slices-layer', { scale: 1.0, duration: 12 }, 168);
+      masterTL.to('#hero-stem-motion-root', {
+        y: () => -0.45 * window.innerHeight,
+        scale: 1.03,
+        autoAlpha: 0,
+        duration: 14,
+        ease: 'power1.inOut'
+      }, 12);
 
-      // STEP 6 (180 -> 220)
-      storyTL.to('#bg-step-6', { autoAlpha: 1, duration: 14 }, 180);
-      storyTL.to('#copy-step-5', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 180);
-      storyTL.to('#copy-step-6', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 188);
+      masterTL.to('#step1-scenery', {
+        yPercent: -45,
+        scale: 1.03,
+        autoAlpha: 0,
+        duration: 14,
+        ease: 'power1.inOut'
+      }, 12);
 
-      storyTL.to('#salad-layer', { autoAlpha: 1, scale: 1.0, yPercent: 0, duration: 18, ease: 'power2.out' }, 180);
-      storyTL.to('#slices-layer', { xPercent: -10, yPercent: 20, rotation: -12, scale: 0.84, autoAlpha: 0, duration: 24, ease: 'power2.in' }, 182);
-      storyTL.to('#salad-layer', { scale: 1.0, xPercent: 0, yPercent: 0, autoAlpha: 1, duration: 14 }, 206);
+      masterTL.to('#hero-fruit-motion-root', {
+        yPercent: 0,
+        duration: 48,
+        ease: 'sine.inOut'
+      }, 12);
+
+      // Pure vertical gravity acceleration from branch (yPercent: 0) onto board surface (yPercent: 52.7)
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 52.7,
+        duration: 60,
+        ease: 'power1.in'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        scale: 1.08,
+        duration: 60,
+        ease: 'power1.inOut'
+      }, 12);
+
+      // Subtle natural rotation during vertical fall
+      masterTL.to('#hero-avocado-wrap', { rotation: -12, duration: 20, ease: 'sine.inOut' }, 12);
+      masterTL.to('#hero-avocado-wrap', { rotation: 14, duration: 22, ease: 'sine.inOut' }, 32);
+      masterTL.to('#hero-avocado-wrap', { rotation: -7, duration: 18, ease: 'sine.in' }, 54);
+
+      // STEP 3 (54 -> 100): WOODEN CUTTING BOARD RISES & AVOCADO BOUNCES ON LANDING
+      masterTL.to('#bg-step-3', { autoAlpha: 1, duration: 14 }, 54);
+      masterTL.to('#copy-step-3', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 60);
+
+      masterTL.to('#board-layer', {
+        yPercent: 0,
+        scale: 1,
+        autoAlpha: 1,
+        duration: 16,
+        ease: 'power2.out'
+      }, 54);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.92,
+        scale: 1.0,
+        duration: 10,
+        ease: 'power2.in'
+      }, 62);
+
+      // Board recoil & 2-bounce landing (72 -> 100)
+      masterTL.to('#board-layer', { yPercent: 1.4, duration: 2.5, ease: 'power2.out' }, 72);
+      masterTL.to('#board-layer', { yPercent: 0, duration: 4.5, ease: 'power2.inOut' }, 74.5);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 27.7, rotation: 6, duration: 7.5, ease: 'power2.out' }, 72);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.48, scale: 1.26, duration: 7.5, ease: 'power2.out' }, 72);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 52.7, rotation: -3, duration: 7, ease: 'power2.in' }, 79.5);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.95, scale: 0.98, duration: 7, ease: 'power2.in' }, 79.5);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 43.7, rotation: 1.8, duration: 4.5, ease: 'power2.out' }, 86.5);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.72, scale: 1.08, duration: 4.5, ease: 'power2.out' }, 86.5);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 52.7, rotation: 0, duration: 5, ease: 'power2.in' }, 91);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.96, scale: 1.0, duration: 5, ease: 'power2.in' }, 91);
+      masterTL.to('#hero-avocado-wrap', { yPercent: 52.7, rotation: 0, duration: 4 }, 96);
+
+      // STEP 4 (100 -> 150): TWO HALVES SEPARATING ON BOARD
+      masterTL.to('#bg-step-4', { autoAlpha: 1, duration: 12 }, 101);
+      masterTL.to('#copy-step-3', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 101);
+      masterTL.to('#copy-step-4', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 106);
+
+      masterTL.to('#hero-avocado-wrap', { autoAlpha: 0, duration: 7, ease: 'power1.inOut' }, 100);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0, duration: 7, ease: 'power1.inOut' }, 100);
+      masterTL.to('#halves-layer', { autoAlpha: 1, duration: 7, ease: 'power1.inOut' }, 100);
+
+      masterTL.to('#avocado-half-left', { xPercent: -7.0, yPercent: 1.5, rotation: -5.5, duration: 34, ease: 'power2.inOut' }, 108);
+      masterTL.to('#avocado-half-right', { xPercent: 7.0, yPercent: -1.5, rotation: 5.5, duration: 34, ease: 'power2.inOut' }, 108);
+      masterTL.to('#halves-layer', { scale: 1.0, duration: 8 }, 142);
+
+      // STEP 5 (150 -> 180): AVOCADO SLICES ON BOARD
+      masterTL.to('#bg-step-5', { autoAlpha: 1, duration: 12 }, 150);
+      masterTL.to('#copy-step-4', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 150);
+      masterTL.to('#copy-step-5', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 155);
+
+      masterTL.to('#halves-layer', { autoAlpha: 0, scale: 0.96, duration: 10, ease: 'power1.inOut' }, 150);
+      masterTL.to('#slices-layer', { autoAlpha: 1, scale: 1.0, duration: 10, ease: 'power1.inOut' }, 150);
+
+      masterTL.to('#slices-group-left', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
+      masterTL.to('#slices-group-center', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
+      masterTL.to('#slices-group-right', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
+      masterTL.to('#slices-layer', { scale: 1.0, duration: 12 }, 168);
+
+      // STEP 6 (180 -> 220): SLICES POUR INTO SALAD BOWL
+      masterTL.to('#bg-step-6', { autoAlpha: 1, duration: 14 }, 180);
+      masterTL.to('#copy-step-5', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 180);
+      masterTL.to('#copy-step-6', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 188);
+
+      masterTL.to('#salad-layer', { autoAlpha: 1, scale: 1.0, yPercent: 0, duration: 18, ease: 'power2.out' }, 180);
+      masterTL.to('#board-layer', { yPercent: 18, rotation: -8, autoAlpha: 0, scale: 0.94, duration: 24, ease: 'power2.in' }, 182);
+      masterTL.to('#slices-layer', { xPercent: -10, yPercent: 20, rotation: -12, scale: 0.84, autoAlpha: 0, duration: 24, ease: 'power2.in' }, 182);
+      masterTL.to('#salad-layer', { scale: 1.0, xPercent: 0, yPercent: 0, autoAlpha: 1, duration: 14 }, 206);
 
       // CINEMATIC ZOOM AFTER STEP 6 (220 -> 300)
-      storyTL.to('#salad-layer', { scale: 1.0, autoAlpha: 1, duration: 16 }, 220);
-      storyTL.to('#copy-step-6', { autoAlpha: 0, yPercent: -62, scale: 0.94, duration: 12, ease: 'power1.inOut' }, 236);
-      storyTL.to('#salad-layer', {
+      masterTL.to('#salad-layer', { scale: 1.0, autoAlpha: 1, duration: 16 }, 220);
+      masterTL.to('#copy-step-6', { autoAlpha: 0, yPercent: -62, scale: 0.94, duration: 12, ease: 'power1.inOut' }, 236);
+      masterTL.to('#salad-layer', {
         scale: () => window.innerWidth <= 680 ? 6.0 : 4.8,
-        xPercent: () => window.innerWidth <= 680 ? 0 : -42,
+        xPercent: () => window.innerWidth <= 680 ? 22 : -14,
         yPercent: () => window.innerWidth <= 680 ? -110 : -6,
         duration: 40,
         ease: 'power1.inOut'
       }, 236);
 
-      storyTL.to('#bg-next-section', { autoAlpha: 1, duration: 20, ease: 'power1.inOut' }, 276);
-      storyTL.to('#salad-layer', {
+      masterTL.to('#bg-next-section', { autoAlpha: 1, duration: 20, ease: 'power1.inOut' }, 276);
+      masterTL.to('#salad-layer', {
         autoAlpha: 0,
         scale: () => window.innerWidth <= 680 ? 6.8 : 5.4,
         yPercent: () => window.innerWidth <= 680 ? -125 : -8,
         duration: 18,
         ease: 'power1.in'
       }, 276);
-      storyTL.to('#next-section-layer', { autoAlpha: 1, scale: 1.0, duration: 20, ease: 'power1.out' }, 276);
-      storyTL.to('#next-section-layer', { autoAlpha: 1, scale: 1.0, duration: 4 }, 296);
+      masterTL.to('#next-section-layer', { autoAlpha: 1, scale: 1.0, duration: 20, ease: 'power1.out' }, 276);
+      masterTL.to('#next-section-layer', { autoAlpha: 1, scale: 1.0, duration: 4 }, 296);
 
-      // Unified Scroll & Coordinate Continuity Render Function
-      let currentTimelineT = 0;
+      // =========================================================================
+      // SCROLL MAPPING ACROSS STEP 1 (#home) -> STEP 2 (#shop) -> STEPS 3-6 (#story)
+      // =========================================================================
+      const bounds = {
+        s1End: 400,
+        s2End: 1800,
+        storyEnd: 6500
+      };
 
-      function updateSceneFromScroll() {
-        const scrollY = window.scrollY || window.pageYOffset || 0;
-        const vw = window.innerWidth || 1280;
+      function measureScrollBounds() {
         const vh = window.innerHeight || 800;
-        const isMobileLayout = vw <= 960;
+        const vw = window.innerWidth || 1280;
+        const headerH = vw <= 680 ? 64 : 78;
 
-        // Calculate virtual timeline t in [0..300]
-        // 0..12   : Step 1 Attached on Tree
-        // 12..24  : Step 1 -> Step 2 Detachment & Entry into Shop Panel
-        // 24..48  : Step 2 While Shopping in Shop Panel
-        // 48..72  : Step 2 -> Step 3 Handoff onto Wooden Cutting Board
-        // 72..100 : Step 3 Bounce & Settle on Board
-        // 100..150: Step 4 Two Halves
-        // 150..180: Step 5 Sliced on Board
-        // 180..220: Step 6 Pour into Salad Bowl
-        // 220..300: Cinematic Zoom Transition
-        let t = 0;
-        if (scrollY <= geom.s1End) {
-          const u1 = clamp(scrollY / Math.max(1, geom.s1End), 0, 1);
-          t = u1 * 24;
-          geom.dampedShopProgress = 0;
-        } else if (scrollY <= geom.s2End) {
-          const rawU2 = clamp((scrollY - geom.s1End) / Math.max(1, geom.s2End - geom.s1End), 0, 1);
-          if (!geom.initialized) {
-            geom.dampedShopProgress = rawU2;
-          } else {
-            // Smoothly damp shop progress so category filtering/searching never jumps the fruit!
-            geom.dampedShopProgress = lerp(geom.dampedShopProgress, rawU2, 0.18);
-          }
-          t = 24 + geom.dampedShopProgress * 24;
+        const shopTop = shopSection ? shopSection.offsetTop : vh * 1.35;
+        const storyTop = storySection ? storySection.offsetTop : shopTop + 1200;
+        const storyH = storySection ? storySection.offsetHeight : vh * 8;
+
+        bounds.s1End = Math.max(200, shopTop - headerH - 12);
+        bounds.s2End = Math.max(bounds.s1End + 200, storyTop - vh * 0.48);
+        bounds.storyEnd = Math.max(bounds.s2End + 400, storyTop + storyH - vh);
+      }
+
+      function scrollYToTimelineUnits(scrollY) {
+        if (scrollY <= bounds.s1End) {
+          // Step 1 -> top of Step 2 Shop maps to t = 0..24
+          const u1 = clamp(scrollY / Math.max(1, bounds.s1End), 0, 1);
+          return u1 * 24;
+        } else if (scrollY <= bounds.s2End) {
+          // Scrolling through Step 2 Shop maps to t = 24..56 (Avocado falls vertically across the shop!)
+          const u2 = clamp((scrollY - bounds.s1End) / Math.max(1, bounds.s2End - bounds.s1End), 0, 1);
+          return 24 + u2 * 32;
         } else {
-          const u3 = clamp((scrollY - geom.s2End) / Math.max(1, geom.storyEnd - geom.s2End), 0, 1);
-          t = 48 + u3 * 252;
-          geom.dampedShopProgress = 1;
+          // Scrolling through Steps 3..6 & Cinematic Zoom maps to t = 56..300
+          const u3 = clamp((scrollY - bounds.s2End) / Math.max(1, bounds.storyEnd - bounds.s2End), 0, 1);
+          return 56 + u3 * 244;
         }
-        geom.initialized = true;
-        currentTimelineT = t;
+      }
 
-        const overallProgress = clamp(t / 300, 0, 1);
-        root.style.setProperty('--p', overallProgress.toFixed(4));
-        if (stepProgressPctEl) stepProgressPctEl.textContent = `${Math.round(overallProgress * 100)}%`;
+      function updateHUDAndTimeline() {
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        const vh = window.innerHeight || 800;
+        const t = scrollYToTimelineUnits(scrollY);
 
-        // Determine active step 1..6
-        const stepIdx = t >= 276 ? 6 : t >= 180 ? 5 : t >= 150 ? 4 : t >= 100 ? 3 : t >= 52 ? 2 : t >= 18 ? 1 : 0;
+        masterTL.time(t);
+
+        const p = clamp(t / 300, 0, 1);
+        root.style.setProperty('--p', p.toFixed(4));
+        if (stepProgressPctEl) stepProgressPctEl.textContent = `${Math.round(p * 100)}%`;
+
+        const stepIdx = t >= 276 ? 6 : t >= 180 ? 5 : t >= 150 ? 4 : t >= 100 ? 3 : t >= 56 ? 2 : t >= 18 ? 1 : 0;
         const displayStep = Math.min(6, stepIdx + 1);
-        window.MAE_CHAWI_STAGE_STATE.progress = overallProgress;
+        window.MAE_CHAWI_STAGE_STATE.progress = p;
         window.MAE_CHAWI_STAGE_STATE.activeStep = displayStep;
 
         if (stepNumberEl) stepNumberEl.textContent = `0${displayStep} / 06`;
         if (stepNameEl) stepNameEl.textContent = STEP_NAMES[stepIdx];
         if (ghostLabelEl) ghostLabelEl.textContent = `0${displayStep}`;
 
-        const activeRailStep = Math.min(6, stepIdx + 1);
         railButtons.forEach((btn) => {
-          btn.classList.toggle('active', Number(btn.dataset.railStep) === activeRailStep);
+          btn.classList.toggle('active', Number(btn.dataset.railStep) === displayStep);
         });
 
-        // Update active navbar link based on scroll region
+        // Active navbar link
         const maxScrollY = Math.max(1, document.documentElement.scrollHeight - vh);
         const aboutTop = aboutSection ? aboutSection.offsetTop - vh * 0.45 : Infinity;
         const contactTop = contactSection ? contactSection.offsetTop - vh * 0.65 : Infinity;
@@ -3812,7 +3720,7 @@
           activeNavTarget = 'contact';
         } else if (scrollY >= aboutTop) {
           activeNavTarget = 'about';
-        } else if (t >= 52) {
+        } else if (t >= 56) {
           activeNavTarget = 'story';
         } else if (t >= 18) {
           activeNavTarget = 'shop';
@@ -3821,8 +3729,7 @@
           link.classList.toggle('is-active', link.getAttribute('data-nav-target') === activeNavTarget);
         });
 
-        // Hide fixed HUD & hairline while inside Step 2 Shop or below story so nothing overlaps shop cards or footer
-        const inShopRegion = t >= 18 && t <= 54;
+        const inShopRegion = t >= 18 && t < 56;
         const belowStoryRegion = scrollY >= aboutTop;
         if (sceneCounterEl) sceneCounterEl.style.opacity = (inShopRegion || belowStoryRegion) ? '0' : '1';
         if (scrollTipEl) scrollTipEl.style.opacity = (inShopRegion || belowStoryRegion) ? '0' : '1';
@@ -3833,217 +3740,6 @@
           railEl.style.pointerEvents = belowStoryRegion ? 'none' : 'auto';
         }
 
-        // 1. STEP 1 SCENERY, STEM & COPY (t = 0..21)
-        const attachProgress = clamp(t / 12, 0, 1);
-        const detachProgress = clamp((t - 11.5) / 9.5, 0, 1);
-        const detachEase = smoothstep(detachProgress);
-
-        gsap.set('#step1-stage-content', { yPercent: -2.0 * attachProgress });
-        gsap.set('#step1-bg-mountain', { yPercent: 0.6 * attachProgress });
-        gsap.set('#step1-scenery', {
-          yPercent: -46 * detachEase,
-          scale: 1 + 0.03 * detachEase,
-          autoAlpha: 1 - detachEase
-        });
-
-        gsap.set('#hero-stem', {
-          rotation: -2.2 * smoothstep(clamp((t - 11.5) / 3.5, 0, 1)),
-          scaleY: 1 - 0.05 * smoothstep(clamp((t - 11.5) / 3.5, 0, 1))
-        });
-
-        gsap.set('#hero-stem-motion-root', {
-          yPercent: -3.2514 * attachProgress,
-          y: -0.45 * vh * detachEase,
-          scale: 1 + 0.03 * detachEase,
-          autoAlpha: 1 - detachEase
-        });
-
-        const copy1Alpha = 1 - smoothstep(clamp((t - 11) / 8, 0, 1));
-        gsap.set('#copy-step-1', {
-          autoAlpha: copy1Alpha,
-          yPercent: -50 - 14 * (1 - copy1Alpha)
-        });
-
-        // Background crossfades for Step 1..3
-        gsap.set('#bg-step-2', { autoAlpha: smoothstep(clamp((t - 12) / 10, 0, 1)) });
-        const bg3Alpha = smoothstep(clamp((t - 50) / 14, 0, 1));
-        gsap.set('#bg-step-3', { autoAlpha: bg3Alpha });
-
-        // Copy Step 3 fade in (t = 54..101)
-        if (t < 101) {
-          const copy3In = smoothstep(clamp((t - 54) / 12, 0, 1));
-          gsap.set('#copy-step-3', {
-            autoAlpha: copy3In,
-            yPercent: lerp(-38, -50, copy3In)
-          });
-        }
-
-        // 2. CONTINUOUS SINGLE HERO AVOCADO (#hero-avocado-wrap) & WOODEN BOARD (#board-layer)
-        // Compute target coordinates in pixels relative to #hero-avocado-wrap's base position
-        const boardFinalX = 0.989 * geom.baseWidth;
-        const boardFinalY = 0.527 * geom.baseHeight;
-        const boardFinalScale = 1.08;
-
-        const shopEntryY = geom.slotCenterOffsetY - 28;
-        const shopExitY = geom.slotCenterOffsetY + 28;
-
-        let fruitX = 0;
-        let fruitY = 0;
-        let fruitScale = 1;
-        let fruitRot = 0;
-        let fruitAlpha = 1;
-        let rootYPercent = -3.2514 * attachProgress * (1 - detachEase);
-
-        if (t <= 12) {
-          // Attached to branch in Step 1
-          fruitX = 0;
-          fruitY = 0;
-          fruitScale = 1;
-          fruitRot = 0;
-          fruitAlpha = 1;
-        } else if (t <= 24) {
-          // Gliding from Step 1 tree branch into Step 2 Shop Animation Panel
-          const k = smoothstep((t - 12) / 12);
-          fruitX = lerp(0, geom.slotOffsetX, k);
-          fruitY = lerp(0, shopEntryY, k);
-          fruitScale = lerp(1, geom.slotScale, k);
-          fruitRot = Math.sin(k * Math.PI) * -12 + lerp(0, -6, k);
-          fruitAlpha = isMobileLayout ? lerp(1, 0, smoothstep((t - 16) / 6)) : 1;
-        } else if (t <= 48) {
-          // Inside Step 2 Shop Animation Panel while browsing products
-          const k = (t - 24) / 24;
-          fruitX = geom.slotOffsetX;
-          fruitY = lerp(shopEntryY, shopExitY, k);
-          fruitScale = geom.slotScale;
-          fruitRot = lerp(-6, 8, k);
-          fruitAlpha = isMobileLayout ? 0 : 1;
-        } else if (t <= 72) {
-          // Gliding from Step 2 Shop Panel onto Step 3 Wooden Cutting Board
-          const k = (t - 48) / 24;
-          const kEaseX = smoothstep(k);
-          const kEaseY = k * k; // gravity acceleration onto board
-          fruitX = lerp(geom.slotOffsetX, boardFinalX, kEaseX);
-          fruitY = lerp(shopExitY, boardFinalY, kEaseY);
-          fruitScale = lerp(geom.slotScale, boardFinalScale, kEaseX);
-          fruitRot = lerp(8, -7, kEaseX);
-          fruitAlpha = isMobileLayout ? smoothstep((t - 50) / 8) : 1;
-        } else if (t <= 107) {
-          // Step 3 Bounce & Settle on Wooden Cutting Board (72..100), then crossfade to Halves (100..107)
-          fruitX = boardFinalX;
-          fruitScale = boardFinalScale;
-
-          let yPct = 52.7;
-          if (t <= 79.5) {
-            const b = 1 - Math.pow(1 - (t - 72) / 7.5, 2);
-            yPct = lerp(52.7, 27.7, b);
-            fruitRot = lerp(-7, 6, b);
-          } else if (t <= 86.5) {
-            const b = Math.pow((t - 79.5) / 7, 2);
-            yPct = lerp(27.7, 52.7, b);
-            fruitRot = lerp(6, -3, b);
-          } else if (t <= 91) {
-            const b = 1 - Math.pow(1 - (t - 86.5) / 4.5, 2);
-            yPct = lerp(52.7, 43.7, b);
-            fruitRot = lerp(-3, 1.8, b);
-          } else if (t <= 96) {
-            const b = Math.pow((t - 91) / 5, 2);
-            yPct = lerp(43.7, 52.7, b);
-            fruitRot = lerp(1.8, 0, b);
-          } else {
-            yPct = 52.7;
-            fruitRot = 0;
-          }
-          fruitY = (yPct / 100) * geom.baseHeight;
-          fruitAlpha = t <= 100 ? 1 : 1 - smoothstep((t - 100) / 7);
-        } else {
-          fruitX = boardFinalX;
-          fruitY = boardFinalY;
-          fruitScale = boardFinalScale;
-          fruitRot = 0;
-          fruitAlpha = 0;
-        }
-
-        gsap.set('#hero-fruit-motion-root', { yPercent: rootYPercent, autoAlpha: 1 });
-        gsap.set('#hero-avocado-wrap', {
-          x: fruitX,
-          y: fruitY,
-          xPercent: 0,
-          yPercent: 0,
-          scale: fruitScale,
-          rotation: fruitRot,
-          autoAlpha: fruitAlpha
-        });
-
-        // Wooden Cutting Board (#board-layer) & Contact Shadow (#avocado-board-shadow)
-        let boardAlpha = 0;
-        let boardYPercent = 36;
-        let boardScale = 0.94;
-        let boardRot = 0;
-
-        if (t >= 50 && t < 182) {
-          const enterK = smoothstep(clamp((t - 50) / 18, 0, 1));
-          boardAlpha = enterK;
-          boardYPercent = lerp(36, 0, enterK);
-          boardScale = lerp(0.94, 1.0, enterK);
-          if (t >= 72 && t <= 74.5) {
-            boardYPercent = lerp(0, 1.4, (t - 72) / 2.5);
-          } else if (t > 74.5 && t <= 79) {
-            boardYPercent = lerp(1.4, 0, (t - 74.5) / 4.5);
-          }
-        } else if (t >= 182) {
-          const exitK = clamp((t - 182) / 24, 0, 1);
-          const exitEase = exitK * exitK;
-          boardAlpha = 1 - exitEase;
-          boardYPercent = lerp(0, 18, exitEase);
-          boardScale = lerp(1.0, 0.94, exitEase);
-          boardRot = lerp(0, -8, exitEase);
-        }
-
-        gsap.set('#board-layer', {
-          autoAlpha: boardAlpha,
-          yPercent: boardYPercent,
-          scale: boardScale,
-          rotation: boardRot
-        });
-
-        let shadowAlpha = 0;
-        let shadowScale = 0.35;
-        if (t >= 60 && t <= 107) {
-          if (t <= 72) {
-            const sk = clamp((t - 60) / 12, 0, 1);
-            shadowAlpha = lerp(0, 0.92, sk * sk);
-            shadowScale = lerp(0.35, 1.0, sk);
-          } else if (t <= 79.5) {
-            const sk = (t - 72) / 7.5;
-            shadowAlpha = lerp(0.92, 0.48, sk);
-            shadowScale = lerp(1.0, 1.26, sk);
-          } else if (t <= 86.5) {
-            const sk = (t - 79.5) / 7;
-            shadowAlpha = lerp(0.48, 0.95, sk);
-            shadowScale = lerp(1.26, 0.98, sk);
-          } else if (t <= 91) {
-            const sk = (t - 86.5) / 4.5;
-            shadowAlpha = lerp(0.95, 0.72, sk);
-            shadowScale = lerp(0.98, 1.08, sk);
-          } else if (t <= 96) {
-            const sk = (t - 91) / 5;
-            shadowAlpha = lerp(0.72, 0.96, sk);
-            shadowScale = lerp(1.08, 1.0, sk);
-          } else if (t <= 100) {
-            shadowAlpha = 0.96;
-            shadowScale = 1.0;
-          } else {
-            const sk = (t - 100) / 7;
-            shadowAlpha = lerp(0.96, 0, sk);
-            shadowScale = 1.0;
-          }
-        }
-        gsap.set('#avocado-board-shadow', { autoAlpha: shadowAlpha, scale: shadowScale });
-
-        // 3. ADVANCE STEPS 4..6 & CINEMATIC ZOOM TIMELINE
-        storyTL.time(clamp(t, 95, 300));
-
-        // Toggle interactive pointer-events on copy nodes & next-section overlay
         copyNodes.forEach((node, idx) => {
           if (!node) return;
           const isCurrent = idx === stepIdx && idx !== 1;
@@ -4052,11 +3748,27 @@
         });
 
         if (nextSectionLayer) {
-          const isNextActive = t >= 286 && scrollY < (aboutSection ? aboutSection.offsetTop - vh * 0.5 : Infinity);
+          const isNextActive = t >= 286 && !belowStoryRegion;
           nextSectionLayer.classList.toggle('is-active', isNextActive);
           nextSectionLayer.setAttribute('aria-hidden', isNextActive ? 'false' : 'true');
         }
       }
+
+      // Single ScrollTrigger instance driving masterTL
+      ScrollTrigger.create({
+        trigger: scrollJourneyEl,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.55,
+        invalidateOnRefresh: true,
+        onRefresh: () => {
+          measureScrollBounds();
+          updateHUDAndTimeline();
+        },
+        onUpdate: () => {
+          updateHUDAndTimeline();
+        }
+      });
 
       // Synchronized Tree -> Branch -> Stem -> Fruit Sway Engine
       const treeMotionGroup = document.getElementById('step1-tree-motion-group');
@@ -4067,10 +3779,8 @@
       const fruitLocalSway = document.getElementById('hero-avocado-sway');
       const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      gsap.ticker.add((time) => {
-        updateSceneFromScroll();
-
-        if (!prefersReducedMotion) {
+      if (!prefersReducedMotion) {
+        gsap.ticker.add((time) => {
           const treeAngle = Math.sin(time * (Math.PI / 4.25)) * 0.40;
           const branchAngle = Math.sin(time * (Math.PI / 2.30) + 0.55) * 0.75;
           const localFruitAngle = Math.sin(time * (Math.PI / 1.80) + 1.25) * 1.15;
@@ -4079,50 +3789,49 @@
           if (stemTreeBreeze) stemTreeBreeze.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
           if (stemBranchPendulum) stemBranchPendulum.style.transform = `rotate(${branchAngle.toFixed(4)}deg)`;
 
+          const tlTime = masterTL.time();
           let attachWeight = 0;
-          if (currentTimelineT <= 12) {
+          if (tlTime <= 12) {
             attachWeight = 1;
-          } else if (currentTimelineT < 24) {
-            const p = (currentTimelineT - 12) / 12;
+          } else if (tlTime < 26) {
+            const p = (tlTime - 12) / 14;
             attachWeight = 0.5 * (1 + Math.cos(Math.PI * p));
           }
 
           if (fruitTreeBreeze) fruitTreeBreeze.style.transform = `rotate(${(treeAngle * attachWeight).toFixed(4)}deg)`;
           if (fruitBranchPendulum) fruitBranchPendulum.style.transform = `rotate(${(branchAngle * attachWeight).toFixed(4)}deg)`;
           if (fruitLocalSway) fruitLocalSway.style.transform = `rotate(${(localFruitAngle * attachWeight).toFixed(4)}deg)`;
-        }
-      });
+        });
+      }
 
-      // Callback when shop products filter/search/paginate
       window.onSgShopLayoutChanged = function () {
-        measureGeometry();
-        updateSceneFromScroll();
+        measureScrollBounds();
+        updateHUDAndTimeline();
       };
 
-      // Smooth Navigation Helper (Navbar, CTA buttons, Rail buttons, Hash URLs)
+      // Navigation Helper
       function navigateToTarget(targetName, smooth = true) {
         closeMobileMenu();
-        measureGeometry();
+        measureScrollBounds();
         const headerH = (window.innerWidth || 1280) <= 680 ? 64 : 78;
         let targetScrollY = 0;
 
         if (targetName === 'home' || targetName === 'step-1') {
           targetScrollY = 0;
         } else if (targetName === 'shop' || targetName === 'products' || targetName === 'step-2') {
-          targetScrollY = shopSection ? Math.max(0, shopSection.offsetTop - headerH - 8) : geom.s1End;
+          targetScrollY = shopSection ? Math.max(0, shopSection.offsetTop - headerH - 4) : bounds.s1End;
         } else if (targetName === 'story' || targetName === 'step-3') {
-          // Jump to Step 3 where avocado lands on the wooden cutting board (t = 94)
-          const u3 = (94 - 48) / 252;
-          targetScrollY = geom.s2End + u3 * (geom.storyEnd - geom.s2End);
+          const u3 = (94 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
         } else if (targetName === 'step-4') {
-          const u3 = (135 - 48) / 252;
-          targetScrollY = geom.s2End + u3 * (geom.storyEnd - geom.s2End);
+          const u3 = (135 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
         } else if (targetName === 'step-5') {
-          const u3 = (168 - 48) / 252;
-          targetScrollY = geom.s2End + u3 * (geom.storyEnd - geom.s2End);
+          const u3 = (168 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
         } else if (targetName === 'step-6') {
-          const u3 = (212 - 48) / 252;
-          targetScrollY = geom.s2End + u3 * (geom.storyEnd - geom.s2End);
+          const u3 = (212 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
         } else if (targetName === 'about') {
           targetScrollY = aboutSection ? Math.max(0, aboutSection.offsetTop - headerH) : 0;
         } else if (targetName === 'contact') {
@@ -4150,23 +3859,24 @@
         });
       });
 
+      window.addEventListener('scroll', updateHUDAndTimeline, { passive: true });
       window.addEventListener('resize', () => {
-        measureGeometry();
-        updateSceneFromScroll();
+        measureScrollBounds();
+        updateHUDAndTimeline();
       });
 
       window.addEventListener('load', () => {
-        measureGeometry();
-        updateSceneFromScroll();
-        // Support initial URL hash (#shop, #products, #story, #about, #contact)
+        measureScrollBounds();
+        ScrollTrigger.refresh();
+        updateHUDAndTimeline();
         const rawHash = (window.location.hash || '').replace(/^#/, '').trim();
         if (rawHash) {
           setTimeout(() => navigateToTarget(rawHash, false), 60);
         }
       });
 
-      measureGeometry();
-      updateSceneFromScroll();
+      measureScrollBounds();
+      updateHUDAndTimeline();
     })();
   </script>
 </body>

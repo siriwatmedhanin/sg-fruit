@@ -1,0 +1,58 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="tomGrad" cx="35%" cy="28%" r="65%">
+      <stop offset="0%" stop-color="#ff785a"/>
+      <stop offset="42%" stop-color="#e82c20"/>
+      <stop offset="85%" stop-color="#9e0e08"/>
+      <stop offset="100%" stop-color="#690502"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="300" cy="468" rx="185" ry="30" fill="url(#floorShadow)"/>
+  <!-- Vine stem -->
+  <path d="M 145,195 C 245,165 355,175 455,215" stroke="#4d8527" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Tomatoes on the vine -->
+  <g transform="translate(195, 295)">
+    <ellipse cx="0" cy="0" rx="54" ry="62" fill="url(#tomGrad)"/>
+    <ellipse cx="-18" cy="-20" rx="12" ry="20" transform="rotate(-22 -18 -20)" fill="#ffffff" opacity="0.42"/>
+    <path d="M 0,-56 L -22,-72 L -5,-58 L 0,-78 L 5,-58 L 22,-72 Z" fill="#3e7526"/>
+  </g>
+  <g transform="translate(300, 275)">
+    <ellipse cx="0" cy="0" rx="56" ry="64" fill="url(#tomGrad)"/>
+    <ellipse cx="-18" cy="-20" rx="12" ry="20" transform="rotate(-22 -18 -20)" fill="#ffffff" opacity="0.42"/>
+    <path d="M 0,-58 L -24,-74 L -6,-60 L 0,-80 L 6,-60 L 24,-74 Z" fill="#3e7526"/>
+  </g>
+  <g transform="translate(405, 305)">
+    <ellipse cx="0" cy="0" rx="54" ry="62" fill="url(#tomGrad)"/>
+    <ellipse cx="-18" cy="-20" rx="12" ry="20" transform="rotate(-22 -18 -20)" fill="#ffffff" opacity="0.42"/>
+    <path d="M 0,-56 L -22,-72 L -5,-58 L 0,-78 L 5,-58 L 22,-72 Z" fill="#3e7526"/>
+  </g>
+  <g transform="translate(245, 392)">
+    <ellipse cx="0" cy="0" rx="58" ry="65" fill="url(#tomGrad)"/>
+    <ellipse cx="-18" cy="-20" rx="13" ry="22" transform="rotate(-22 -18 -20)" fill="#ffffff" opacity="0.45"/>
+    <path d="M 0,-58 L -24,-74 L -6,-60 L 0,-80 L 6,-60 L 24,-74 Z" fill="#3e7526"/>
+  </g>
+  <g transform="translate(358, 398)">
+    <ellipse cx="0" cy="0" rx="56" ry="64" fill="url(#tomGrad)"/>
+    <ellipse cx="-18" cy="-20" rx="12" ry="20" transform="rotate(-22 -18 -20)" fill="#ffffff" opacity="0.45"/>
+    <path d="M 0,-58 L -24,-74 L -6,-60 L 0,-80 L 6,-60 L 24,-74 Z" fill="#3e7526"/>
+  </g>
+</svg>

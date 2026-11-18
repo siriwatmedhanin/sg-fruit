@@ -1,0 +1,65 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="strawGrad" cx="35%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="45%" stop-color="#e01e2b"/>
+      <stop offset="85%" stop-color="#9e0b16"/>
+      <stop offset="100%" stop-color="#66040b"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="240" cy="465" rx="115" ry="26" fill="url(#floorShadow)"/>
+  <ellipse cx="365" cy="472" rx="115" ry="26" fill="url(#floorShadow)"/>
+  <!-- Left Strawberry -->
+  <g transform="translate(240, 320) rotate(-12)">
+    <path d="M 0,-95 C 68,-95 95,-35 72,42 C 52,105 22,135 0,138 C -22,135 -52,105 -72,42 C -95,-35 -68,-95 0,-95 Z" fill="url(#strawGrad)"/>
+    <ellipse cx="-26" cy="-22" rx="18" ry="42" transform="rotate(-14 -26 -22)" fill="#ffffff" opacity="0.28"/>
+    <!-- Seeds -->
+    <circle cx="-25" cy="-25" r="3" fill="#ffe484"/>
+    <circle cx="0" cy="-35" r="3" fill="#ffe484"/>
+    <circle cx="28" cy="-22" r="3" fill="#ffe484"/>
+    <circle cx="-38" cy="12" r="3" fill="#ffe484"/>
+    <circle cx="-12" cy="15" r="3" fill="#ffe484"/>
+    <circle cx="18" cy="18" r="3" fill="#ffe484"/>
+    <circle cx="42" cy="10" r="3" fill="#ffe484"/>
+    <circle cx="-22" cy="58" r="3" fill="#ffe484"/>
+    <circle cx="8" cy="62" r="3" fill="#ffe484"/>
+    <circle cx="28" cy="52" r="3" fill="#ffe484"/>
+    <circle cx="0" cy="98" r="3" fill="#ffe484"/>
+    <!-- Calyx leaves -->
+    <path d="M 0,-82 L -48,-108 L -18,-72 L -58,-68 L -10,-58 L 0,-95 L 10,-58 L 58,-68 L 18,-72 L 48,-108 Z" fill="url(#leafGrad)"/>
+    <path d="M 0,-92 C 2,-115 10,-125 18,-132" stroke="#4c8026" stroke-width="7" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- Right Strawberry -->
+  <g transform="translate(368, 348) rotate(14)">
+    <path d="M 0,-85 C 60,-85 84,-30 64,38 C 46,94 20,120 0,122 C -20,120 -46,94 -64,38 C -84,-30 -60,-85 0,-85 Z" fill="url(#strawGrad)"/>
+    <ellipse cx="-22" cy="-18" rx="15" ry="36" transform="rotate(-14 -22 -18)" fill="#ffffff" opacity="0.28"/>
+    <circle cx="-20" cy="-18" r="2.8" fill="#ffe484"/>
+    <circle cx="8" cy="-25" r="2.8" fill="#ffe484"/>
+    <circle cx="26" cy="-12" r="2.8" fill="#ffe484"/>
+    <circle cx="-28" cy="18" r="2.8" fill="#ffe484"/>
+    <circle cx="0" cy="22" r="2.8" fill="#ffe484"/>
+    <circle cx="25" cy="20" r="2.8" fill="#ffe484"/>
+    <circle cx="-12" cy="58" r="2.8" fill="#ffe484"/>
+    <circle cx="14" cy="56" r="2.8" fill="#ffe484"/>
+    <path d="M 0,-74 L -42,-98 L -15,-64 L -50,-60 L -8,-52 L 0,-85 L 8,-52 L 50,-60 L 15,-64 L 42,-98 Z" fill="url(#leafGrad)"/>
+  </g>
+</svg>

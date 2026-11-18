@@ -1,0 +1,50 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="pomeloSkin" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#d4eb86"/>
+      <stop offset="50%" stop-color="#8ec242"/>
+      <stop offset="90%" stop-color="#538520"/>
+      <stop offset="100%" stop-color="#385e12"/>
+    </radialGradient>
+    <radialGradient id="rubyFlesh" cx="45%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#ff5e73"/>
+      <stop offset="60%" stop-color="#d91c38"/>
+      <stop offset="100%" stop-color="#8f091e"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="245" cy="462" rx="125" ry="28" fill="url(#floorShadow)"/>
+  <ellipse cx="375" cy="475" rx="115" ry="24" fill="url(#floorShadow)"/>
+  <!-- Whole Pomelo Back Left -->
+  <g transform="translate(242, 305)">
+    <path d="M 0,-138 C 48,-138 68,-95 95,-55 C 128,-5 128,75 88,118 C 52,155 -52,155 -88,118 C -128,75 -128,-5 -95,-55 C -68,-95 -48,-138 0,-138 Z" fill="url(#pomeloSkin)"/>
+    <ellipse cx="-35" cy="-35" rx="28" ry="48" transform="rotate(-18 -35 -35)" fill="#f4fad6" opacity="0.32"/>
+    <path d="M 0,-138 C 35,-165 82,-142 65,-98 C 42,-90 15,-112 0,-138 Z" fill="url(#leafGrad)"/>
+  </g>
+  <!-- Ruby Pomelo Segment Front Right -->
+  <g transform="translate(368, 385) rotate(-10)">
+    <path d="M -95,25 A 95,95 0 0,1 95,25 Z" fill="#f7f4eb" stroke="#9ec950" stroke-width="10"/>
+    <path d="M -78,18 A 78,78 0 0,1 78,18 Z" fill="url(#rubyFlesh)"/>
+    <line x1="0" y1="18" x2="0" y2="-60" stroke="#f7f4eb" stroke-width="4"/>
+    <line x1="0" y1="18" x2="-52" y2="-36" stroke="#f7f4eb" stroke-width="4"/>
+    <line x1="0" y1="18" x2="52" y2="-36" stroke="#f7f4eb" stroke-width="4"/>
+  </g>
+</svg>
