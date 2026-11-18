@@ -438,9 +438,16 @@
       will-change: transform;
     }
 
+    .step1-tree-motion-group {
+      position: absolute;
+      inset: 0;
+      transform-origin: 67.6% 95.6%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
     .step1-tree-img {
       transform-origin: 67.6% 95.6%;
-      animation: tree-breeze-sway 8.5s ease-in-out infinite alternate;
     }
 
     @keyframes tree-breeze-sway {
@@ -449,18 +456,18 @@
       100% { transform: rotate(-0.35deg); }
     }
 
-    /* Fog 01: Midground drifting mist */
+    /* Fog 01: Midground drifting mist (2x speed: 22s -> 11s) */
     .step1-fog-01 {
       mix-blend-mode: screen;
       opacity: 0.45;
-      animation: fog-drift-01 22s ease-in-out infinite alternate;
+      animation: fog-drift-01 11s ease-in-out infinite alternate;
     }
 
-    /* Fog 02: Foreground drifting mist in opposite direction */
+    /* Fog 02: Foreground drifting mist in opposite direction (2x speed: 28s -> 14s) */
     .step1-fog-02 {
       mix-blend-mode: screen;
       opacity: 0.38;
-      animation: fog-drift-02 28s ease-in-out infinite alternate;
+      animation: fog-drift-02 14s ease-in-out infinite alternate;
     }
 
     /* Hanging fruit 01 (right upper branch) */
@@ -599,17 +606,50 @@
       will-change: transform, opacity;
     }
 
-    /* Real photographic stem connecting branch underside to hero avocado top pedicel */
+    /* Shared Scene & Tree Kinematic Wrappers in #stage-art */
+    .hero-stem-motion-root,
+    .hero-fruit-motion-root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .hero-stem-motion-root {
+      z-index: 7;
+    }
+
+    .hero-fruit-motion-root {
+      z-index: 6;
+    }
+
+    .hero-tree-breeze-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 88.32% 101.27%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .hero-branch-pendulum-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 25.38% 35.15%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    /* Real photographic stem cropped from avocado-stem-02.png connecting branch underside to hero avocado top pedicel */
     .hero-stem-img {
       position: absolute;
-      left: 25.3%;
-      top: 35.5%;
-      width: 1.4%;
-      height: 7.8%;
+      left: 24.95%;
+      top: 35.10%;
+      width: 1.90%;
+      height: 8.55%;
       object-fit: fill;
-      z-index: 5;
+      z-index: 7;
       pointer-events: none;
-      transform-origin: 50% 0%;
+      transform-origin: 22.6% 2%;
       filter: drop-shadow(0 2px 4px rgba(24, 42, 18, 0.22));
       will-change: transform;
     }
@@ -624,6 +664,13 @@
       z-index: 6;
       will-change: transform, opacity;
       transform-origin: 49.5% 49.2%;
+    }
+
+    .hero-avocado-sway {
+      width: 100%;
+      height: 100%;
+      transform-origin: 49.5% 3.0%;
+      will-change: transform;
     }
 
     .hero-avocado-img {
@@ -1506,17 +1553,20 @@
         <!-- STEP 1: CINEMATIC MOUNTAIN ORCHARD SCENERY (REBUILT FROM SEPARATED LAYERS) -->
         <div class="step1-scenery" id="step1-scenery" aria-label="ฉากสวนอะโวคาโดบนภูเขา Step 1">
           <div class="step1-canvas-stage">
-            <div class="step1-stage-content">
+            <div class="step1-stage-content" id="step1-stage-content">
               <!-- Mountain Background -->
               <img class="step1-layer-img step1-bg-mountain" id="step1-bg-mountain" src="public/assets/step1/step1-bg-mountain.png" alt="" />
               <!-- Midground Fog 01 -->
               <img class="step1-layer-img step1-fog-01" src="public/assets/step1/step1-fog-01.png" alt="" />
-              <!-- Avocado Tree (Hero Subject) -->
-              <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดไร่แม่ฉวี" />
-              <!-- Hanging Fruit 01 (Right upper branch) -->
-              <img class="step1-fruit-h01" src="public/assets/step1/step1-avocado-hanging-01.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 1" />
-              <!-- Hanging Fruit 02 (Right lower branch) -->
-              <img class="step1-fruit-h02" src="public/assets/step1/step1-avocado-hanging-02.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 2" />
+              <!-- Shared Tree & Branch Motion Group -->
+              <div class="step1-tree-motion-group" id="step1-tree-motion-group">
+                <!-- Avocado Tree (Hero Subject) -->
+                <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดไร่แม่ฉวี" />
+                <!-- Hanging Fruit 01 (Right upper branch) -->
+                <img class="step1-fruit-h01" src="public/assets/step1/step1-avocado-hanging-01.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 1" />
+                <!-- Hanging Fruit 02 (Right lower branch) -->
+                <img class="step1-fruit-h02" src="public/assets/step1/step1-avocado-hanging-02.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 2" />
+              </div>
               <!-- Foreground Fog 02 -->
               <img class="step1-layer-img step1-fog-02" src="public/assets/step1/step1-fog-02.png" alt="" />
               <!-- Foreground Leaves (Framing corners) -->
@@ -1610,27 +1660,41 @@
             <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
           </div>
 
-          <!-- Real photographic stem connecting branch underside to hero avocado top pedicel -->
-          <img
-            class="hero-stem-img"
-            id="hero-stem"
-            src="public/assets/step1/avocado-stem.png"
-            alt=""
-            aria-hidden="true"
-            width="36"
-            height="136"
-          />
+          <!-- STEM KINEMATIC HIERARCHY (FOLLOWS TREE & BRANCH IN STEP 1, STAYS ON BRANCH AT DETACHMENT) -->
+          <div class="hero-stem-motion-root" id="hero-stem-motion-root">
+            <div class="hero-tree-breeze-layer" id="hero-stem-tree-breeze">
+              <div class="hero-branch-pendulum-layer" id="hero-stem-branch-pendulum">
+                <img
+                  class="hero-stem-img"
+                  id="hero-stem"
+                  src="public/assets/step1/avocado-stem-02.png"
+                  alt=""
+                  aria-hidden="true"
+                  width="53"
+                  height="241"
+                />
+              </div>
+            </div>
+          </div>
 
-          <!-- SINGLE CONTINUOUS HERO AVOCADO (SAME ELEMENT ACROSS STEP 1, 2, AND 3) -->
-          <div class="hero-avocado-wrap" id="hero-avocado-wrap">
-            <img
-              class="hero-avocado-img"
-              id="hero-avocado"
-              src="public/assets/step1/avocado-whole.png"
-              alt="ลูกอะโวคาโดไร่แม่ฉวีลูกเดียวกันตลอดทั้งฉาก"
-              width="2000"
-              height="1695"
-            />
+          <!-- SINGLE CONTINUOUS HERO AVOCADO KINEMATIC HIERARCHY (SAME ELEMENT ACROSS STEP 1, 2, AND 3) -->
+          <div class="hero-fruit-motion-root" id="hero-fruit-motion-root">
+            <div class="hero-tree-breeze-layer" id="hero-fruit-tree-breeze">
+              <div class="hero-branch-pendulum-layer" id="hero-fruit-branch-pendulum">
+                <div class="hero-avocado-wrap" id="hero-avocado-wrap">
+                  <div class="hero-avocado-sway" id="hero-avocado-sway">
+                    <img
+                      class="hero-avocado-img"
+                      id="hero-avocado"
+                      src="public/assets/step1/avocado-whole.png"
+                      alt="ลูกอะโวคาโดไร่แม่ฉวีลูกเดียวกันตลอดทั้งฉาก"
+                      width="2000"
+                      height="1695"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- STEP 4: AVOCADO HALVES SEPARATING SMOOTHLY ON THE BOARD (NO HANDS / NO KNIFE) -->
@@ -1962,6 +2026,8 @@
       gsap.set('#step1-scenery', { autoAlpha: 1, yPercent: 0 });
       gsap.set('#step1-stage-content', { yPercent: 0, xPercent: 0 });
       gsap.set('#step1-bg-mountain', { yPercent: 0 });
+      gsap.set('#hero-stem-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-fruit-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
       gsap.set('#hero-stem', { rotation: 0, scaleY: 1, autoAlpha: 1 });
       gsap.set('#fall-layer', { autoAlpha: 0, yPercent: 12 });
       gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, autoAlpha: 0 });
@@ -2004,11 +2070,70 @@
       });
 
       // =========================================================================
+      // KINEMATIC TREE -> BRANCH -> STEM -> FRUIT SYNCHRONIZED SWAY ENGINE
+      // =========================================================================
+      const treeMotionGroup = document.getElementById('step1-tree-motion-group');
+      const stemTreeBreeze = document.getElementById('hero-stem-tree-breeze');
+      const stemBranchPendulum = document.getElementById('hero-stem-branch-pendulum');
+      const fruitTreeBreeze = document.getElementById('hero-fruit-tree-breeze');
+      const fruitBranchPendulum = document.getElementById('hero-fruit-branch-pendulum');
+      const fruitLocalSway = document.getElementById('hero-avocado-sway');
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReducedMotion) {
+        gsap.ticker.add((time) => {
+          // 1. Primary tree breeze sway (8.5s half-cycle around trunk base 67.6% 95.6%)
+          const treeAngle = Math.sin(time * (Math.PI / 4.25)) * 0.40;
+          // 2. Shared branch-to-stem pendulum sway (4.6s half-cycle around branch node 25.38% 35.15%)
+          const branchAngle = Math.sin(time * (Math.PI / 2.30) + 0.55) * 0.75;
+          // 3. Independent local fruit sway (~1.2 deg around pedicel socket 49.5% 3.0%)
+          const localFruitAngle = Math.sin(time * (Math.PI / 1.80) + 1.25) * 1.15;
+
+          if (treeMotionGroup) {
+            treeMotionGroup.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
+          }
+          if (stemTreeBreeze) {
+            stemTreeBreeze.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
+          }
+          if (stemBranchPendulum) {
+            stemBranchPendulum.style.transform = `rotate(${branchAngle.toFixed(4)}deg)`;
+          }
+
+          // Fruit receives 100% of tree & branch sway while attached (tlTime <= 12),
+          // and smoothly damps to 0 during free-fall (12 < tlTime < 30) with C1 continuity
+          const tlTime = masterTL.time();
+          let attachWeight = 0;
+          if (tlTime <= 12) {
+            attachWeight = 1;
+          } else if (tlTime < 30) {
+            const p = (tlTime - 12) / 18;
+            attachWeight = 0.5 * (1 + Math.cos(Math.PI * p));
+          }
+
+          if (fruitTreeBreeze) {
+            fruitTreeBreeze.style.transform = `rotate(${(treeAngle * attachWeight).toFixed(4)}deg)`;
+          }
+          if (fruitBranchPendulum) {
+            fruitBranchPendulum.style.transform = `rotate(${(branchAngle * attachWeight).toFixed(4)}deg)`;
+          }
+          if (fruitLocalSway) {
+            fruitLocalSway.style.transform = `rotate(${(localFruitAngle * attachWeight).toFixed(4)}deg)`;
+          }
+        });
+      }
+
+      // =========================================================================
       // STEP 1 (0 -> 12): CINEMATIC ORCHARD TREE & MOUNTAIN SCENERY
       // =========================================================================
-      // Coordinated Scene Container camera glide: mountain, tree, and background move coherently
+      // Coordinated Scene Container camera glide: mountain, tree, stem, and attached fruit move coherently
       masterTL.to('#step1-stage-content', {
         yPercent: -2.0,
+        duration: 12,
+        ease: 'none'
+      }, 0);
+
+      masterTL.to(['#hero-stem-motion-root', '#hero-fruit-motion-root'], {
+        yPercent: -3.2514,
         duration: 12,
         ease: 'none'
       }, 0);
@@ -2020,35 +2145,13 @@
         ease: 'none'
       }, 0);
 
-      // Fruit gently sways on the branch
-      masterTL.to('#hero-avocado-wrap', {
-        rotation: -1.5,
-        yPercent: 1.2,
-        duration: 7,
-        ease: 'sine.inOut'
-      }, 0);
-
+      // Stem recoils slightly upward on the branch as the avocado detaches cleanly at t=11.5..15
       masterTL.to('#hero-stem', {
-        rotation: -1.5,
-        scaleY: 1.05,
-        duration: 7,
-        ease: 'sine.inOut'
-      }, 0);
-
-      masterTL.to('#hero-avocado-wrap', {
-        rotation: 2.0,
-        yPercent: 3.2,
-        duration: 5,
-        ease: 'sine.in'
-      }, 7);
-
-      // Stem recoils slightly upward as the avocado detaches cleanly at t=11..12
-      masterTL.to('#hero-stem', {
-        rotation: 3.5,
-        scaleY: 0.92,
-        duration: 4,
+        rotation: -2.2,
+        scaleY: 0.95,
+        duration: 3.5,
         ease: 'back.out(2)'
-      }, 11);
+      }, 11.5);
 
       // =========================================================================
       // STEP 2 (12 -> 68): UNCHANGED FROM CHECKPOINT v1.0-step1-3
@@ -2057,12 +2160,21 @@
       masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 14);
       masterTL.to('#copy-step-2', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 20);
 
-      // Stem fades out as camera tilts down into Step 2 freefall
-      masterTL.to('#hero-stem', {
+      // Stem remains attached to the branch and moves up / fades out with #step1-scenery
+      masterTL.to('#hero-stem-motion-root', {
+        y: () => -0.45 * window.innerHeight,
+        scale: 1.03,
         autoAlpha: 0,
-        duration: 8,
-        ease: 'power1.out'
+        duration: 36,
+        ease: 'power1.inOut'
       }, 14);
+
+      // Fruit motion root smoothly normalizes its Step 1 scene glide offset back to 0 during free-fall
+      masterTL.to('#hero-fruit-motion-root', {
+        yPercent: 0,
+        duration: 48,
+        ease: 'sine.inOut'
+      }, 12);
 
       // Step 1 mountain orchard scenery smoothly moves up and fades out into Step 2
       masterTL.to('#step1-scenery', {

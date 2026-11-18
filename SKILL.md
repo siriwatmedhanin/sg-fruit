@@ -74,7 +74,12 @@ flowchart TD
   $$\text{Visible Fruit Width} = 26.5\% \times 55.6\% = 14.73\% \approx 109\text{px}$$
   ขนาดเนื้อผลจึงสมดุลกลมกลืนกับผลข้างเคียงบนต้นไม้ (108–115px) พอดี 100%
 
-### 2.3 การวางตำแหน่งและต่อก้านขั้ว (Positioning & Stem Attachment)
+### 2.3 การวางตำแหน่ง ต่อก้านขั้วใหม่ (`avocado-stem-02.png`) และโครงสร้าง Kinematic Hierarchy
+* **Nested Kinematic Transform Wrappers (ซิงก์การโยกตามต้นไม้ 100%)**:
+  - `.step1-tree-motion-group` (`transform-origin: 67.6% 95.6%`) และ `.hero-tree-breeze-layer` (`transform-origin: 88.32% 101.27%`) หมุนรอบโคนต้นจุดเดียวกันด้วยมุม `treeAngle` เดียวกันทุกเฟรม (`±0.40°`, คาบครึ่งรอบ `8.5s`)
+  - `.hero-branch-pendulum-layer` (`transform-origin: 25.38% 35.15%`) หมุนรอบจุดเชื่อมใต้กิ่งไม้ด้วยมุม `branchAngle` (`±0.75°`, คาบครึ่งรอบ `4.6s`)
+  - `.hero-avocado-sway` (`transform-origin: 49.5% 3.0%`) แกว่งอิสระรอบขั้วผล (`±1.15°`, คาบครึ่งรอบ `3.6s`)
+  - เมื่อ `tlTime <= 12` (`attachWeight = 1`) กิ่งไม้ ก้านขั้ว และผลอะโวคาโดจะเคลื่อนไหวเป็นชิ้นเดียวกันโดยจุดเชื่อมทั้งสองด้านไม่หลุดออกจากกัน และเมื่อ `12 < tlTime < 30` ค่า `attachWeight` จะลดลงแบบ Cosine (`C1 continuous`) จนเป็น `0` ขณะร่วงลงเขียง โดยที่ก้านขั้วคงติดอยู่กับกิ่งไม้บนต้น
 * **ตำแหน่งผลอะโวคาโดบนกิ่งจริงด้านซ้าย (`.hero-avocado-wrap`)**:
   ```css
   .hero-avocado-wrap {
@@ -87,20 +92,24 @@ flowchart TD
     transform-origin: 49.5% 49.2%;
   }
   ```
-* **ตำแหน่งก้านขั้วจริง (`.hero-stem-img`)**:
+* **ตำแหน่งก้านขั้วใหม่จาก `avocado-stem-02.png` (`.hero-stem-img`)**:
   ```css
   .hero-stem-img {
     position: absolute;
-    left: 25.3%;
-    top: 35.5%;
-    width: 1.4%;
-    height: 7.8%;
+    left: 24.95%;
+    top: 35.10%;
+    width: 1.90%;
+    height: 8.55%;
     object-fit: fill;
-    z-index: 5;
-    transform-origin: 50% 0%;
+    z-index: 7;
+    transform-origin: 22.6% 2%;
   }
   ```
-  ก้านขั้วยึดจากใต้กิ่งไม้ลงมายังหัวผลอะโวคาโดอย่างแนบสนิท ไร้ช่องว่าง
+  คัดแยกเฉพาะก้านมุมล่างซ้าย (`X=209..261, Y=736..979`, ขนาด `53 × 241 px`) จาก `Pic/avocado-stem-02.png.png` พร้อมทำความสะอาด Alpha Transparency ไร้ขอบสีและกรอบสี่เหลี่ยม
+
+### 2.5 ความเร็วหมอก 2 เท่า (Fog Animation 2x Speed)
+* `.step1-fog-01`: `animation: fog-drift-01 11s ease-in-out infinite alternate` (เร็วขึ้น 2 เท่าจากเดิม `22s`, ระยะ `-2% .. 2.5%`)
+* `.step1-fog-02`: `animation: fog-drift-02 14s ease-in-out infinite alternate` (เร็วขึ้น 2 เท่าจากเดิม `28s`, ระยะ `2% .. -3%`)
 
 ### 2.4 การตกกระทบเขียงใน Step 3 และส่งต่อเข้า Step 4 (Handoff Math)
 * จุดกึ่งกลางเริ่มต้นของผลใน Stage: $X_0 = 26.0\%, Y_0 = 53.2\%$
