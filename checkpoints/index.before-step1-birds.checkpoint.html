@@ -1,0 +1,3916 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f5e9" />
+  <meta name="description" content="SG FRUIT – เอสจี ผลไม้ตามฤดูกาล | เลือกช้อปผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด คัดสรรความสดเพื่อทุกวันของคุณ (A Brand by Siriwatmedhanin Group)" />
+  <title>SG FRUIT | เอสจี ผลไม้ตามฤดูกาล — Shop the Season</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #183526;
+      --ink-soft: #355844;
+      --muted: #5c7265;
+      --cream-1: #f7f5e9;
+      --cream-2: #f4efe0;
+      --cream-3: #f8eed9;
+      --sage: #739938;
+      --forest: #214d34;
+      --forest-dark: #163623;
+      --wood: #9e6b43;
+      --line: rgba(24, 53, 38, 0.11);
+      --card-bg: #fffef9;
+      --header-h: 78px;
+      --p: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream-1);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", "Noto Sans Thai", Tahoma, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.is-modal-open {
+      overflow: hidden;
+    }
+
+    button, a, input, select {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    [tabindex="0"]:focus-visible {
+      outline: 3px solid var(--sage);
+      outline-offset: 3px;
+    }
+
+    /* ================= HEADER & NAV ================= */
+    .header {
+      height: var(--header-h);
+      position: fixed;
+      z-index: 120;
+      left: 0;
+      right: 0;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 clamp(18px, 4vw, 64px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 245, 233, 0.90);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(33, 77, 52, 0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+      padding: 3px;
+      box-sizing: border-box;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(33, 77, 52, 0.12);
+    }
+
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transform: none;
+    }
+
+    .brand-name {
+      display: block;
+      font: 700 26px/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    .brand-sub {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      margin-top: 4px;
+      color: var(--ink-soft);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(4px, 0.9vw, 12px);
+    }
+
+    .nav-link {
+      border: 0;
+      background: transparent;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 12.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      padding: 8px 13px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+      background: rgba(115, 153, 56, 0.12);
+    }
+
+    .nav-link.is-active {
+      color: var(--forest);
+      background: rgba(115, 153, 56, 0.20);
+      font-weight: 800;
+    }
+
+    .nav-cart-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--forest);
+      border-radius: 999px;
+      background: var(--forest);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-left: 4px;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-cart-btn:hover {
+      background: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    .cart-count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #e4f0c8;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cart-count-badge.has-items {
+      background: #c8e97f;
+      color: #132e1e;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(33, 77, 52, 0.18);
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--ink);
+      font-size: 18px;
+      padding: 0;
+    }
+
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      z-index: 119;
+      background: rgba(247, 245, 233, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 20px 20px;
+      box-shadow: 0 16px 32px rgba(24, 53, 38, 0.12);
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mobile-nav-drawer.is-open {
+      display: flex;
+    }
+
+    .mobile-nav-drawer a,
+    .mobile-nav-drawer button {
+      text-align: left;
+      padding: 11px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      border: 0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-nav-drawer a:hover,
+    .mobile-nav-drawer button:hover {
+      background: rgba(115, 153, 56, 0.14);
+    }
+
+    .global-progress {
+      position: fixed;
+      top: calc(var(--header-h) - 1px);
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 121;
+      pointer-events: none;
+      background: rgba(24, 53, 38, 0.06);
+    }
+
+    .global-progress i {
+      height: 100%;
+      display: block;
+      width: calc(var(--p) * 100%);
+      background: linear-gradient(90deg, #6a9933, #2b6643);
+    }
+
+    /* ================= LAYER 1: FIXED STAGE BACKDROP (z-index: 1) ================= */
+    .stage-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* ================= LAYER 2: FIXED VISUAL STAGE (STEP 1 & STEPS 3-6, z-index: 10) ================= */
+    .stage {
+      height: 100svh;
+      min-height: 600px;
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* ================= LAYER 2B: GLOBAL AVOCADO OVERLAY (BEHIND PRODUCT CARDS z:30, IN FRONT OF SHOP BG z:12) ================= */
+    .global-avocado-overlay {
+      position: fixed;
+      inset: 0;
+      height: 100svh;
+      min-height: 600px;
+      z-index: 20;
+      pointer-events: none !important;
+      overflow: visible;
+    }
+
+    .global-avocado-stage {
+      position: absolute;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none !important;
+      user-select: none;
+    }
+
+    /* Ambient background layers */
+    .bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      will-change: opacity;
+    }
+
+    .bg-step-1 {
+      background: radial-gradient(circle at 72% 40%, #fffef5 0%, #f7f5e9 55%, #e5edd6 115%);
+      opacity: 1;
+    }
+
+    .bg-step-2 {
+      background: radial-gradient(circle at 68% 48%, #fffdf4 0%, #f7f4e7 60%, #ede7d3 118%);
+      opacity: 0;
+    }
+
+    .bg-step-3 {
+      background: radial-gradient(circle at 70% 56%, #fffbf0 0%, #faefd8 60%, #efd8b4 125%);
+      opacity: 0;
+    }
+
+    .bg-step-4 {
+      background: radial-gradient(circle at 70% 50%, #fffdf4 0%, #f7f1de 58%, #e8e6c8 122%);
+      opacity: 0;
+    }
+
+    .bg-step-5 {
+      background: radial-gradient(circle at 71% 52%, #fefdf5 0%, #f3f2df 58%, #dce7c9 124%);
+      opacity: 0;
+    }
+
+    .bg-step-6 {
+      background: radial-gradient(circle at 70% 50%, #fefdf6 0%, #f6f3e4 58%, #e0e9cc 124%);
+      opacity: 0;
+    }
+
+    .bg-next-section {
+      background: radial-gradient(circle at 50% 50%, #152d20 0%, #0d1e15 65%, #07100b 100%);
+      opacity: 0;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      min-width: 320px;
+      min-height: 320px;
+      border-radius: 50%;
+      right: 8%;
+      top: 20%;
+      background: rgba(215, 232, 174, 0.35);
+      filter: blur(58px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hairline {
+      position: absolute;
+      top: var(--header-h);
+      bottom: 0;
+      left: 42%;
+      border-left: 1px solid rgba(33, 77, 52, 0.07);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ================= LEFT COPY STACK (STEP 1 & STEPS 3-6) ================= */
+    .copy-stack {
+      position: absolute;
+      z-index: 12;
+      left: clamp(24px, 5vw, 92px);
+      top: 52%;
+      transform: translateY(-50%);
+      width: min(36vw, 460px);
+      pointer-events: none;
+    }
+
+    .scene-copy {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+
+    .scene-copy.is-interactive {
+      pointer-events: auto;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      font-weight: 800;
+      color: var(--sage);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 28px;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .badge-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(33, 77, 52, 0.22);
+      border-radius: 999px;
+      padding: 8px 16px;
+      color: var(--forest);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .scene-copy h1,
+    .scene-copy h2.step-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(50px, 5.6vw, 96px);
+      letter-spacing: -0.04em;
+      line-height: 0.94;
+      margin: 0 0 20px;
+      color: var(--ink);
+    }
+
+    .scene-copy h1 em,
+    .scene-copy h2.step-title em {
+      color: var(--sage);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .scene-copy .step-highlight {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 700;
+      color: var(--forest);
+      letter-spacing: 0.01em;
+      margin: -8px 0 12px;
+    }
+
+    .scene-copy p {
+      font-size: clamp(13.5px, 1.02vw, 15.5px);
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 400px;
+      margin: 0 0 16px;
+    }
+
+    .scene-copy .script-line {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-size: clamp(20px, 2vw, 28px);
+      color: var(--wood);
+      line-height: 1.25;
+      margin-bottom: 18px;
+    }
+
+    .primary-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--forest);
+      color: #fff;
+      padding: 14px 26px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 12px 24px rgba(33, 77, 52, 0.18);
+      transition: transform 0.2s, background 0.2s;
+      pointer-events: auto;
+    }
+
+    .primary-cta:hover {
+      transform: translateY(-2px);
+      background: #2f6947;
+    }
+
+    /* ================= RIGHT VISUAL STAGE (SHARED 1:1 COORDINATE SYSTEM) ================= */
+    .stage-art {
+      position: absolute;
+      z-index: 8;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Receiving scene group in Step 3–6 aligned directly beneath the pure vertical drop line (xPercent = 0) of the branch avocado */
+    .receiving-scene-group {
+      position: absolute;
+      inset: 0;
+      transform: translateX(-26.2085%);
+      pointer-events: none;
+    }
+
+    /* ================= STEP 1 CINEMATIC SCENERY LAYERS (UNCHANGED) ================= */
+    .step1-scenery {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      overflow: hidden;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .step1-canvas-stage {
+      position: absolute;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+    }
+
+    .step1-stage-content {
+      position: absolute;
+      left: -106.9%;
+      top: -54.15%;
+      width: 288.78%;
+      height: 162.57%;
+      pointer-events: none;
+    }
+
+    .step1-layer-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      will-change: transform;
+    }
+
+    .step1-bg-mountain {
+      will-change: transform;
+    }
+
+    .step1-tree-motion-group {
+      position: absolute;
+      inset: 0;
+      transform-origin: 67.6% 95.6%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .step1-tree-img {
+      transform-origin: 67.6% 95.6%;
+    }
+
+    .step1-fog-01 {
+      mix-blend-mode: screen;
+      opacity: 0.45;
+      animation: fog-drift-01 11s ease-in-out infinite alternate;
+    }
+
+    .step1-fog-02 {
+      mix-blend-mode: screen;
+      opacity: 0.38;
+      animation: fog-drift-02 14s ease-in-out infinite alternate;
+    }
+
+    .step1-fruit-h01 {
+      position: absolute;
+      left: 71.59%;
+      top: 51.75%;
+      width: 6.70%;
+      height: 15.83%;
+      object-fit: contain;
+      transform-origin: 50% 5%;
+      animation: fruit-sway-1 4.4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 10px rgba(20, 42, 26, 0.22));
+    }
+
+    .step1-fruit-h02 {
+      position: absolute;
+      left: 77.09%;
+      top: 59.19%;
+      width: 6.88%;
+      height: 16.37%;
+      object-fit: contain;
+      transform-origin: 50% 5%;
+      animation: fruit-sway-2 5.1s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 10px rgba(20, 42, 26, 0.22));
+    }
+
+    .step1-leaves-img {
+      transform-origin: 15% 15%;
+      animation: leaves-breeze 7.5s ease-in-out infinite alternate;
+    }
+
+    .step1-vignette {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(54vw, 720px);
+      background: linear-gradient(90deg, rgba(247, 245, 233, 0.96) 0%, rgba(247, 245, 233, 0.85) 38%, rgba(247, 245, 233, 0.22) 68%, transparent 100%);
+      pointer-events: none;
+    }
+
+    @keyframes fog-drift-01 {
+      0% { transform: translate3d(-2%, 0, 0); }
+      100% { transform: translate3d(2.5%, 0, 0); }
+    }
+
+    @keyframes fog-drift-02 {
+      0% { transform: translate3d(2%, 0, 0); }
+      100% { transform: translate3d(-3%, 0, 0); }
+    }
+
+    @keyframes fruit-sway-1 {
+      0% { transform: rotate(-2.2deg); }
+      100% { transform: rotate(1.8deg); }
+    }
+
+    @keyframes fruit-sway-2 {
+      0% { transform: rotate(1.6deg); }
+      100% { transform: rotate(-2.4deg); }
+    }
+
+    @keyframes leaves-breeze {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(0.4deg) scale(1.008) translate(1px, -1px); }
+      100% { transform: rotate(-0.3deg) scale(1.004) translate(-1px, 1px); }
+    }
+
+    /* STEP 3-5 LAYER: WOODEN CUTTING BOARD */
+    .board-layer {
+      position: absolute;
+      left: 5%;
+      top: 41%;
+      width: 90%;
+      aspect-ratio: 2000 / 1333;
+      z-index: 4;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 54.5% 50%;
+    }
+
+    .board-ambient-shadow {
+      position: absolute;
+      left: 12%;
+      top: 22%;
+      width: 78%;
+      height: 66%;
+      background: radial-gradient(ellipse at center, rgba(64, 41, 18, 0.24) 0%, rgba(64, 41, 18, 0) 72%);
+      transform: rotate(-11deg);
+      filter: blur(12px);
+      z-index: 1;
+    }
+
+    .board-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      filter: drop-shadow(0 20px 30px rgba(72, 46, 20, 0.16));
+    }
+
+    .avocado-board-shadow {
+      position: absolute;
+      left: 54.8%;
+      top: 51.5%;
+      width: 22%;
+      height: 9.5%;
+      transform: translate(-50%, -50%) scale(0.4);
+      background: radial-gradient(ellipse at center, rgba(42, 24, 9, 0.58) 0%, rgba(68, 41, 17, 0.25) 48%, rgba(68, 41, 17, 0) 76%);
+      border-radius: 50%;
+      z-index: 3;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* Shared Scene & Tree Kinematic Wrappers in #global-avocado-stage */
+    .hero-stem-motion-root,
+    .hero-fruit-motion-root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none !important;
+      will-change: transform, opacity;
+    }
+
+    .hero-stem-motion-root {
+      z-index: 7;
+    }
+
+    .hero-fruit-motion-root {
+      z-index: 6;
+    }
+
+    .hero-tree-breeze-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 88.32% 101.27%;
+      will-change: transform;
+      pointer-events: none !important;
+    }
+
+    .hero-branch-pendulum-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 25.38% 35.15%;
+      will-change: transform;
+      pointer-events: none !important;
+    }
+
+    .hero-stem-img {
+      position: absolute;
+      left: 24.95%;
+      top: 35.10%;
+      width: 1.90%;
+      height: 8.55%;
+      object-fit: fill;
+      z-index: 7;
+      pointer-events: none !important;
+      transform-origin: 22.6% 2%;
+      filter: drop-shadow(0 2px 4px rgba(24, 42, 18, 0.22));
+      will-change: transform;
+    }
+
+    /* THE SINGLE PERSISTENT HERO AVOCADO (FALLS VERTICALLY THROUGH STEP 2 SHOP ONTO STEP 3 BOARD) */
+    .hero-avocado-wrap {
+      position: absolute;
+      left: 12.88%;
+      top: 42.13%;
+      width: 26.5%;
+      aspect-ratio: 2000 / 1695;
+      z-index: 6;
+      will-change: transform, opacity;
+      transform-origin: 49.5% 49.2%;
+      pointer-events: none !important;
+    }
+
+    .hero-avocado-sway {
+      width: 100%;
+      height: 100%;
+      transform-origin: 49.5% 3.0%;
+      will-change: transform;
+      pointer-events: none !important;
+    }
+
+    .hero-avocado-img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 2000 / 1695;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 16px 26px rgba(20, 42, 26, 0.28));
+      transform: none;
+      pointer-events: none !important;
+    }
+
+    /* STEP 4 LAYER: AVOCADO HALVES */
+    .halves-layer {
+      position: absolute;
+      left: 28.2%;
+      top: 46.55%;
+      width: 48%;
+      aspect-ratio: 2000 / 1538;
+      z-index: 7;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+      filter: drop-shadow(0 14px 20px rgba(26, 40, 22, 0.24));
+    }
+
+    .halves-board-shadow {
+      position: absolute;
+      left: 50%;
+      top: 56%;
+      width: 78%;
+      height: 36%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(44, 26, 10, 0.42) 0%, rgba(44, 26, 10, 0.18) 52%, rgba(44, 26, 10, 0) 76%);
+      border-radius: 50%;
+      filter: blur(6px);
+      z-index: 1;
+    }
+
+    .avocado-half-item {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    .avocado-half-left {
+      clip-path: inset(0 50% 0 0);
+      transform-origin: 32.5% 50%;
+    }
+
+    .avocado-half-right {
+      clip-path: inset(0 0 0 50%);
+      transform-origin: 67.5% 50%;
+    }
+
+    /* STEP 5 LAYER: AVOCADO SLICES */
+    .slices-layer {
+      position: absolute;
+      left: 22.0%;
+      top: 48.5%;
+      width: 60%;
+      aspect-ratio: 2000 / 1116;
+      z-index: 8;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+      filter: drop-shadow(0 12px 18px rgba(26, 44, 20, 0.22));
+    }
+
+    .slices-board-shadow {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      width: 86%;
+      height: 44%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(44, 26, 10, 0.38) 0%, rgba(44, 26, 10, 0.16) 55%, rgba(44, 26, 10, 0) 78%);
+      border-radius: 50%;
+      filter: blur(7px);
+      z-index: 1;
+    }
+
+    .slices-group-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      will-change: transform, opacity;
+    }
+
+    .slices-group-left {
+      clip-path: inset(0 66.5% 0 0);
+      transform-origin: 18% 50%;
+    }
+
+    .slices-group-center {
+      clip-path: inset(0 33.5% 0 33.5%);
+      transform-origin: 50% 50%;
+    }
+
+    .slices-group-right {
+      clip-path: inset(0 0 0 66.5%);
+      transform-origin: 82% 50%;
+    }
+
+    /* STEP 6 LAYER: SALAD BOWL & CINEMATIC ZOOM */
+    .salad-layer {
+      position: absolute;
+      left: 10%;
+      top: 42%;
+      width: 80%;
+      aspect-ratio: 2000 / 1333;
+      z-index: 9;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+    }
+
+    .salad-ambient-shadow {
+      position: absolute;
+      left: 14%;
+      top: 30%;
+      width: 72%;
+      height: 64%;
+      background: radial-gradient(ellipse at center, rgba(32, 45, 20, 0.32) 0%, rgba(32, 45, 20, 0.12) 55%, rgba(32, 45, 20, 0) 75%);
+      border-radius: 50%;
+      filter: blur(14px);
+      z-index: 1;
+    }
+
+    .salad-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      filter: drop-shadow(0 22px 34px rgba(28, 48, 26, 0.22));
+    }
+
+    /* CINEMATIC ZOOM NEXT SECTION LAYER */
+    .next-section-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 64px);
+      background: radial-gradient(circle at 50% 45%, rgba(20, 48, 32, 0.96) 0%, rgba(13, 30, 21, 0.98) 60%, #0a1810 100%);
+      color: #f7f5e9;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      will-change: transform, opacity;
+    }
+
+    .next-section-layer.is-active {
+      pointer-events: auto;
+    }
+
+    .next-section-inner {
+      max-width: 820px;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .next-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(181, 214, 123, 0.35);
+      background: rgba(181, 214, 123, 0.12);
+      color: #d6e8a8;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .next-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(44px, 6.2vw, 88px);
+      font-weight: 600;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: #fffef8;
+      margin: 0 0 20px;
+    }
+
+    .next-title em {
+      color: #c9e68c;
+      font-style: italic;
+    }
+
+    .next-desc {
+      font-size: clamp(14px, 1.2vw, 17px);
+      line-height: 1.85;
+      color: #b7cebe;
+      max-width: 600px;
+      margin: 0 0 32px;
+    }
+
+    .next-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .next-cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #b5d67b;
+      color: #143220;
+      padding: 15px 30px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      text-decoration: none;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+      transition: transform 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .next-cta-primary:hover {
+      transform: translateY(-2px);
+      background: #c6e58f;
+    }
+
+    .next-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: transparent;
+      border: 1px solid rgba(247, 245, 233, 0.28);
+      color: #f7f5e9;
+      padding: 15px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .next-cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(247, 245, 233, 0.5);
+    }
+
+    .next-scroll-prompt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+      color: #93b09c;
+      text-transform: uppercase;
+    }
+
+    .next-scroll-prompt span {
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .ghost-label {
+      position: absolute;
+      right: 4vw;
+      bottom: 5vh;
+      font: 700 clamp(76px, 14vw, 220px)/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.05em;
+      color: rgba(24, 53, 38, 0.045);
+      user-select: none;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Bottom HUD & Step Counter */
+    .scene-counter {
+      position: absolute;
+      left: clamp(24px, 5vw, 92px);
+      bottom: 26px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      background: rgba(247, 245, 233, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.10);
+      transition: opacity 0.3s;
+    }
+
+    .counter-track {
+      width: 110px;
+      height: 2px;
+      background: rgba(33, 77, 52, 0.14);
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .counter-track::after {
+      content: "";
+      height: 100%;
+      background: var(--forest);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(var(--p) * 100%);
+    }
+
+    .progress-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(33, 77, 52, 0.08);
+      color: var(--forest);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+
+    .scroll-tip {
+      position: absolute;
+      right: clamp(20px, 5vw, 84px);
+      bottom: 28px;
+      z-index: 15;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+
+    .scroll-tip i {
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--ink-soft);
+    }
+
+    /* Right Quick-Jump Rail */
+    .rail {
+      position: fixed;
+      z-index: 95;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: opacity 0.25s;
+    }
+
+    .rail button {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      background: transparent;
+      padding: 4px 0;
+      color: var(--ink-soft);
+      opacity: 0.65;
+      transition: opacity 0.2s;
+    }
+
+    .rail span {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      opacity: 0;
+      transition: opacity 0.2s;
+      background: rgba(247, 245, 233, 0.92);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(33, 77, 52, 0.1);
+    }
+
+    .rail b {
+      height: 9px;
+      width: 9px;
+      display: block;
+      border: 1.5px solid var(--forest);
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .rail button:hover span,
+    .rail button.active span {
+      opacity: 1;
+    }
+
+    .rail button.active {
+      opacity: 1;
+    }
+
+    .rail button.active b {
+      background: var(--sage);
+      border-color: var(--sage);
+      transform: scale(1.35);
+    }
+
+    /* ================= DOCUMENT FLOW SECTIONS ================= */
+    main {
+      position: relative;
+    }
+
+    .scroll-journey {
+      position: relative;
+    }
+
+    /* STEP 1 SCROLL TRACK */
+    .step1-scroll-track {
+      height: 138svh;
+      position: relative;
+      pointer-events: none;
+    }
+
+    /* ================= STEP 2: FULL-WIDTH 5-COLUMN PRODUCT SHOP ================= */
+    .shop-section {
+      position: relative;
+      /* Keep z-index: auto so .shop-main::before (z:12) and .shop-card (z:30) share the root stacking context with .global-avocado-overlay (z:20) */
+      padding: 36px clamp(16px, 3.5vw, 56px) 76px;
+      scroll-margin-top: calc(var(--header-h) + 8px);
+    }
+
+    .shop-container {
+      max-width: 1480px;
+      width: 100%;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .shop-main {
+      position: relative;
+      width: 100%;
+      padding: clamp(22px, 2.8vw, 40px);
+    }
+
+    /* Layer 1: Main Shop Background Box (z-index: 12, behind Falling Avocado z-index: 20) */
+    .shop-main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 12;
+      background: rgba(247, 245, 233, 0.94);
+      border: 1px solid rgba(33, 77, 52, 0.12);
+      border-radius: 32px;
+      box-shadow: 0 20px 50px rgba(24, 53, 38, 0.06);
+      pointer-events: none;
+    }
+
+    /* Layer 2: Shop Headline & Description (z-index: 15, ABOVE Shop BG z:12, BEHIND Falling Avocado z:20) */
+    .shop-header {
+      position: relative;
+      z-index: 15;
+      margin-bottom: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .shop-header-left,
+    .shop-demo-banner {
+      pointer-events: auto;
+    }
+
+    .shop-header-left {
+      max-width: 720px;
+    }
+
+    .shop-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      font-weight: 800;
+      color: var(--sage);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .shop-eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .shop-headline {
+      font-family: "Noto Sans Thai", "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(26px, 2.8vw, 40px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 8px;
+    }
+
+    .shop-description {
+      font-size: clamp(13.5px, 1.02vw, 15.5px);
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .shop-demo-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(115, 153, 56, 0.13);
+      border: 1px solid rgba(115, 153, 56, 0.28);
+      color: var(--forest);
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    /* Toolbar: Search + Categories + Sort (z-index: 15, ABOVE Shop BG z:12, BEHIND Falling Avocado z:20) */
+    .shop-toolbar {
+      position: relative;
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .shop-search-wrap,
+    .shop-filter-right,
+    .shop-cat-btn,
+    .shop-status-bar {
+      pointer-events: auto;
+    }
+
+    .shop-controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .shop-search-wrap {
+      position: relative;
+      flex: 1 1 260px;
+      max-width: 440px;
+    }
+
+    .shop-search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .shop-search-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 38px 0 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.18);
+      background: #fffef9;
+      font-size: 13.5px;
+      color: var(--ink);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .shop-search-input:focus {
+      border-color: var(--forest);
+      box-shadow: 0 0 0 3px rgba(115, 153, 56, 0.18);
+      outline: none;
+    }
+
+    .shop-search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(24, 53, 38, 0.08);
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shop-filter-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shop-avail-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      cursor: pointer;
+      user-select: none;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #fffef9;
+      border: 1px solid rgba(33, 77, 52, 0.14);
+    }
+
+    .shop-avail-check input {
+      accent-color: var(--forest);
+      width: 15px;
+      height: 15px;
+      margin: 0;
+    }
+
+    .shop-sort-select {
+      height: 40px;
+      padding: 0 32px 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.18);
+      background: #fffef9;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .shop-category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .shop-cat-btn {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.16);
+      background: #fffef9;
+      color: var(--ink-soft);
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .shop-cat-btn:hover {
+      border-color: var(--forest);
+      color: var(--ink);
+      background: rgba(115, 153, 56, 0.10);
+    }
+
+    .shop-cat-btn.is-active {
+      background: var(--forest);
+      border-color: var(--forest);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(33, 77, 52, 0.18);
+    }
+
+    .shop-status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .shop-count-demo {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+      opacity: 0.85;
+    }
+
+    /* Full-Width 5-Column Product Grid on Desktop (5×2 = 10 items) */
+    .shop-product-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    /* Layer 3: Individual Product Cards (z-index: 30, IN FRONT OF Falling Avocado z-index: 20) */
+    .shop-card {
+      position: relative;
+      z-index: 30;
+      background: var(--card-bg);
+      border: 1px solid rgba(33, 77, 52, 0.11);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+      box-shadow: 0 6px 18px rgba(24, 53, 38, 0.04);
+    }
+
+    .shop-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(24, 53, 38, 0.09);
+      border-color: rgba(33, 77, 52, 0.24);
+    }
+
+    .shop-card-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle at 50% 42%, #fffef9 0%, #f4efe0 100%);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shop-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .shop-card:hover .shop-card-img {
+      transform: scale(1.04);
+    }
+
+    .shop-card-badges-top {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .shop-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .shop-badge-cat {
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--forest);
+      border: 1px solid rgba(33, 77, 52, 0.16);
+      backdrop-filter: blur(6px);
+    }
+
+    .shop-badge-seasonal {
+      background: #e4f0c8;
+      color: #1f4d31;
+      border: 1px solid rgba(31, 77, 49, 0.18);
+    }
+
+    .shop-badge-demo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      background: rgba(24, 53, 38, 0.72);
+      color: #f7f5e9;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      padding: 2px 7px;
+    }
+
+    .shop-card-body {
+      padding: 13px 14px 15px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .shop-card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .shop-card-sku {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .shop-card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--forest);
+    }
+
+    .shop-card-status i {
+      width: 5.5px;
+      height: 5.5px;
+      border-radius: 50%;
+      background: var(--sage);
+      display: inline-block;
+    }
+
+    .shop-card-status.is-seasonal-wait {
+      color: var(--wood);
+    }
+
+    .shop-card-status.is-seasonal-wait i {
+      background: var(--wood);
+    }
+
+    .shop-card-title {
+      margin: 0 0 3px;
+      font-size: 15.5px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .shop-card-title-btn {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .shop-card-title-btn:hover {
+      color: var(--forest);
+    }
+
+    .shop-card-unit {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .shop-card-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: auto;
+      margin-bottom: 11px;
+    }
+
+    .shop-card-price {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .shop-card-price .currency {
+      font-size: 13px;
+      margin-right: 1px;
+    }
+
+    .shop-card-price .amount {
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .shop-card-price .unit-slash {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-left: 2px;
+    }
+
+    .shop-card-incart-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #e4f0c8;
+      color: var(--forest);
+    }
+
+    .shop-card-actions {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px;
+    }
+
+    .shop-btn-detail {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.22);
+      background: transparent;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .shop-btn-detail:hover {
+      border-color: var(--forest);
+      color: var(--ink);
+      background: rgba(33, 77, 52, 0.05);
+    }
+
+    .shop-btn-add {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--forest);
+      background: var(--forest);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .shop-btn-add:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    /* Empty State */
+    .shop-empty-state {
+      position: relative;
+      z-index: 30;
+      text-align: center;
+      padding: 56px 24px;
+      background: #fffef9;
+      border: 1px dashed rgba(33, 77, 52, 0.22);
+      border-radius: 22px;
+    }
+
+    .shop-empty-state h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .shop-empty-state p {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Pagination Bar */
+    .shop-pagination {
+      position: relative;
+      z-index: 15;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .shop-pagination-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .shop-pagination-info {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .shop-pagination-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shop-page-btn,
+    .shop-page-mode-btn {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.18);
+      background: #fffef9;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .shop-page-btn.is-active {
+      background: var(--forest);
+      border-color: var(--forest);
+      color: #fff;
+    }
+
+    .shop-page-mode-btn:hover,
+    .shop-page-btn:hover:not(.is-active) {
+      background: rgba(115, 153, 56, 0.12);
+    }
+
+    /* ================= STORY CONTINUATION TRACK (STEPS 3–6 & CINEMATIC ZOOM) ================= */
+    .story {
+      height: 820svh;
+      position: relative;
+      pointer-events: none;
+    }
+
+    /* ================= PHASE 10: ABOUT SG FRUIT SECTION ================= */
+    .about-section {
+      position: relative;
+      z-index: 25;
+      background: #f4efe0;
+      border-top: 1px solid var(--line);
+      padding: clamp(68px, 8vw, 112px) clamp(22px, 6.5vw, 118px);
+      scroll-margin-top: var(--header-h);
+    }
+
+    .about-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      background: #fffef9;
+      border: 1px solid rgba(33, 77, 52, 0.12);
+      border-radius: 32px;
+      padding: clamp(32px, 5vw, 64px);
+      box-shadow: 0 20px 48px rgba(24, 53, 38, 0.05);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: clamp(28px, 4vw, 56px);
+      align-items: center;
+    }
+
+    .about-kicker {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      color: var(--sage);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .about-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(36px, 4.4vw, 58px);
+      font-weight: 600;
+      line-height: 1.08;
+      color: var(--ink);
+      margin: 0 0 18px;
+    }
+
+    .about-lead {
+      font-size: clamp(15px, 1.15vw, 17.5px);
+      line-height: 1.9;
+      color: var(--ink-soft);
+      margin: 0 0 18px;
+    }
+
+    .about-group-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .about-pillars {
+      display: grid;
+      gap: 14px;
+    }
+
+    .about-pillar {
+      background: var(--cream-1);
+      border: 1px solid rgba(33, 77, 52, 0.10);
+      border-radius: 20px;
+      padding: 18px 20px;
+    }
+
+    .about-pillar strong {
+      display: block;
+      font-size: 15px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .about-pillar span {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ================= PHASE 11: CONTACT & FOOTER ================= */
+    .site-footer {
+      position: relative;
+      z-index: 25;
+      background: #173826;
+      color: #f7f6e9;
+      padding: clamp(56px, 6vw, 88px) clamp(22px, 6.5vw, 118px) 44px;
+      scroll-margin-top: var(--header-h);
+    }
+
+    .footer-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      gap: clamp(28px, 3.5vw, 48px);
+      padding-bottom: 44px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .footer-brand-mark {
+      width: 52px;
+      height: 52px;
+      background: #f7f5e9;
+      border-color: rgba(255, 255, 255, 0.25);
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .footer-brand strong {
+      display: block;
+      font: 700 32px/1 "Cormorant Garamond", Georgia, serif;
+      color: #fffef9;
+    }
+
+    .footer-brand-th {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #c8e3b0;
+      margin-top: 4px;
+    }
+
+    .footer-brand-group {
+      display: block;
+      font-size: 11.5px;
+      color: #9abaa0;
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    .footer-desc {
+      font-size: 13px;
+      line-height: 1.75;
+      color: #b7d2b9;
+      margin: 14px 0 0;
+      max-width: 340px;
+    }
+
+    .footer-col h4 {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c8e3b0;
+      margin: 0 0 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a,
+    .footer-links button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: #e3efe4;
+      text-decoration: none;
+      font-size: 13.5px;
+      text-align: left;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover,
+    .footer-links button:hover {
+      color: #c8e97f;
+    }
+
+    .footer-placeholder-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+      color: #b7d2b9;
+    }
+
+    .footer-placeholder-item {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+    }
+
+    .footer-placeholder-item small {
+      display: block;
+      font-size: 10.5px;
+      color: #9abaa0;
+    }
+
+    .footer-bottom {
+      max-width: 1320px;
+      margin: 28px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 12px;
+      color: #9abaa0;
+    }
+
+    .footer-policies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .footer-policy-tag {
+      color: #b7d2b9;
+      font-size: 12px;
+    }
+
+    /* ================= PHASE 6: CART DRAWER & MODALS ================= */
+    .cart-drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 220;
+      pointer-events: none;
+      visibility: hidden;
+      transition: visibility 0.3s;
+    }
+
+    .cart-drawer.is-open {
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .cart-drawer-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 34, 23, 0.48);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .cart-drawer.is-open .cart-drawer-backdrop {
+      opacity: 1;
+    }
+
+    .cart-drawer-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(100vw, 440px);
+      background: var(--cream-1);
+      border-left: 1px solid var(--line);
+      box-shadow: -20px 0 50px rgba(15, 34, 23, 0.22);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cart-drawer.is-open .cart-drawer-panel {
+      transform: translateX(0);
+    }
+
+    .cart-drawer-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fffef9;
+    }
+
+    .cart-drawer-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-drawer-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(33, 77, 52, 0.16);
+      background: transparent;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-drawer-demo-note {
+      padding: 10px 24px;
+      background: #e9f2d5;
+      color: var(--forest);
+      font-size: 11.5px;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(33, 77, 52, 0.1);
+    }
+
+    .cart-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    .cart-drawer-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 14px;
+      background: #fffef9;
+      border: 1px solid rgba(33, 77, 52, 0.11);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .cart-item-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #f4efe0;
+      flex-shrink: 0;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .cart-item-sku {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .cart-item-name {
+      margin: 2px 0 4px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .cart-item-remove {
+      border: 0;
+      background: transparent;
+      color: #9e3a2b;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+    }
+
+    .cart-item-unit {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .cart-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .cart-qty-control {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(33, 77, 52, 0.2);
+      border-radius: 999px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .cart-qty-btn {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      background: transparent;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-qty-btn:hover {
+      background: rgba(115, 153, 56, 0.15);
+    }
+
+    .cart-qty-value {
+      min-width: 28px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cart-item-subtotal {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .cart-drawer-empty {
+      text-align: center;
+      padding: 56px 16px;
+    }
+
+    .cart-drawer-empty h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .cart-drawer-empty p {
+      margin: 0 0 20px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .cart-drawer-footer {
+      padding: 18px 24px 24px;
+      background: #fffef9;
+      border-top: 1px solid var(--line);
+    }
+
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .cart-summary-row.is-total {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 16px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .cart-summary-row.is-total strong {
+      font-size: 22px;
+      color: var(--forest);
+    }
+
+    .cart-footer-actions {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+    }
+
+    .cart-clear-btn {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(33, 77, 52, 0.22);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .cart-checkout-btn {
+      padding: 13px 20px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--forest);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 800;
+    }
+
+    .cart-checkout-btn:hover {
+      background: var(--ink);
+    }
+
+    /* Product Detail & Order Summary Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 230;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .modal-overlay.is-open {
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 34, 23, 0.52);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.is-open .modal-backdrop {
+      opacity: 1;
+    }
+
+    .modal-dialog {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 760px);
+      max-height: 90svh;
+      overflow-y: auto;
+      background: #fffef9;
+      border: 1px solid rgba(33, 77, 52, 0.16);
+      border-radius: 28px;
+      padding: clamp(22px, 3.5vw, 36px);
+      box-shadow: 0 24px 64px rgba(15, 34, 23, 0.28);
+      transform: translateY(16px) scale(0.98);
+      opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .modal-overlay.is-open .modal-dialog {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(33, 77, 52, 0.16);
+      background: #fff;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+
+    .pmodal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .pmodal-media {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #f4efe0;
+    }
+
+    .pmodal-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .pmodal-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pmodal-sku {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .pmodal-title {
+      margin: 0 0 10px;
+      font-size: 26px;
+      color: var(--ink);
+    }
+
+    .pmodal-price {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--forest);
+      margin-bottom: 14px;
+    }
+
+    .pmodal-price small {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .pmodal-desc {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin: 0 0 16px;
+    }
+
+    .pmodal-disclaimer {
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #f4efe0;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .pmodal-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .pmodal-add-btn {
+      flex: 1;
+      height: 44px;
+      font-size: 13.5px;
+    }
+
+    /* Order Summary Demo Modal */
+    .order-demo-alert {
+      background: #e8f2d4;
+      border: 1px solid rgba(33, 77, 52, 0.2);
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+
+    .order-demo-alert strong {
+      display: block;
+      font-size: 13px;
+      color: var(--forest);
+      margin-bottom: 4px;
+    }
+
+    .order-demo-alert p {
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    .order-summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .order-summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--cream-1);
+      border: 1px solid rgba(33, 77, 52, 0.09);
+    }
+
+    .order-summary-item-left strong {
+      display: block;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .order-summary-item-left span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .order-summary-item-right {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .order-summary-totals {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .order-summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .order-summary-row.is-grand {
+      font-size: 18px;
+      color: var(--forest);
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .order-summary-note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translate(-50%, 30px);
+      background: #1c4630;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+      padding: 13px 22px;
+      border-radius: 999px;
+      z-index: 260;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s, transform 0.28s;
+      box-shadow: 0 15px 42px rgba(20, 44, 30, 0.32);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* ================= RESPONSIVE: TABLET & MOBILE ================= */
+    @media (max-width: 1180px) {
+      .shop-product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 960px) {
+      .nav-link {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: inline-flex;
+      }
+      .about-inner {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .copy-stack {
+        left: 4vw;
+        width: 42vw;
+      }
+      .stage-art,
+      .global-avocado-stage {
+        right: 1vw;
+        width: 52vw;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .shop-product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      :root {
+        --header-h: 64px;
+      }
+      .header {
+        padding: 0 14px;
+      }
+      .brand-name {
+        font-size: 21px;
+      }
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        padding: 2.5px;
+      }
+      .brand-sub {
+        font-size: 7.5px;
+      }
+      .brand {
+        min-width: 0;
+      }
+      .nav-cart-btn {
+        padding: 8px 13px;
+        font-size: 11.5px;
+      }
+      .hairline,
+      .rail,
+      .scroll-tip,
+      .ghost-label {
+        display: none;
+      }
+      .step1-scroll-track {
+        height: 128svh;
+      }
+      .story {
+        height: 780svh;
+      }
+      .shop-section {
+        padding: 22px 12px 56px;
+      }
+      .shop-main {
+        padding: 18px 14px;
+      }
+      .shop-main::before {
+        border-radius: 24px;
+      }
+      .shop-product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .shop-card {
+        border-radius: 18px;
+      }
+      .shop-card-body {
+        padding: 12px;
+      }
+      .shop-card-title {
+        font-size: 14.5px;
+      }
+      .shop-card-price .amount {
+        font-size: 18px;
+      }
+      .shop-card-actions {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .shop-btn-detail,
+      .shop-btn-add {
+        width: 100%;
+        padding: 9px 10px;
+        font-size: 11.5px;
+      }
+      .pmodal-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .copy-stack {
+        left: 20px;
+        top: 238px;
+        transform: none;
+        width: calc(100% - 40px);
+      }
+      .eyebrow {
+        margin-bottom: 6px;
+        font-size: 9.5px;
+      }
+      .badge-outline {
+        font-size: 9px;
+        padding: 4px 10px;
+        margin-bottom: 6px;
+      }
+      .scene-copy h1,
+      .scene-copy h2.step-title {
+        font-size: clamp(32px, 9.0vw, 44px);
+        line-height: 0.96;
+        margin-bottom: 6px;
+      }
+      .scene-copy .step-highlight {
+        font-size: 13px;
+        margin: -2px 0 4px;
+      }
+      .scene-copy p {
+        font-size: 11.8px;
+        line-height: 1.5;
+        margin-bottom: 6px;
+        max-width: 96%;
+      }
+      .scene-copy .script-line {
+        font-size: 16.5px;
+        margin-bottom: 8px;
+      }
+      .primary-cta {
+        font-size: 11.5px;
+        padding: 10px 18px;
+      }
+      .stage-art,
+      .step1-canvas-stage,
+      .global-avocado-stage {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 42px;
+        transform: translateX(-50%);
+        width: min(86vw, 356px);
+        aspect-ratio: 1 / 1;
+      }
+      .step1-vignette {
+        width: 100%;
+        height: 52%;
+        top: 0;
+        bottom: auto;
+        background: linear-gradient(180deg, rgba(247, 245, 233, 0.98) 0%, rgba(247, 245, 233, 0.92) 50%, rgba(247, 245, 233, 0.2) 80%, transparent 100%);
+      }
+      .scene-counter {
+        left: 14px;
+        bottom: 12px;
+        font-size: 9.5px;
+        gap: 8px;
+        padding: 5px 12px;
+      }
+      .counter-track {
+        width: 64px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .shop-product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="header">
+    <a class="brand" href="#home" data-nav-target="home" aria-label="SG FRUIT เอสจี ผลไม้ตามฤดูกาล หน้าแรก">
+      <span class="brand-mark" aria-hidden="true">
+        <img class="brand-logo-img" src="Pic/Logo ตัวนูน-02.png" alt="SG FRUIT Logo" width="48" height="48" />
+      </span>
+      <span>
+        <span class="brand-name">SG FRUIT</span>
+        <span class="brand-sub">เอสจี ผลไม้ตามฤดูกาล</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="เมนูหลัก">
+      <a class="nav-link is-active" href="#home" data-nav-target="home">หน้าแรก</a>
+      <a class="nav-link" href="#shop" data-nav-target="shop">เลือกซื้อสินค้า</a>
+      <a class="nav-link" href="#story" data-nav-target="story">เรื่องราวความสด</a>
+      <a class="nav-link" href="#about" data-nav-target="about">เกี่ยวกับ SG FRUIT</a>
+      <a class="nav-link" href="#contact" data-nav-target="contact">ติดต่อเรา</a>
+      <button type="button" class="nav-cart-btn" data-open-cart aria-label="เปิดตะกร้าสินค้า">
+        <span>ตะกร้าสินค้า</span>
+        <span class="cart-count-badge" data-cart-count>0</span>
+      </button>
+      <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-nav-drawer" aria-label="เปิดเมนูนำทาง">
+        ☰
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer" aria-label="เมนูมือถือ">
+    <a href="#home" data-nav-target="home"><span>01 · หน้าแรก</span><span>↗</span></a>
+    <a href="#shop" data-nav-target="shop"><span>02 · เลือกซื้อสินค้า (Shop)</span><span>↗</span></a>
+    <a href="#story" data-nav-target="story"><span>03 · เรื่องราวความสด (Story)</span><span>↗</span></a>
+    <a href="#about" data-nav-target="about"><span>04 · เกี่ยวกับ SG FRUIT</span><span>↗</span></a>
+    <a href="#contact" data-nav-target="contact"><span>05 · ติดต่อเรา</span><span>↗</span></a>
+    <button type="button" data-open-cart>
+      <span>ตะกร้าสินค้า</span>
+      <span class="cart-count-badge" data-cart-count>0</span>
+    </button>
+  </div>
+
+  <div class="global-progress" aria-hidden="true"><i></i></div>
+
+  <!-- ================= LAYER 1: FIXED STAGE BACKDROP (z-index: 1) ================= -->
+  <div class="stage-backdrop" aria-hidden="true">
+    <div class="bg-stack">
+      <div class="bg-layer bg-step-1" id="bg-step-1"></div>
+      <div class="bg-layer bg-step-2" id="bg-step-2"></div>
+      <div class="bg-layer bg-step-3" id="bg-step-3"></div>
+      <div class="bg-layer bg-step-4" id="bg-step-4"></div>
+      <div class="bg-layer bg-step-5" id="bg-step-5"></div>
+      <div class="bg-layer bg-step-6" id="bg-step-6"></div>
+      <div class="bg-layer bg-next-section" id="bg-next-section"></div>
+    </div>
+    <div class="ambient-orb" id="ambient-orb"></div>
+  </div>
+
+  <!-- ================= LAYER 2: FIXED VISUAL STAGE (STEP 1 & STEPS 3–6, z-index: 10) ================= -->
+  <div class="stage" id="stage" aria-hidden="false">
+    <div class="hairline" id="stage-hairline" aria-hidden="true"></div>
+
+    <!-- STEP 1: CINEMATIC MOUNTAIN SCENERY (UNCHANGED) -->
+    <div class="step1-scenery" id="step1-scenery" aria-label="ฉากเริ่มต้นเรื่องราวความสดตามฤดูกาล Step 1">
+      <div class="step1-canvas-stage">
+        <div class="step1-stage-content" id="step1-stage-content">
+          <img class="step1-layer-img step1-bg-mountain" id="step1-bg-mountain" src="public/assets/step1/step1-bg-mountain.png" alt="" />
+          <img class="step1-layer-img step1-fog-01" src="public/assets/step1/step1-fog-01.png" alt="" />
+          <div class="step1-tree-motion-group" id="step1-tree-motion-group">
+            <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดจุดเริ่มต้นความสดตามฤดูกาล SG FRUIT" />
+            <img class="step1-fruit-h01" src="public/assets/step1/step1-avocado-hanging-01.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 1" />
+            <img class="step1-fruit-h02" src="public/assets/step1/step1-avocado-hanging-02.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 2" />
+          </div>
+          <img class="step1-layer-img step1-fog-02" src="public/assets/step1/step1-fog-02.png" alt="" />
+          <img class="step1-layer-img step1-leaves-img" src="public/assets/step1/step1-leaves-foreground.png" alt="" />
+        </div>
+      </div>
+      <div class="step1-vignette" aria-hidden="true"></div>
+    </div>
+
+    <!-- LEFT EDITORIAL COPY STACK (STEP 1 & STEPS 3–6) -->
+    <div class="copy-stack" id="copy-stack">
+      <!-- STEP 1 COPY -->
+      <article class="scene-copy is-interactive" id="copy-step-1" aria-label="Step 1 เริ่มต้นเรื่องราวความสดตามฤดูกาล SG FRUIT">
+        <div class="eyebrow">STEP 01 · THE SEASON BEGINS</div>
+        <div class="badge-outline">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</div>
+        <h1>Fresh from<br><em>the season.</em></h1>
+        <div class="step-highlight">เริ่มต้นจากความสด</div>
+        <p>เปิดเรื่องราวของวัตถุดิบสดประจำฤดูกาล ผ่านหนึ่งในผลไม้ที่โดดเด่นอย่างอะโวคาโด ก่อนส่งต่อไปสู่ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพ ที่เราคัดสรรมาเพื่อทุกมื้อของคุณ</p>
+        <div class="script-line">From seasonal freshness to everyday selection.</div>
+        <a class="primary-cta" href="#shop" data-nav-target="shop">เลือกซื้อสินค้า <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <!-- STEP 2 COPY (Placeholder node for index consistency) -->
+      <article class="scene-copy" id="copy-step-2" aria-hidden="true"></article>
+
+      <!-- STEP 3 COPY -->
+      <article class="scene-copy" id="copy-step-3" aria-label="Step 3 ลูกอะโวคาโดลูกเดิมตกลงบนเขียงและเด้งเล็กน้อย" aria-hidden="true">
+        <div class="eyebrow">STEP 03 · THE LANDING</div>
+        <div class="badge-outline">READY FOR PREPARATION · ON THE BOARD</div>
+        <h2 class="step-title">Landed on<br><em>the board.</em></h2>
+        <p>เข้าสู่ฉากเขียงไม้ธรรมชาติ ลูกอะโวคาโดลูกเดิมร่วงลงในแนวดิ่งตามแรงโน้มถ่วงผ่านหน้าร้าน ตกลงสัมผัสพื้นเขียงและเด้งรับน้ำหนักอย่างนุ่มนวล พร้อมเข้าสู่ขั้นตอนการผ่าอย่างประณีต</p>
+        <div class="script-line">Naturally balanced. Ready for preparation.</div>
+      </article>
+
+      <!-- STEP 4 COPY -->
+      <article class="scene-copy" id="copy-step-4" aria-label="Step 4 อะโวคาโดแยกออกเป็น 2 ซีก" aria-hidden="true">
+        <div class="eyebrow">STEP 04 · THE REVEAL</div>
+        <div class="badge-outline">TWO FRESH HALVES · PERFECTLY RIPE</div>
+        <h2 class="step-title">Split into<br><em>two halves.</em></h2>
+        <p>ลูกอะโวคาโดบนเขียงไม้แยกออกเป็นสองซีกอย่างนุ่มนวลตามการเลื่อนหน้าเว็บ เผยเนื้อสีเขียวเนียนนุ่มและเมล็ดสีน้ำตาลเด่นชัด คงความสดใหม่และตำแหน่งต่อเนื่องจากลูกเดิมบนเขียง</p>
+        <div class="script-line">Naturally divided. Pure and wholesome.</div>
+      </article>
+
+      <!-- STEP 5 COPY -->
+      <article class="scene-copy" id="copy-step-5" aria-label="Step 5 อะโวคาโดสไลซ์เรียงบนเขียง" aria-hidden="true">
+        <div class="eyebrow">STEP 05 · FRESHLY SLICED</div>
+        <div class="badge-outline">PREPARED WITH CARE · CRISP &amp; FRESH</div>
+        <h2 class="step-title">Crafted in<br><em>every slice.</em></h2>
+        <p>เปลี่ยนจากอะโวคาโดสองซีกเป็นชิ้นสไลซ์เรียงสวยบนเขียงไม้ เนื้อเนียนละเอียดคงรูปสวยในทุกชิ้น พร้อมสำหรับการจัดเสิร์ฟลงจานสลัดในขั้นตอนถัดไป</p>
+        <div class="script-line">Delicate slices, prepared for your plate.</div>
+      </article>
+
+      <!-- STEP 6 COPY -->
+      <article class="scene-copy" id="copy-step-6" aria-label="Step 6 ชิ้นอะโวคาโดเทลงจานสลัดพร้อมเสิร์ฟ" aria-hidden="true">
+        <div class="eyebrow">STEP 06 · READY TO ENJOY</div>
+        <div class="badge-outline">CULINARY PERFECTION · READY TO SERVE</div>
+        <h2 class="step-title">Served in<br><em>fresh perfection.</em></h2>
+        <p>ชิ้นอะโวคาโดสไลซ์สดใหม่จัดวางลงบนจานสลัดอย่างประณีต เข้าคู่กับผักสดกรอบและวัตถุดิบคุณภาพ เผยความสดและคุณค่าทางอาหารที่เราคัดสรรสู่จานอาหารของคุณ</p>
+        <div class="script-line">From seasonal selection to your table.</div>
+      </article>
+    </div>
+
+    <!-- RIGHT VISUAL STAGE (RECEIVING SCENE FOR STEPS 3–6 ALIGNED TO VERTICAL DROP LINE) -->
+    <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันเรื่องราวความสดตามฤดูกาล SG FRUIT">
+      <div class="receiving-scene-group" id="receiving-scene-group">
+        <!-- STEP 3-5: WOODEN CUTTING BOARD LAYER -->
+        <div class="board-layer" id="board-layer">
+          <div class="board-ambient-shadow"></div>
+          <img
+            class="board-img"
+            id="cutting-board-img"
+            src="Pic/cutting-board.png.png"
+            alt="เขียงไม้ธรรมชาติสำหรับรองรับผลอะโวคาโด"
+            width="2000"
+            height="1333"
+          />
+          <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
+        </div>
+
+        <!-- STEP 4: AVOCADO HALVES -->
+        <div class="halves-layer" id="halves-layer">
+          <div class="halves-board-shadow" id="halves-board-shadow"></div>
+          <img
+            class="avocado-half-item avocado-half-left"
+            id="avocado-half-left"
+            src="Pic/avocado-halves.png"
+            alt="อะโวคาโดผ่าครึ่งซีกซ้ายพร้อมเมล็ด"
+            width="2000"
+            height="1538"
+          />
+          <img
+            class="avocado-half-item avocado-half-right"
+            id="avocado-half-right"
+            src="Pic/avocado-halves.png"
+            alt="อะโวคาโดผ่าครึ่งซีกขวาเนื้อเนียน"
+            width="2000"
+            height="1538"
+          />
+        </div>
+
+        <!-- STEP 5: AVOCADO SLICES -->
+        <div class="slices-layer" id="slices-layer">
+          <div class="slices-board-shadow" id="slices-board-shadow"></div>
+          <img
+            class="slices-group-img slices-group-left"
+            id="slices-group-left"
+            src="Pic/avocado-slices-on-board2.png"
+            alt="อะโวคาโดสไลซ์ชุดที่ 1 บนเขียง"
+            width="2000"
+            height="1116"
+          />
+          <img
+            class="slices-group-img slices-group-center"
+            id="slices-group-center"
+            src="Pic/avocado-slices-on-board2.png"
+            alt="อะโวคาโดสไลซ์ชุดที่ 2 บนเขียง"
+            width="2000"
+            height="1116"
+          />
+          <img
+            class="slices-group-img slices-group-right"
+            id="slices-group-right"
+            src="Pic/avocado-slices-on-board2.png"
+            alt="อะโวคาโดสไลซ์ชุดที่ 3 บนเขียง"
+            width="2000"
+            height="1116"
+          />
+        </div>
+
+        <!-- STEP 6: SALAD DISH & CINEMATIC ZOOM -->
+        <div class="salad-layer" id="salad-layer">
+          <div class="salad-ambient-shadow"></div>
+          <img
+            class="salad-img"
+            id="salad-img"
+            src="Pic/salad-plate.png"
+            alt="จานสลัดผักและอะโวคาโดสดพร้อมเสิร์ฟ"
+            width="2000"
+            height="1333"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- CINEMATIC ZOOM TARGET: NEXT SECTION EDITORIAL BRAND OVERLAY -->
+    <div class="next-section-layer" id="next-section-layer" aria-hidden="true">
+      <div class="next-section-inner">
+        <span class="next-section-badge">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</span>
+        <h2 class="next-title">From seasonal freshness<br>to <em>everyday selection.</em></h2>
+        <p class="next-desc">คัดสรรผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพด้วยความใส่ใจในทุกวัน เพื่อส่งมอบความสดใหม่และรสชาติที่ดีที่สุดสู่ทุกมื้อของคุณ</p>
+        <div class="next-actions">
+          <a class="next-cta-primary" href="#shop" data-nav-target="shop">เลือกซื้อสินค้า <span aria-hidden="true">↗</span></a>
+          <button type="button" class="next-cta-secondary" data-nav-target="home">ชมเรื่องราวตั้งแต่ต้น ↺</button>
+        </div>
+        <div class="next-scroll-prompt">
+          <span></span> SCROLL DOWN TO ABOUT SG FRUIT <span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ghost-label" id="ghost-label" aria-hidden="true">01</div>
+
+    <!-- BOTTOM PROGRESS HUD -->
+    <div class="scene-counter" id="scene-counter" aria-live="polite">
+      <span id="step-number">01 / 06</span>
+      <span class="counter-track"></span>
+      <span id="step-name">THE SEASON BEGINS</span>
+      <span class="progress-pill" id="step-progress-pct">0%</span>
+    </div>
+
+    <div class="scroll-tip" id="scroll-tip" aria-hidden="true">
+      SCROLL TO EXPLORE <i></i> ↓
+    </div>
+  </div>
+
+  <!-- ================= LAYER 4: GLOBAL AVOCADO OVERLAY (FALLS IN FRONT OF ALL SHOP ELEMENTS, z-index: 65, pointer-events: none) ================= -->
+  <div class="global-avocado-overlay" id="global-avocado-overlay" aria-hidden="true">
+    <div class="global-avocado-stage" id="global-avocado-stage">
+      <!-- STEM KINEMATIC HIERARCHY -->
+      <div class="hero-stem-motion-root" id="hero-stem-motion-root">
+        <div class="hero-tree-breeze-layer" id="hero-stem-tree-breeze">
+          <div class="hero-branch-pendulum-layer" id="hero-stem-branch-pendulum">
+            <img
+              class="hero-stem-img"
+              id="hero-stem"
+              src="public/assets/step1/avocado-stem-02.png"
+              alt=""
+              aria-hidden="true"
+              width="53"
+              height="241"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- SINGLE CONTINUOUS HERO AVOCADO (FALLS VERTICALLY THROUGH FRONT OF SHOP ONTO BOARD) -->
+      <div class="hero-fruit-motion-root" id="hero-fruit-motion-root">
+        <div class="hero-tree-breeze-layer" id="hero-fruit-tree-breeze">
+          <div class="hero-branch-pendulum-layer" id="hero-fruit-branch-pendulum">
+            <div class="hero-avocado-wrap" id="hero-avocado-wrap">
+              <div class="hero-avocado-sway" id="hero-avocado-sway">
+                <img
+                  class="hero-avocado-img"
+                  id="hero-avocado"
+                  src="public/assets/step1/avocado-whole.png"
+                  alt="ลูกอะโวคาโดสดลูกเดียวกันตลอดทั้งฉาก"
+                  width="2000"
+                  height="1695"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NATURAL DOCUMENT FLOW (<main>) ================= -->
+  <main>
+    <div id="scroll-journey" class="scroll-journey">
+      <!-- STEP 1 SCROLL SPACER -->
+      <section id="home" class="step1-scroll-track" aria-label="Step 1 จุดเริ่มต้นความสดตามฤดูกาล"></section>
+
+      <!-- STEP 2: SG FRUIT FULL-WIDTH 5-COLUMN SHOP -->
+      <section id="shop" class="shop-section" aria-label="Step 2 เลือกซื้อสินค้า SG FRUIT">
+        <div class="shop-container">
+          <div class="shop-main" id="products">
+            <header class="shop-header">
+              <div class="shop-header-left">
+                <div class="shop-eyebrow">SG FRUIT · SHOP THE SEASON</div>
+                <h2 class="shop-headline">คัดสรรความสด เพื่อทุกวันของคุณ</h2>
+                <p class="shop-description">
+                  เลือกช้อปผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด ที่เราคัดสรรมาอย่างใส่ใจ
+                </p>
+              </div>
+              <div class="shop-demo-banner" role="note">
+                <span>✳ ข้อมูลสินค้าและราคาทั้งหมดเป็นข้อมูลสมมติสำหรับทดสอบระบบ (DEMO ONLY) ไม่ใช่ราคาขายจริงของ SG FRUIT</span>
+              </div>
+            </header>
+
+            <!-- SHOP TOOLBAR: SEARCH, SORT, AVAILABILITY & CATEGORY FILTERS -->
+            <div class="shop-toolbar">
+              <div class="shop-controls-row">
+                <div class="shop-search-wrap">
+                  <span class="shop-search-icon" aria-hidden="true">🔍</span>
+                  <input
+                    type="search"
+                    id="shop-search-input"
+                    class="shop-search-input"
+                    placeholder="ค้นหาชื่อผลไม้ ผักสด หรือรหัสสินค้า..."
+                    aria-label="ค้นหาสินค้าจากชื่อสินค้า"
+                    autocomplete="off"
+                  />
+                  <button type="button" id="shop-search-clear" class="shop-search-clear" hidden aria-label="ล้างคำค้นหา">×</button>
+                </div>
+
+                <div class="shop-filter-right">
+                  <label class="shop-avail-check">
+                    <input type="checkbox" id="shop-available-only" />
+                    <span>เฉพาะสินค้าพร้อมจำหน่าย</span>
+                  </label>
+
+                  <select id="shop-sort-select" class="shop-sort-select" aria-label="เรียงลำดับราคาสินค้า">
+                    <option value="default">เรียงตาม: แนะนำ</option>
+                    <option value="price-asc">ราคา: ต่ำ ไป สูง</option>
+                    <option value="price-desc">ราคา: สูง ไป ต่ำ</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="shop-category-tabs" id="shop-category-tabs" role="tablist" aria-label="หมวดหมู่สินค้า"></div>
+
+              <div class="shop-status-bar">
+                <div id="shop-product-count" aria-live="polite">กำลังโหลดรายการสินค้า...</div>
+              </div>
+            </div>
+
+            <!-- PRODUCT GRID (5 Columns × 3 Rows = 15 Mock Products on Desktop) -->
+            <div class="shop-product-grid" id="shop-product-grid" aria-live="polite"></div>
+
+            <!-- EMPTY STATE -->
+            <div class="shop-empty-state" id="shop-empty-state" hidden>
+              <h3>ไม่พบสินค้าที่ตรงกับเงื่อนไขการค้นหา</h3>
+              <p>ลองเปลี่ยนคำค้นหา หรือเลือกดูสินค้าจากหมวดหมู่อื่น ๆ ของร้าน</p>
+              <button type="button" class="primary-cta" id="shop-reset-filters-btn">ดูสินค้าทั้งหมด</button>
+            </div>
+
+            <!-- PAGINATION / LOAD MORE -->
+            <div class="shop-pagination" id="shop-pagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEPS 3–6 & CINEMATIC ZOOM SCROLL TRACK -->
+      <section id="story" class="story" aria-label="เรื่องราวความสด Step 3 ถึง Step 6 และ Cinematic Zoom"></section>
+    </div>
+
+    <!-- PHASE 10: ABOUT SG FRUIT -->
+    <section id="about" class="about-section" aria-label="เกี่ยวกับ SG FRUIT">
+      <div class="about-inner">
+        <div>
+          <div class="about-kicker">ABOUT SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</div>
+          <h2 class="about-title">Fresh selection,<br>curated with care.</h2>
+          <p class="about-lead">
+            SG FRUIT หรือ เอสจี ผลไม้ตามฤดูกาล มุ่งนำเสนอผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด ผ่านการคัดสรรที่ใส่ใจในคุณภาพและความสดใหม่ เพื่อให้ทุกวันของคุณเต็มไปด้วยรสชาติที่ดีจากธรรมชาติ
+          </p>
+          <div class="about-group-tag">
+            <span>A Brand by Siriwatmedhanin Group</span>
+          </div>
+        </div>
+
+        <div class="about-pillars">
+          <div class="about-pillar">
+            <strong>ผลไม้ไทยและผลไม้ตามฤดูกาล</strong>
+            <span>คัดสรรผลไม้ไทยรสชาติดีประจำฤดูกาล ส่งมอบความสดใหม่ที่เหมาะกับทุกมื้อของครอบครัว</span>
+          </div>
+          <div class="about-pillar">
+            <strong>ผลไม้นำเข้าหลากหลายชนิด</strong>
+            <span>รวบรวมผลไม้นำเข้ายอดนิยมที่ผ่านการดูแลและคัดเลือกอย่างพิถีพิถันในทุกขั้นตอน</span>
+          </div>
+          <div class="about-pillar">
+            <strong>ผักสดสะอาดเพื่อเมนูสุขภาพ</strong>
+            <span>ผักสดและชุดสลัดพร้อมสำหรับปรุงอาหารและจัดจานสุขภาพในทุกวันของคุณ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RIGHT QUICK-JUMP RAIL (STEPS 01–06) -->
+  <aside class="rail" aria-label="ข้ามไปแต่ละช่วงของ Step 1–6">
+    <button type="button" data-rail-step="1" class="active" aria-label="ไป Step 1 เริ่มต้นความสด">
+      <span>01 SEASON</span><b></b>
+    </button>
+    <button type="button" data-rail-step="2" aria-label="ไป Step 2 เลือกซื้อสินค้า">
+      <span>02 SHOP</span><b></b>
+    </button>
+    <button type="button" data-rail-step="3" aria-label="ไป Step 3 ตกลงบนเขียง">
+      <span>03 BOARD</span><b></b>
+    </button>
+    <button type="button" data-rail-step="4" aria-label="ไป Step 4 แยกออกเป็น 2 ซีก">
+      <span>04 HALVES</span><b></b>
+    </button>
+    <button type="button" data-rail-step="5" aria-label="ไป Step 5 อะโวคาโดสไลซ์บนเขียง">
+      <span>05 SLICE</span><b></b>
+    </button>
+    <button type="button" data-rail-step="6" aria-label="ไป Step 6 จานสลัด">
+      <span>06 SALAD</span><b></b>
+    </button>
+  </aside>
+
+  <!-- PHASE 11: CONTACT & FOOTER -->
+  <footer id="contact" class="site-footer" aria-label="ข้อมูลติดต่อและส่วนท้ายเว็บไซต์ SG FRUIT">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark footer-brand-mark" aria-hidden="true">
+            <img class="brand-logo-img" src="Pic/Logo ตัวนูน-02.png" alt="SG FRUIT Logo" width="52" height="52" />
+          </span>
+          <div>
+            <strong>SG FRUIT</strong>
+            <span class="footer-brand-th">เอสจี ผลไม้ตามฤดูกาล</span>
+            <span class="footer-brand-group">A Brand by Siriwatmedhanin Group</span>
+          </div>
+        </div>
+        <p class="footer-desc">
+          คัดสรรผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด เพื่อส่งมอบความสดใหม่สู่ทุกวันของคุณ
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>หมวดหมู่สินค้า</h4>
+        <ul class="footer-links">
+          <li><a href="#shop" data-filter-category="all">สินค้าทั้งหมด</a></li>
+          <li><a href="#shop" data-filter-category="ผลไม้ไทย">ผลไม้ไทย</a></li>
+          <li><a href="#shop" data-filter-category="ผลไม้นำเข้า">ผลไม้นำเข้า</a></li>
+          <li><a href="#shop" data-filter-category="ผลไม้ตามฤดูกาล">ผลไม้ตามฤดูกาล</a></li>
+          <li><a href="#shop" data-filter-category="ผักสด">ผักสด</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>เกี่ยวกับร้าน</h4>
+        <ul class="footer-links">
+          <li><a href="#home" data-nav-target="home">หน้าแรก (Step 1)</a></li>
+          <li><a href="#shop" data-nav-target="shop">เลือกซื้อสินค้า (Step 2)</a></li>
+          <li><a href="#story" data-nav-target="story">เรื่องราวความสด (Step 3–6)</a></li>
+          <li><a href="#about" data-nav-target="about">เกี่ยวกับ SG FRUIT</a></li>
+          <li><button type="button" data-open-cart>เปิดตะกร้าสินค้า</button></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>ช่องทางติดต่อ (Placeholder)</h4>
+        <ul class="footer-placeholder-list">
+          <li class="footer-placeholder-item">
+            <strong>LINE Official Account</strong>
+            <small>รอระบุข้อมูลจริงของร้าน SG FRUIT</small>
+          </li>
+          <li class="footer-placeholder-item">
+            <strong>โทรศัพท์ติดต่อ</strong>
+            <small>รอระบุข้อมูลจริงของร้าน SG FRUIT</small>
+          </li>
+          <li class="footer-placeholder-item">
+            <strong>Social Media / เวลาทำการ</strong>
+            <small>รอระบุข้อมูลจริงของร้าน SG FRUIT</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 SG FRUIT · เอสจี ผลไม้ตามฤดูกาล (A Brand by Siriwatmedhanin Group)</div>
+      <div class="footer-policies">
+        <span class="footer-policy-tag">นโยบายร้านค้าและการจัดส่ง (สำหรับระบุข้อมูลจริงภายหลัง)</span>
+        <span class="footer-policy-tag">นโยบายความเป็นส่วนตัว (สำหรับระบุข้อมูลจริงภายหลัง)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= PHASE 6: SHOPPING CART DRAWER ================= -->
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" aria-hidden="true">
+    <div class="cart-drawer-backdrop"></div>
+    <div class="cart-drawer-panel">
+      <header class="cart-drawer-header">
+        <h3 class="cart-drawer-title" id="cart-drawer-title">
+          <span>ตะกร้าสินค้า SG FRUIT</span>
+          <span class="cart-count-badge" data-cart-count>0</span>
+        </h3>
+        <button type="button" class="cart-drawer-close" id="cart-drawer-close" aria-label="ปิดตะกร้าสินค้า">×</button>
+      </header>
+      <div class="cart-drawer-demo-note">
+        ✳ ระบบตะกร้าสินค้าสำหรับทดสอบ (DEMO) · ราคาในรายการเป็นข้อมูลสมมติ
+      </div>
+      <div class="cart-drawer-body">
+        <div class="cart-drawer-items" id="cart-drawer-items"></div>
+        <div class="cart-drawer-empty" id="cart-drawer-empty">
+          <h4>ยังไม่มีสินค้าในตะกร้า</h4>
+          <p>เลือกชมผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดได้ในหน้าร้านค้า</p>
+          <button type="button" class="primary-cta" id="cart-empty-browse-btn">เลือกซื้อสินค้า</button>
+        </div>
+      </div>
+      <footer class="cart-drawer-footer" id="cart-drawer-footer" hidden>
+        <div class="cart-summary-row">
+          <span>จำนวนสินค้าที่เลือก</span>
+          <span id="cart-total-items-label">0 รายการ</span>
+        </div>
+        <div class="cart-summary-row is-total">
+          <span>ยอดรวมสินค้า (DEMO)</span>
+          <strong id="cart-subtotal-value">฿0</strong>
+        </div>
+        <div class="cart-footer-actions">
+          <button type="button" class="cart-clear-btn" id="cart-clear-btn">ล้างตะกร้า</button>
+          <button type="button" class="cart-checkout-btn" id="cart-checkout-demo-btn">ดูสรุปรายการสั่งซื้อ (DEMO)</button>
+        </div>
+      </footer>
+    </div>
+  </aside>
+
+  <!-- ================= PRODUCT DETAIL MODAL ================= -->
+  <div class="modal-overlay" id="product-modal" role="dialog" aria-modal="true" aria-label="รายละเอียดสินค้า" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <button type="button" class="modal-close-btn" id="product-modal-close" aria-label="ปิดหน้าต่างรายละเอียดสินค้า">×</button>
+      <div id="product-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ================= DEMO ORDER SUMMARY MODAL ================= -->
+  <div class="modal-overlay" id="order-summary-modal" role="dialog" aria-modal="true" aria-labelledby="order-summary-title" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <button type="button" class="modal-close-btn" id="order-summary-close" aria-label="ปิดหน้าสรุปรายการ">×</button>
+      <h3 id="order-summary-title" style="margin: 0 0 14px; font-size: 22px;">สรุปรายการสินค้า (Order Summary · DEMO)</h3>
+      <div id="order-summary-body"></div>
+      <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+        <button type="button" class="primary-cta" id="order-summary-back-btn">กลับไปแก้ไขตะกร้า / เลือกสินค้าต่อ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Product Catalog & Cart Modules -->
+  <script src="js/products-data.js"></script>
+  <script src="js/shop-cart.js"></script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="js/gsap.min.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+  <script>
+    (() => {
+      'use strict';
+
+      const root = document.documentElement;
+      const scrollJourneyEl = document.getElementById('scroll-journey');
+      const homeSection = document.getElementById('home');
+      const shopSection = document.getElementById('shop');
+      const storySection = document.getElementById('story');
+      const aboutSection = document.getElementById('about');
+      const contactSection = document.getElementById('contact');
+
+      const stepNumberEl = document.getElementById('step-number');
+      const stepNameEl = document.getElementById('step-name');
+      const stepProgressPctEl = document.getElementById('step-progress-pct');
+      const ghostLabelEl = document.getElementById('ghost-label');
+      const sceneCounterEl = document.getElementById('scene-counter');
+      const scrollTipEl = document.getElementById('scroll-tip');
+      const stageHairlineEl = document.getElementById('stage-hairline');
+
+      const railButtons = [...document.querySelectorAll('.rail button[data-rail-step]')];
+      const navLinks = [...document.querySelectorAll('.nav .nav-link[data-nav-target]')];
+
+      const copyNodes = [
+        document.getElementById('copy-step-1'),
+        document.getElementById('copy-step-2'),
+        document.getElementById('copy-step-3'),
+        document.getElementById('copy-step-4'),
+        document.getElementById('copy-step-5'),
+        document.getElementById('copy-step-6')
+      ];
+      const nextSectionLayer = document.getElementById('next-section-layer');
+
+      // Expose state & stage elements for verification
+      window.SG_FRUIT_STAGE_STATE = window.MAE_CHAWI_STAGE_STATE = {
+        phase: 'V2_FULL_WIDTH_SHOP_VERTICAL_FALL',
+        progress: 0,
+        activeStep: 1,
+        step1ScenerySelector: '#step1-scenery',
+        globalOverlaySelector: '#global-avocado-overlay',
+        heroAvocadoSelector: '#hero-avocado-wrap',
+        shopSectionSelector: '#shop',
+        boardSelector: '#board-layer',
+        halvesSelector: '#halves-layer',
+        slicesSelector: '#slices-layer',
+        saladSelector: '#salad-layer',
+        nextSectionSelector: '#next-section-layer'
+      };
+
+      const STEP_NAMES = [
+        'THE SEASON BEGINS',
+        'SHOP THE SEASON',
+        'THE LANDING',
+        'THE REVEAL',
+        'FRESHLY SLICED',
+        'READY TO ENJOY',
+        'TO YOUR TABLE'
+      ];
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+      const mobileDrawer = document.getElementById('mobile-nav-drawer');
+      if (mobileMenuBtn && mobileDrawer) {
+        mobileMenuBtn.addEventListener('click', () => {
+          const isOpen = mobileDrawer.classList.toggle('is-open');
+          mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          mobileMenuBtn.textContent = isOpen ? '×' : '☰';
+        });
+      }
+
+      function closeMobileMenu() {
+        if (mobileDrawer && mobileDrawer.classList.contains('is-open')) {
+          mobileDrawer.classList.remove('is-open');
+          if (mobileMenuBtn) {
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenuBtn.textContent = '☰';
+          }
+        }
+      }
+
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        return;
+      }
+      gsap.registerPlugin(ScrollTrigger);
+
+      const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+
+      // Initialize baseline states explicitly so scrolling back to 0% is always 100% deterministic
+      gsap.set('#copy-step-1', { autoAlpha: 1, yPercent: -50, y: 0 });
+      gsap.set('#copy-step-2', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-3', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-4', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-5', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-6', { autoAlpha: 0, yPercent: -38, y: 0 });
+
+      gsap.set('#bg-step-1', { autoAlpha: 1 });
+      gsap.set('#bg-step-2', { autoAlpha: 0 });
+      gsap.set('#bg-step-3', { autoAlpha: 0 });
+      gsap.set('#bg-step-4', { autoAlpha: 0 });
+      gsap.set('#bg-step-5', { autoAlpha: 0 });
+      gsap.set('#bg-step-6', { autoAlpha: 0 });
+      gsap.set('#bg-next-section', { autoAlpha: 0 });
+
+      gsap.set('#step1-scenery', { autoAlpha: 1, yPercent: 0, scale: 1 });
+      gsap.set('#step1-stage-content', { yPercent: 0, xPercent: 0 });
+      gsap.set('#step1-bg-mountain', { yPercent: 0 });
+      gsap.set('#hero-stem-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-fruit-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-stem', { rotation: 0, scaleY: 1, autoAlpha: 1 });
+      gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, rotation: 0, autoAlpha: 0 });
+      gsap.set('#avocado-board-shadow', { autoAlpha: 0, scale: 0.35 });
+
+      // Single continuous fruit (#hero-avocado-wrap) initial state on the tree branch (Step 1)
+      // Notice: xPercent is 0 and x is 0 throughout the ENTIRE fall (pure vertical drop!)
+      gsap.set('#hero-avocado-wrap', {
+        x: 0,
+        y: 0,
+        xPercent: 0,
+        yPercent: 0,
+        scale: 1,
+        rotation: 0,
+        autoAlpha: 1
+      });
+
+      gsap.set('#halves-layer', { autoAlpha: 0, scale: 1.0, rotation: 0 });
+      gsap.set('#avocado-half-left', { xPercent: 3.5, yPercent: -0.5, rotation: 1.0 });
+      gsap.set('#avocado-half-right', { xPercent: -3.5, yPercent: 0.5, rotation: -1.0 });
+
+      gsap.set('#slices-layer', { autoAlpha: 0, scale: 0.98, rotation: 0, xPercent: 0, yPercent: 0 });
+      gsap.set('#slices-group-left', { xPercent: 3, yPercent: 0.5, rotation: 1.5 });
+      gsap.set('#slices-group-center', { xPercent: 0, yPercent: 0, rotation: 0 });
+      gsap.set('#slices-group-right', { xPercent: -3, yPercent: -0.5, rotation: -1.5 });
+
+      gsap.set('#salad-layer', { autoAlpha: 0, scale: 0.9, xPercent: 0, yPercent: 18, rotation: 0 });
+      gsap.set('#next-section-layer', { autoAlpha: 0, scale: 1.05 });
+
+      // =========================================================================
+      // SINGLE MASTER GSAP TIMELINE (0..300 UNITS, ZERO OVERLAPPING TIMELINES)
+      // =========================================================================
+      const masterTL = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'none' }
+      });
+
+      // STEP 1 (0 -> 12): Attached on branch, coherent scene glide
+      masterTL.to('#step1-stage-content', { yPercent: -2.0, duration: 12 }, 0);
+      masterTL.to(['#hero-stem-motion-root', '#hero-fruit-motion-root'], { yPercent: -3.2514, duration: 12 }, 0);
+      masterTL.to('#step1-bg-mountain', { yPercent: 0.6, duration: 12 }, 0);
+
+      // Stem recoil at detachment (11.5 -> 15)
+      masterTL.to('#hero-stem', {
+        rotation: -2.2,
+        scaleY: 0.95,
+        duration: 3.5,
+        ease: 'back.out(2)'
+      }, 11.5);
+
+      // STEP 2 (12 -> 72): PURE VERTICAL GRAVITY FALL IN FRONT OF FULL-WIDTH SHOP
+      // Notice: NO xPercent / x tween on #hero-avocado-wrap! It falls straight down vertically (xPercent = 0)
+      masterTL.to('#bg-step-2', { autoAlpha: 1, duration: 10 }, 12);
+      masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 12);
+
+      masterTL.to('#hero-stem-motion-root', {
+        y: () => -0.45 * window.innerHeight,
+        scale: 1.03,
+        autoAlpha: 0,
+        duration: 14,
+        ease: 'power1.inOut'
+      }, 12);
+
+      masterTL.to('#step1-scenery', {
+        yPercent: -45,
+        scale: 1.03,
+        autoAlpha: 0,
+        duration: 14,
+        ease: 'power1.inOut'
+      }, 12);
+
+      masterTL.to('#hero-fruit-motion-root', {
+        yPercent: 0,
+        duration: 48,
+        ease: 'sine.inOut'
+      }, 12);
+
+      // Pure vertical gravity acceleration from branch (yPercent: 0) onto board surface (yPercent: 52.7)
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 52.7,
+        duration: 60,
+        ease: 'power1.in'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        scale: 1.08,
+        duration: 60,
+        ease: 'power1.inOut'
+      }, 12);
+
+      // Subtle natural rotation during vertical fall
+      masterTL.to('#hero-avocado-wrap', { rotation: -12, duration: 20, ease: 'sine.inOut' }, 12);
+      masterTL.to('#hero-avocado-wrap', { rotation: 14, duration: 22, ease: 'sine.inOut' }, 32);
+      masterTL.to('#hero-avocado-wrap', { rotation: -7, duration: 18, ease: 'sine.in' }, 54);
+
+      // STEP 3 (54 -> 100): WOODEN CUTTING BOARD RISES & AVOCADO BOUNCES ON LANDING
+      masterTL.to('#bg-step-3', { autoAlpha: 1, duration: 14 }, 54);
+      masterTL.to('#copy-step-3', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 60);
+
+      masterTL.to('#board-layer', {
+        yPercent: 0,
+        scale: 1,
+        autoAlpha: 1,
+        duration: 16,
+        ease: 'power2.out'
+      }, 54);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.92,
+        scale: 1.0,
+        duration: 10,
+        ease: 'power2.in'
+      }, 62);
+
+      // Board recoil & 2-bounce landing (72 -> 100)
+      masterTL.to('#board-layer', { yPercent: 1.4, duration: 2.5, ease: 'power2.out' }, 72);
+      masterTL.to('#board-layer', { yPercent: 0, duration: 4.5, ease: 'power2.inOut' }, 74.5);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 27.7, rotation: 6, duration: 7.5, ease: 'power2.out' }, 72);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.48, scale: 1.26, duration: 7.5, ease: 'power2.out' }, 72);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 52.7, rotation: -3, duration: 7, ease: 'power2.in' }, 79.5);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.95, scale: 0.98, duration: 7, ease: 'power2.in' }, 79.5);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 43.7, rotation: 1.8, duration: 4.5, ease: 'power2.out' }, 86.5);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.72, scale: 1.08, duration: 4.5, ease: 'power2.out' }, 86.5);
+
+      masterTL.to('#hero-avocado-wrap', { yPercent: 52.7, rotation: 0, duration: 5, ease: 'power2.in' }, 91);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0.96, scale: 1.0, duration: 5, ease: 'power2.in' }, 91);
+      masterTL.to('#hero-avocado-wrap', { yPercent: 52.7, rotation: 0, duration: 4 }, 96);
+
+      // STEP 4 (100 -> 150): TWO HALVES SEPARATING ON BOARD
+      masterTL.to('#bg-step-4', { autoAlpha: 1, duration: 12 }, 101);
+      masterTL.to('#copy-step-3', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 101);
+      masterTL.to('#copy-step-4', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 106);
+
+      masterTL.to('#hero-avocado-wrap', { autoAlpha: 0, duration: 7, ease: 'power1.inOut' }, 100);
+      masterTL.to('#avocado-board-shadow', { autoAlpha: 0, duration: 7, ease: 'power1.inOut' }, 100);
+      masterTL.to('#halves-layer', { autoAlpha: 1, duration: 7, ease: 'power1.inOut' }, 100);
+
+      masterTL.to('#avocado-half-left', { xPercent: -7.0, yPercent: 1.5, rotation: -5.5, duration: 34, ease: 'power2.inOut' }, 108);
+      masterTL.to('#avocado-half-right', { xPercent: 7.0, yPercent: -1.5, rotation: 5.5, duration: 34, ease: 'power2.inOut' }, 108);
+      masterTL.to('#halves-layer', { scale: 1.0, duration: 8 }, 142);
+
+      // STEP 5 (150 -> 180): AVOCADO SLICES ON BOARD
+      masterTL.to('#bg-step-5', { autoAlpha: 1, duration: 12 }, 150);
+      masterTL.to('#copy-step-4', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 150);
+      masterTL.to('#copy-step-5', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 155);
+
+      masterTL.to('#halves-layer', { autoAlpha: 0, scale: 0.96, duration: 10, ease: 'power1.inOut' }, 150);
+      masterTL.to('#slices-layer', { autoAlpha: 1, scale: 1.0, duration: 10, ease: 'power1.inOut' }, 150);
+
+      masterTL.to('#slices-group-left', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
+      masterTL.to('#slices-group-center', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
+      masterTL.to('#slices-group-right', { xPercent: 0, yPercent: 0, rotation: 0, duration: 16, ease: 'power2.out' }, 152);
+      masterTL.to('#slices-layer', { scale: 1.0, duration: 12 }, 168);
+
+      // STEP 6 (180 -> 220): SLICES POUR INTO SALAD BOWL
+      masterTL.to('#bg-step-6', { autoAlpha: 1, duration: 14 }, 180);
+      masterTL.to('#copy-step-5', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 180);
+      masterTL.to('#copy-step-6', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 188);
+
+      masterTL.to('#salad-layer', { autoAlpha: 1, scale: 1.0, yPercent: 0, duration: 18, ease: 'power2.out' }, 180);
+      masterTL.to('#board-layer', { yPercent: 18, rotation: -8, autoAlpha: 0, scale: 0.94, duration: 24, ease: 'power2.in' }, 182);
+      masterTL.to('#slices-layer', { xPercent: -10, yPercent: 20, rotation: -12, scale: 0.84, autoAlpha: 0, duration: 24, ease: 'power2.in' }, 182);
+      masterTL.to('#salad-layer', { scale: 1.0, xPercent: 0, yPercent: 0, autoAlpha: 1, duration: 14 }, 206);
+
+      // CINEMATIC ZOOM AFTER STEP 6 (220 -> 300)
+      masterTL.to('#salad-layer', { scale: 1.0, autoAlpha: 1, duration: 16 }, 220);
+      masterTL.to('#copy-step-6', { autoAlpha: 0, yPercent: -62, scale: 0.94, duration: 12, ease: 'power1.inOut' }, 236);
+      masterTL.to('#salad-layer', {
+        scale: () => window.innerWidth <= 680 ? 6.0 : 4.8,
+        xPercent: () => window.innerWidth <= 680 ? 22 : -14,
+        yPercent: () => window.innerWidth <= 680 ? -110 : -6,
+        duration: 40,
+        ease: 'power1.inOut'
+      }, 236);
+
+      masterTL.to('#bg-next-section', { autoAlpha: 1, duration: 20, ease: 'power1.inOut' }, 276);
+      masterTL.to('#salad-layer', {
+        autoAlpha: 0,
+        scale: () => window.innerWidth <= 680 ? 6.8 : 5.4,
+        yPercent: () => window.innerWidth <= 680 ? -125 : -8,
+        duration: 18,
+        ease: 'power1.in'
+      }, 276);
+      masterTL.to('#next-section-layer', { autoAlpha: 1, scale: 1.0, duration: 20, ease: 'power1.out' }, 276);
+      masterTL.to('#next-section-layer', { autoAlpha: 1, scale: 1.0, duration: 4 }, 296);
+
+      // =========================================================================
+      // SCROLL MAPPING ACROSS STEP 1 (#home) -> STEP 2 (#shop) -> STEPS 3-6 (#story)
+      // =========================================================================
+      const bounds = {
+        s1End: 400,
+        s2End: 1800,
+        storyEnd: 6500
+      };
+
+      function measureScrollBounds() {
+        const vh = window.innerHeight || 800;
+        const vw = window.innerWidth || 1280;
+        const headerH = vw <= 680 ? 64 : 78;
+
+        const shopTop = shopSection ? shopSection.offsetTop : vh * 1.35;
+        const storyTop = storySection ? storySection.offsetTop : shopTop + 1200;
+        const storyH = storySection ? storySection.offsetHeight : vh * 8;
+
+        bounds.s1End = Math.max(200, shopTop - headerH - 12);
+        bounds.s2End = Math.max(bounds.s1End + 200, storyTop - vh * 0.48);
+        bounds.storyEnd = Math.max(bounds.s2End + 400, storyTop + storyH - vh);
+      }
+
+      function scrollYToTimelineUnits(scrollY) {
+        if (scrollY <= bounds.s1End) {
+          // Step 1 -> top of Step 2 Shop maps to t = 0..24
+          const u1 = clamp(scrollY / Math.max(1, bounds.s1End), 0, 1);
+          return u1 * 24;
+        } else if (scrollY <= bounds.s2End) {
+          // Scrolling through Step 2 Shop maps to t = 24..56 (Avocado falls vertically across the shop!)
+          const u2 = clamp((scrollY - bounds.s1End) / Math.max(1, bounds.s2End - bounds.s1End), 0, 1);
+          return 24 + u2 * 32;
+        } else {
+          // Scrolling through Steps 3..6 & Cinematic Zoom maps to t = 56..300
+          const u3 = clamp((scrollY - bounds.s2End) / Math.max(1, bounds.storyEnd - bounds.s2End), 0, 1);
+          return 56 + u3 * 244;
+        }
+      }
+
+      function updateHUDAndTimeline() {
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        const vh = window.innerHeight || 800;
+        const t = scrollYToTimelineUnits(scrollY);
+
+        masterTL.time(t);
+
+        const p = clamp(t / 300, 0, 1);
+        root.style.setProperty('--p', p.toFixed(4));
+        if (stepProgressPctEl) stepProgressPctEl.textContent = `${Math.round(p * 100)}%`;
+
+        const stepIdx = t >= 276 ? 6 : t >= 180 ? 5 : t >= 150 ? 4 : t >= 100 ? 3 : t >= 56 ? 2 : t >= 18 ? 1 : 0;
+        const displayStep = Math.min(6, stepIdx + 1);
+        window.MAE_CHAWI_STAGE_STATE.progress = p;
+        window.MAE_CHAWI_STAGE_STATE.activeStep = displayStep;
+
+        if (stepNumberEl) stepNumberEl.textContent = `0${displayStep} / 06`;
+        if (stepNameEl) stepNameEl.textContent = STEP_NAMES[stepIdx];
+        if (ghostLabelEl) ghostLabelEl.textContent = `0${displayStep}`;
+
+        railButtons.forEach((btn) => {
+          btn.classList.toggle('active', Number(btn.dataset.railStep) === displayStep);
+        });
+
+        // Active navbar link
+        const maxScrollY = Math.max(1, document.documentElement.scrollHeight - vh);
+        const aboutTop = aboutSection ? aboutSection.offsetTop - vh * 0.45 : Infinity;
+        const contactTop = contactSection ? contactSection.offsetTop - vh * 0.65 : Infinity;
+        let activeNavTarget = 'home';
+        if (scrollY >= contactTop || scrollY >= maxScrollY - 120) {
+          activeNavTarget = 'contact';
+        } else if (scrollY >= aboutTop) {
+          activeNavTarget = 'about';
+        } else if (t >= 56) {
+          activeNavTarget = 'story';
+        } else if (t >= 18) {
+          activeNavTarget = 'shop';
+        }
+        navLinks.forEach((link) => {
+          link.classList.toggle('is-active', link.getAttribute('data-nav-target') === activeNavTarget);
+        });
+
+        const inShopRegion = t >= 18 && t < 56;
+        const belowStoryRegion = scrollY >= aboutTop;
+        if (sceneCounterEl) sceneCounterEl.style.opacity = (inShopRegion || belowStoryRegion) ? '0' : '1';
+        if (scrollTipEl) scrollTipEl.style.opacity = (inShopRegion || belowStoryRegion) ? '0' : '1';
+        if (stageHairlineEl) stageHairlineEl.style.opacity = (inShopRegion || belowStoryRegion) ? '0' : '1';
+        const railEl = document.querySelector('.rail');
+        if (railEl) {
+          railEl.style.opacity = belowStoryRegion ? '0' : '1';
+          railEl.style.pointerEvents = belowStoryRegion ? 'none' : 'auto';
+        }
+
+        copyNodes.forEach((node, idx) => {
+          if (!node) return;
+          const isCurrent = idx === stepIdx && idx !== 1;
+          node.classList.toggle('is-interactive', isCurrent);
+          node.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+        });
+
+        if (nextSectionLayer) {
+          const isNextActive = t >= 286 && !belowStoryRegion;
+          nextSectionLayer.classList.toggle('is-active', isNextActive);
+          nextSectionLayer.setAttribute('aria-hidden', isNextActive ? 'false' : 'true');
+        }
+      }
+
+      // Single ScrollTrigger instance driving masterTL
+      ScrollTrigger.create({
+        trigger: scrollJourneyEl,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.55,
+        invalidateOnRefresh: true,
+        onRefresh: () => {
+          measureScrollBounds();
+          updateHUDAndTimeline();
+        },
+        onUpdate: () => {
+          updateHUDAndTimeline();
+        }
+      });
+
+      // Synchronized Tree -> Branch -> Stem -> Fruit Sway Engine
+      const treeMotionGroup = document.getElementById('step1-tree-motion-group');
+      const stemTreeBreeze = document.getElementById('hero-stem-tree-breeze');
+      const stemBranchPendulum = document.getElementById('hero-stem-branch-pendulum');
+      const fruitTreeBreeze = document.getElementById('hero-fruit-tree-breeze');
+      const fruitBranchPendulum = document.getElementById('hero-fruit-branch-pendulum');
+      const fruitLocalSway = document.getElementById('hero-avocado-sway');
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReducedMotion) {
+        gsap.ticker.add((time) => {
+          const treeAngle = Math.sin(time * (Math.PI / 4.25)) * 0.40;
+          const branchAngle = Math.sin(time * (Math.PI / 2.30) + 0.55) * 0.75;
+          const localFruitAngle = Math.sin(time * (Math.PI / 1.80) + 1.25) * 1.15;
+
+          if (treeMotionGroup) treeMotionGroup.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
+          if (stemTreeBreeze) stemTreeBreeze.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
+          if (stemBranchPendulum) stemBranchPendulum.style.transform = `rotate(${branchAngle.toFixed(4)}deg)`;
+
+          const tlTime = masterTL.time();
+          let attachWeight = 0;
+          if (tlTime <= 12) {
+            attachWeight = 1;
+          } else if (tlTime < 26) {
+            const p = (tlTime - 12) / 14;
+            attachWeight = 0.5 * (1 + Math.cos(Math.PI * p));
+          }
+
+          if (fruitTreeBreeze) fruitTreeBreeze.style.transform = `rotate(${(treeAngle * attachWeight).toFixed(4)}deg)`;
+          if (fruitBranchPendulum) fruitBranchPendulum.style.transform = `rotate(${(branchAngle * attachWeight).toFixed(4)}deg)`;
+          if (fruitLocalSway) fruitLocalSway.style.transform = `rotate(${(localFruitAngle * attachWeight).toFixed(4)}deg)`;
+        });
+      }
+
+      window.onSgShopLayoutChanged = function () {
+        measureScrollBounds();
+        updateHUDAndTimeline();
+      };
+
+      // Navigation Helper
+      function navigateToTarget(targetName, smooth = true) {
+        closeMobileMenu();
+        measureScrollBounds();
+        const headerH = (window.innerWidth || 1280) <= 680 ? 64 : 78;
+        let targetScrollY = 0;
+
+        if (targetName === 'home' || targetName === 'step-1') {
+          targetScrollY = 0;
+        } else if (targetName === 'shop' || targetName === 'products' || targetName === 'step-2') {
+          targetScrollY = shopSection ? Math.max(0, shopSection.offsetTop - headerH - 4) : bounds.s1End;
+        } else if (targetName === 'story' || targetName === 'step-3') {
+          const u3 = (94 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
+        } else if (targetName === 'step-4') {
+          const u3 = (135 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
+        } else if (targetName === 'step-5') {
+          const u3 = (168 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
+        } else if (targetName === 'step-6') {
+          const u3 = (212 - 56) / 244;
+          targetScrollY = bounds.s2End + u3 * (bounds.storyEnd - bounds.s2End);
+        } else if (targetName === 'about') {
+          targetScrollY = aboutSection ? Math.max(0, aboutSection.offsetTop - headerH) : 0;
+        } else if (targetName === 'contact') {
+          targetScrollY = contactSection ? Math.max(0, contactSection.offsetTop - headerH) : 0;
+        }
+
+        window.scrollTo({
+          top: targetScrollY,
+          behavior: smooth ? 'smooth' : 'auto'
+        });
+      }
+
+      document.querySelectorAll('[data-nav-target]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = el.getAttribute('data-nav-target');
+          if (target) navigateToTarget(target, true);
+        });
+      });
+
+      railButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const stepNum = Number(btn.getAttribute('data-rail-step')) || 1;
+          navigateToTarget(`step-${stepNum}`, true);
+        });
+      });
+
+      window.addEventListener('scroll', updateHUDAndTimeline, { passive: true });
+      window.addEventListener('resize', () => {
+        measureScrollBounds();
+        updateHUDAndTimeline();
+      });
+
+      window.addEventListener('load', () => {
+        measureScrollBounds();
+        ScrollTrigger.refresh();
+        updateHUDAndTimeline();
+        const rawHash = (window.location.hash || '').replace(/^#/, '').trim();
+        if (rawHash) {
+          setTimeout(() => navigateToTarget(rawHash, false), 60);
+        }
+      });
+
+      measureScrollBounds();
+      updateHUDAndTimeline();
+    })();
+  </script>
+</body>
+</html>
