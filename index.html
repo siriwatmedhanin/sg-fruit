@@ -1113,6 +1113,10 @@
       will-change: transform, opacity;
       transform-origin: 49.5% 49.2%;
       pointer-events: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+      outline: none !important;
     }
 
     .hero-avocado-sway {
@@ -1121,6 +1125,10 @@
       transform-origin: 49.5% 3.0%;
       will-change: transform;
       pointer-events: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+      outline: none !important;
     }
 
     .hero-avocado-img {
@@ -1129,7 +1137,13 @@
       aspect-ratio: 2000 / 1695;
       object-fit: contain;
       display: block;
-      filter: drop-shadow(0 16px 26px rgba(20, 42, 26, 0.28));
+      /* Remove CSS drop-shadow to eliminate WebKit/iOS bounding-box shadow glitch */
+      filter: none !important;
+      -webkit-filter: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+      outline: none !important;
       transform: none;
       pointer-events: none !important;
     }
