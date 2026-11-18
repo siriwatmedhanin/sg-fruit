@@ -1,0 +1,42 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="orangeGrad" cx="36%" cy="30%" r="66%">
+      <stop offset="0%" stop-color="#ffbe42"/>
+      <stop offset="45%" stop-color="#ff8514"/>
+      <stop offset="85%" stop-color="#d95307"/>
+      <stop offset="100%" stop-color="#a33702"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="295" cy="465" rx="170" ry="30" fill="url(#floorShadow)"/>
+  <g transform="translate(285, 330)">
+    <ellipse cx="0" cy="0" rx="128" ry="108" fill="url(#orangeGrad)"/>
+    <ellipse cx="-42" cy="-32" rx="35" ry="24" transform="rotate(-24 -42 -32)" fill="#fff0b8" opacity="0.38"/>
+    <circle cx="0" cy="-98" r="10" fill="#5e7828"/>
+    <path d="M 0,-98 C 52,-142 118,-115 92,-62 C 62,-52 22,-72 0,-98 Z" fill="url(#leafGrad)"/>
+    <path d="M 0,-98 C -38,-132 -85,-112 -68,-72 C -45,-62 -18,-78 0,-98 Z" fill="url(#leafGrad)"/>
+    <!-- Citrus pores -->
+    <circle cx="35" cy="10" r="2" fill="#b83f04" opacity="0.35"/>
+    <circle cx="52" cy="-12" r="2" fill="#b83f04" opacity="0.35"/>
+    <circle cx="22" cy="38" r="2.2" fill="#b83f04" opacity="0.35"/>
+    <circle cx="-28" cy="32" r="2" fill="#b83f04" opacity="0.35"/>
+  </g>
+</svg>

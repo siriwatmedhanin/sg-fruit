@@ -1,0 +1,56 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="longanShell" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#e3b978"/>
+      <stop offset="50%" stop-color="#b88440"/>
+      <stop offset="88%" stop-color="#7d521e"/>
+      <stop offset="100%" stop-color="#593811"/>
+    </radialGradient>
+    <radialGradient id="longanFlesh" cx="38%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#eef2ee"/>
+      <stop offset="100%" stop-color="#cad4cc"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="300" cy="468" rx="190" ry="32" fill="url(#floorShadow)"/>
+  <!-- Leaves and stem -->
+  <path d="M 140,175 C 240,195 350,185 455,155" stroke="#6e4b26" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M 170,180 C 110,130 85,175 120,225 C 155,230 175,205 170,180 Z" fill="url(#leafGrad)"/>
+  <path d="M 410,165 C 465,120 505,160 470,215 C 435,220 410,190 410,165 Z" fill="url(#leafGrad)"/>
+  <!-- Cluster of Longans -->
+  <circle cx="220" cy="260" r="46" fill="url(#longanShell)"/>
+  <circle cx="295" cy="245" r="48" fill="url(#longanShell)"/>
+  <circle cx="370" cy="265" r="45" fill="url(#longanShell)"/>
+  <circle cx="185" cy="335" r="47" fill="url(#longanShell)"/>
+  <circle cx="260" cy="325" r="50" fill="url(#longanShell)"/>
+  <circle cx="340" cy="330" r="49" fill="url(#longanShell)"/>
+  <circle cx="415" cy="340" r="46" fill="url(#longanShell)"/>
+  <circle cx="225" cy="395" r="48" fill="url(#longanShell)"/>
+  <circle cx="305" cy="400" r="51" fill="url(#longanShell)"/>
+  <!-- Peeled Longan Front Right -->
+  <g transform="translate(392, 405)">
+    <path d="M -52,10 A 52,52 0 1,0 52,10 Z" fill="url(#longanShell)"/>
+    <circle cx="0" cy="-4" r="42" fill="url(#longanFlesh)"/>
+    <circle cx="0" cy="-12" r="18" fill="#2b1608"/>
+    <ellipse cx="-6" cy="-16" rx="6" ry="4" fill="#ffffff" opacity="0.65"/>
+  </g>
+</svg>

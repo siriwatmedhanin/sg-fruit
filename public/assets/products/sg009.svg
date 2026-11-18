@@ -1,0 +1,47 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="brocCrown" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#5ca338"/>
+      <stop offset="55%" stop-color="#2f6e22"/>
+      <stop offset="100%" stop-color="#194212"/>
+    </radialGradient>
+    <linearGradient id="brocStalk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b5d982"/>
+      <stop offset="55%" stop-color="#8bb856"/>
+      <stop offset="100%" stop-color="#5d8c32"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="300" cy="472" rx="160" ry="28" fill="url(#floorShadow)"/>
+  <!-- Stalk -->
+  <path d="M 262,310 L 245,442 C 245,455 355,455 355,442 L 338,310 Z" fill="url(#brocStalk)"/>
+  <path d="M 268,340 L 222,285 L 245,272 L 282,320 Z" fill="url(#brocStalk)"/>
+  <path d="M 332,340 L 378,285 L 355,272 L 318,320 Z" fill="url(#brocStalk)"/>
+  <!-- Florets -->
+  <circle cx="215" cy="255" r="62" fill="url(#brocCrown)"/>
+  <circle cx="385" cy="255" r="62" fill="url(#brocCrown)"/>
+  <circle cx="255" cy="205" r="68" fill="url(#brocCrown)"/>
+  <circle cx="345" cy="205" r="68" fill="url(#brocCrown)"/>
+  <circle cx="300" cy="185" r="72" fill="url(#brocCrown)"/>
+  <circle cx="250" cy="265" r="58" fill="url(#brocCrown)"/>
+  <circle cx="350" cy="265" r="58" fill="url(#brocCrown)"/>
+  <circle cx="300" cy="245" r="65" fill="url(#brocCrown)"/>
+</svg>

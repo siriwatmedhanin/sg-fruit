@@ -1,0 +1,49 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <linearGradient id="mangoGrad1" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#fff07c"/>
+      <stop offset="35%" stop-color="#ffd23f"/>
+      <stop offset="78%" stop-color="#f4a61d"/>
+      <stop offset="100%" stop-color="#d97b0c"/>
+    </linearGradient>
+    <linearGradient id="mangoGrad2" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffea6c"/>
+      <stop offset="50%" stop-color="#ffc42e"/>
+      <stop offset="100%" stop-color="#e08912"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="305" cy="462" rx="185" ry="34" fill="url(#floorShadow)"/>
+  <!-- Leaf behind -->
+  <path d="M 220,175 C 145,135 95,180 115,235 C 145,235 190,210 220,175 Z" fill="url(#leafGrad)"/>
+  <path d="M 220,175 C 170,185 135,210 115,235" stroke="#96c95b" stroke-width="2.5" fill="none" opacity="0.7"/>
+  <!-- Back Mango -->
+  <g transform="translate(275, 290) rotate(-18)">
+    <path d="M -85,-95 C -20,-135 75,-95 110,-20 C 140,45 115,115 145,148 C 110,162 35,145 -25,100 C -95,48 -125,-55 -85,-95 Z" fill="url(#mangoGrad2)"/>
+    <ellipse cx="-15" cy="-25" rx="65" ry="30" transform="rotate(28 -15 -25)" fill="#fffbe0" opacity="0.38"/>
+  </g>
+  <!-- Front Mango -->
+  <g transform="translate(310, 355) rotate(8)">
+    <path d="M -115,-70 C -55,-120 55,-95 105,-30 C 145,22 135,88 168,112 C 132,132 45,132 -28,92 C -105,50 -150,-30 -115,-70 Z" fill="url(#mangoGrad1)"/>
+    <ellipse cx="-10" cy="-12" rx="72" ry="32" transform="rotate(22 -10 -12)" fill="#fffdf0" opacity="0.45"/>
+    <path d="M -115,-70 C -128,-82 -136,-78 -142,-68" stroke="#6e522b" stroke-width="6" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

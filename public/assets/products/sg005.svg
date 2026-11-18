@@ -1,0 +1,42 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="appleSkin" cx="35%" cy="30%" r="68%">
+      <stop offset="0%" stop-color="#ff7b6b"/>
+      <stop offset="45%" stop-color="#e0312d"/>
+      <stop offset="82%" stop-color="#9e1419"/>
+      <stop offset="100%" stop-color="#6b0a0e"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="300" cy="465" rx="165" ry="30" fill="url(#floorShadow)"/>
+  <g transform="translate(300, 315)">
+    <path d="M 0,-112 C 45,-142 128,-115 132,-22 C 136,68 78,138 22,142 C 6,143 -6,135 -12,135 C -18,135 -28,143 -42,142 C -98,138 -136,68 -132,-22 C -128,-115 -45,-142 0,-112 Z" fill="url(#appleSkin)"/>
+    <ellipse cx="-48" cy="-38" rx="28" ry="52" transform="rotate(-18 -48 -38)" fill="#fff4d6" opacity="0.34"/>
+    <path d="M -25,-108 C -10,-98 10,-98 25,-108" stroke="#7d5528" stroke-width="4" fill="none" opacity="0.6"/>
+    <path d="M 0,-105 C 2,-135 12,-152 22,-160" stroke="#5c3a18" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M 12,-142 C 55,-168 95,-140 72,-102 C 50,-92 22,-115 12,-142 Z" fill="url(#leafGrad)"/>
+    <!-- Lenticel speckles -->
+    <circle cx="45" cy="-15" r="2" fill="#ffe6b8" opacity="0.5"/>
+    <circle cx="62" cy="25" r="2.2" fill="#ffe6b8" opacity="0.45"/>
+    <circle cx="20" cy="55" r="1.8" fill="#ffe6b8" opacity="0.45"/>
+    <circle cx="-35" cy="48" r="2" fill="#ffe6b8" opacity="0.45"/>
+  </g>
+</svg>

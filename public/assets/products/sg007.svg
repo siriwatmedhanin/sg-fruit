@@ -1,0 +1,46 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="cherryGrad" cx="34%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#ff5468"/>
+      <stop offset="35%" stop-color="#b8112a"/>
+      <stop offset="78%" stop-color="#690414"/>
+      <stop offset="100%" stop-color="#380109"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="235" cy="462" rx="100" ry="24" fill="url(#floorShadow)"/>
+  <ellipse cx="370" cy="472" rx="105" ry="24" fill="url(#floorShadow)"/>
+  <!-- Stems -->
+  <path d="M 295,125 C 265,195 235,255 225,315" stroke="#5b8c2a" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+  <path d="M 295,125 C 330,195 360,265 372,330" stroke="#5b8c2a" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+  <circle cx="295" cy="125" r="7" fill="#6b4a24"/>
+  <path d="M 295,125 C 345,105 385,135 358,175 C 330,182 305,155 295,125 Z" fill="url(#leafGrad)"/>
+  <!-- Left Cherry -->
+  <g transform="translate(225, 368) rotate(-8)">
+    <path d="M 0,-58 C 35,-75 82,-45 80,10 C 78,60 38,85 0,82 C -38,85 -78,60 -80,10 C -82,-45 -35,-75 0,-58 Z" fill="url(#cherryGrad)"/>
+    <ellipse cx="-26" cy="-18" rx="16" ry="26" transform="rotate(-22 -26 -18)" fill="#ffffff" opacity="0.42"/>
+  </g>
+  <!-- Right Cherry -->
+  <g transform="translate(372, 382) rotate(10)">
+    <path d="M 0,-60 C 36,-78 85,-46 82,12 C 80,62 40,88 0,84 C -40,88 -80,62 -82,12 C -85,-46 -36,-78 0,-60 Z" fill="url(#cherryGrad)"/>
+    <ellipse cx="-26" cy="-18" rx="16" ry="26" transform="rotate(-22 -26 -18)" fill="#ffffff" opacity="0.42"/>
+  </g>
+</svg>

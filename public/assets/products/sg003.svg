@@ -1,0 +1,57 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="mangosteenBody" cx="36%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#7a325c"/>
+      <stop offset="42%" stop-color="#4a1536"/>
+      <stop offset="82%" stop-color="#2b091e"/>
+      <stop offset="100%" stop-color="#1a0411"/>
+    </radialGradient>
+    <radialGradient id="mangosteenFlesh" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="75%" stop-color="#f5f2eb"/>
+      <stop offset="100%" stop-color="#dcd4c6"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="235" cy="458" rx="115" ry="28" fill="url(#floorShadow)"/>
+  <ellipse cx="375" cy="472" rx="110" ry="26" fill="url(#floorShadow)"/>
+  <!-- Whole Mangosteen Left -->
+  <g transform="translate(230, 325)">
+    <circle cx="0" cy="15" r="105" fill="url(#mangosteenBody)"/>
+    <ellipse cx="-32" cy="-22" rx="34" ry="22" transform="rotate(-28 -32 -22)" fill="#b36b95" opacity="0.28"/>
+    <!-- Calyx leaves -->
+    <path d="M -18,-85 C -58,-102 -78,-62 -38,-48 C -18,-42 -8,-65 -18,-85 Z" fill="url(#leafGrad)"/>
+    <path d="M 18,-85 C 58,-102 78,-62 38,-48 C 18,-42 8,-65 18,-85 Z" fill="url(#leafGrad)"/>
+    <path d="M -25,-65 C -45,-35 -10,-22 0,-48 C 10,-22 45,-35 25,-65 Z" fill="#508a2b"/>
+    <path d="M -5,-82 L 5,-82 L 3,-115 L -3,-115 Z" fill="#6b4e2e"/>
+  </g>
+  <!-- Opened Mangosteen Right -->
+  <g transform="translate(378, 362)">
+    <circle cx="0" cy="0" r="92" fill="#3d102b"/>
+    <circle cx="0" cy="0" r="78" fill="#8c3055"/>
+    <circle cx="0" cy="0" r="68" fill="#fdfbf7"/>
+    <!-- White segments -->
+    <path d="M 0,-4 L -32,-52 C -12,-64 12,-64 32,-52 Z" fill="url(#mangosteenFlesh)" stroke="#e5dfd3" stroke-width="2"/>
+    <path d="M 4,0 L 52,-32 C 64,-12 64,12 52,32 Z" fill="url(#mangosteenFlesh)" stroke="#e5dfd3" stroke-width="2"/>
+    <path d="M 0,4 L 32,52 C 12,64 -12,64 -32,52 Z" fill="url(#mangosteenFlesh)" stroke="#e5dfd3" stroke-width="2"/>
+    <path d="M -4,0 L -52,32 C -64,12 -64,-12 -52,-32 Z" fill="url(#mangosteenFlesh)" stroke="#e5dfd3" stroke-width="2"/>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="grapeBerry" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#f2fad4"/>
+      <stop offset="38%" stop-color="#bddf64"/>
+      <stop offset="80%" stop-color="#7aa82b"/>
+      <stop offset="100%" stop-color="#4e7315"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="300" cy="475" rx="175" ry="30" fill="url(#floorShadow)"/>
+  <!-- Stem & Leaf -->
+  <path d="M 250,145 C 295,155 320,140 345,115" stroke="#6b4c28" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M 285,148 C 225,105 180,140 205,195 C 240,200 275,175 285,148 Z" fill="url(#leafGrad)"/>
+  <!-- Grape Bunch -->
+  <g>
+    <circle cx="245" cy="230" r="38" fill="url(#grapeBerry)"/>
+    <circle cx="305" cy="222" r="40" fill="url(#grapeBerry)"/>
+    <circle cx="362" cy="235" r="38" fill="url(#grapeBerry)"/>
+    <circle cx="215" cy="285" r="39" fill="url(#grapeBerry)"/>
+    <circle cx="275" cy="280" r="41" fill="url(#grapeBerry)"/>
+    <circle cx="335" cy="282" r="41" fill="url(#grapeBerry)"/>
+    <circle cx="390" cy="292" r="37" fill="url(#grapeBerry)"/>
+    <circle cx="240" cy="342" r="40" fill="url(#grapeBerry)"/>
+    <circle cx="302" cy="340" r="42" fill="url(#grapeBerry)"/>
+    <circle cx="360" cy="345" r="39" fill="url(#grapeBerry)"/>
+    <circle cx="272" cy="398" r="39" fill="url(#grapeBerry)"/>
+    <circle cx="330" cy="398" r="39" fill="url(#grapeBerry)"/>
+    <circle cx="302" cy="442" r="36" fill="url(#grapeBerry)"/>
+  </g>
+</svg>

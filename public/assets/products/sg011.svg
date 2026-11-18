@@ -1,0 +1,42 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <linearGradient id="carrotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9a2e"/>
+      <stop offset="45%" stop-color="#f26419"/>
+      <stop offset="100%" stop-color="#b83906"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="300" cy="468" rx="185" ry="28" fill="url(#floorShadow)"/>
+  <!-- Leafy tops -->
+  <path d="M 205,215 C 145,155 125,125 155,105 C 185,125 205,175 205,215 Z" fill="url(#leafGrad)"/>
+  <path d="M 215,205 C 185,130 195,95 225,95 C 235,130 225,175 215,205 Z" fill="url(#leafGrad)"/>
+  <path d="M 245,195 C 235,125 260,95 285,110 C 275,145 260,175 245,195 Z" fill="url(#leafGrad)"/>
+  <!-- Back Carrot -->
+  <g transform="translate(310, 295) rotate(-22)">
+    <path d="M -85,-115 C -55,-125 -25,-105 -15,-75 L 75,135 C 78,145 68,152 60,142 L -85,-65 C -100,-88 -98,-110 -85,-115 Z" fill="url(#carrotGrad)"/>
+  </g>
+  <!-- Front Carrot -->
+  <g transform="translate(295, 335) rotate(-42)">
+    <path d="M -92,-125 C -58,-138 -22,-115 -10,-80 L 82,155 C 86,166 74,174 65,162 L -92,-70 C -110,-96 -108,-118 -92,-125 Z" fill="url(#carrotGrad)"/>
+    <path d="M -62,-65 L -35,-75 M -42,-15 L -18,-25 M -15,35 L 8,25 M 12,82 L 32,74" stroke="#b33604" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+  </g>
+</svg>

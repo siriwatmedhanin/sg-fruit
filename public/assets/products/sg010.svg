@@ -1,0 +1,46 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="cauliCurd" cx="42%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="58%" stop-color="#f5eedc"/>
+      <stop offset="88%" stop-color="#dfd3b6"/>
+      <stop offset="100%" stop-color="#c4b593"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="300" cy="468" rx="180" ry="30" fill="url(#floorShadow)"/>
+  <!-- Outer green leaves -->
+  <path d="M 145,330 C 115,245 165,180 230,220 C 200,285 180,340 145,330 Z" fill="url(#leafGrad)"/>
+  <path d="M 455,330 C 485,245 435,180 370,220 C 400,285 420,340 455,330 Z" fill="url(#leafGrad)"/>
+  <path d="M 155,355 C 195,435 405,435 445,355 C 410,395 190,395 155,355 Z" fill="#4f872d"/>
+  <!-- Creamy florets -->
+  <circle cx="230" cy="275" r="62" fill="url(#cauliCurd)"/>
+  <circle cx="370" cy="275" r="62" fill="url(#cauliCurd)"/>
+  <circle cx="265" cy="225" r="66" fill="url(#cauliCurd)"/>
+  <circle cx="335" cy="225" r="66" fill="url(#cauliCurd)"/>
+  <circle cx="300" cy="215" r="70" fill="url(#cauliCurd)"/>
+  <circle cx="260" cy="295" r="58" fill="url(#cauliCurd)"/>
+  <circle cx="340" cy="295" r="58" fill="url(#cauliCurd)"/>
+  <circle cx="300" cy="275" r="66" fill="url(#cauliCurd)"/>
+  <!-- Outer bottom leaves hugging curd -->
+  <path d="M 150,335 C 215,385 265,415 300,415 C 245,438 175,405 150,335 Z" fill="url(#leafGrad)"/>
+  <path d="M 450,335 C 385,385 335,415 300,415 C 355,438 425,405 450,335 Z" fill="url(#leafGrad)"/>
+</svg>

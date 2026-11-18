@@ -1,0 +1,61 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#fffef9"/>
+      <stop offset="65%" stop-color="#f7f3e6"/>
+      <stop offset="100%" stop-color="#ebe3ce"/>
+    </radialGradient>
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2b3a28" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#2b3a28" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#2b3a28" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6da338"/>
+      <stop offset="55%" stop-color="#3e7526"/>
+      <stop offset="100%" stop-color="#244d17"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <ellipse cx="300" cy="520" rx="260" ry="70" fill="#e5dec8" opacity="0.45"/>
+    <defs>
+    <radialGradient id="avoSkin" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#537a38"/>
+      <stop offset="45%" stop-color="#2e4f21"/>
+      <stop offset="85%" stop-color="#1b3013"/>
+      <stop offset="100%" stop-color="#12210c"/>
+    </radialGradient>
+    <radialGradient id="avoFlesh" cx="48%" cy="45%" r="52%">
+      <stop offset="0%" stop-color="#f9f7c8"/>
+      <stop offset="68%" stop-color="#dfea8b"/>
+      <stop offset="92%" stop-color="#8ab846"/>
+      <stop offset="100%" stop-color="#2f521f"/>
+    </radialGradient>
+    <radialGradient id="avoSeed" cx="38%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#b57c4a"/>
+      <stop offset="45%" stop-color="#7c4722"/>
+      <stop offset="85%" stop-color="#4d280f"/>
+      <stop offset="100%" stop-color="#331807"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="235" cy="455" rx="115" ry="28" fill="url(#floorShadow)"/>
+  <ellipse cx="365" cy="472" rx="120" ry="28" fill="url(#floorShadow)"/>
+  <!-- Whole Avocado Back Left -->
+  <g transform="translate(225, 290) rotate(-10)">
+    <path d="M 0,-150 C 42,-150 58,-95 72,-40 C 88,20 98,85 68,128 C 45,160 -45,160 -68,128 C -98,85 -88,20 -72,-40 C -58,-95 -42,-150 0,-150 Z" fill="url(#avoSkin)"/>
+    <ellipse cx="-24" cy="-55" rx="22" ry="48" transform="rotate(-14 -24 -55)" fill="#8ab364" opacity="0.22"/>
+    <circle cx="-15" cy="20" r="3" fill="#466b2d" opacity="0.4"/>
+    <circle cx="25" cy="-10" r="2.5" fill="#466b2d" opacity="0.4"/>
+    <circle cx="10" cy="65" r="3.5" fill="#466b2d" opacity="0.35"/>
+    <circle cx="-35" cy="50" r="2.8" fill="#466b2d" opacity="0.35"/>
+    <path d="M -6,-150 C -4,-164 6,-164 8,-150 Z" fill="#5c4328"/>
+  </g>
+  <!-- Halved Avocado Front Right -->
+  <g transform="translate(362, 322) rotate(12)">
+    <path d="M 0,-138 C 38,-138 54,-86 68,-35 C 82,18 92,78 64,118 C 42,148 -42,148 -64,118 C -92,78 -82,18 -68,-35 C -54,-86 -38,-138 0,-138 Z" fill="#233d18"/>
+    <path d="M 0,-130 C 34,-130 49,-80 62,-32 C 75,16 84,72 58,110 C 38,138 -38,138 -58,110 C -84,72 -75,16 -62,-32 C -49,-80 -34,-130 0,-130 Z" fill="url(#avoFlesh)"/>
+    <ellipse cx="4" cy="36" rx="46" ry="52" fill="#3b2210" opacity="0.22"/>
+    <ellipse cx="0" cy="32" rx="43" ry="49" fill="url(#avoSeed)"/>
+    <ellipse cx="-14" cy="16" rx="12" ry="16" transform="rotate(-25 -14 16)" fill="#e6b88a" opacity="0.32"/>
+  </g>
+</svg>

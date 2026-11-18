@@ -1,0 +1,2654 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f5e9" />
+  <meta name="description" content="SG FRUIT – เอสจี ผลไม้ตามฤดูกาล | คัดสรรผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพสดใหม่ทุกวัน" />
+  <title>SG FRUIT | เอสจี ผลไม้ตามฤดูกาล</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #183526;
+      --ink-soft: #355844;
+      --muted: #5c7265;
+      --cream-1: #f7f5e9;
+      --cream-2: #f4efe0;
+      --cream-3: #f8eed9;
+      --sage: #739938;
+      --forest: #214d34;
+      --wood: #9e6b43;
+      --line: rgba(24, 53, 38, 0.11);
+      --p: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream-1);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", "Noto Sans Thai", Tahoma, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--sage);
+      outline-offset: 4px;
+    }
+
+    /* ================= HEADER & NAV ================= */
+    .header {
+      height: 78px;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      right: 0;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 clamp(20px, 4.5vw, 76px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 245, 233, 0.86);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 12px;
+      min-width: 200px;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(33, 77, 52, 0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+      padding: 3px;
+      box-sizing: border-box;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(33, 77, 52, 0.12);
+    }
+
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transform: none;
+    }
+
+    .brand-name {
+      display: block;
+      font: 700 26px/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    .brand-sub {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      margin-top: 4px;
+      color: var(--ink-soft);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(6px, 1.1vw, 18px);
+    }
+
+    .nav button,
+    .nav a {
+      border: 0;
+      background: transparent;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav button:hover,
+    .nav a:hover {
+      color: var(--ink);
+      background: rgba(115, 153, 56, 0.12);
+    }
+
+    .nav button.is-active {
+      color: var(--forest);
+      background: rgba(115, 153, 56, 0.2);
+      font-weight: 800;
+    }
+
+    .nav .nav-shop {
+      padding: 11px 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .nav .nav-shop:hover {
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .global-progress {
+      position: fixed;
+      top: 77px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 101;
+      pointer-events: none;
+      background: rgba(24, 53, 38, 0.06);
+    }
+
+    .global-progress i {
+      height: 100%;
+      display: block;
+      width: calc(var(--p) * 100%);
+      background: linear-gradient(90deg, #6a9933, #2b6643);
+    }
+
+    /* ================= STORYTELLING STAGE (STEP 1-6 & CINEMATIC ZOOM) ================= */
+    /* 300 timeline units at the exact same scroll ratio as Step 1-3 */
+    .story {
+      height: 1186svh;
+      position: relative;
+    }
+
+    .stage {
+      height: 100svh;
+      min-height: 620px;
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* Ambient background layers for Step 1 to 5 */
+    .bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      will-change: opacity;
+    }
+
+    .bg-step-1 {
+      background: radial-gradient(circle at 72% 40%, #fffef5 0%, #f7f5e9 55%, #e5edd6 115%);
+      opacity: 1;
+    }
+
+    .bg-step-2 {
+      background: radial-gradient(circle at 68% 48%, #fffdf2 0%, #f5f0dc 58%, #e9e4c8 118%);
+      opacity: 0;
+    }
+
+    .bg-step-3 {
+      background: radial-gradient(circle at 70% 56%, #fffbf0 0%, #faefd8 60%, #efd8b4 125%);
+      opacity: 0;
+    }
+
+    .bg-step-4 {
+      background: radial-gradient(circle at 70% 50%, #fffdf4 0%, #f7f1de 58%, #e8e6c8 122%);
+      opacity: 0;
+    }
+
+    .bg-step-5 {
+      background: radial-gradient(circle at 71% 52%, #fefdf5 0%, #f3f2df 58%, #dce7c9 124%);
+      opacity: 0;
+    }
+
+    .bg-step-6 {
+      background: radial-gradient(circle at 70% 50%, #fefdf6 0%, #f6f3e4 58%, #e0e9cc 124%);
+      opacity: 0;
+    }
+
+    .bg-next-section {
+      background: radial-gradient(circle at 50% 50%, #152d20 0%, #0d1e15 65%, #07100b 100%);
+      opacity: 0;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      min-width: 320px;
+      min-height: 320px;
+      border-radius: 50%;
+      right: 8%;
+      top: 20%;
+      background: rgba(215, 232, 174, 0.38);
+      filter: blur(58px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hairline {
+      position: absolute;
+      top: 78px;
+      bottom: 0;
+      left: 46%;
+      border-left: 1px solid rgba(33, 77, 52, 0.07);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ================= LEFT COPY STACK ================= */
+    .copy-stack {
+      position: absolute;
+      z-index: 12;
+      left: clamp(24px, 6.5vw, 118px);
+      top: 52%;
+      transform: translateY(-50%);
+      width: min(40vw, 540px);
+      pointer-events: none;
+    }
+
+    .scene-copy {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+
+    .scene-copy.is-interactive {
+      pointer-events: auto;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      font-weight: 800;
+      color: var(--sage);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 28px;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .badge-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(33, 77, 52, 0.22);
+      border-radius: 999px;
+      padding: 8px 16px;
+      color: var(--forest);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .scene-copy h1,
+    .scene-copy h2.step-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(54px, 6.2vw, 108px);
+      letter-spacing: -0.04em;
+      line-height: 0.94;
+      margin: 0 0 22px;
+      color: var(--ink);
+    }
+
+    .scene-copy h1 em,
+    .scene-copy h2.step-title em {
+      color: var(--sage);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .scene-copy .step-highlight {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 700;
+      color: var(--forest);
+      letter-spacing: 0.01em;
+      margin: -8px 0 12px;
+    }
+
+    .scene-copy p {
+      font-size: clamp(14px, 1.08vw, 16.5px);
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 0 16px;
+    }
+
+    .scene-copy .script-line {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-size: clamp(22px, 2.2vw, 31px);
+      color: var(--wood);
+      line-height: 1.25;
+      margin-bottom: 18px;
+    }
+
+    .primary-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--forest);
+      color: #fff;
+      padding: 14px 24px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12.5px;
+      box-shadow: 0 12px 24px rgba(33, 77, 52, 0.16);
+      transition: transform 0.2s, background 0.2s;
+      pointer-events: auto;
+    }
+
+    .primary-cta:hover {
+      transform: translateY(-2px);
+      background: #2f6947;
+    }
+
+    /* ================= RIGHT VISUAL STAGE (SHARED 1:1 COORDINATE SYSTEM) ================= */
+    .stage-art {
+      position: absolute;
+      z-index: 8;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ================= STEP 1 CINEMATIC SCENERY LAYERS (SEPARATED ASSETS) ================= */
+    .step1-scenery {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      overflow: hidden;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .step1-canvas-stage {
+      position: absolute;
+      right: clamp(12px, 3.5vw, 64px);
+      top: calc(50% + 18px);
+      transform: translateY(-50%);
+      width: min(52vw, 740px);
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+    }
+
+    .step1-stage-content {
+      position: absolute;
+      left: -106.9%;
+      top: -54.15%;
+      width: 288.78%;
+      height: 162.57%;
+      pointer-events: none;
+    }
+
+    .step1-layer-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      will-change: transform;
+    }
+
+    .step1-bg-mountain {
+      will-change: transform;
+    }
+
+    .step1-tree-motion-group {
+      position: absolute;
+      inset: 0;
+      transform-origin: 67.6% 95.6%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .step1-tree-img {
+      transform-origin: 67.6% 95.6%;
+    }
+
+    @keyframes tree-breeze-sway {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(0.4deg); }
+      100% { transform: rotate(-0.35deg); }
+    }
+
+    /* Fog 01: Midground drifting mist (2x speed: 22s -> 11s) */
+    .step1-fog-01 {
+      mix-blend-mode: screen;
+      opacity: 0.45;
+      animation: fog-drift-01 11s ease-in-out infinite alternate;
+    }
+
+    /* Fog 02: Foreground drifting mist in opposite direction (2x speed: 28s -> 14s) */
+    .step1-fog-02 {
+      mix-blend-mode: screen;
+      opacity: 0.38;
+      animation: fog-drift-02 14s ease-in-out infinite alternate;
+    }
+
+    /* Hanging fruit 01 (right upper branch) */
+    .step1-fruit-h01 {
+      position: absolute;
+      left: 71.59%;
+      top: 51.75%;
+      width: 6.70%;
+      height: 15.83%;
+      object-fit: contain;
+      transform-origin: 50% 5%;
+      animation: fruit-sway-1 4.4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 10px rgba(20, 42, 26, 0.22));
+    }
+
+    /* Hanging fruit 02 (right lower branch) */
+    .step1-fruit-h02 {
+      position: absolute;
+      left: 77.09%;
+      top: 59.19%;
+      width: 6.88%;
+      height: 16.37%;
+      object-fit: contain;
+      transform-origin: 50% 5%;
+      animation: fruit-sway-2 5.1s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 10px rgba(20, 42, 26, 0.22));
+    }
+
+    /* Foreground leaves subtle breeze sway */
+    .step1-leaves-img {
+      transform-origin: 15% 15%;
+      animation: leaves-breeze 7.5s ease-in-out infinite alternate;
+    }
+
+    /* Subtle cream gradient on left for crystal-clear typography legibility */
+    .step1-vignette {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(54vw, 720px);
+      background: linear-gradient(90deg, rgba(247, 245, 233, 0.96) 0%, rgba(247, 245, 233, 0.85) 38%, rgba(247, 245, 233, 0.22) 68%, transparent 100%);
+      pointer-events: none;
+    }
+
+    @keyframes fog-drift-01 {
+      0% { transform: translate3d(-2%, 0, 0); }
+      100% { transform: translate3d(2.5%, 0, 0); }
+    }
+
+    @keyframes fog-drift-02 {
+      0% { transform: translate3d(2%, 0, 0); }
+      100% { transform: translate3d(-3%, 0, 0); }
+    }
+
+    @keyframes fruit-sway-1 {
+      0% { transform: rotate(-2.2deg); }
+      100% { transform: rotate(1.8deg); }
+    }
+
+    @keyframes fruit-sway-2 {
+      0% { transform: rotate(1.6deg); }
+      100% { transform: rotate(-2.4deg); }
+    }
+
+    @keyframes leaves-breeze {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(0.4deg) scale(1.008) translate(1px, -1px); }
+      100% { transform: rotate(-0.3deg) scale(1.004) translate(-1px, 1px); }
+    }
+
+    /* STEP 2 LAYER: GRAVITY MOTION LINES & FLOATING LEAVES (UNCHANGED) */
+    .fall-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      opacity: 0;
+      will-change: opacity, transform;
+      pointer-events: none;
+    }
+
+    .wind-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* STEP 3-5 LAYER: WOODEN CUTTING BOARD */
+    .board-layer {
+      position: absolute;
+      left: 5%;
+      top: 41%;
+      width: 90%;
+      aspect-ratio: 2000 / 1333;
+      z-index: 4;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 54.5% 50%;
+    }
+
+    .board-ambient-shadow {
+      position: absolute;
+      left: 12%;
+      top: 22%;
+      width: 78%;
+      height: 66%;
+      background: radial-gradient(ellipse at center, rgba(64, 41, 18, 0.24) 0%, rgba(64, 41, 18, 0) 72%);
+      transform: rotate(-11deg);
+      filter: blur(12px);
+      z-index: 1;
+    }
+
+    .board-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      filter: drop-shadow(0 20px 30px rgba(72, 46, 20, 0.16));
+    }
+
+    /* Contact shadow directly on the wooden cutting board surface beneath the falling/bouncing fruit */
+    .avocado-board-shadow {
+      position: absolute;
+      left: 54.8%;
+      top: 51.5%;
+      width: 22%;
+      height: 9.5%;
+      transform: translate(-50%, -50%) scale(0.4);
+      background: radial-gradient(ellipse at center, rgba(42, 24, 9, 0.58) 0%, rgba(68, 41, 17, 0.25) 48%, rgba(68, 41, 17, 0) 76%);
+      border-radius: 50%;
+      z-index: 3;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* Shared Scene & Tree Kinematic Wrappers in #stage-art */
+    .hero-stem-motion-root,
+    .hero-fruit-motion-root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .hero-stem-motion-root {
+      z-index: 7;
+    }
+
+    .hero-fruit-motion-root {
+      z-index: 6;
+    }
+
+    .hero-tree-breeze-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 88.32% 101.27%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .hero-branch-pendulum-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 25.38% 35.15%;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    /* Real photographic stem cropped from avocado-stem-02.png connecting branch underside to hero avocado top pedicel */
+    .hero-stem-img {
+      position: absolute;
+      left: 24.95%;
+      top: 35.10%;
+      width: 1.90%;
+      height: 8.55%;
+      object-fit: fill;
+      z-index: 7;
+      pointer-events: none;
+      transform-origin: 22.6% 2%;
+      filter: drop-shadow(0 2px 4px rgba(24, 42, 18, 0.22));
+      will-change: transform;
+    }
+
+    /* THE SINGLE PERSISTENT HERO AVOCADO (USED CONTINUOUSLY IN STEP 1, 2, AND 3) */
+    .hero-avocado-wrap {
+      position: absolute;
+      left: 12.88%;
+      top: 42.13%;
+      width: 26.5%;
+      aspect-ratio: 2000 / 1695;
+      z-index: 6;
+      will-change: transform, opacity;
+      transform-origin: 49.5% 49.2%;
+    }
+
+    .hero-avocado-sway {
+      width: 100%;
+      height: 100%;
+      transform-origin: 49.5% 3.0%;
+      will-change: transform;
+    }
+
+    .hero-avocado-img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 2000 / 1695;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 12px 18px rgba(20, 42, 26, 0.24));
+      transform: none;
+    }
+
+    /* ================= STEP 4 LAYER: AVOCADO HALVES SEPARATING ON BOARD (NO HANDS / NO KNIFE) ================= */
+    .halves-layer {
+      position: absolute;
+      left: 28.2%;
+      top: 46.55%;
+      width: 48%;
+      aspect-ratio: 2000 / 1538;
+      z-index: 7;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+      filter: drop-shadow(0 14px 20px rgba(26, 40, 22, 0.24));
+    }
+
+    .halves-board-shadow {
+      position: absolute;
+      left: 50%;
+      top: 56%;
+      width: 78%;
+      height: 36%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(44, 26, 10, 0.42) 0%, rgba(44, 26, 10, 0.18) 52%, rgba(44, 26, 10, 0) 76%);
+      border-radius: 50%;
+      filter: blur(6px);
+      z-index: 1;
+    }
+
+    .avocado-half-item {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    .avocado-half-left {
+      clip-path: inset(0 50% 0 0);
+      transform-origin: 32.5% 50%;
+    }
+
+    .avocado-half-right {
+      clip-path: inset(0 0 0 50%);
+      transform-origin: 67.5% 50%;
+    }
+
+    /* ================= STEP 5 LAYER: AVOCADO SLICES ON WOODEN BOARD ================= */
+    .slices-layer {
+      position: absolute;
+      left: 22.0%;
+      top: 48.5%;
+      width: 60%;
+      aspect-ratio: 2000 / 1116;
+      z-index: 8;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+      filter: drop-shadow(0 12px 18px rgba(26, 44, 20, 0.22));
+    }
+
+    .slices-board-shadow {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      width: 86%;
+      height: 44%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(44, 26, 10, 0.38) 0%, rgba(44, 26, 10, 0.16) 55%, rgba(44, 26, 10, 0) 78%);
+      border-radius: 50%;
+      filter: blur(7px);
+      z-index: 1;
+    }
+
+    .slices-group-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      will-change: transform, opacity;
+    }
+
+    .slices-group-left {
+      clip-path: inset(0 66.5% 0 0);
+      transform-origin: 18% 50%;
+    }
+
+    .slices-group-center {
+      clip-path: inset(0 33.5% 0 33.5%);
+      transform-origin: 50% 50%;
+    }
+
+    .slices-group-right {
+      clip-path: inset(0 0 0 66.5%);
+      transform-origin: 82% 50%;
+    }
+
+    /* ================= STEP 6 LAYER: FRESH SALAD DISH & CINEMATIC ZOOM ================= */
+    .salad-layer {
+      position: absolute;
+      left: 10%;
+      top: 42%;
+      width: 80%;
+      aspect-ratio: 2000 / 1333;
+      z-index: 9;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+    }
+
+    .salad-ambient-shadow {
+      position: absolute;
+      left: 14%;
+      top: 30%;
+      width: 72%;
+      height: 64%;
+      background: radial-gradient(ellipse at center, rgba(32, 45, 20, 0.32) 0%, rgba(32, 45, 20, 0.12) 55%, rgba(32, 45, 20, 0) 75%);
+      border-radius: 50%;
+      filter: blur(14px);
+      z-index: 1;
+    }
+
+    .salad-img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      z-index: 2;
+      filter: drop-shadow(0 22px 34px rgba(28, 48, 26, 0.22));
+    }
+
+    /* ================= CINEMATIC ZOOM NEXT SECTION LAYER ================= */
+    .next-section-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 64px);
+      background: radial-gradient(circle at 50% 45%, rgba(20, 48, 32, 0.96) 0%, rgba(13, 30, 21, 0.98) 60%, #0a1810 100%);
+      color: #f7f5e9;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      will-change: transform, opacity;
+    }
+
+    .next-section-layer.is-active {
+      pointer-events: auto;
+    }
+
+    .next-section-inner {
+      max-width: 820px;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .next-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(181, 214, 123, 0.35);
+      background: rgba(181, 214, 123, 0.12);
+      color: #d6e8a8;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .next-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(44px, 6.2vw, 88px);
+      font-weight: 600;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: #fffef8;
+      margin: 0 0 20px;
+    }
+
+    .next-title em {
+      color: #c9e68c;
+      font-style: italic;
+    }
+
+    .next-desc {
+      font-size: clamp(14px, 1.2vw, 17px);
+      line-height: 1.85;
+      color: #b7cebe;
+      max-width: 600px;
+      margin: 0 0 32px;
+    }
+
+    .next-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .next-cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #b5d67b;
+      color: #143220;
+      padding: 15px 30px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      text-decoration: none;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+      transition: transform 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .next-cta-primary:hover {
+      transform: translateY(-2px);
+      background: #c6e58f;
+    }
+
+    .next-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: transparent;
+      border: 1px solid rgba(247, 245, 233, 0.28);
+      color: #f7f5e9;
+      padding: 15px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .next-cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(247, 245, 233, 0.5);
+    }
+
+    .next-scroll-prompt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+      color: #93b09c;
+      text-transform: uppercase;
+    }
+
+    .next-scroll-prompt span {
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    /* Ghost step numeral */
+    .ghost-label {
+      position: absolute;
+      right: 4vw;
+      bottom: 5vh;
+      font: 700 clamp(76px, 14vw, 220px)/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.05em;
+      color: rgba(24, 53, 38, 0.045);
+      user-select: none;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Bottom HUD & Step Counter */
+    .scene-counter {
+      position: absolute;
+      left: clamp(24px, 6.5vw, 118px);
+      bottom: 32px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+    }
+
+    .counter-track {
+      width: 128px;
+      height: 2px;
+      background: rgba(33, 77, 52, 0.14);
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .counter-track::after {
+      content: "";
+      height: 100%;
+      background: var(--forest);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(var(--p) * 100%);
+    }
+
+    .progress-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(33, 77, 52, 0.08);
+      color: var(--forest);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+
+    .scroll-tip {
+      position: absolute;
+      right: clamp(20px, 5vw, 84px);
+      bottom: 32px;
+      z-index: 15;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+
+    .scroll-tip i {
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--ink-soft);
+    }
+
+    /* Right Quick-Jump Rail */
+    .rail {
+      position: fixed;
+      z-index: 50;
+      right: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .rail button {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      background: transparent;
+      padding: 4px 0;
+      color: var(--ink-soft);
+      opacity: 0.65;
+      transition: opacity 0.2s;
+    }
+
+    .rail span {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      opacity: 0;
+      transition: opacity 0.2s;
+      background: rgba(247, 245, 233, 0.9);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .rail b {
+      height: 9px;
+      width: 9px;
+      display: block;
+      border: 1.5px solid var(--forest);
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .rail button:hover span,
+    .rail button.active span {
+      opacity: 1;
+    }
+
+    .rail button.active {
+      opacity: 1;
+    }
+
+    .rail button.active b {
+      background: var(--sage);
+      border-color: var(--sage);
+      transform: scale(1.35);
+    }
+
+    /* ================= BELOW THE FOLD: PHASE STATUS & COLLECTION ================= */
+    .below {
+      padding: 100px clamp(22px, 6.5vw, 118px) 120px;
+      background: #f5f2e6;
+      border-top: 1px solid var(--line);
+    }
+
+    .phase-banner {
+      background: #fffef8;
+      border: 1px solid rgba(33, 77, 52, 0.14);
+      border-radius: 22px;
+      padding: 28px 32px;
+      margin-bottom: 72px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 12px 32px rgba(24, 53, 38, 0.05);
+    }
+
+    .phase-banner-info h3 {
+      font: 600 28px/1.2 "Cormorant Garamond", Georgia, serif;
+      margin: 6px 0 8px;
+      color: var(--ink);
+    }
+
+    .phase-banner-info p {
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    .phase-steps-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .phase-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+    }
+
+    .phase-pill.done {
+      background: #e3f0d3;
+      color: #1f4d31;
+      border: 1px solid rgba(31, 77, 49, 0.2);
+    }
+
+    .phase-pill.next {
+      background: #f3efe2;
+      color: #6c7a6f;
+      border: 1px dashed rgba(31, 77, 49, 0.25);
+    }
+
+    .below-kicker {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.21em;
+      color: var(--sage);
+      font-weight: 800;
+    }
+
+    .below h2 {
+      font: 600 clamp(38px, 4.8vw, 72px)/1.04 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.03em;
+      margin: 12px 0 20px;
+      max-width: 720px;
+    }
+
+    .below > p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 42px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product {
+      background: #fffef8;
+      border: 1px solid rgba(33, 77, 52, 0.11);
+      border-radius: 24px;
+      overflow: hidden;
+      min-width: 0;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .product:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(24, 53, 38, 0.08);
+    }
+
+    .product-visual {
+      height: 240px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 45%, #f6faec 0%, #e6eed6 100%);
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    .product:nth-child(2) .product-visual {
+      background: radial-gradient(circle at 50% 45%, #fdf8ea 0%, #f3e6c5 100%);
+    }
+
+    .product:nth-child(3) .product-visual {
+      background: radial-gradient(circle at 50% 45%, #f8faee 0%, #e5ecd2 100%);
+    }
+
+    .product-visual img {
+      max-height: 185px;
+      max-width: 86%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 18px rgba(32, 54, 34, 0.18));
+    }
+
+    .product-data {
+      padding: 26px 26px 28px;
+    }
+
+    .product-data small {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--sage);
+      font-weight: 800;
+    }
+
+    .product h3 {
+      font: 600 28px/1.25 "Cormorant Garamond", Georgia, serif;
+      margin: 8px 0 8px;
+    }
+
+    .product p {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--muted);
+      min-height: 46px;
+      margin: 0 0 14px;
+    }
+
+    .product button {
+      border: 1px solid var(--forest);
+      background: transparent;
+      color: var(--forest);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .product button:hover {
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .note-bar {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    footer {
+      background: #173826;
+      color: #f7f6e9;
+      padding: 52px clamp(22px, 6.5vw, 118px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-brand-mark {
+      width: 52px;
+      height: 52px;
+      background: #f7f5e9;
+      border-color: rgba(255, 255, 255, 0.25);
+      padding: 4px;
+    }
+
+    footer strong {
+      font: 600 36px/1 "Cormorant Garamond", Georgia, serif;
+    }
+
+    footer p {
+      font-size: 12.5px;
+      line-height: 1.8;
+      color: #b7d2b9;
+      margin: 6px 0 0;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translate(-50%, 30px);
+      background: #1c4630;
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 14px 22px;
+      border-radius: 14px;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 15px 42px rgba(20, 44, 30, 0.32);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* ================= RESPONSIVE: TABLET & MOBILE ================= */
+    @media (max-width: 1120px) {
+      .nav button:not(.nav-shop) {
+        font-size: 10.5px;
+        padding: 5px 8px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .nav button:not(.nav-shop) {
+        display: none;
+      }
+      .copy-stack {
+        left: 5vw;
+        width: 44vw;
+      }
+      .stage-art {
+        right: 1vw;
+        width: 52vw;
+      }
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header {
+        height: 64px;
+        padding: 0 16px;
+      }
+      .brand-name {
+        font-size: 21px;
+      }
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        padding: 2.5px;
+      }
+      .brand-sub {
+        font-size: 7.5px;
+      }
+      .brand {
+        min-width: 0;
+      }
+      .nav .nav-shop {
+        padding: 9px 14px;
+        font-size: 11px;
+      }
+      .global-progress {
+        top: 63px;
+      }
+      .hairline {
+        display: none;
+      }
+      .story {
+        height: 1095svh;
+      }
+      .stage {
+        height: 100svh;
+        min-height: 560px;
+      }
+      .next-section-layer {
+        padding: 80px 24px 40px;
+      }
+      .next-title {
+        font-size: clamp(34px, 8.8vw, 54px);
+        margin-bottom: 14px;
+      }
+      .next-desc {
+        font-size: 13px;
+        line-height: 1.65;
+        margin-bottom: 24px;
+      }
+      .next-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 280px;
+        gap: 12px;
+      }
+      .next-cta-primary,
+      .next-cta-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 12px;
+      }
+      .copy-stack {
+        left: 20px;
+        top: 242px;
+        transform: none;
+        width: calc(100% - 40px);
+      }
+      .eyebrow {
+        margin-bottom: 6px;
+        font-size: 9.5px;
+      }
+      .badge-outline {
+        font-size: 9px;
+        padding: 4px 10px;
+        margin-bottom: 6px;
+      }
+      .scene-copy h1,
+      .scene-copy h2.step-title {
+        font-size: clamp(32px, 9.0vw, 44px);
+        line-height: 0.96;
+        margin-bottom: 6px;
+      }
+      .scene-copy .step-highlight {
+        font-size: 13px;
+        margin: -2px 0 4px;
+      }
+      .scene-copy p {
+        font-size: 11.8px;
+        line-height: 1.5;
+        margin-bottom: 6px;
+        max-width: 96%;
+      }
+      .scene-copy .script-line {
+        font-size: 16.5px;
+        margin-bottom: 8px;
+      }
+      .primary-cta {
+        font-size: 11px;
+        padding: 9px 15px;
+      }
+      .stage-art {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 42px;
+        transform: translateX(-50%);
+        width: min(86vw, 356px);
+        aspect-ratio: 1 / 1;
+      }
+      .step1-canvas-stage {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 42px;
+        transform: translateX(-50%);
+        width: min(86vw, 356px);
+        aspect-ratio: 1 / 1;
+      }
+      .step1-vignette {
+        width: 100%;
+        height: 52%;
+        top: 0;
+        bottom: auto;
+        background: linear-gradient(180deg, rgba(247, 245, 233, 0.98) 0%, rgba(247, 245, 233, 0.92) 50%, rgba(247, 245, 233, 0.2) 80%, transparent 100%);
+      }
+      .rail,
+      .scroll-tip,
+      .ghost-label {
+        display: none;
+      }
+      .scene-counter {
+        left: 16px;
+        bottom: 12px;
+        font-size: 9.5px;
+        gap: 10px;
+        background: rgba(247, 245, 233, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 5px 12px;
+        border-radius: 999px;
+        box-shadow: 0 4px 12px rgba(24, 53, 38, 0.08);
+      }
+      .counter-track {
+        width: 72px;
+      }
+      .below {
+        padding: 68px 20px 84px;
+      }
+      .phase-banner {
+        padding: 20px;
+        margin-bottom: 48px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="#story" aria-label="SG FRUIT เอสจี ผลไม้ตามฤดูกาล หน้าแรก">
+      <span class="brand-mark" aria-hidden="true">
+        <img class="brand-logo-img" src="Pic/Logo ตัวนูน-02.png" alt="SG FRUIT Logo" width="48" height="48" />
+      </span>
+      <span>
+        <span class="brand-name">SG FRUIT</span>
+        <span class="brand-sub">เอสจี ผลไม้ตามฤดูกาล</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <button type="button" data-jump="0.00" class="is-active">01 เริ่มต้นความสด</button>
+      <button type="button" data-jump="0.133">02 ผลร่วงจากต้น</button>
+      <button type="button" data-jump="0.317">03 ตกลงบนเขียง</button>
+      <button type="button" data-jump="0.433">04 แยกออกเป็น 2 ซีก</button>
+      <button type="button" data-jump="0.577">05 สไลซ์บนเขียง</button>
+      <button type="button" data-jump="0.727">06 จานสลัด</button>
+      <a class="nav-shop" href="#products">เลือกซื้อผลไม้ตามฤดูกาล ↗</a>
+    </nav>
+  </header>
+
+  <div class="global-progress" aria-hidden="true"><i></i></div>
+
+  <main>
+    <!-- STICKY GSAP SCROLLTRIGGER STORYTELLING: STEP 1 TO STEP 6 & CINEMATIC ZOOM -->
+    <section id="story" class="story" aria-label="เรื่องราวความสดตามฤดูกาล SG FRUIT · เอสจี ผลไม้ตามฤดูกาล Step 1 ถึง Step 6 และ Cinematic Zoom">
+      <div class="stage" id="stage">
+        <div class="bg-stack" aria-hidden="true">
+          <div class="bg-layer bg-step-1" id="bg-step-1"></div>
+          <div class="bg-layer bg-step-2" id="bg-step-2"></div>
+          <div class="bg-layer bg-step-3" id="bg-step-3"></div>
+          <div class="bg-layer bg-step-4" id="bg-step-4"></div>
+          <div class="bg-layer bg-step-5" id="bg-step-5"></div>
+          <div class="bg-layer bg-step-6" id="bg-step-6"></div>
+          <div class="bg-layer bg-next-section" id="bg-next-section"></div>
+        </div>
+        <div class="ambient-orb" id="ambient-orb" aria-hidden="true"></div>
+        <div class="hairline" aria-hidden="true"></div>
+
+        <!-- STEP 1: CINEMATIC MOUNTAIN SCENERY (REBUILT FROM SEPARATED LAYERS) -->
+        <div class="step1-scenery" id="step1-scenery" aria-label="ฉากเริ่มต้นเรื่องราวความสดตามฤดูกาล Step 1">
+          <div class="step1-canvas-stage">
+            <div class="step1-stage-content" id="step1-stage-content">
+              <!-- Mountain Background -->
+              <img class="step1-layer-img step1-bg-mountain" id="step1-bg-mountain" src="public/assets/step1/step1-bg-mountain.png" alt="" />
+              <!-- Midground Fog 01 -->
+              <img class="step1-layer-img step1-fog-01" src="public/assets/step1/step1-fog-01.png" alt="" />
+              <!-- Shared Tree & Branch Motion Group -->
+              <div class="step1-tree-motion-group" id="step1-tree-motion-group">
+                <!-- Avocado Tree (Hero Subject) -->
+                <img class="step1-layer-img step1-tree-img" id="step1-tree-img" src="public/assets/step1/step1-avocado-tree.png" alt="ต้นอะโวคาโดจุดเริ่มต้นความสดตามฤดูกาล SG FRUIT" />
+                <!-- Hanging Fruit 01 (Right upper branch) -->
+                <img class="step1-fruit-h01" src="public/assets/step1/step1-avocado-hanging-01.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 1" />
+                <!-- Hanging Fruit 02 (Right lower branch) -->
+                <img class="step1-fruit-h02" src="public/assets/step1/step1-avocado-hanging-02.png" alt="ผลอะโวคาโดห้อยบนกิ่ง 2" />
+              </div>
+              <!-- Foreground Fog 02 -->
+              <img class="step1-layer-img step1-fog-02" src="public/assets/step1/step1-fog-02.png" alt="" />
+              <!-- Foreground Leaves (Framing corners) -->
+              <img class="step1-layer-img step1-leaves-img" src="public/assets/step1/step1-leaves-foreground.png" alt="" />
+            </div>
+          </div>
+          <div class="step1-vignette" aria-hidden="true"></div>
+        </div>
+
+        <!-- LEFT EDITORIAL COPY STACK -->
+        <div class="copy-stack">
+          <!-- STEP 1 COPY -->
+          <article class="scene-copy is-interactive" id="copy-step-1" aria-label="Step 1 เริ่มต้นเรื่องราวความสดตามฤดูกาล SG FRUIT">
+            <div class="eyebrow">STEP 01 · THE SEASON BEGINS</div>
+            <div class="badge-outline">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</div>
+            <h1>Fresh from<br><em>the season.</em></h1>
+            <div class="step-highlight">เริ่มต้นจากความสด</div>
+            <p>เปิดเรื่องราวของวัตถุดิบสดประจำฤดูกาล ผ่านหนึ่งในผลไม้ที่โดดเด่นอย่างอะโวคาโด ก่อนส่งต่อไปสู่ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพ ที่เราคัดสรรมาเพื่อทุกมื้อของคุณ</p>
+            <div class="script-line">From seasonal freshness to everyday selection.</div>
+            <a class="primary-cta" href="#products">เลือกชมผลไม้ตามฤดูกาล <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <!-- STEP 2 COPY -->
+          <article class="scene-copy" id="copy-step-2" aria-label="Step 2 ลูกอะโวคาโดร่วงจากต้นตามแรงโน้มถ่วง" aria-hidden="true">
+            <div class="eyebrow">STEP 02 · GRAVITY &amp; MOTION</div>
+            <h2 class="step-title">Picked by<br><em>nature's time.</em></h2>
+            <p>เมื่อเลื่อนหน้าเว็บลง ลูกอะโวคาโดหนึ่งลูกปลิดจากขั้วกิ่ง หมุนตัวเล็กน้อยและเคลื่อนลงตามแรงโน้มถ่วงอย่างเป็นธรรมชาติ โดยคงรูปทรงและสัดส่วนเดิมตลอดการเดินทาง</p>
+            <div class="script-line">One single fruit, guided by gravity.</div>
+          </article>
+
+          <!-- STEP 3 COPY -->
+          <article class="scene-copy" id="copy-step-3" aria-label="Step 3 ลูกอะโวคาโดลูกเดิมตกลงบนเขียงและเด้งเล็กน้อย" aria-hidden="true">
+            <div class="eyebrow">STEP 03 · ON THE WOODEN BOARD</div>
+            <div class="badge-outline">READY FOR PREPARATION · ON THE BOARD</div>
+            <h2 class="step-title">Landed on<br><em>the board.</em></h2>
+            <p>เข้าสู่ฉากเขียงไม้เปล่า ลูกอะโวคาโดลูกเดิมตกลงสัมผัสพื้นเขียงและเด้งรับน้ำหนักเล็กน้อยก่อนหยุดนิ่ง พร้อมเข้าสู่ขั้นตอนการผ่าอย่างประณีต</p>
+            <div class="script-line">Naturally balanced. Ready for the blade.</div>
+          </article>
+
+          <!-- STEP 4 COPY (NO HANDS / NO KNIFE) -->
+          <article class="scene-copy" id="copy-step-4" aria-label="Step 4 อะโวคาโดแยกออกเป็น 2 ซีก" aria-hidden="true">
+            <div class="eyebrow">STEP 04 · TWO HALVES</div>
+            <div class="badge-outline">TWO FRESH HALVES · PERFECTLY RIPE</div>
+            <h2 class="step-title">Split into<br><em>two halves.</em></h2>
+            <p>ลูกอะโวคาโดบนเขียงไม้แยกออกเป็นสองซีกอย่างนุ่มนวลตามการเลื่อนหน้าเว็บ เผยเนื้อสีเขียวเนียนนุ่มและเมล็ดสีน้ำตาลเด่นชัด คงความสดใหม่และตำแหน่งต่อเนื่องจากลูกเดิมบนเขียง</p>
+            <div class="script-line">Naturally divided. Pure and wholesome.</div>
+          </article>
+
+          <!-- STEP 5 COPY -->
+          <article class="scene-copy" id="copy-step-5" aria-label="Step 5 อะโวคาโดสไลซ์เรียงบนเขียง" aria-hidden="true">
+            <div class="eyebrow">STEP 05 · SLICED ON THE BOARD</div>
+            <div class="badge-outline">PREPARED WITH CARE · CRISP &amp; FRESH</div>
+            <h2 class="step-title">Crafted in<br><em>every slice.</em></h2>
+            <p>เปลี่ยนจากอะโวคาโดสองซีกเป็นชิ้นสไลซ์เรียงสวยบนเขียงไม้ เนื้อเนียนละเอียดคงรูปสวยในทุกชิ้น พร้อมสำหรับการจัดเสิร์ฟลงจานสลัดในขั้นตอนถัดไป</p>
+            <div class="script-line">Delicate slices, prepared for your plate.</div>
+          </article>
+
+          <!-- STEP 6 COPY -->
+          <article class="scene-copy" id="copy-step-6" aria-label="Step 6 ชิ้นอะโวคาโดเทลงจานสลัดพร้อมเสิร์ฟ" aria-hidden="true">
+            <div class="eyebrow">STEP 06 · THE SALAD BOWL</div>
+            <div class="badge-outline">CULINARY PERFECTION · READY TO SERVE</div>
+            <h2 class="step-title">Served in<br><em>fresh perfection.</em></h2>
+            <p>ชิ้นอะโวคาโดสไลซ์สดใหม่จัดวางลงบนจานสลัดอย่างประณีต เข้าคู่กับผักสดกรอบและวัตถุดิบคุณภาพ เผยความสดและคุณค่าทางอาหารที่เราคัดสรรสู่จานอาหารของคุณ</p>
+            <div class="script-line">From seasonal selection to your table.</div>
+          </article>
+        </div>
+
+        <!-- RIGHT VISUAL STAGE (1:1 COORDINATE SYSTEM FOR DESKTOP & MOBILE) -->
+        <div class="stage-art" id="stage-art" aria-label="ฉากแอนิเมชันเรื่องราวความสดตามฤดูกาล SG FRUIT">
+          <!-- STEP 2: GRAVITY FALL AMBIANCE LAYER (UNCHANGED) -->
+          <div class="fall-layer" id="fall-layer" aria-hidden="true">
+            <svg class="wind-lines" viewBox="0 0 800 800" fill="none">
+              <path d="M 285 170 C 275 310, 290 440, 280 580" stroke="#7d9e3b" stroke-width="2" stroke-dasharray="10 18" stroke-linecap="round" opacity="0.38" />
+              <path d="M 485 130 C 495 280, 480 430, 492 590" stroke="#4f7c45" stroke-width="2.5" stroke-dasharray="14 22" stroke-linecap="round" opacity="0.32" />
+              <path d="M 390 95 C 385 245, 405 390, 398 540" stroke="#99b85b" stroke-width="1.8" stroke-dasharray="8 16" stroke-linecap="round" opacity="0.4" />
+              <path d="M 235 340 C 255 320, 285 335, 270 362 C 252 375, 225 360, 235 340 Z" fill="#6d9944" opacity="0.45" />
+              <path d="M 535 280 C 558 265, 582 282, 565 308 C 548 320, 522 302, 535 280 Z" fill="#8bb355" opacity="0.4" />
+            </svg>
+          </div>
+
+          <!-- STEP 3-5: WOODEN CUTTING BOARD LAYER -->
+          <div class="board-layer" id="board-layer">
+            <div class="board-ambient-shadow"></div>
+            <img
+              class="board-img"
+              id="cutting-board-img"
+              src="Pic/cutting-board.png.png"
+              alt="เขียงไม้ธรรมชาติสำหรับรองรับผลอะโวคาโด"
+              width="2000"
+              height="1333"
+            />
+            <!-- Dynamic contact shadow underneath the falling & bouncing avocado -->
+            <div class="avocado-board-shadow" id="avocado-board-shadow"></div>
+          </div>
+
+          <!-- STEM KINEMATIC HIERARCHY (FOLLOWS TREE & BRANCH IN STEP 1, STAYS ON BRANCH AT DETACHMENT) -->
+          <div class="hero-stem-motion-root" id="hero-stem-motion-root">
+            <div class="hero-tree-breeze-layer" id="hero-stem-tree-breeze">
+              <div class="hero-branch-pendulum-layer" id="hero-stem-branch-pendulum">
+                <img
+                  class="hero-stem-img"
+                  id="hero-stem"
+                  src="public/assets/step1/avocado-stem-02.png"
+                  alt=""
+                  aria-hidden="true"
+                  width="53"
+                  height="241"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- SINGLE CONTINUOUS HERO AVOCADO KINEMATIC HIERARCHY (SAME ELEMENT ACROSS STEP 1, 2, AND 3) -->
+          <div class="hero-fruit-motion-root" id="hero-fruit-motion-root">
+            <div class="hero-tree-breeze-layer" id="hero-fruit-tree-breeze">
+              <div class="hero-branch-pendulum-layer" id="hero-fruit-branch-pendulum">
+                <div class="hero-avocado-wrap" id="hero-avocado-wrap">
+                  <div class="hero-avocado-sway" id="hero-avocado-sway">
+                    <img
+                      class="hero-avocado-img"
+                      id="hero-avocado"
+                      src="public/assets/step1/avocado-whole.png"
+                      alt="ลูกอะโวคาโดสดลูกเดียวกันตลอดทั้งฉาก"
+                      width="2000"
+                      height="1695"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: AVOCADO HALVES SEPARATING SMOOTHLY ON THE BOARD (NO HANDS / NO KNIFE) -->
+          <div class="halves-layer" id="halves-layer">
+            <div class="halves-board-shadow" id="halves-board-shadow"></div>
+            <img
+              class="avocado-half-item avocado-half-left"
+              id="avocado-half-left"
+              src="Pic/avocado-halves.png"
+              alt="อะโวคาโดผ่าครึ่งซีกซ้ายพร้อมเมล็ด"
+              width="2000"
+              height="1538"
+            />
+            <img
+              class="avocado-half-item avocado-half-right"
+              id="avocado-half-right"
+              src="Pic/avocado-halves.png"
+              alt="อะโวคาโดผ่าครึ่งซีกขวาเนื้อเนียน"
+              width="2000"
+              height="1538"
+            />
+          </div>
+
+          <!-- STEP 5: AVOCADO SLICES ARRANGED ON THE CUTTING BOARD (READY FOR STEP 6) -->
+          <div class="slices-layer" id="slices-layer">
+            <div class="slices-board-shadow" id="slices-board-shadow"></div>
+            <img
+              class="slices-group-img slices-group-left"
+              id="slices-group-left"
+              src="Pic/avocado-slices-on-board2.png"
+              alt="อะโวคาโดสไลซ์ชุดที่ 1 บนเขียง"
+              width="2000"
+              height="1116"
+            />
+            <img
+              class="slices-group-img slices-group-center"
+              id="slices-group-center"
+              src="Pic/avocado-slices-on-board2.png"
+              alt="อะโวคาโดสไลซ์ชุดที่ 2 บนเขียง"
+              width="2000"
+              height="1116"
+            />
+            <img
+              class="slices-group-img slices-group-right"
+              id="slices-group-right"
+              src="Pic/avocado-slices-on-board2.png"
+              alt="อะโวคาโดสไลซ์ชุดที่ 3 บนเขียง"
+              width="2000"
+              height="1116"
+            />
+          </div>
+
+          <!-- STEP 6: SALAD DISH & CINEMATIC ZOOM LAYER -->
+          <div class="salad-layer" id="salad-layer">
+            <div class="salad-ambient-shadow"></div>
+            <img
+              class="salad-img"
+              id="salad-img"
+              src="Pic/salad-plate.png"
+              alt="จานสลัดผักและอะโวคาโดสดพร้อมเสิร์ฟ"
+              width="2000"
+              height="1333"
+            />
+          </div>
+        </div>
+
+        <!-- CINEMATIC ZOOM TARGET: NEXT SECTION EDITORIAL BRAND OVERLAY -->
+        <div class="next-section-layer" id="next-section-layer" aria-hidden="true">
+          <div class="next-section-inner">
+            <span class="next-section-badge">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</span>
+            <h2 class="next-title">From seasonal freshness<br>to <em>everyday selection.</em></h2>
+            <p class="next-desc">คัดสรรผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพด้วยความใส่ใจในทุกวัน เพื่อส่งมอบความสดใหม่และรสชาติที่ดีที่สุดสู่ทุกมื้อของคุณ</p>
+            <div class="next-actions">
+              <a class="next-cta-primary" href="#products">เลือกชมผลไม้และผักสด <span aria-hidden="true">↗</span></a>
+              <button type="button" class="next-cta-secondary" data-jump="0.00">ชมเรื่องราวอีกครั้ง ↺</button>
+            </div>
+            <div class="next-scroll-prompt">
+              <span></span> SCROLL DOWN TO EXPLORE SELECTION <span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ghost-label" id="ghost-label" aria-hidden="true">01</div>
+
+        <!-- BOTTOM PROGRESS HUD -->
+        <div class="scene-counter" aria-live="polite">
+          <span id="step-number">01 / 06</span>
+          <span class="counter-track"></span>
+          <span id="step-name">THE SEASON BEGINS</span>
+          <span class="progress-pill" id="step-progress-pct">0%</span>
+        </div>
+
+        <div class="scroll-tip" id="scroll-tip" aria-hidden="true">
+          SCROLL TO EXPLORE <i></i> ↓
+        </div>
+      </div>
+    </section>
+
+    <!-- BELOW THE FOLD: SEASONAL FRUIT & VEGETABLE SELECTION -->
+    <section class="below" id="products">
+      <div class="phase-banner" aria-label="ข้อมูลการคัดสรรสินค้า SG FRUIT">
+        <div class="phase-banner-info">
+          <div class="below-kicker">SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</div>
+          <h3>ศูนย์รวมผลไม้ตามฤดูกาล ผลไม้ไทย ผลไม้นำเข้า และผักสดคุณภาพ คัดสรรสดใหม่เพื่อทุกมื้อของคุณ</h3>
+          <p>
+            เริ่มต้นเรื่องราวความสดจากอะโวคาโดหนึ่งผล ก่อนเชื่อมต่อไปสู่โลกของผลไม้ตามฤดูกาล ผลไม้นำเข้า ผลไม้ไทย และผักคุณภาพ ที่ SG FRUIT คัดสรรมาอย่างตั้งใจในทุกวัน
+          </p>
+        </div>
+        <div class="phase-steps-pills">
+          <span class="phase-pill done">✓ ผลไม้ตามฤดูกาล</span>
+          <span class="phase-pill done">✓ ผลไม้ไทยคัดเกรด</span>
+          <span class="phase-pill done">✓ ผลไม้นำเข้าพรีเมียม</span>
+          <span class="phase-pill done">✓ ผักสดและสลัดคุณภาพ</span>
+          <span class="phase-pill done">✓ คัดความสดใหม่ทุกวัน</span>
+          <span class="phase-pill done">✓ พร้อมส่งถึงบ้านคุณ</span>
+        </div>
+      </div>
+
+      <div class="below-kicker">SG FRUIT · SEASONAL SELECTION</div>
+      <h2>Fresh from the season<br>for every meal.</h2>
+      <p>จากความสดตามฤดูกาล สู่ทุกมื้อโปรดของคุณ เลือกผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพที่เหมาะกับการรับประทานและสร้างสรรค์เมนูได้ตามใจ</p>
+
+      <div class="product-grid">
+        <article class="product">
+          <div class="product-visual">
+            <img src="Pic/avocado-whole.png.png" alt="ผลไม้ตามฤดูกาลและผลไม้นำเข้า SG FRUIT" loading="lazy" width="2000" height="1695" />
+          </div>
+          <div class="product-data">
+            <small>01 · SEASONAL &amp; IMPORTED FRUITS</small>
+            <h3>ผลไม้ตามฤดูกาลและนำเข้า</h3>
+            <p>คัดสรรผลไม้สดประจำฤดูกาล ทั้งอะโวคาโด ผลไม้ไทย และผลไม้นำเข้าคุณภาพดีในทุกวัน</p>
+            <button type="button" data-order="ผลไม้ตามฤดูกาลและผลไม้นำเข้า">สอบถามสินค้า ↗</button>
+          </div>
+        </article>
+
+        <article class="product">
+          <div class="product-visual">
+            <img src="Pic/avocado-halves.png.png" alt="ผลไม้คัดพิเศษพร้อมทาน SG FRUIT" loading="lazy" width="2000" height="1538" />
+          </div>
+          <div class="product-data">
+            <small>02 · READY TO ENJOY</small>
+            <h3>ผลไม้คัดพิเศษพร้อมทาน</h3>
+            <p>คัดระดับความสุกและความสดใหม่พอดีสำหรับรับประทานสด หรือจัดเซ็ตผลไม้ประจำวัน</p>
+            <button type="button" data-order="ผลไม้คัดพิเศษพร้อมทาน">สอบถามสินค้า ↗</button>
+          </div>
+        </article>
+
+        <article class="product">
+          <div class="product-visual">
+            <img src="Pic/avocado-slices.png.png" alt="ผักสดคุณภาพและชุดสลัด SG FRUIT" loading="lazy" width="2000" height="2000" />
+          </div>
+          <div class="product-data">
+            <small>03 · FRESH VEGETABLES &amp; SALAD</small>
+            <h3>ผักสดและวัตถุดิบเมนูสุขภาพ</h3>
+            <p>ผักสดสะอาดและวัตถุดิบคุณภาพ คัดพิเศษสำหรับเมนูสลัด สมูทตี้ และมื้ออาหารของครอบครัว</p>
+            <button type="button" data-order="ผักสดและวัตถุดิบเมนูสุขภาพ">สอบถามสินค้า ↗</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="note-bar">
+        ✳ กรุณาระบุลิงก์ LINE Official ของร้าน SG FRUIT (เอสจี ผลไม้ตามฤดูกาล) ใน <code>STORE.lineUrl</code> ก่อนเปิดใช้งานระบบสั่งซื้อจริง
+      </div>
+    </section>
+  </main>
+
+  <aside class="rail" aria-label="ข้ามไปแต่ละช่วงของ Step 1–6">
+    <button type="button" data-jump="0.00" class="active" aria-label="ไป Step 1 เริ่มต้นความสด">
+      <span>01 SEASON</span><b></b>
+    </button>
+    <button type="button" data-jump="0.133" aria-label="ไป Step 2 ผลร่วงตามแรงโน้มถ่วง">
+      <span>02 FALL</span><b></b>
+    </button>
+    <button type="button" data-jump="0.317" aria-label="ไป Step 3 ตกลงบนเขียง">
+      <span>03 BOARD</span><b></b>
+    </button>
+    <button type="button" data-jump="0.433" aria-label="ไป Step 4 แยกออกเป็น 2 ซีก">
+      <span>04 HALVES</span><b></b>
+    </button>
+    <button type="button" data-jump="0.577" aria-label="ไป Step 5 อะโวคาโดสไลซ์บนเขียง">
+      <span>05 SLICE</span><b></b>
+    </button>
+    <button type="button" data-jump="0.727" aria-label="ไป Step 6 จานสลัด">
+      <span>06 SALAD</span><b></b>
+    </button>
+  </aside>
+
+  <footer>
+    <div class="footer-brand">
+      <span class="brand-mark footer-brand-mark" aria-hidden="true">
+        <img class="brand-logo-img" src="Pic/Logo ตัวนูน-02.png" alt="SG FRUIT Logo" width="52" height="52" />
+      </span>
+      <div>
+        <strong>SG FRUIT</strong>
+        <p>เอสจี ผลไม้ตามฤดูกาล · ผลไม้ไทย ผลไม้นำเข้า และผักคุณภาพ<br>From seasonal freshness to everyday selection.</p>
+      </div>
+    </div>
+    <p>ติดต่อร้าน: เพิ่ม LINE / เบอร์โทรจริงในไฟล์ก่อนเปิดขาย<br>© 2026 SG FRUIT · เอสจี ผลไม้ตามฤดูกาล</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- GSAP & ScrollTrigger (Local files) -->
+  <script src="js/gsap.min.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+  <script>
+    (() => {
+      'use strict';
+
+      const STORE = { lineUrl: '' };
+      const root = document.documentElement;
+      const storySection = document.getElementById('story');
+      const stepNumberEl = document.getElementById('step-number');
+      const stepNameEl = document.getElementById('step-name');
+      const stepProgressPctEl = document.getElementById('step-progress-pct');
+      const ghostLabelEl = document.getElementById('ghost-label');
+      const railButtons = [...document.querySelectorAll('.rail button')];
+      const navStepButtons = [...document.querySelectorAll('.nav button[data-jump]')];
+      const copyNodes = [
+        document.getElementById('copy-step-1'),
+        document.getElementById('copy-step-2'),
+        document.getElementById('copy-step-3'),
+        document.getElementById('copy-step-4'),
+        document.getElementById('copy-step-5'),
+        document.getElementById('copy-step-6')
+      ];
+      const nextSectionLayer = document.getElementById('next-section-layer');
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Expose state & stage elements for verification
+      window.SG_FRUIT_STAGE_STATE = window.MAE_CHAWI_STAGE_STATE = {
+        phase: 'STEP_1_TO_6_CINEMATIC_ZOOM',
+        progress: 0,
+        activeStep: 1,
+        step1ScenerySelector: '#step1-scenery',
+        heroAvocadoSelector: '#hero-avocado-wrap',
+        boardSelector: '#board-layer',
+        halvesSelector: '#halves-layer',
+        slicesSelector: '#slices-layer',
+        saladSelector: '#salad-layer',
+        nextSectionSelector: '#next-section-layer',
+        step3FinalState: {
+          xPercent: 98.9,
+          yPercent: 52.7,
+          scale: 1.08,
+          rotation: 0
+        },
+        step4FinalState: {
+          halvesSeparated: true,
+          boardVisible: true
+        },
+        step5FinalState: {
+          boardVisible: true,
+          slicesVisible: true,
+          slicesRotation: 0,
+          readyForStep6Pour: true
+        },
+        step6FinalState: {
+          saladPlateVisible: true,
+          slicesPoured: true
+        }
+      };
+
+      const STEP_NAMES = [
+        'THE SEASON BEGINS',
+        'GRAVITY FALL',
+        'WOODEN BOARD',
+        'TWO HALVES',
+        'SLICED ON BOARD',
+        'SALAD BOWL',
+        'TO YOUR TABLE'
+      ];
+
+      // Total timeline duration = 300 units:
+      // 0..100   => Step 1–3 (100% identical to v1.0-step1-3)
+      // 100..150 => Step 4 (Smooth transition to two halves & gradual separation on board, no hands/knife)
+      // 150..180 => Step 5 (Smooth transition to avocado slices resting on board)
+      // 180..220 => Step 6 (Slices pour from board into fresh salad bowl)
+      // 220..300 => Cinematic Zoom Transition:
+      //   0–20%   (220..236): Display completed salad bowl at normal size
+      //   20–70%  (236..276): Continuous cinematic zoom in toward salad bowl center
+      //   70–95%  (276..296): Smooth crossfade to Next Section
+      //   95–100% (296..300): Full-screen Next Section ready for normal scroll
+      function updateHUD(progress) {
+        const p = Math.min(1, Math.max(0, progress));
+        const t = p * 300;
+        root.style.setProperty('--p', p.toFixed(4));
+        stepProgressPctEl.textContent = `${Math.round(p * 100)}%`;
+
+        const stepIdx = t >= 276 ? 6 : t >= 180 ? 5 : t >= 150 ? 4 : t >= 101 ? 3 : t >= 62 ? 2 : t >= 18 ? 1 : 0;
+        window.MAE_CHAWI_STAGE_STATE.progress = p;
+        window.MAE_CHAWI_STAGE_STATE.activeStep = Math.min(6, stepIdx + 1);
+
+        const displayStep = Math.min(6, stepIdx + 1);
+        stepNumberEl.textContent = `0${displayStep} / 06`;
+        stepNameEl.textContent = STEP_NAMES[stepIdx];
+        ghostLabelEl.textContent = `0${displayStep}`;
+
+        const activeNavIdx = Math.min(5, stepIdx);
+        railButtons.forEach((btn, idx) => btn.classList.toggle('active', idx === activeNavIdx));
+        navStepButtons.forEach((btn, idx) => btn.classList.toggle('is-active', idx === activeNavIdx));
+
+        copyNodes.forEach((node, idx) => {
+          if (!node) return;
+          const isCurrent = idx === stepIdx;
+          node.classList.toggle('is-interactive', isCurrent);
+          node.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+        });
+
+        if (nextSectionLayer) {
+          const isNextActive = t >= 286;
+          nextSectionLayer.classList.toggle('is-active', isNextActive);
+          nextSectionLayer.setAttribute('aria-hidden', isNextActive ? 'false' : 'true');
+        }
+      }
+
+      // Initialize baseline states explicitly so scrolling back to 0% is always 100% deterministic
+      gsap.set('#copy-step-1', { autoAlpha: 1, yPercent: -50, y: 0 });
+      gsap.set('#copy-step-2', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-3', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-4', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-5', { autoAlpha: 0, yPercent: -38, y: 0 });
+      gsap.set('#copy-step-6', { autoAlpha: 0, yPercent: -38, y: 0 });
+
+      gsap.set('#bg-step-1', { autoAlpha: 1 });
+      gsap.set('#bg-step-2', { autoAlpha: 0 });
+      gsap.set('#bg-step-3', { autoAlpha: 0 });
+      gsap.set('#bg-step-4', { autoAlpha: 0 });
+      gsap.set('#bg-step-5', { autoAlpha: 0 });
+      gsap.set('#bg-step-6', { autoAlpha: 0 });
+      gsap.set('#bg-next-section', { autoAlpha: 0 });
+
+      gsap.set('#step1-scenery', { autoAlpha: 1, yPercent: 0 });
+      gsap.set('#step1-stage-content', { yPercent: 0, xPercent: 0 });
+      gsap.set('#step1-bg-mountain', { yPercent: 0 });
+      gsap.set('#hero-stem-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-fruit-motion-root', { yPercent: 0, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set('#hero-stem', { rotation: 0, scaleY: 1, autoAlpha: 1 });
+      gsap.set('#fall-layer', { autoAlpha: 0, yPercent: 12 });
+      gsap.set('#board-layer', { xPercent: 0, yPercent: 36, scale: 0.94, autoAlpha: 0 });
+      gsap.set('#avocado-board-shadow', { autoAlpha: 0, scale: 0.35 });
+
+      // Single continuous fruit (#hero-avocado-wrap) initial state on the tree branch (Step 1)
+      gsap.set('#hero-avocado-wrap', {
+        xPercent: 0,
+        yPercent: 0,
+        scale: 1,
+        rotation: 0,
+        autoAlpha: 1
+      });
+
+      // Step 4 & Step 5 layers initial state
+      gsap.set('#halves-layer', { autoAlpha: 0, scale: 1.0, rotation: 0 });
+      gsap.set('#avocado-half-left', { xPercent: 3.5, yPercent: -0.5, rotation: 1.0 });
+      gsap.set('#avocado-half-right', { xPercent: -3.5, yPercent: 0.5, rotation: -1.0 });
+
+      gsap.set('#slices-layer', { autoAlpha: 0, scale: 0.98, rotation: 0 });
+      gsap.set('#slices-group-left', { xPercent: 3, yPercent: 0.5, rotation: 1.5 });
+      gsap.set('#slices-group-center', { xPercent: 0, yPercent: 0, rotation: 0 });
+      gsap.set('#slices-group-right', { xPercent: -3, yPercent: -0.5, rotation: -1.5 });
+
+      // Step 6 & Next Section initial state
+      gsap.set('#salad-layer', { autoAlpha: 0, scale: 0.9, xPercent: 0, yPercent: 18, rotation: 0 });
+      gsap.set('#next-section-layer', { autoAlpha: 0, scale: 1.05 });
+
+      // Master GSAP ScrollTrigger Timeline (0..180 units)
+      const masterTL = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: storySection,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.55,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => updateHUD(self.progress)
+        }
+      });
+
+      // =========================================================================
+      // KINEMATIC TREE -> BRANCH -> STEM -> FRUIT SYNCHRONIZED SWAY ENGINE
+      // =========================================================================
+      const treeMotionGroup = document.getElementById('step1-tree-motion-group');
+      const stemTreeBreeze = document.getElementById('hero-stem-tree-breeze');
+      const stemBranchPendulum = document.getElementById('hero-stem-branch-pendulum');
+      const fruitTreeBreeze = document.getElementById('hero-fruit-tree-breeze');
+      const fruitBranchPendulum = document.getElementById('hero-fruit-branch-pendulum');
+      const fruitLocalSway = document.getElementById('hero-avocado-sway');
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReducedMotion) {
+        gsap.ticker.add((time) => {
+          // 1. Primary tree breeze sway (8.5s half-cycle around trunk base 67.6% 95.6%)
+          const treeAngle = Math.sin(time * (Math.PI / 4.25)) * 0.40;
+          // 2. Shared branch-to-stem pendulum sway (4.6s half-cycle around branch node 25.38% 35.15%)
+          const branchAngle = Math.sin(time * (Math.PI / 2.30) + 0.55) * 0.75;
+          // 3. Independent local fruit sway (~1.2 deg around pedicel socket 49.5% 3.0%)
+          const localFruitAngle = Math.sin(time * (Math.PI / 1.80) + 1.25) * 1.15;
+
+          if (treeMotionGroup) {
+            treeMotionGroup.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
+          }
+          if (stemTreeBreeze) {
+            stemTreeBreeze.style.transform = `rotate(${treeAngle.toFixed(4)}deg)`;
+          }
+          if (stemBranchPendulum) {
+            stemBranchPendulum.style.transform = `rotate(${branchAngle.toFixed(4)}deg)`;
+          }
+
+          // Fruit receives 100% of tree & branch sway while attached (tlTime <= 12),
+          // and smoothly damps to 0 during free-fall (12 < tlTime < 30) with C1 continuity
+          const tlTime = masterTL.time();
+          let attachWeight = 0;
+          if (tlTime <= 12) {
+            attachWeight = 1;
+          } else if (tlTime < 30) {
+            const p = (tlTime - 12) / 18;
+            attachWeight = 0.5 * (1 + Math.cos(Math.PI * p));
+          }
+
+          if (fruitTreeBreeze) {
+            fruitTreeBreeze.style.transform = `rotate(${(treeAngle * attachWeight).toFixed(4)}deg)`;
+          }
+          if (fruitBranchPendulum) {
+            fruitBranchPendulum.style.transform = `rotate(${(branchAngle * attachWeight).toFixed(4)}deg)`;
+          }
+          if (fruitLocalSway) {
+            fruitLocalSway.style.transform = `rotate(${(localFruitAngle * attachWeight).toFixed(4)}deg)`;
+          }
+        });
+      }
+
+      // =========================================================================
+      // STEP 1 (0 -> 12): CINEMATIC SEASONAL TREE & MOUNTAIN SCENERY
+      // =========================================================================
+      // Coordinated Scene Container camera glide: mountain, tree, stem, and attached fruit move coherently
+      masterTL.to('#step1-stage-content', {
+        yPercent: -2.0,
+        duration: 12,
+        ease: 'none'
+      }, 0);
+
+      masterTL.to(['#hero-stem-motion-root', '#hero-fruit-motion-root'], {
+        yPercent: -3.2514,
+        duration: 12,
+        ease: 'none'
+      }, 0);
+
+      // Subtle mountain depth parallax anchored to the base knoll
+      masterTL.to('#step1-bg-mountain', {
+        yPercent: 0.6,
+        duration: 12,
+        ease: 'none'
+      }, 0);
+
+      // Stem recoils slightly upward on the branch as the avocado detaches cleanly at t=11.5..15
+      masterTL.to('#hero-stem', {
+        rotation: -2.2,
+        scaleY: 0.95,
+        duration: 3.5,
+        ease: 'back.out(2)'
+      }, 11.5);
+
+      // =========================================================================
+      // STEP 2 (12 -> 68): UNCHANGED FROM CHECKPOINT v1.0-step1-3
+      // =========================================================================
+      masterTL.to('#bg-step-2', { autoAlpha: 1, duration: 14 }, 14);
+      masterTL.to('#copy-step-1', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 14);
+      masterTL.to('#copy-step-2', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 20);
+
+      // Stem remains attached to the branch and moves up / fades out with #step1-scenery
+      masterTL.to('#hero-stem-motion-root', {
+        y: () => -0.45 * window.innerHeight,
+        scale: 1.03,
+        autoAlpha: 0,
+        duration: 36,
+        ease: 'power1.inOut'
+      }, 14);
+
+      // Fruit motion root smoothly normalizes its Step 1 scene glide offset back to 0 during free-fall
+      masterTL.to('#hero-fruit-motion-root', {
+        yPercent: 0,
+        duration: 48,
+        ease: 'sine.inOut'
+      }, 12);
+
+      // Step 1 mountain scenery smoothly moves up and fades out into Step 2
+      masterTL.to('#step1-scenery', {
+        yPercent: -45,
+        scale: 1.03,
+        autoAlpha: 0,
+        duration: 36,
+        ease: 'power1.inOut'
+      }, 14);
+
+      masterTL.to('#fall-layer', {
+        autoAlpha: 1,
+        yPercent: -8,
+        duration: 18,
+        ease: 'sine.out'
+      }, 18);
+
+      masterTL.to('#fall-layer', {
+        autoAlpha: 0,
+        yPercent: -28,
+        duration: 16,
+        ease: 'sine.in'
+      }, 48);
+
+      masterTL.to('#hero-avocado-wrap', {
+        xPercent: 98.9,
+        duration: 60,
+        ease: 'sine.inOut'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        scale: 1.08,
+        duration: 60,
+        ease: 'power1.inOut'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 52.7,
+        duration: 60,
+        ease: 'power2.in'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: -14,
+        duration: 20,
+        ease: 'sine.inOut'
+      }, 12);
+
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: 15,
+        duration: 22,
+        ease: 'sine.inOut'
+      }, 32);
+
+      masterTL.to('#hero-avocado-wrap', {
+        rotation: -7,
+        duration: 18,
+        ease: 'sine.in'
+      }, 54);
+
+      // =========================================================================
+      // STEP 3 (50 -> 100): UNCHANGED FROM CHECKPOINT v1.0-step1-3
+      // =========================================================================
+      masterTL.to('#bg-step-3', { autoAlpha: 1, duration: 14 }, 54);
+      masterTL.to('#copy-step-2', { autoAlpha: 0, yPercent: -64, duration: 10, ease: 'power1.inOut' }, 54);
+      masterTL.to('#copy-step-3', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 60);
+
+      masterTL.to('#board-layer', {
+        yPercent: 0,
+        scale: 1,
+        autoAlpha: 1,
+        duration: 18,
+        ease: 'power2.out'
+      }, 50);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.92,
+        scale: 1.0,
+        duration: 10,
+        ease: 'power2.in'
+      }, 62);
+
+      masterTL.to('#board-layer', {
+        yPercent: 1.4,
+        duration: 2.5,
+        ease: 'power2.out'
+      }, 72);
+      masterTL.to('#board-layer', {
+        yPercent: 0,
+        duration: 4.5,
+        ease: 'power2.inOut'
+      }, 74.5);
+
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 27.7,
+        rotation: 6,
+        duration: 7.5,
+        ease: 'power2.out'
+      }, 72);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.48,
+        scale: 1.26,
+        duration: 7.5,
+        ease: 'power2.out'
+      }, 72);
+
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 52.7,
+        rotation: -3,
+        duration: 7,
+        ease: 'power2.in'
+      }, 79.5);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.95,
+        scale: 0.98,
+        duration: 7,
+        ease: 'power2.in'
+      }, 79.5);
+
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 43.7,
+        rotation: 1.8,
+        duration: 4.5,
+        ease: 'power2.out'
+      }, 86.5);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.72,
+        scale: 1.08,
+        duration: 4.5,
+        ease: 'power2.out'
+      }, 86.5);
+
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 52.7,
+        rotation: 0,
+        duration: 5,
+        ease: 'power2.in'
+      }, 91);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0.96,
+        scale: 1.0,
+        duration: 5,
+        ease: 'power2.in'
+      }, 91);
+
+      masterTL.to('#hero-avocado-wrap', {
+        yPercent: 52.7,
+        rotation: 0,
+        duration: 4
+      }, 96);
+
+      // =========================================================================
+      // STEP 4 (100 -> 150): SMOOTH TRANSITION TO TWO HALVES & GRADUAL SEPARATION (NO HANDS / NO KNIFE)
+      // =========================================================================
+      // Copy & Background transition: Step 3 -> Step 4
+      masterTL.to('#bg-step-4', { autoAlpha: 1, duration: 12 }, 101);
+      masterTL.to('#copy-step-3', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 101);
+      masterTL.to('#copy-step-4', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 106);
+
+      // Light wooden cutting board remains 100% visible and anchored (no dark board, zero flicker)
+      masterTL.to('#board-layer', {
+        scale: 1.0,
+        yPercent: 0,
+        duration: 8,
+        ease: 'none'
+      }, 100);
+
+      // Seamless crossfade: Whole fruit -> Two halves touching together on the board
+      masterTL.to('#hero-avocado-wrap', {
+        autoAlpha: 0,
+        duration: 7,
+        ease: 'power1.inOut'
+      }, 100);
+
+      masterTL.to('#avocado-board-shadow', {
+        autoAlpha: 0,
+        duration: 7,
+        ease: 'power1.inOut'
+      }, 100);
+
+      masterTL.to('#halves-layer', {
+        autoAlpha: 1,
+        duration: 7,
+        ease: 'power1.inOut'
+      }, 100);
+
+      // Two halves smoothly slide and separate across the board as the user scrolls (108 -> 142)
+      masterTL.to('#avocado-half-left', {
+        xPercent: -7.0,
+        yPercent: 1.5,
+        rotation: -5.5,
+        duration: 34,
+        ease: 'power2.inOut'
+      }, 108);
+
+      masterTL.to('#avocado-half-right', {
+        xPercent: 7.0,
+        yPercent: -1.5,
+        rotation: 5.5,
+        duration: 34,
+        ease: 'power2.inOut'
+      }, 108);
+
+      // Hold separated halves steadily until t=150
+      masterTL.to('#halves-layer', {
+        scale: 1.0,
+        duration: 8
+      }, 142);
+
+      // =========================================================================
+      // STEP 5 (150 -> 180): SMOOTH FLICKER-FREE TRANSITION TO AVOCADO SLICES ON BOARD
+      // =========================================================================
+      // Copy & Background transition: Step 4 -> Step 5
+      masterTL.to('#bg-step-5', { autoAlpha: 1, duration: 12 }, 150);
+      masterTL.to('#copy-step-4', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 150);
+      masterTL.to('#copy-step-5', { autoAlpha: 1, yPercent: -50, duration: 10, ease: 'power1.out' }, 155);
+
+      // Keep #board-layer 100% visible (zero flicker!)
+      masterTL.to('#board-layer', {
+        scale: 1.0,
+        yPercent: 0,
+        duration: 12,
+        ease: 'none'
+      }, 150);
+
+      // Smoothly crossfade from separated halves (#halves-layer) into sliced sections (#slices-layer) on the same board
+      masterTL.to('#halves-layer', {
+        autoAlpha: 0,
+        scale: 0.96,
+        duration: 10,
+        ease: 'power1.inOut'
+      }, 150);
+
+      masterTL.to('#slices-layer', {
+        autoAlpha: 1,
+        scale: 1.0,
+        duration: 10,
+        ease: 'power1.inOut'
+      }, 150);
+
+      // Subtle fanning-out settle of the three sliced avocado groups on the cutting board (152 -> 168)
+      masterTL.to('#slices-group-left', {
+        xPercent: 0,
+        yPercent: 0,
+        rotation: 0,
+        duration: 16,
+        ease: 'power2.out'
+      }, 152);
+
+      masterTL.to('#slices-group-center', {
+        xPercent: 0,
+        yPercent: 0,
+        rotation: 0,
+        duration: 16,
+        ease: 'power2.out'
+      }, 152);
+
+      masterTL.to('#slices-group-right', {
+        xPercent: 0,
+        yPercent: 0,
+        rotation: 0,
+        duration: 16,
+        ease: 'power2.out'
+      }, 152);
+
+      // Hold the slices on the cutting board steadily from 168 -> 180 to prepare for Step 6
+      masterTL.to('#slices-layer', {
+        scale: 1.0,
+        duration: 12
+      }, 168);
+
+      // =========================================================================
+      // STEP 6 (180 -> 220): SLICES POUR & SETTLE INTO FRESH SALAD BOWL
+      // =========================================================================
+      masterTL.to('#bg-step-6', { autoAlpha: 1, duration: 14 }, 180);
+      masterTL.to('#copy-step-5', { autoAlpha: 0, yPercent: -64, duration: 8, ease: 'power1.inOut' }, 180);
+      masterTL.to('#copy-step-6', { autoAlpha: 1, yPercent: -50, duration: 12, ease: 'power1.out' }, 188);
+
+      // Salad bowl fades and rises up into position to receive the fresh avocado slices
+      masterTL.to('#salad-layer', {
+        autoAlpha: 1,
+        scale: 1.0,
+        yPercent: 0,
+        duration: 18,
+        ease: 'power2.out'
+      }, 180);
+
+      // Wooden cutting board tilts down slightly and fades away cleanly
+      masterTL.to('#board-layer', {
+        yPercent: 18,
+        rotation: -8,
+        autoAlpha: 0,
+        scale: 0.94,
+        duration: 24,
+        ease: 'power2.in'
+      }, 182);
+
+      // Slices smoothly pour/glide from board down into the salad dish
+      masterTL.to('#slices-layer', {
+        xPercent: -10,
+        yPercent: 20,
+        rotation: -12,
+        scale: 0.84,
+        autoAlpha: 0,
+        duration: 24,
+        ease: 'power2.in'
+      }, 182);
+
+      // Salad dish settles at its pristine resting position, looking complete and delicious
+      masterTL.to('#salad-layer', {
+        scale: 1.0,
+        xPercent: 0,
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 14,
+        ease: 'none'
+      }, 206);
+
+      // =========================================================================
+      // CINEMATIC ZOOM TRANSITION AFTER STEP 6 (220 -> 300, 80 units total)
+      // 0–20%   (220 -> 236): Display completed salad dish at normal size
+      // 20–70%  (236 -> 276): Continuous cinematic zoom in toward salad bowl center
+      // 70–95%  (276 -> 296): Smooth crossfade from salad dish to Next Section
+      // 95–100% (296 -> 300): Full-screen Next Section ready for normal scroll
+      // =========================================================================
+
+      // [0–20%: 220 -> 236] Hold completed salad bowl at normal size
+      masterTL.to('#salad-layer', {
+        scale: 1.0,
+        autoAlpha: 1,
+        duration: 16,
+        ease: 'none'
+      }, 220);
+
+      // Copy fades out gracefully as cinematic zoom begins
+      masterTL.to('#copy-step-6', {
+        autoAlpha: 0,
+        yPercent: -62,
+        scale: 0.94,
+        duration: 12,
+        ease: 'power1.inOut'
+      }, 236);
+
+      // [20–70%: 236 -> 276] Cinematic continuous zoom in toward the salad bowl center
+      // Function-based values adapt seamlessly to desktop and mobile viewport geometry
+      masterTL.to('#salad-layer', {
+        scale: () => window.innerWidth <= 680 ? 6.0 : 4.8,
+        xPercent: () => window.innerWidth <= 680 ? 0 : -42,
+        yPercent: () => window.innerWidth <= 680 ? -110 : -6,
+        duration: 40,
+        ease: 'power1.inOut'
+      }, 236);
+
+      // [70–95%: 276 -> 296] Crossfade: Salad layer smoothly fades out, Next Section fades in
+      masterTL.to('#bg-next-section', {
+        autoAlpha: 1,
+        duration: 20,
+        ease: 'power1.inOut'
+      }, 276);
+
+      masterTL.to('#salad-layer', {
+        autoAlpha: 0,
+        scale: () => window.innerWidth <= 680 ? 6.8 : 5.4,
+        yPercent: () => window.innerWidth <= 680 ? -125 : -8,
+        duration: 18,
+        ease: 'power1.in'
+      }, 276);
+
+      masterTL.to('#next-section-layer', {
+        autoAlpha: 1,
+        scale: 1.0,
+        duration: 20,
+        ease: 'power1.out'
+      }, 276);
+
+      // [95–100%: 296 -> 300] Next Section is fully displayed full screen
+      masterTL.to('#next-section-layer', {
+        autoAlpha: 1,
+        scale: 1.0,
+        duration: 4,
+        ease: 'none'
+      }, 296);
+
+      // Navigation jump helper
+      function jumpToProgress(targetProgress) {
+        const p = Math.min(1, Math.max(0, targetProgress));
+        const top = storySection.getBoundingClientRect().top + window.scrollY;
+        const maxScroll = Math.max(1, storySection.offsetHeight - window.innerHeight);
+        window.scrollTo({
+          top: top + maxScroll * p,
+          behavior: 'smooth'
+        });
+      }
+
+      document.querySelectorAll('[data-jump]').forEach((btn) => {
+        btn.addEventListener('click', () => jumpToProgress(Number(btn.dataset.jump)));
+      });
+
+      // Product inquiry toast
+      function showToast(message) {
+        const el = document.getElementById('toast');
+        el.textContent = message;
+        el.classList.add('show');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => el.classList.remove('show'), 3600);
+      }
+
+      document.querySelectorAll('[data-order]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const item = btn.dataset.order;
+          if (STORE.lineUrl) {
+            window.open(STORE.lineUrl, '_blank', 'noopener,noreferrer');
+            return;
+          }
+          const message = `สวัสดีค่ะ/ครับ สนใจสอบถามสินค้า: ${item} จากร้าน SG FRUIT (เอสจี ผลไม้ตามฤดูกาล)`;
+          try {
+            await navigator.clipboard.writeText(message);
+            showToast('คัดลอกข้อความสอบถามสินค้าแล้ว · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl');
+          } catch (err) {
+            showToast(`สนใจ: ${item} · กรุณาเพิ่มลิงก์ LINE ร้านใน STORE.lineUrl`);
+          }
+        });
+      });
+
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+        updateHUD(masterTL.scrollTrigger ? masterTL.scrollTrigger.progress : 0);
+      });
+    })();
+  </script>
+</body>
+</html>
