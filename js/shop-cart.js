@@ -16,7 +16,7 @@
     searchQuery: '',
     sortBy: 'default', // 'default' | 'price-asc' | 'price-desc'
     availableOnly: false,
-    pageSize: 15,      // Default 15 (5 columns × 3 rows = 15 mock products); user can toggle 10/page (5×2)
+    pageSize: 10,      // Default 10 (5 columns × 2 rows = 10 product cards in 5×2 grid)
     currentPage: 1,
     cart: [],
     activeModalProductId: null,
@@ -247,7 +247,7 @@
           );
         }
       }
-      const toggleModeLabel = state.pageSize >= 15 ? 'แสดงทีละ 10 รายการ (5×2)' : `แสดงทั้งหมด (${totalFiltered} รายการ · 5×3)`;
+      const toggleModeLabel = state.pageSize <= 10 ? `แสดงทั้งหมด (${totalFiltered} รายการ)` : 'แสดงแบบ 5×2 (10 รายการ)';
       paginationEl.innerHTML = `
         <div class="shop-pagination-inner">
           <div class="shop-pagination-info">
@@ -276,7 +276,7 @@
       const toggleBtn = document.getElementById('shop-toggle-pagesize-btn');
       if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
-          state.pageSize = state.pageSize >= 15 ? 10 : 15;
+          state.pageSize = state.pageSize <= 10 ? 15 : 10;
           state.currentPage = 1;
           renderProducts();
         });
