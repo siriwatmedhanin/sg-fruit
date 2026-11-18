@@ -9,6 +9,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    // Always start at Step 1 (top of page / avocado tree) on page open or reload
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    if (window.location.hash && window.location.hash !== '#home') {
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
+    window.scrollTo(0, 0);
+  </script>
   <style>
     :root {
       --ink: #183526;
@@ -4075,6 +4087,11 @@
     (() => {
       'use strict';
 
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+
       const root = document.documentElement;
       const scrollJourneyEl = document.getElementById('scroll-journey');
       const homeSection = document.getElementById('home');
@@ -4601,13 +4618,21 @@
         updateHUDAndTimeline();
       });
 
+      // Always ensure fresh opening and reloads start at Step 1 (Hero avocado tree)
+      window.addEventListener('pageshow', () => {
+        window.scrollTo(0, 0);
+        updateHUDAndTimeline();
+      });
+
       window.addEventListener('load', () => {
+        window.scrollTo(0, 0);
         measureScrollBounds();
         ScrollTrigger.refresh();
         updateHUDAndTimeline();
-        const rawHash = (window.location.hash || '').replace(/^#/, '').trim();
-        if (rawHash) {
-          setTimeout(() => navigateToTarget(rawHash, false), 60);
+        if (window.location.hash && window.location.hash !== '#home') {
+          try {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          } catch (e) {}
         }
       });
 
