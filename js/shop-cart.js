@@ -176,10 +176,16 @@
     });
   }
 
-  // Render Storefront Mode Indicator & Switcher
+  // Render Storefront Mode Indicator & Switcher (Only in Local Dev Environment)
   function renderModeBadge() {
     const container = document.getElementById('shop-mode-container');
-    if (!container || !global.SG_API_ADAPTER) return;
+    if (!container) return;
+
+    // Strict Production Hardening: ซ่อน Dev Toolbar / Mode Badge บน Production ทันที
+    if (!global.SG_API_ADAPTER || !global.SG_API_ADAPTER.isDevEnvironment()) {
+      container.innerHTML = '';
+      return;
+    }
 
     const isApi = global.SG_API_ADAPTER.isApiMode();
     const status = global.SG_API_ADAPTER.getStatus();
@@ -247,9 +253,10 @@
     gridEl.innerHTML = pagedItems
       .map((item) => {
         const hasSeasonalTag = Array.isArray(item.tags) && item.tags.includes('ผลไม้ตามฤดูกาล');
-        const isAvailable = item.available && (Array.isArray(item.variants) && item.variants.length > 0 ? item.variants.some((v) => v.in_stock) : true);
-        const statusClass = isAvailable ? (hasSeasonalTag ? 'is-seasonal-wait' : 'is-available') : 'is-out-of-stock';
-        const statusText = isAvailable ? item.statusLabel : 'หมดชั่วคราว';
+        const isOrderingDisabled = catalog && (catalog.canOrder === false || catalog.isDegraded === true);
+        const isAvailable = !isOrderingDisabled && item.available && (Array.isArray(item.variants) && item.variants.length > 0 ? item.variants.some((v) => v.in_stock) : true);
+        const statusClass = isOrderingDisabled ? 'is-out-of-stock' : (isAvailable ? (hasSeasonalTag ? 'is-seasonal-wait' : 'is-available') : 'is-out-of-stock');
+        const statusText = isOrderingDisabled ? 'ระงับสั่งซื้อชั่วคราว' : (isAvailable ? item.statusLabel : 'หมดชั่วคราว');
 
         // นับจำนวนสินค้านี้ในตะกร้า (รวมทุก variants)
         const inCartItems = state.cart.filter((c) => c.id === item.id);
@@ -369,6 +376,13 @@
   function addToCart(productId, qtyToAdd = 1, variantIdOrUnit = null) {
     const product = getProductById(productId);
     if (!product) return;
+
+    // Anti-stale pricing: หากระบบอยู่ในสถานะ Degraded ให้ระงับการสั่งซื้อทันที
+    if (catalog && (catalog.canOrder === false || catalog.isDegraded === true)) {
+      showToast('⚠️ ระบบระงับการสั่งซื้อชั่วคราวเนื่องจากระบบราคากลางขัดข้อง กรุณาติดต่อทางร้านโดยตรง');
+      return;
+    }
+
     const qty = Math.max(1, Number(qtyToAdd) || 1);
 
     // ค้นหา Variant ที่เลือก
