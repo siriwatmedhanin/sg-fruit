@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SG FRUIT (เอสจี ผลไม้ตามฤดูกาล) — Shop UI, Filtering, Search, Modal & Cart System (V2)
  * ทำงานแบบ Standalone Frontend รองรับการทำงานแม้ GSAP ไม่ทำงาน และไม่รบกวน ScrollTrigger
  */
@@ -180,7 +180,7 @@
     const pagedItems = filtered.slice(startIdx, startIdx + state.pageSize);
 
     if (countEl) {
-      countEl.innerHTML = `แสดง <strong>${pagedItems.length}</strong> จาก <strong>${totalFiltered}</strong> รายการ <span class="shop-count-demo">(ข้อมูลจำลอง DEMO ทั้งหมด ${products.length} รายการ)</span>`;
+      countEl.innerHTML = `แสดง <strong>${pagedItems.length}</strong> จาก <strong>${totalFiltered}</strong> รายการ`;
     }
 
     if (totalFiltered === 0) {
@@ -209,11 +209,11 @@
                 <span class="shop-badge shop-badge-cat">${item.category}</span>
                 ${hasSeasonalTag ? '<span class="shop-badge shop-badge-seasonal">ตามฤดูกาล</span>' : ''}
               </div>
-              <span class="shop-badge shop-badge-demo" title="ข้อมูลจำลองสำหรับทดสอบ">DEMO</span>
+
               <img
                 class="shop-card-img"
                 src="${item.image}"
-                alt="${item.name} - ${item.category} (DEMO)"
+                alt="${item.name} - ${item.category}"
                 width="400"
                 height="400"
               />
@@ -265,7 +265,7 @@
       paginationEl.innerHTML = `
         <div class="shop-pagination-inner">
           <div class="shop-pagination-info">
-            แสดงรายการที่ ${startIdx + 1}–${startIdx + pagedItems.length} จาก ${totalFiltered} รายการจำลอง
+            แสดงรายการที่ ${startIdx + 1}–${startIdx + pagedItems.length} จาก ${totalFiltered} รายการ
           </div>
           <div class="shop-pagination-controls">
             ${pageButtonsHtml.join('')}
@@ -417,7 +417,7 @@
             <div class="cart-item-info">
               <div class="cart-item-top">
                 <div>
-                  <span class="cart-item-sku">${product.sku} · DEMO</span>
+                  <span class="cart-item-sku">${product.sku}</span>
                   <h4 class="cart-item-name">${product.name}</h4>
                 </div>
                 <button type="button" class="cart-item-remove" data-cart-action="remove" data-id="${item.id}" aria-label="ลบ ${product.name} ออกจากตะกร้า">
@@ -482,16 +482,16 @@
       <div class="pmodal-grid">
         <div class="pmodal-media">
           <img src="${product.image}" alt="${product.name}" width="480" height="480" />
-          <span class="shop-badge shop-badge-demo">DEMO PRODUCT IMAGE</span>
+
         </div>
         <div class="pmodal-details">
           <div class="pmodal-badges">${tagsHtml}</div>
-          <div class="pmodal-sku">รหัสสินค้าจำลอง: ${product.sku} · สถานะ: ${product.statusLabel}</div>
+          <div class="pmodal-sku">รหัสสินค้า: ${product.sku} · สถานะ: ${product.statusLabel}</div>
           <h3 class="pmodal-title">${product.name}</h3>
           <div class="pmodal-price">฿${formatPrice(product.price)} <small>/ ${product.unit}</small></div>
           <p class="pmodal-desc">${product.description}</p>
           <div class="pmodal-disclaimer">
-            <strong>หมายเหตุ (DEMO ONLY):</strong> ข้อมูลสินค้า ราคา และสถานะในหน้านี้เป็นข้อมูลสมมติสำหรับทดสอบ UI/UX เท่านั้น ไม่ใช่ราคาขายจริงหรือสต็อกจริงของร้าน SG FRUIT
+            <strong>หมายเหตุ:</strong> ข้อมูลสินค้าและราคาอยู่ระหว่างการปรับปรุง กรุณายืนยันกับร้านก่อนสั่งซื้อ
           </div>
           <div class="pmodal-actions">
             <div class="cart-qty-control pmodal-qty">
@@ -591,9 +591,9 @@
       <div class="order-demo-alert" role="note">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
           <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-          <strong>DEMO ORDER SUMMARY (ข้อมูลทดลองเท่านั้น)</strong>
+          <strong>สรุปรายการสินค้าสำหรับตรวจสอบ</strong>
         </div>
-        <p>หน้านี้แสดงสรุปรายการสำหรับทดสอบระบบตะกร้าสินค้าเท่านั้น เว็บไซต์เวอร์ชันนี้ยังไม่มีระบบชำระเงินจริง ไม่มีการรับข้อมูลบัตรเครดิต และไม่มีการส่งคำสั่งซื้อจริงไปยังร้าน SG FRUIT</p>
+        <p>ข้อมูลสินค้าและราคาอยู่ระหว่างการปรับปรุง กรุณายืนยันกับร้านก่อนสั่งซื้อ (ระบบชำระเงินออนไลน์ยังไม่เปิดให้บริการ)</p>
       </div>
       <div class="order-summary-list">
         ${rowsHtml}
@@ -604,12 +604,12 @@
           <strong>${totalItems} รายการ</strong>
         </div>
         <div class="order-summary-row is-grand">
-          <span>ยอดรวมสินค้าจำลอง (DEMO SUBTOTAL)</span>
+          <span>ยอดรวมสินค้า</span>
           <strong>฿${formatPrice(subtotal)}</strong>
         </div>
       </div>
       <div class="order-summary-note">
-        * โครงสร้างข้อมูลตะกร้าสินค้า (<code>window.SG_FRUIT_SHOP.getCartState()</code>) พร้อมเชื่อมต่อกับระบบ Checkout หรือ LINE Official Account ของทางร้านในอนาคต
+        * กรุณายืนยันรายการสินค้าและราคากับร้านค้าก่อนสั่งซื้อ
       </div>
     `;
 
@@ -868,7 +868,7 @@
     getCartState: () => ({
       items: [...state.cart],
       ...getCartTotals(),
-      isDemo: true
+      isSample: false
     }),
     getFilteredProducts
   };

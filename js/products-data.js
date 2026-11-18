@@ -1,6 +1,6 @@
 ﻿/**
- * SG FRUIT (เอสจี ผลไม้ตามฤดูกาล) — Mock Product Catalog (V2 Demo · 15 Items / 5×3 Grid)
- * หมายเหตุ: ข้อมูลสินค้า ราคา และสถานะทั้งหมดในไฟล์นี้เป็นข้อมูลจำลอง (DEMO DATA)
+ * SG FRUIT (เอสจี ผลไม้ตามฤดูกาล) — Mock Product Catalog (Catalog · 15 Items / 5×3 Grid)
+ * หมายเหตุ: ข้อมูลสินค้า ราคา และสถานะทั้งหมดในไฟล์นี้เป็นข้อมูลจำลอง
  * สำหรับทดสอบระบบหน้าร้านและตะกร้าสินค้าเท่านั้น ไม่ใช่ราคาหรือสต็อกขายจริงของร้าน
  */
 (function (global) {
@@ -25,12 +25,12 @@
       imagePath: 'public/assets/products/sg001.svg',
       price: 159,
       unit: '2 ลูก',
-      description: 'อะโวคาโดสายพันธุ์ฮาส เนื้อเนียนละเอียด รสสัมผัสมันกลมกล่อม เหมาะสำหรับทานสด ทำสลัด หรือมื้อสุขภาพ (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'อะโวคาโดสายพันธุ์ฮาส เนื้อเนียนละเอียด รสสัมผัสมันกลมกล่อม เหมาะสำหรับทานสด ทำสลัด หรือมื้อสุขภาพ',
       stock: 15,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-002',
@@ -42,12 +42,12 @@
       imagePath: 'public/assets/products/sg002.svg',
       price: 129,
       unit: 'กิโลกรัม',
-      description: 'มะม่วงน้ำดอกไม้ผิวสวย กลิ่นหอมละมุน เนื้อเนียนละเอียด รสหวานฉ่ำเป็นธรรมชาติ คัดสรรคุณภาพอย่างใส่ใจ (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'มะม่วงน้ำดอกไม้ผิวสวย กลิ่นหอมละมุน เนื้อเนียนละเอียด รสหวานฉ่ำเป็นธรรมชาติ คัดสรรคุณภาพอย่างใส่ใจ',
       stock: 20,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-003',
@@ -59,12 +59,12 @@
       imagePath: 'public/assets/products/sg003.svg',
       price: 139,
       unit: 'กิโลกรัม',
-      description: 'มังคุดไทยคัดขนาด เนื้อขาวสะอาด รสหวานอมเปรี้ยวสดชื่นลงตัว เหมาะสำหรับรับประทานเป็นผลไม้ประจำวัน (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'มังคุดไทยคัดขนาด เนื้อขาวสะอาด รสหวานอมเปรี้ยวสดชื่นลงตัว เหมาะสำหรับรับประทานเป็นผลไม้ประจำวัน',
       stock: 14,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-004',
@@ -76,12 +76,12 @@
       imagePath: 'public/assets/products/sg004.svg',
       price: 89,
       unit: 'กิโลกรัม',
-      description: 'ลำไยผลกลมสวย เปลือกบาง เนื้อหนาใส รสหวานหอมสดชื่น คัดสรรสำหรับมื้อผลไม้ของครอบครัว (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'ลำไยผลกลมสวย เปลือกบาง เนื้อหนาใส รสหวานหอมสดชื่น คัดสรรสำหรับมื้อผลไม้ของครอบครัว',
       stock: 18,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-005',
@@ -93,12 +93,12 @@
       imagePath: 'public/assets/products/sg005.svg',
       price: 129,
       unit: '4 ลูก',
-      description: 'แอปเปิลฟูจิผิวสีแดงอมชมพู เนื้อกรอบแน่นฉ่ำน้ำ รสหวานหอมทานง่าย เหมาะสำหรับทุกวัยในทุกวัน (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'แอปเปิลฟูจิผิวสีแดงอมชมพู เนื้อกรอบแน่นฉ่ำน้ำ รสหวานหอมทานง่าย เหมาะสำหรับทุกวัยในทุกวัน',
       stock: 22,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-006',
@@ -110,12 +110,12 @@
       imagePath: 'public/assets/products/sg006.svg',
       price: 199,
       unit: 'แพ็ก',
-      description: 'องุ่นเขียวไร้เมล็ดผลอวบสีเขียวมรกต เนื้อกรอบเด้ง รสหวานสดชื่น ทานสะดวกทั้งผล (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'องุ่นเขียวไร้เมล็ดผลอวบสีเขียวมรกต เนื้อกรอบเด้ง รสหวานสดชื่น ทานสะดวกทั้งผล',
       stock: 12,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-007',
@@ -127,12 +127,12 @@
       imagePath: 'public/assets/products/sg007.svg',
       price: 299,
       unit: '250 กรัม',
-      description: 'เชอร์รีนำเข้าสีแดงเข้มเงางาม เนื้อแน่นกรอบ รสหวานอมเปรี้ยวมีเอกลักษณ์ คัดสรรพิเศษตามฤดูกาล (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'เชอร์รีนำเข้าสีแดงเข้มเงางาม เนื้อแน่นกรอบ รสหวานอมเปรี้ยวมีเอกลักษณ์ คัดสรรพิเศษตามฤดูกาล',
       stock: 0,
       available: false,
-      statusLabel: 'รอรอบฤดูกาล (DEMO)',
+      statusLabel: 'รอรอบฤดูกาล',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-008',
@@ -144,12 +144,12 @@
       imagePath: 'public/assets/products/sg008.svg',
       price: 159,
       unit: 'ถุง',
-      description: 'ส้มแมนดารินผิวสีส้มสดแกะง่าย กลิ่นหอมสดชื่น เนื้อฉ่ำน้ำ รสหวานอมเปรี้ยวกลมกล่อม (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'ส้มแมนดารินผิวสีส้มสดแกะง่าย กลิ่นหอมสดชื่น เนื้อฉ่ำน้ำ รสหวานอมเปรี้ยวกลมกล่อม',
       stock: 16,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-009',
@@ -161,12 +161,12 @@
       imagePath: 'public/assets/products/sg009.svg',
       price: 79,
       unit: 'หัว',
-      description: 'บรอกโคลีสดดอกแน่นสีเขียวสด ก้านกรอบ เหมาะสำหรับเมนูผัด นึ่ง หรือจัดจานสลัดสุขภาพ (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'บรอกโคลีสดดอกแน่นสีเขียวสด ก้านกรอบ เหมาะสำหรับเมนูผัด นึ่ง หรือจัดจานสลัดสุขภาพ',
       stock: 25,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-010',
@@ -178,12 +178,12 @@
       imagePath: 'public/assets/products/sg010.svg',
       price: 69,
       unit: 'หัว',
-      description: 'กะหล่ำดอกสีขาวครีมสะอาด ดอกแน่นกรอบสดใหม่ เหมาะสำหรับประกอบอาหารหลากหลายเมนูประจำบ้าน (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'กะหล่ำดอกสีขาวครีมสะอาด ดอกแน่นกรอบสดใหม่ เหมาะสำหรับประกอบอาหารหลากหลายเมนูประจำบ้าน',
       stock: 19,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-011',
@@ -195,12 +195,12 @@
       imagePath: 'public/assets/products/sg011.svg',
       price: 49,
       unit: '500 กรัม',
-      description: 'แครอตสดสีส้มสวย เนื้อแน่นกรอบ รสหวานธรรมชาติ เหมาะสำหรับทำสลัด น้ำผักผลไม้สกัด หรือปรุงอาหาร (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'แครอตสดสีส้มสวย เนื้อแน่นกรอบ รสหวานธรรมชาติ เหมาะสำหรับทำสลัด น้ำผักผลไม้สกัด หรือปรุงอาหาร',
       stock: 30,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-012',
@@ -212,12 +212,12 @@
       imagePath: 'public/assets/products/sg012.svg',
       price: 69,
       unit: 'แพ็ก',
-      description: 'ชุดผักสลัดรวมใบกรอบสดสะอาด คัดสรรผักสลัดหลากหลายชนิด เหมาะสำหรับจัดจานสลัดและมื้อสุขภาพประจำวัน (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'ชุดผักสลัดรวมใบกรอบสดสะอาด คัดสรรผักสลัดหลากหลายชนิด เหมาะสำหรับจัดจานสลัดและมื้อสุขภาพประจำวัน',
       stock: 24,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-013',
@@ -229,12 +229,12 @@
       imagePath: 'public/assets/products/sg013.svg',
       price: 259,
       unit: 'กล่อง 250 กรัม',
-      description: 'สตรอว์เบอร์รีนำเข้าผลโตสีแดงสด กลิ่นหอมหวาน เนื้อฉ่ำสดชื่น คัดพิเศษสำหรับฤดูกาลนี้ (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'สตรอว์เบอร์รีนำเข้าผลโตสีแดงสด กลิ่นหอมหวาน เนื้อฉ่ำสดชื่น คัดพิเศษสำหรับฤดูกาลนี้',
       stock: 10,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-014',
@@ -246,12 +246,12 @@
       imagePath: 'public/assets/products/sg014.svg',
       price: 149,
       unit: 'ลูก',
-      description: 'ส้มโอทับทิมสยามเนื้อสีชมพูแดงเข้มสวย กุ้งเนื้อแน่น รสหวานฉ่ำหอมละมุนเป็นเอกลักษณ์ (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'ส้มโอทับทิมสยามเนื้อสีชมพูแดงเข้มสวย กุ้งเนื้อแน่น รสหวานฉ่ำหอมละมุนเป็นเอกลักษณ์',
       stock: 14,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: true,
-      isDemo: true
+      isSample: false
     },
     {
       id: 'sg-015',
@@ -263,18 +263,18 @@
       imagePath: 'public/assets/products/sg015.svg',
       price: 59,
       unit: 'แพ็ก 250 กรัม',
-      description: 'มะเขือเทศเชอร์รีสดผิวตึงเงางาม เนื้อกรอบฉ่ำ รสหวานอมเปรี้ยวสดชื่น ทานเล่นหรือใส่สลัดได้อร่อย (ข้อมูลสินค้าจำลองสำหรับทดสอบระบบ)',
+      description: 'มะเขือเทศเชอร์รีสดผิวตึงเงางาม เนื้อกรอบฉ่ำ รสหวานอมเปรี้ยวสดชื่น ทานเล่นหรือใส่สลัดได้อร่อย',
       stock: 28,
       available: true,
-      statusLabel: 'พร้อมจำหน่าย (DEMO)',
+      statusLabel: 'พร้อมจำหน่าย',
       isFeatured: false,
-      isDemo: true
+      isSample: false
     }
   ];
 
   global.SG_FRUIT_CATALOG = {
-    isDemoCatalog: true,
-    disclaimer: 'ข้อมูลสินค้าและราคาทั้งหมดเป็นข้อมูลสมมติสำหรับทดสอบระบบ (DEMO ONLY) ไม่ใช่ราคาขายจริงหรือสต็อกจริงของ SG FRUIT',
+    isSampleCatalog: false,
+    disclaimer: 'ข้อมูลสินค้าและราคาอยู่ระหว่างการปรับปรุง กรุณายืนยันกับร้านก่อนสั่งซื้อ',
     categories: SG_FRUIT_CATEGORIES,
     products: SG_FRUIT_PRODUCTS
   };
