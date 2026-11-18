@@ -10,6 +10,16 @@
   const products = catalog.products || [];
   const categories = catalog.categories || [];
 
+  // Shared Lucide SVG Outline Icons (consistent 1.85-2.2 stroke width)
+  const ICONS = {
+    plus: `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
+    minus: `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>`,
+    trash: `<svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`,
+    check: `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`,
+    basket: `<svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 11-1 9"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.6-7.4"/><path d="M4.5 15.5h15"/><path d="m5 11 4-7"/><path d="m9 11 1 9"/></svg>`,
+    arrowRight: `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`
+  };
+
   // Shop UI State
   const state = {
     category: 'all',
@@ -60,11 +70,14 @@
     return Number(num || 0).toLocaleString('th-TH');
   }
 
-  // Toast helper
+  // Toast helper with Lucide check icon
   function showToast(message) {
     const el = document.getElementById('toast');
     if (!el) return;
-    el.textContent = message;
+    el.innerHTML = `
+      <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #bbf77b;"><path d="M20 6 9 17l-5-5"/></svg>
+      <span>${message}</span>
+    `;
     el.classList.add('show');
     clearTimeout(showToast._timer);
     showToast._timer = setTimeout(() => {
@@ -228,7 +241,8 @@
                   ดูรายละเอียด
                 </button>
                 <button type="button" class="shop-btn-add" data-action="add-to-cart" data-id="${item.id}" aria-label="เพิ่ม ${item.name} ลงตะกร้า">
-                  <span>+ เพิ่มลงตะกร้า</span>
+                  ${ICONS.plus}
+                  <span>เพิ่มลงตะกร้า</span>
                 </button>
               </div>
             </div>
@@ -407,15 +421,16 @@
                   <h4 class="cart-item-name">${product.name}</h4>
                 </div>
                 <button type="button" class="cart-item-remove" data-cart-action="remove" data-id="${item.id}" aria-label="ลบ ${product.name} ออกจากตะกร้า">
-                  ลบ
+                  ${ICONS.trash}
+                  <span>ลบ</span>
                 </button>
               </div>
               <div class="cart-item-unit">฿${formatPrice(product.price)} / ${product.unit}</div>
               <div class="cart-item-bottom">
                 <div class="cart-qty-control" aria-label="ปรับจำนวน ${product.name}">
-                  <button type="button" class="cart-qty-btn" data-cart-action="decrease" data-id="${item.id}" aria-label="ลดจำนวน ${product.name}">−</button>
+                  <button type="button" class="cart-qty-btn" data-cart-action="decrease" data-id="${item.id}" aria-label="ลดจำนวน ${product.name}">${ICONS.minus}</button>
                   <span class="cart-qty-value" aria-live="polite">${item.qty}</span>
-                  <button type="button" class="cart-qty-btn" data-cart-action="increase" data-id="${item.id}" aria-label="เพิ่มจำนวน ${product.name}">+</button>
+                  <button type="button" class="cart-qty-btn" data-cart-action="increase" data-id="${item.id}" aria-label="เพิ่มจำนวน ${product.name}">${ICONS.plus}</button>
                 </div>
                 <div class="cart-item-subtotal">฿${formatPrice(lineTotal)}</div>
               </div>
@@ -480,12 +495,13 @@
           </div>
           <div class="pmodal-actions">
             <div class="cart-qty-control pmodal-qty">
-              <button type="button" class="cart-qty-btn" id="pmodal-qty-minus" aria-label="ลดจำนวน">−</button>
+              <button type="button" class="cart-qty-btn" id="pmodal-qty-minus" aria-label="ลดจำนวน">${ICONS.minus}</button>
               <span class="cart-qty-value" id="pmodal-qty-val">1</span>
-              <button type="button" class="cart-qty-btn" id="pmodal-qty-plus" aria-label="เพิ่มจำนวน">+</button>
+              <button type="button" class="cart-qty-btn" id="pmodal-qty-plus" aria-label="เพิ่มจำนวน">${ICONS.plus}</button>
             </div>
             <button type="button" class="shop-btn-add pmodal-add-btn" id="pmodal-add-cart-btn">
-              + เพิ่มลงตะกร้า (฿${formatPrice(product.price)})
+              ${ICONS.plus}
+              <span id="pmodal-add-cart-label">เพิ่มลงตะกร้า (฿${formatPrice(product.price)})</span>
             </button>
           </div>
         </div>
@@ -499,7 +515,12 @@
 
     function syncModalQty() {
       if (qtyValEl) qtyValEl.textContent = String(state.modalQty);
-      if (addBtn) addBtn.textContent = `+ เพิ่มลงตะกร้า (฿${formatPrice(product.price * state.modalQty)})`;
+      const labelEl = document.getElementById('pmodal-add-cart-label');
+      if (labelEl) {
+        labelEl.textContent = `เพิ่มลงตะกร้า (฿${formatPrice(product.price * state.modalQty)})`;
+      } else if (addBtn) {
+        addBtn.innerHTML = `${ICONS.plus} <span>เพิ่มลงตะกร้า (฿${formatPrice(product.price * state.modalQty)})</span>`;
+      }
     }
 
     if (minusBtn) {
@@ -568,7 +589,10 @@
 
     bodyEl.innerHTML = `
       <div class="order-demo-alert" role="note">
-        <strong>DEMO ORDER SUMMARY (ข้อมูลทดลองเท่านั้น)</strong>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <strong>DEMO ORDER SUMMARY (ข้อมูลทดลองเท่านั้น)</strong>
+        </div>
         <p>หน้านี้แสดงสรุปรายการสำหรับทดสอบระบบตะกร้าสินค้าเท่านั้น เว็บไซต์เวอร์ชันนี้ยังไม่มีระบบชำระเงินจริง ไม่มีการรับข้อมูลบัตรเครดิต และไม่มีการส่งคำสั่งซื้อจริงไปยังร้าน SG FRUIT</p>
       </div>
       <div class="order-summary-list">
@@ -636,14 +660,23 @@
       });
     }
 
-    // Sort Select
+    // Sort Select & Label Sync
     const sortSelect = document.getElementById('shop-sort-select');
+    const sortLabel = document.getElementById('shop-sort-label');
+    const syncSortLabel = () => {
+      if (!sortLabel || !sortSelect) return;
+      const opt = sortSelect.options[sortSelect.selectedIndex];
+      sortLabel.textContent = opt ? opt.text : 'เรียงตาม: แนะนำ';
+    };
+
     if (sortSelect) {
       sortSelect.addEventListener('change', () => {
         state.sortBy = sortSelect.value || 'default';
         state.currentPage = 1;
+        syncSortLabel();
         renderProducts();
       });
+      syncSortLabel();
     }
 
     // Available Only Checkbox
@@ -667,7 +700,10 @@
         state.currentPage = 1;
         if (searchInput) searchInput.value = '';
         if (searchClearBtn) searchClearBtn.hidden = true;
-        if (sortSelect) sortSelect.value = 'default';
+        if (sortSelect) {
+          sortSelect.value = 'default';
+          syncSortLabel();
+        }
         if (availCheck) availCheck.checked = false;
         renderCategories();
         renderProducts();
