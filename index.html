@@ -3062,6 +3062,291 @@
       font-size: 13.5px;
     }
 
+    /* Customer Gallery (Up to 5 images in Product Detail Modal) */
+    .pmodal-gallery-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pmodal-gallery-main {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #f4efe0;
+      user-select: none;
+    }
+
+    .pmodal-gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.2s ease;
+    }
+
+    .pmodal-gallery-counter {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(26, 46, 26, 0.75);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 3;
+      letter-spacing: 0.04em;
+    }
+
+    .pmodal-gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.90);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: var(--forest);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.18s ease;
+      z-index: 3;
+      padding: 0;
+    }
+
+    .pmodal-gallery-nav:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.08);
+      color: var(--ink);
+    }
+
+    .pmodal-gallery-prev {
+      left: 10px;
+    }
+
+    .pmodal-gallery-next {
+      right: 10px;
+    }
+
+    .pmodal-gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 6px;
+      scrollbar-width: thin;
+    }
+
+    .pmodal-thumb-btn {
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      padding: 0;
+      background: #f4efe0;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      opacity: 0.72;
+    }
+
+    .pmodal-thumb-btn:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+    }
+
+    .pmodal-thumb-btn.is-active {
+      border-color: var(--forest);
+      opacity: 1;
+      transform: scale(1.04);
+      box-shadow: 0 3px 8px rgba(33, 77, 52, 0.22);
+    }
+
+    .pmodal-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Variant Selector in Product Detail Modal */
+    .pmodal-variants-wrap {
+      margin: 12px 0 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fdfbf7;
+      border: 1px solid rgba(33, 77, 52, 0.10);
+    }
+
+    .pmodal-variants-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+
+    .pmodal-variant-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pmodal-variant-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1.5px solid #dcd7c8;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .pmodal-variant-btn:hover {
+      border-color: var(--forest);
+      background: #f7faf3;
+    }
+
+    .pmodal-variant-btn.is-active {
+      border-color: var(--forest);
+      background: #eaf3df;
+      color: var(--forest);
+      box-shadow: 0 2px 6px rgba(33, 77, 52, 0.14);
+    }
+
+    .pmodal-variant-btn.is-out-of-stock {
+      opacity: 0.55;
+      border-style: dashed;
+      background: #f8f8f8;
+      color: #777;
+    }
+
+    .variant-badge-oos {
+      font-size: 10px;
+      color: #dc2626;
+      background: #fee2e2;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .pmodal-status-pill {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+
+    .pmodal-status-pill.is-available {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .pmodal-status-pill.is-out-of-stock {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    /* Out of Stock Card & Button Styles */
+    .shop-card.is-out-of-stock {
+      opacity: 0.88;
+    }
+
+    .shop-card-status.is-out-of-stock {
+      color: #dc2626;
+    }
+
+    .shop-card-status.is-out-of-stock i {
+      background: #dc2626;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+    }
+
+    .shop-btn-add.is-disabled,
+    .shop-btn-add:disabled {
+      background: #94a3b8 !important;
+      color: #ffffff !important;
+      opacity: 0.65;
+      cursor: not-allowed !important;
+      pointer-events: none;
+      box-shadow: none !important;
+    }
+
+    /* Storefront Mode Indicator & Switcher */
+    .shop-mode-container {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .shop-mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .shop-mode-badge.is-api {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .shop-mode-badge.is-static {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    .shop-mode-dot {
+      font-size: 9px;
+      line-height: 1;
+    }
+
+    .shop-mode-badge.is-api .shop-mode-dot {
+      color: #0284c7;
+    }
+
+    .shop-mode-badge.is-static .shop-mode-dot {
+      color: #10b981;
+    }
+
+    .shop-mode-toggle-btn {
+      font-size: 11px;
+      padding: 2px 7px;
+      margin-left: 4px;
+      border-radius: 6px;
+      border: 1px solid currentColor;
+      background: rgba(255, 255, 255, 0.6);
+      color: inherit;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+
+    .shop-mode-toggle-btn:hover {
+      background: #ffffff;
+    }
+
     /* Order Summary Demo Modal */
     .order-demo-alert {
       background: #e8f2d4;
@@ -3832,6 +4117,7 @@
 
               <div class="shop-status-bar">
                 <div id="shop-product-count" aria-live="polite">กำลังโหลดรายการสินค้า...</div>
+                <div id="shop-mode-container" class="shop-mode-container"></div>
               </div>
             </div>
 
@@ -4088,6 +4374,7 @@
 
   <!-- Product Catalog & Cart Modules -->
   <script src="js/products-data.js"></script>
+  <script src="js/api-adapter.js"></script>
   <script src="js/shop-cart.js"></script>
 
   <!-- GSAP & ScrollTrigger -->
