@@ -88,7 +88,7 @@ function build() {
   Cache-Control: public, max-age=604800, immutable
 
 /js/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate
 `;
   fs.writeFileSync(path.join(DIST_DIR, '_headers'), headersContent, 'utf8');
 

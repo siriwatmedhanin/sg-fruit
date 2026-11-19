@@ -66,7 +66,7 @@
           return global.SG_PRODUCTION_API_BASE;
         }
       }
-      return null; // ไม่มี API ภายนอกที่ปลอดภัย ให้ใช้ Static Catalog
+      return 'https://staging-api.siriwatmedhanin.com/api'; // ปลอดภัยต่อ Staging และ Custom Domain อื่นๆ
     }
 
     if (global.SG_API_BASE_URL) return global.SG_API_BASE_URL;
@@ -98,7 +98,7 @@
       if (global.SG_PRODUCTION_API_ACTIVE === true && global.SG_PRODUCTION_API_BASE) {
         return 'production_api';
       }
-      return 'static'; // ค่าเริ่มต้นสำหรับ Production
+      return 'production_api'; // ค่าเริ่มต้นสำหรับ Production เพื่อดึงข้อมูลสินค้าสดจาก D1/R2 เสมอ
     }
 
     // บน Local Development: อนุญาตให้สลับด้วย Query Param หรือ LocalStorage เพื่อทดสอบระบบ
@@ -423,6 +423,8 @@
     isApiMode,
     isDevEnvironment,
     getMode: () => adapterState.mode,
+    getApiBaseUrl,
+    getBackendOrigin,
     setMode,
     toggleMode,
     fetchCatalog,

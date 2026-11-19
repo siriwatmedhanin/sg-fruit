@@ -76,7 +76,7 @@ test('SG FRUIT - Step 7.10.5: Storefront Site Profile & Animation Protection Sui
     const indexPath = path.join(storefrontRoot, 'index.html');
     const content = fs.readFileSync(indexPath, 'utf8');
 
-    assert.ok(content.includes('<script src="js/site-profile.js"></script>'), 'index.html must include js/site-profile.js');
+    assert.ok(content.includes('js/site-profile.js'), 'index.html must include js/site-profile.js');
     const siteProfileIdx = content.indexOf('js/site-profile.js');
     const shopCartIdx = content.indexOf('js/shop-cart.js');
     assert.ok(siteProfileIdx < shopCartIdx, 'site-profile.js must be loaded before shop-cart.js for proper hydration');

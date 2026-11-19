@@ -257,11 +257,17 @@
   async function initSiteProfile() {
     // If backend adapter provides an API base, use it; else fallback to relative /api
     let apiBase = '/api';
-    if (global.SGStorefrontApi && typeof global.SGStorefrontApi.getApiBaseUrl === 'function' && global.SGStorefrontApi.getApiBaseUrl()) {
+    if (global.SG_API_ADAPTER && typeof global.SG_API_ADAPTER.getApiBaseUrl === 'function' && global.SG_API_ADAPTER.getApiBaseUrl()) {
+      apiBase = global.SG_API_ADAPTER.getApiBaseUrl();
+    } else if (global.SGStorefrontApi && typeof global.SGStorefrontApi.getApiBaseUrl === 'function' && global.SGStorefrontApi.getApiBaseUrl()) {
       apiBase = global.SGStorefrontApi.getApiBaseUrl();
     } else if (global.location) {
       const hostname = (global.location.hostname || '').toLowerCase();
-      if (hostname.includes('staging.siriwatmedhanin.com') || hostname.includes('sg-fruit-storefront-staging.pages.dev')) {
+      if (
+        hostname.includes('staging.siriwatmedhanin.com') ||
+        hostname.includes('sg-fruit-storefront-staging.pages.dev') ||
+        hostname.includes('sg-fruit.siriwatmedhanin.com')
+      ) {
         apiBase = 'https://staging-api.siriwatmedhanin.com/api';
       } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
         apiBase = 'http://127.0.0.1:8787/api';
