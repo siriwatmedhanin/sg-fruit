@@ -50,8 +50,12 @@
   }
 
   function getApiBaseUrl() {
-    // บน Production: ห้ามเรียก localhost หรือ 127.0.0.1 เด็ดขาด
+    // บน Production หรือ Staging Domain:
     if (!isDevEnvironment()) {
+      const hostname = (global.location ? global.location.hostname : '').toLowerCase();
+      if (hostname.includes('staging.siriwatmedhanin.com') || hostname.includes('sg-fruit-storefront-staging.pages.dev')) {
+        return 'https://staging-api.siriwatmedhanin.com/api';
+      }
       if (global.SG_PRODUCTION_API_BASE && typeof global.SG_PRODUCTION_API_BASE === 'string') {
         const prodUrl = global.SG_PRODUCTION_API_BASE.toLowerCase();
         if (!prodUrl.includes('localhost') && !prodUrl.includes('127.0.0.1')) {
@@ -77,9 +81,12 @@
   }
 
   function determineInitialMode() {
-    // บน Production (เช่น sg-fruit.siriwatmedhanin.com หรือโดเมนออนไลน์):
-    // บังคับใช้ Static Mode เสมอ จนกว่าจะได้รับอนุมัติเปิดระบบ Production API ผ่านการตั้งค่าฝั่งเซิร์ฟเวอร์
+    // บน Production หรือ Staging:
     if (!isDevEnvironment()) {
+      const hostname = (global.location ? global.location.hostname : '').toLowerCase();
+      if (hostname.includes('staging.siriwatmedhanin.com') || hostname.includes('sg-fruit-storefront-staging.pages.dev')) {
+        return 'production_api';
+      }
       if (global.SG_PRODUCTION_API_ACTIVE === true && global.SG_PRODUCTION_API_BASE) {
         return 'production_api';
       }

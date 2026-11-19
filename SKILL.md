@@ -5,7 +5,7 @@ description: Comprehensive skill documentation and technical reference for SG FR
 
 # SG FRUIT – เอสจี ผลไม้ตามฤดูกาล (Scrollytelling Master Skill & Architecture Guide)
 
-เอกสาร Skill นี้บันทึกสถาปัตยกรรมโครงสร้างเว็บไซต์ พิกัดเรขาคณิต การปรับจูนสเกลภาพ การตั้งค่าแบรนด์ **SG FRUIT (เอสจี ผลไม้ตามฤดูกาล)** โลโก้ `Pic/Logo ตัวนูน-02.png` และการตั้งค่า **GSAP + ScrollTrigger** ทั้งหมดของโปรเจกต์ (`F:\Khet\งานส่วนตัว\mae-chawi-website\index.html`) ครอบคลุมการทำงานตั้งแต่ Step 1 ถึง Step 6 และ Cinematic Zoom Transition อย่างสมบูรณ์ 100%
+เอกสาร Skill นี้บันทึกสถาปัตยกรรมโครงสร้างเว็บไซต์ พิกัดเรขาคณิต การปรับจูนสเกลภาพ การตั้งค่าแบรนด์ **SG FRUIT (เอสจี ผลไม้ตามฤดูกาล)** โลโก้ `Pic/sg-fruit-logo.png (WebP: Pic/sg-fruit-logo.webp)` และการตั้งค่า **GSAP + ScrollTrigger** ทั้งหมดของโปรเจกต์ (`F:\Khet\งานส่วนตัว\mae-chawi-website\index.html`) ครอบคลุมการทำงานตั้งแต่ Step 1 ถึง Step 6 และ Cinematic Zoom Transition อย่างสมบูรณ์ 100%
 
 ---
 
@@ -33,7 +33,7 @@ flowchart TD
    - เมื่อเริ่ม Scroll ผลอะโวคาโดปลิดจากขั้ว ก้านขั้วดีดตัวกลับเล็กน้อย (`rotation: 3.5, scaleY: 0.92`) ก่อนจางหายไป
    - ฉากหลังสวนบนภูเขาเลื่อนขึ้นและจางออก ผลอะโวคาโดลูกเดิมหมุนตัวสลับซ้าย-ขวาอย่างสมดุลตามแรงโน้มถ่วง
 3. **Step 3 — ลูกอะโวคาโดตกลงบนเขียงไม้ (`68% .. 100%`)**:
-   - เขียงไม้สีอ่อน (`Pic/cutting-board.png.png`) เลื่อนขึ้นมารองรับ
+   - เขียงไม้สีอ่อน (`Pic/cutting-board.png (WebP: Pic/cutting-board.webp)`) เลื่อนขึ้นมารองรับ
    - ผลอะโวคาโดตกลงกระทบกึ่งกลางเขียงไม้ที่พิกัด X=52.2%, Y=65.0%
    - เด้ง 2 จังหวะ (Bounce 1 ลอยขึ้น 25% height, Bounce 2 ลอยขึ้น 9% height) พร้อมเงาสัมผัส (`.avocado-board-shadow`)
 4. **Step 4 — อะโวคาโดแยกออกเป็น 2 ซีก (`100% .. 150%`)**:
@@ -135,7 +135,7 @@ flowchart TD
 | **`public/assets/step1/step1-avocado-hanging-02.png`**| 1086 × 1448 | 3:4 | ผลห้อยบนกิ่งขวาล่าง แกว่งแบบลูกตุ้ม |
 | **`public/assets/step1/avocado-stem.png`** | 36 × 136 | 1:3.77 | ก้านขั้วไม้จริง เชื่อมใต้กิ่งลงมายังหัวผล |
 | **`public/assets/step1/avocado-whole.png`** | 2000 × 1695 | 1.18:1 | **ผลอะโวคาโดเดี่ยวจริง** ใช้ต่อเนื่องตลอด Step 1–3 |
-| **`Pic/cutting-board.png.png`** | 2000 × 1333 | 1.50:1 | เขียงไม้สีอ่อนธรรมชาติใน Step 3, 4, 5 และ 6 |
+| **`Pic/cutting-board.png (WebP: Pic/cutting-board.webp)`** | 2000 × 1333 | 1.50:1 | เขียงไม้สีอ่อนธรรมชาติใน Step 3, 4, 5 และ 6 |
 | **`Pic/avocado-halves.png`** | 2000 × 1538 | 1.30:1 | อะโวคาโดผ่า 2 ซีก แยกออกจากกันใน Step 4 |
 | **`Pic/avocado-slices-on-board2.png`** | 2000 × 1116 | 1.79:1 | อะโวคาโดสไลซ์ 3 กลุ่มบนเขียงใน Step 5 และเทลงจานใน Step 6 |
 | **`Pic/salad-plate.png`** | 2000 × 1333 | 1.50:1 | จานสลัดสดพร้อมเสิร์ฟใน Step 6 และ Cinematic Zoom |

@@ -1,0 +1,17 @@
+{
+  "name": "mae-chawi-website",
+  "version": "1.0.0",
+  "description": "SG FRUIT Storefront (Vanilla JS + GSAP Scrollytelling)",
+  "type": "module",
+  "scripts": {
+    "test": "node --test scripts/test_storefront_site_profile.js",
+    "build": "node scripts/build_storefront.js",
+    "verify": "node --test scripts/test_storefront_site_profile.js && node scripts/build_storefront.js"
+  },
+  "keywords": [
+    "sg-fruit",
+    "storefront"
+  ],
+  "author": "Siriwatmedhanin Group",
+  "license": "UNLICENSED"
+}

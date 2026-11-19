@@ -1,0 +1,18 @@
+# Build output (Clean static distribution for Cloudflare Pages)
+dist/
+
+# Dependencies
+node_modules/
+
+# Local Environment & Secrets
+.env
+.env.*
+.dev.vars
+.dev.vars.local
+
+# Temporary & Test artifacts
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

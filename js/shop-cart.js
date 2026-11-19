@@ -40,7 +40,8 @@
     savedScrollY: 0,
     isDrawerOpen: false,
     isProductModalOpen: false,
-    isOrderModalOpen: false
+    isOrderModalOpen: false,
+    isPolicyModalOpen: false
   };
 
   // Load persisted cart safely (supports both key and legacy id)
@@ -100,7 +101,7 @@
 
   // Body scroll lock that preserves exact scroll position without resetting ScrollTrigger
   function updateBodyScrollLock() {
-    const shouldLock = state.isDrawerOpen || state.isProductModalOpen || state.isOrderModalOpen;
+    const shouldLock = state.isDrawerOpen || state.isProductModalOpen || state.isOrderModalOpen || state.isPolicyModalOpen;
     const body = document.body;
     const html = document.documentElement;
     if (shouldLock) {
@@ -307,7 +308,7 @@
                 </button>
                 <button type="button" class="shop-btn-add${!isAvailable ? ' is-disabled' : ''}" data-action="add-to-cart" data-id="${item.id}" ${!isAvailable ? 'disabled' : ''} aria-label="${isAvailable ? `เพิ่ม ${item.name} ลงตะกร้า` : `${item.name} หมดชั่วคราว`}">
                   ${isAvailable ? ICONS.plus : ''}
-                  <span>${isAvailable ? 'เพิ่มลงตะกร้า' : 'หมดชั่วคราว'}</span>
+                  <span>${isAvailable ? 'ใส่ตะกร้า' : 'หมดชั่วคราว'}</span>
                 </button>
               </div>
             </div>
@@ -736,8 +737,15 @@
           </div>
           ${variantsHtml}
           <p class="pmodal-desc">${product.description || 'ผลไม้คุณภาพสดใหม่ คัดเกรดพิเศษจากแหล่งปลูกชั้นนำ'}</p>
-          <div class="pmodal-disclaimer">
-            <strong>หมายเหตุ:</strong> ข้อมูลสินค้าและราคาอยู่ระหว่างการปรับปรุง กรุณายืนยันกับร้านก่อนสั่งซื้อ
+          <div class="pmodal-trust-box">
+            <div class="pmodal-trust-pill">
+              <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>รับประกันเคลม 100% หากช้ำหรือเสียหาย</span>
+            </div>
+            <div class="pmodal-trust-pill">
+              <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
+              <span>แพ็กกันกระแทก &amp; ส่งด่วนคุมอุณหภูมิ</span>
+            </div>
           </div>
           <div class="pmodal-actions">
             <div class="cart-qty-control pmodal-qty" id="pmodal-qty-control">
@@ -996,17 +1004,45 @@
       })
       .join('');
 
+    // Format text for easy LINE ordering with complete details and customer input prompt
+    const lineOrderText = encodeURIComponent(
+      `สวัสดีครับ/ค่ะ สนใจสั่งซื้อผลไม้ SG FRUIT:\n` +
+      state.cart.map(i => `- ${i.name} (${i.unit || 'หน่วย'}): ${i.qty} ชิ้น (ชิ้นละ ฿${formatPrice(i.price)} = ฿${formatPrice(i.price * i.qty)})`).join('\n') +
+      `\nรวมทั้งหมด: ${totalItems} รายการ\nยอดรวมสินค้า: ฿${formatPrice(subtotal)}\n\n` +
+      `--- ข้อมูลผู้สั่งซื้อ (โปรดระบุ) ---\n` +
+      `ชื่อผู้รับ:\n` +
+      `เบอร์โทรศัพท์:\n` +
+      `ที่อยู่จัดส่ง:`
+    );
+
+    const rawLineId = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_id) || '@sgfruit';
+    const cleanLineId = String(rawLineId).replace(/[^a-zA-Z0-9_@.-]/g, '');
+    const rawLineUrl = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_url) || `https://line.me/R/ti/p/${cleanLineId}`;
+    const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${cleanLineId}`;
+    const lineOrderUrl = cleanLineUrl.includes('?') ? `${cleanLineUrl}&text=${lineOrderText}` : `${cleanLineUrl}?text=${lineOrderText}`;
+
     bodyEl.innerHTML = `
-      <div class="order-demo-alert" role="note">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-          <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-          <strong>สรุปรายการสินค้าสำหรับตรวจสอบ</strong>
+      <div class="order-summary-trust-card" role="region" aria-label="ข้อมูลการจัดส่งและชำระเงิน">
+        <div class="order-trust-grid">
+          <div class="order-trust-chip">
+            <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
+            <span>ส่งด่วนคุมอุณหภูมิ</span>
+          </div>
+          <div class="order-trust-chip">
+            <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>รับประกันเคลม 100%</span>
+          </div>
+          <div class="order-trust-chip">
+            <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 15h.01"/><path d="M10 15h2"/></svg>
+            <span>โอนผ่าน QR / บัญชีบริษัท</span>
+          </div>
         </div>
-        <p>ข้อมูลสินค้าและราคาอยู่ระหว่างการทดสอบระบบ สามารถสั่งซื้อล่วงหน้าหรือติดต่อร้านได้โดยตรง</p>
       </div>
+
       <div class="order-summary-list">
         ${rowsHtml}
       </div>
+
       <div class="order-summary-totals">
         <div class="order-summary-row">
           <span>จำนวนสินค้ารวม</span>
@@ -1017,8 +1053,22 @@
           <strong>฿${formatPrice(subtotal)}</strong>
         </div>
       </div>
-      <div class="order-summary-note">
-        * กรุณายืนยันรายการสินค้าและราคากับร้านค้าก่อนสั่งซื้อจริง
+
+      <div class="order-summary-actions" style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+        <a
+          href="${lineOrderUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="primary-cta order-line-btn"
+          id="order-line-confirm-btn"
+          style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;background:#06C755;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(6,199,85,0.25);"
+        >
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C6.48 2 2 5.82 2 10.53c0 2.91 1.7 5.48 4.31 6.94-.19.7-.68 2.54-.78 2.93-.12.48.18.47.37.35.16-.1 2.21-1.5 3.12-2.12.32.05.65.07.98.07 5.52 0 10-3.82 10-8.53S17.52 2 12 2z"/></svg>
+          <span>สั่งซื้อและส่งรายการเข้า LINE (${cleanLineId})</span>
+        </a>
+        <div class="order-summary-note" style="text-align:center;font-size:11px;color:var(--muted);line-height:1.5;margin-top:4px;">
+          * หมายเหตุ: การกดปุ่มนี้เป็นการเปิด LINE พร้อมข้อความรายการสินค้าเพื่อให้ลูกค้าส่งยืนยันกับเจ้าหน้าที่โดยตรง ยังไม่ใช่การตัดสต็อกหรือบันทึกคำสั่งซื้ออัตโนมัติในระบบ จนกว่าจะได้รับการยืนยันและชำระเงินเรียบร้อย
+        </div>
       </div>
     `;
 
@@ -1038,6 +1088,134 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     updateBodyScrollLock();
+  }
+
+  // Policy Content Data & Modal Management
+  const POLICIES = {
+    shipping: {
+      title: 'นโยบายการจัดส่ง & การรับประกันเคลมสินค้า [รอการยืนยันทางการ]',
+      html: `
+        <div style="background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;padding:8px 12px;border-radius:6px;margin-bottom:14px;font-size:11.5px;color:#1e40af;line-height:1.5;">
+          ℹ️ <strong>สถานะ: PENDING USER CONFIRMATION</strong> — นโยบายนี้จัดทำขึ้นเพื่อเตรียมความพร้อมสำหรับระบบร้านค้า โดยกระบวนการจริงจะต้องได้รับความเห็นชอบจากผู้บริหารและฝ่ายปฏิบัติการก่อนประกาศใช้งานจริงบน Production
+        </div>
+        <h4>1. มาตรฐานการจัดส่งผลไม้คัดสรรคุณภาพ</h4>
+        <p>SG FRUIT คัดสรรผลไม้และผักคุณภาพจากแหล่งปลูกชั้นนำ บรรจุด้วยวัสดุกันกระแทกหนาแน่นและระบบควบคุมคุณภาพ เพื่อปกป้องผลผลิตไม่ให้ช้ำหรือเสียหายระหว่างการขนส่ง</p>
+        <ul>
+          <li><strong>ระยะเวลาจัดส่ง:</strong> จัดส่งถึงปลายทางภายใน 1–2 วันทำการ (กทม.และปริมณฑล) และ 2–3 วันทำการ (ต่างจังหวัด)</li>
+          <li><strong>การติดตามพัสดุ:</strong> แจ้งเลขพัสดุผ่านทางข้อความ SMS และ LINE Official ทันทีที่จัดส่งออกจากคลังสินค้า</li>
+        </ul>
+
+        <h4>2. มาตรฐานการรับประกันคุณภาพผลผลิต</h4>
+        <p>ผลไม้ทุกลูกผ่านการคัดแยกก่อนบรรจุ หากพบปัญหาเน่าเสีย ช้ำ แตกหัก หรือไม่ตรงตามมาตรฐาน ทางร้านมีกระบวนการดูแลช่วยเหลือลูกค้า:</p>
+        <ul>
+          <li><strong>การแจ้งเคลม:</strong> ถ่ายภาพหรือคลิปวิดีโอผลไม้ที่เสียหาย พร้อมภาพใบปะหน้ากล่องพัสดุ</li>
+          <li><strong>ช่องทางติดต่อ:</strong> ทักแจ้งแอดมินทาง LINE Official: <strong>@sgfruit</strong> ภายใน 24 ชั่วโมงหลังจากได้รับสินค้า</li>
+          <li><strong>แนวทางชดเชย:</strong> จัดส่งสินค้ากล่องใหม่ทดแทน หรือโอนเงินคืนตามสัดส่วนความเสียหายตามนโยบายที่ร้านค้ากำหนด</li>
+        </ul>
+
+        <h4>3. คำแนะนำในการเก็บรักษา</h4>
+        <p>เมื่อได้รับผลไม้แล้ว แนะนำให้นำออกจากกล่องทันที ผลไม้ที่พร้อมทานควรนำแช่ตู้เย็น ส่วนผลไม้ที่ต้องรอสุก (เช่น อะโวคาโดบางสายพันธุ์) ควรวางไว้ที่อุณหภูมิห้องจนสุกพอดีก่อนนำเข้าตู้เย็น เพื่อรสชาติและเนื้อสัมผัสที่ดี</p>
+      `
+    },
+    privacy: {
+      title: 'นโยบายความเป็นส่วนตัว (Privacy Notice) [รอทบทวนทางกฎหมาย]',
+      html: `
+        <div style="background:rgba(217,119,6,0.1);border-left:3px solid #d97706;padding:8px 12px;border-radius:6px;margin-bottom:14px;font-size:11.5px;color:#92400e;line-height:1.5;">
+          ⚠️ <strong>สถานะ: PENDING LEGAL/USER REVIEW</strong> — ประกาศความเป็นส่วนตัวนี้จัดทำขึ้นเป็นร่างเบื้องต้นตามโครงสร้าง พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) เพื่อเตรียมความพร้อมของระบบร้านค้า และต้องผ่านการตรวจสอบความถูกต้องโดยที่ปรึกษากฎหมายก่อนถือเป็นเอกสารมีผลบังคับใช้สมบูรณ์
+        </div>
+        <h4>1. ข้อมูลส่วนบุคคลที่เก็บรวบรวม</h4>
+        <p>SG FRUIT เก็บรวบรวมข้อมูลเท่าที่จำเป็นเพื่อการให้บริการคำสั่งซื้อและการจัดส่งสินค้า ได้แก่: ชื่อ-นามสกุล, ที่อยู่สำหรับจัดส่ง, หมายเลขโทรศัพท์สำหรับติดต่อส่งของ, บัญชี LINE หรือช่องทางติดต่อสำหรับการประสานงาน และประวัติรายการสั่งซื้อ</p>
+
+        <h4>2. วัตถุประสงค์และฐานทางกฎหมายในการประมวลผล (Lawful Basis)</h4>
+        <ul>
+          <li><strong>ฐานสัญญา (Contractual Basis):</strong> เพื่อดำเนินการบรรจุ ยืนยันการชำระเงิน และส่งมอบสินค้าตามคำสั่งซื้อของลูกค้า</li>
+          <li><strong>ฐานหน้าที่ตามกฎหมาย (Legal Obligation):</strong> เพื่อการจัดทำเอกสารทางบัญชี การเงิน และภาษีอากรตามที่กฎหมายกำหนด</li>
+          <li><strong>ฐานประโยชน์อันชอบธรรม (Legitimate Interest):</strong> เพื่อการบริการหลังการขาย การประสานงานการเคลม และการปรับปรุงคุณภาพบริการ</li>
+        </ul>
+
+        <h4>3. การเปิดเผยข้อมูลแก่บุคคลภายนอก (Data Processors)</h4>
+        <p>เราเปิดเผยข้อมูลเฉพาะที่จำเป็นอย่างยิ่งให้แก่ผู้ให้บริการจัดส่งพัสดุและคู่ค้าด้านโลจิสติกส์ที่ได้รับมอบหมาย เพื่อให้สามารถนำส่งพัสดุถึงมือท่านได้อย่างถูกต้องปลอดภัย โดยไม่มีการจำหน่าย แลกเปลี่ยน หรือเปิดเผยแก่บุคคลภายนอกอื่นโดยไม่ได้รับความยินยอม</p>
+
+        <h4>4. ระยะเวลาการเก็บรักษาข้อมูล (Data Retention Period)</h4>
+        <p>ข้อมูลที่เกี่ยวข้องกับการสั่งซื้อจะถูกเก็บรักษาไว้ตามระยะเวลาที่จำเป็นต่อการบรรลุวัตถุประสงค์ในการให้บริการ และตามระยะเวลาที่กฎหมายบัญชีและภาษีอากรกำหนด (โดยทั่วไป 5–10 ปี) เมื่อพ้นระยะเวลาดังกล่าว ข้อมูลจะถูกทำลายหรือทำให้เป็นข้อมูลที่ไม่สามารถระบุตัวบุคคลได้</p>
+
+        <h4>5. สิทธิของเจ้าของข้อมูลส่วนบุคคล (Data Subject Rights)</h4>
+        <p>ท่านมีสิทธิตามกฎหมาย PDPA ในการขอเข้าถึง ขอรับสำเนา ขอแก้ไขข้อมูลให้ถูกต้อง ขอโอนย้าย ขอคัดค้าน ขอระงับการใช้ หรือขอลบข้อมูลส่วนบุคคลของท่าน รวมถึงสิทธิในการถอนความยินยอม</p>
+
+        <h4>6. ช่องทางการติดต่อ การใช้สิทธิ และการร้องเรียน</h4>
+        <p>ท่านสามารถติดต่อเจ้าหน้าที่คุ้มครองข้อมูลหรือแจ้งใช้สิทธิต่างๆ ได้ผ่าน LINE Official: <strong>@sgfruit</strong> ในเวลาทำการ (จันทร์–เสาร์ 08:30–17:30 น.) และหากพบการประมวลผลที่ไม่เป็นไปตามกฎหมาย ท่านมีสิทธิยื่นคำร้องเรียนต่อสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.) ตามช่องทางของหน่วยงานกำกับดูแล</p>
+      `
+    }
+  };
+
+  function openPolicyModal(type) {
+    const modal = document.getElementById('policy-modal');
+    const titleEl = document.getElementById('policy-modal-title');
+    const contentEl = document.getElementById('policy-modal-content');
+    if (!modal) return;
+
+    const data = POLICIES[type] || POLICIES.shipping;
+    if (titleEl) titleEl.textContent = data.title;
+    if (contentEl) contentEl.innerHTML = data.html;
+
+    state.isPolicyModalOpen = true;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    updateBodyScrollLock();
+
+    const closeBtn = document.getElementById('policy-modal-close');
+    if (closeBtn) setTimeout(() => closeBtn.focus({ preventScroll: true }), 50);
+  }
+
+  function closePolicyModal() {
+    const modal = document.getElementById('policy-modal');
+    if (!modal) return;
+    state.isPolicyModalOpen = false;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    updateBodyScrollLock();
+  }
+
+  function initPolicyModals() {
+    const shippingBtn = document.getElementById('policy-shipping-btn');
+    const privacyBtn = document.getElementById('policy-privacy-btn');
+    const closeBtn = document.getElementById('policy-modal-close');
+    const modal = document.getElementById('policy-modal');
+    const backdrop = document.getElementById('policy-modal-backdrop');
+
+    if (shippingBtn) {
+      shippingBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPolicyModal('shipping');
+      });
+    }
+
+    if (privacyBtn) {
+      privacyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPolicyModal('privacy');
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        closePolicyModal();
+      });
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        closePolicyModal();
+      });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closePolicyModal();
+        }
+      });
+    }
   }
 
   // โหลดแคตตาล็อกใหม่ (เมื่อสลับโหมด หรือเมื่อ API พร้อม)
@@ -1271,7 +1449,9 @@
     // Global Keydown Handler: Escape & Gallery Arrow Navigation
     global.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (state.isOrderModalOpen) {
+        if (state.isPolicyModalOpen) {
+          closePolicyModal();
+        } else if (state.isOrderModalOpen) {
           closeOrderSummaryModal();
         } else if (state.isProductModalOpen) {
           closeProductModal();
@@ -1288,6 +1468,9 @@
         }
       }
     });
+
+    // Initialize Policy Modals
+    initPolicyModals();
   }
 
   // Expose public API for testing, automation & integration
@@ -1302,6 +1485,8 @@
     closeProductModal,
     openOrderSummaryModal,
     closeOrderSummaryModal,
+    openPolicyModal,
+    closePolicyModal,
     reloadCatalog,
     setCategory: (cat) => {
       state.category = cat || 'all';
