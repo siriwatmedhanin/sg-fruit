@@ -53,7 +53,11 @@
     // บน Production หรือ Staging Domain:
     if (!isDevEnvironment()) {
       const hostname = (global.location ? global.location.hostname : '').toLowerCase();
-      if (hostname.includes('staging.siriwatmedhanin.com') || hostname.includes('sg-fruit-storefront-staging.pages.dev')) {
+      if (
+        hostname.includes('staging.siriwatmedhanin.com') ||
+        hostname.includes('sg-fruit-storefront-staging.pages.dev') ||
+        hostname.includes('sg-fruit.siriwatmedhanin.com')
+      ) {
         return 'https://staging-api.siriwatmedhanin.com/api';
       }
       if (global.SG_PRODUCTION_API_BASE && typeof global.SG_PRODUCTION_API_BASE === 'string') {
@@ -84,7 +88,11 @@
     // บน Production หรือ Staging:
     if (!isDevEnvironment()) {
       const hostname = (global.location ? global.location.hostname : '').toLowerCase();
-      if (hostname.includes('staging.siriwatmedhanin.com') || hostname.includes('sg-fruit-storefront-staging.pages.dev')) {
+      if (
+        hostname.includes('staging.siriwatmedhanin.com') ||
+        hostname.includes('sg-fruit-storefront-staging.pages.dev') ||
+        hostname.includes('sg-fruit.siriwatmedhanin.com')
+      ) {
         return 'production_api';
       }
       if (global.SG_PRODUCTION_API_ACTIVE === true && global.SG_PRODUCTION_API_BASE) {
