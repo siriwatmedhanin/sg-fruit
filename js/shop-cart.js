@@ -270,10 +270,11 @@
         return `
           <article class="shop-card${!isAvailable ? ' is-out-of-stock' : ''}" data-sku="${item.sku}" data-product-id="${item.id}" data-category="${item.category}">
             <div class="shop-card-media" data-action="detail" data-id="${item.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${item.name}">
-              <div class="shop-card-badges-top">
-                <span class="shop-badge shop-badge-cat">${item.category}</span>
-                ${hasSeasonalTag ? '<span class="shop-badge shop-badge-seasonal">ตามฤดูกาล</span>' : ''}
-              </div>
+              ${hasSeasonalTag ? `
+                <div class="shop-card-badges-top">
+                  <span class="shop-badge shop-badge-seasonal">ตามฤดูกาล</span>
+                </div>
+              ` : ''}
 
               <img
                 class="shop-card-img"
@@ -286,7 +287,6 @@
             </div>
             <div class="shop-card-body">
               <div class="shop-card-meta-row">
-                <span class="shop-card-sku">${item.sku}</span>
                 <span class="shop-card-status ${statusClass}">
                   <i aria-hidden="true"></i> ${statusText}
                 </span>
