@@ -1953,6 +1953,10 @@
       return;
     }
     const latest = recents[0];
+    const displayEl = document.getElementById('recent-order-number-display');
+    if (displayEl) {
+      displayEl.textContent = latest.orderNumber;
+    }
     const textEl = document.getElementById('recent-order-pill-text');
     if (textEl) {
       textEl.textContent = `ติดตามออเดอร์ล่าสุด (${latest.orderNumber})`;
@@ -2120,15 +2124,79 @@
         }
         return json.data;
       })
-      .then((data) => {
+      .then((raw) => {
+        if (!raw) throw new Error('ไม่พบข้อมูลคำสั่งซื้อ');
+
+        // Extract normalized data whether backend sends nested or flat schema
+        const orderNumberVal = raw.order_no || raw.orderNumber || orderNo.trim();
+        const createdAtVal = raw.created_at || raw.createdAt || '';
+        const paymentMethodVal = raw.payment_method || raw.paymentMethod || 'โอนเงินผ่านบัญชีธนาคาร';
+
+        let statusObj = raw.status;
+        let statusLabel = '';
+        let statusCode = 'pending';
+        let statusStep = 1;
+        let statusDesc = '';
+
+        if (statusObj && typeof statusObj === 'object') {
+          statusLabel = statusObj.label || '';
+          statusCode = statusObj.code || statusObj.key || 'pending';
+          statusStep = Number(statusObj.current_step ?? statusObj.step ?? 1);
+          statusDesc = statusObj.description || '';
+        } else if (typeof statusObj === 'string') {
+          statusCode = statusObj;
+          statusLabel = statusObj;
+          statusStep = (statusObj === 'shipped') ? 4 : ((statusObj === 'processing' || statusObj === 'packing') ? 3 : ((statusObj === 'confirmed') ? 2 : 1));
+        }
+
+        const trackingObj = raw.tracking || {};
+        const trackingNumber = trackingObj.tracking_no || raw.tracking_no || raw.trackingNumber || null;
+        const shippingProvider = trackingObj.shipping_provider || raw.shipping_provider || raw.carrier || 'จัดส่งแบบปกติ';
+        const trackingUrl = trackingObj.tracking_url || raw.tracking_url || raw.trackingUrl || null;
+
+        const recipientObj = raw.recipient || {};
+        const customerName = recipientObj.name || raw.customer_name || raw.customerName || '-';
+        const recipientPhone = recipientObj.phone || raw.phone || cleanPhone;
+        const maskedAddress = recipientObj.address || raw.customer_address || raw.maskedAddress || '-';
+
+        const pricingObj = raw.pricing || {};
+        const subtotalAmount = Number(pricingObj.subtotal ?? raw.sku_total_amount ?? raw.subtotalAmount ?? 0);
+        const shippingFee = Number(pricingObj.shipping_fee ?? raw.shipping_fee_after_discount ?? raw.shippingFee ?? 0);
+        const discountAmount = Number(pricingObj.discount_amount ?? raw.discount_amount ?? raw.discountAmount ?? 0);
+        const totalAmount = Number(pricingObj.total_amount ?? raw.total_amount ?? raw.totalAmount ?? (subtotalAmount + shippingFee - discountAmount));
+
+        const items = Array.isArray(raw.items) ? raw.items : [];
+
+        const normalized = {
+          orderNumber: orderNumberVal,
+          createdAt: createdAtVal,
+          paymentMethod: paymentMethodVal,
+          statusCode,
+          statusLabel,
+          statusStep,
+          statusDesc,
+          trackingNumber,
+          shippingProvider,
+          trackingUrl,
+          customerName,
+          phone: recipientPhone,
+          maskedAddress,
+          subtotalAmount,
+          shippingFee,
+          discountAmount,
+          totalAmount,
+          items
+        };
+
         saveRecentOrder({
-          orderNumber: data.orderNumber,
+          orderNumber: normalized.orderNumber,
           phone: cleanPhone,
-          totalAmount: data.totalAmount,
-          paymentMethod: data.paymentMethod,
-          createdAt: data.createdAt
+          totalAmount: normalized.totalAmount,
+          paymentMethod: normalized.paymentMethod,
+          createdAt: normalized.createdAt
         });
-        renderTrackingResult(resultBox, data, containerEl);
+
+        renderTrackingResult(resultBox, normalized, containerEl);
       })
       .catch((err) => {
         resultBox.innerHTML = `
@@ -2150,18 +2218,8 @@
   }
 
   function renderTrackingResult(resultBox, data, containerEl) {
-    const rawStatus = data.status || 'pending';
-    const statusMap = {
-      pending: { label: 'รอตรวจสอบชำระเงิน', badgeClass: 'checkout-status-pending', stepIdx: 1 },
-      confirmed: { label: 'ชำระเงินเรียบร้อยแล้ว', badgeClass: 'checkout-status-confirmed', stepIdx: 2 },
-      processing: { label: 'กำลังแพ็กสินค้า', badgeClass: 'checkout-status-processing', stepIdx: 3 },
-      shipped: { label: 'จัดส่งแล้ว', badgeClass: 'checkout-status-shipped', stepIdx: 4 },
-      cancelled: { label: 'ยกเลิกแล้ว', badgeClass: 'checkout-status-cancelled', stepIdx: 0 }
-    };
-
-    const isCod = data.paymentMethod === 'cod';
-    const currentStatusInfo = statusMap[rawStatus] || { label: rawStatus, badgeClass: '', stepIdx: 1 };
-    const currentStepIdx = isCod && rawStatus === 'pending' ? 1 : currentStatusInfo.stepIdx;
+    const isCod = data.paymentMethod && (data.paymentMethod.includes('COD') || data.paymentMethod.includes('ปลายทาง'));
+    const statusStep = Number(data.statusStep || 1);
 
     const steps = [
       { num: 1, title: 'ได้รับคำสั่งซื้อ', desc: 'บันทึกเข้าระบบ' },
@@ -2170,19 +2228,19 @@
       { num: 4, title: 'จัดส่งแล้ว', desc: 'ส่งมอบให้ขนส่ง' }
     ];
 
-    const progressPercent = currentStepIdx <= 1 ? 0 : Math.min(100, Math.round(((currentStepIdx - 1) / (steps.length - 1)) * 100));
+    const progressPercent = statusStep <= 1 ? 0 : Math.min(100, Math.round(((statusStep - 1) / (steps.length - 1)) * 100));
 
-    const stepsHtml = steps.map((s, idx) => {
+    const stepsHtml = steps.map((s) => {
       let stateClass = '';
-      if (currentStepIdx > s.num) {
+      if (statusStep > s.num) {
         stateClass = 'is-completed';
-      } else if (currentStepIdx === s.num) {
+      } else if (statusStep === s.num) {
         stateClass = 'is-active';
       }
       return `
         <div class="tracking-step ${stateClass}">
           <div class="tracking-step-circle">
-            ${currentStepIdx > s.num ? '✓' : s.num}
+            ${statusStep > s.num ? '✓' : s.num}
           </div>
           <div class="tracking-step-label">${s.title}</div>
         </div>
@@ -2195,7 +2253,7 @@
         <div style="margin: 16px 0; padding: 14px 16px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
           <div>
             <div style="font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 2px;">
-              🚚 พัสดุจัดส่งแล้ว (${escapeHtml(data.carrier || 'ไปรษณีย์ไทย/Flash')})
+              🚚 พัสดุจัดส่งแล้ว (${escapeHtml(data.shippingProvider || 'ไปรษณีย์ไทย/Flash')})
             </div>
             <div style="font-size: 16px; font-weight: 800; color: #14532d; letter-spacing: 0.5px;">
               ${escapeHtml(data.trackingNumber)}
@@ -2227,19 +2285,25 @@
       year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
     }) : '-';
 
-    const itemsHtml = Array.isArray(data.items) ? data.items.map(item => `
+    const itemsHtml = Array.isArray(data.items) && data.items.length > 0 ? data.items.map(item => `
       <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px;">
         <div>
-          <strong style="color: var(--forest);">${escapeHtml(item.productName || item.product_name || 'สินค้า')}</strong>
-          <span style="color: var(--muted); font-size: 12px;"> × ${item.quantity} ${item.sku ? `(${escapeHtml(item.sku)})` : ''}</span>
+          <strong style="color: var(--forest);">${escapeHtml(item.product_name || item.productName || 'สินค้า')}</strong>
+          <span style="color: var(--muted); font-size: 12px;"> × ${item.quantity} ${item.unit ? `(${escapeHtml(item.unit)})` : (item.sku ? `(${escapeHtml(item.sku)})` : '')}</span>
         </div>
         <div style="font-weight: 700; color: var(--ink);">
           ฿${Number(item.subtotal || (item.price * item.quantity)).toLocaleString()}
         </div>
       </div>
-    `).join('') : '';
+    `).join('') : '<div style="color: var(--muted); font-size: 12px; padding: 6px 0;">ไม่มีรายการสินค้า</div>';
 
-    const paymentLabel = isCod ? 'เก็บเงินปลายทาง (COD)' : 'โอนเงินชำระ (QR PromptPay)';
+    const displayStatusLabel = data.statusLabel || (statusStep === 4 ? 'จัดส่งแล้ว' : (statusStep === 3 ? 'กำลังแพ็กสินค้า' : (statusStep === 2 ? 'ยืนยันคำสั่งซื้อแล้ว' : 'รอตรวจสอบยอดเงิน/สลิป')));
+
+    const badgeStyle = statusStep === 4
+      ? 'background: #dcfce7; color: #15803d;'
+      : (statusStep === 3
+        ? 'background: #eff6ff; color: #1d4ed8;'
+        : 'background: #fef3c7; color: #b45309;');
 
     const siteProfile = global.__SG_SITE_PROFILE__ || {};
     const cleanLineId = (siteProfile.line_oa_id || '@sgfruit').replace(/^@?/, '@');
@@ -2260,10 +2324,10 @@
             <div style="font-size: 12px; color: #64748b; margin-top: 2px;">สั่งซื้อเมื่อ: ${formattedDate}</div>
           </div>
           <div style="text-align: right;">
-            <span style="display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: ${rawStatus === 'shipped' ? '#dcfce7; color: #15803d;' : (rawStatus === 'processing' ? '#eff6ff; color: #1d4ed8;' : '#fef3c7; color: #b45309;')}">
-              ● ${currentStatusInfo.label}
+            <span style="display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; ${badgeStyle}">
+              ● ${escapeHtml(displayStatusLabel)}
             </span>
-            <div style="font-size: 11.5px; color: var(--muted); margin-top: 4px;">${paymentLabel}</div>
+            <div style="font-size: 11.5px; color: var(--muted); margin-top: 4px;">${escapeHtml(data.paymentMethod)}</div>
           </div>
         </div>
 
@@ -2310,15 +2374,15 @@
           <div style="font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; padding-top: 6px;">
             <div style="display: flex; justify-content: space-between;">
               <span>ยอดรวมสินค้า:</span>
-              <span>฿${Number(data.subtotalAmount || data.totalAmount).toLocaleString()}</span>
+              <span>฿${Number(data.subtotalAmount || 0).toLocaleString()}</span>
             </div>
-            ${data.shippingFee ? `
+            ${data.shippingFee > 0 ? `
               <div style="display: flex; justify-content: space-between;">
                 <span>ค่าจัดส่ง:</span>
                 <span>฿${Number(data.shippingFee).toLocaleString()}</span>
               </div>
             ` : '<div style="display: flex; justify-content: space-between;"><span>ค่าจัดส่ง:</span><span style="color: #16a34a; font-weight: 700;">ส่งฟรี</span></div>'}
-            ${data.discountAmount ? `
+            ${data.discountAmount > 0 ? `
               <div style="display: flex; justify-content: space-between; color: #16a34a;">
                 <span>ส่วนลดโอนชำระ:</span>
                 <span>-฿${Number(data.discountAmount).toLocaleString()}</span>
@@ -2326,7 +2390,7 @@
             ` : ''}
             <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; color: var(--forest); padding-top: 6px; border-top: 1.5px solid #e2e8f0; margin-top: 4px;">
               <span>ยอดสุทธิ:</span>
-              <span style="color: #15803d;">฿${Number(data.totalAmount).toLocaleString()}</span>
+              <span style="color: #15803d;">฿${Number(data.totalAmount || 0).toLocaleString()}</span>
             </div>
           </div>
         </div>
