@@ -4,14 +4,17 @@
   "description": "SG FRUIT Storefront (Vanilla JS + GSAP Scrollytelling)",
   "type": "module",
   "scripts": {
-    "test": "node --test scripts/test_storefront_site_profile.js",
+    "test": "node --test scripts/test_storefront_site_profile.js scripts/test_thai_address.js",
     "build": "node scripts/build_storefront.js",
-    "verify": "node --test scripts/test_storefront_site_profile.js && node scripts/build_storefront.js"
+    "verify": "node --test scripts/test_storefront_site_profile.js scripts/test_thai_address.js && node scripts/build_storefront.js"
   },
   "keywords": [
     "sg-fruit",
     "storefront"
   ],
   "author": "Siriwatmedhanin Group",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "thai-address-database": "^0.0.33"
+  }
 }

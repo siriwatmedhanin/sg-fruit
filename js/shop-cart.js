@@ -1460,6 +1460,23 @@
         });
       });
 
+      // Bind Thai Address Autocomplete across all 4 fields
+      if (global.THAI_ADDRESS_AUTOCOMPLETE && typeof global.THAI_ADDRESS_AUTOCOMPLETE.bindAutocomplete === 'function') {
+        global.THAI_ADDRESS_AUTOCOMPLETE.bindAutocomplete({
+          subdistrictEl: document.getElementById('checkout-subdistrict'),
+          districtEl: document.getElementById('checkout-district'),
+          provinceEl: document.getElementById('checkout-province'),
+          postalEl: document.getElementById('checkout-postal'),
+          onSelect: (item) => {
+            checkoutData.subdistrict = item.district;
+            checkoutData.district = item.amphoe;
+            checkoutData.province = item.province;
+            checkoutData.postalCode = item.zipcode;
+            saveCheckoutInfo(checkoutData);
+          }
+        });
+      }
+
       // Confirm Order Handler
       if (confirmBtn) {
         confirmBtn.addEventListener('click', async () => {
@@ -1716,6 +1733,9 @@
   function closeOrderSummaryModal() {
     const modal = document.getElementById('order-summary-modal');
     if (!modal) return;
+    if (global.THAI_ADDRESS_AUTOCOMPLETE && typeof global.THAI_ADDRESS_AUTOCOMPLETE.closeAllDropdowns === 'function') {
+      global.THAI_ADDRESS_AUTOCOMPLETE.closeAllDropdowns();
+    }
     state.isOrderModalOpen = false;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');

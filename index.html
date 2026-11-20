@@ -3453,10 +3453,119 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      position: relative;
     }
 
     .checkout-field.is-full {
       grid-column: 1 / -1;
+    }
+
+    /* ================= THAI ADDRESS AUTOCOMPLETE DROPDOWN ================= */
+    .thai-address-dropdown {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: #ffffff;
+      border: 1.5px solid #22c55e;
+      border-radius: 12px;
+      box-shadow: 0 12px 28px rgba(22, 101, 52, 0.18);
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 4px;
+      animation: thaiAddressFadeIn 0.15s ease-out;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @keyframes thaiAddressFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .thai-address-dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--ink);
+      transition: background 0.12s ease, color 0.12s ease;
+      border-bottom: 1px solid #f1f5f9;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .thai-address-dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .thai-address-dropdown-item:hover,
+    .thai-address-dropdown-item:focus {
+      background: #f0fdf4;
+      color: #15803d;
+      outline: none;
+    }
+
+    .thai-address-item-crumbs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px;
+      line-height: 1.4;
+      min-width: 0;
+    }
+
+    .thai-address-crumb-district {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .thai-address-dropdown-item:hover .thai-address-crumb-district,
+    .thai-address-dropdown-item:focus .thai-address-crumb-district {
+      color: #15803d;
+    }
+
+    .thai-address-crumb-sep {
+      color: #94a3b8;
+      font-size: 12px;
+      margin: 0 4px;
+      font-weight: 600;
+    }
+
+    .thai-address-crumb-amphoe,
+    .thai-address-crumb-province {
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .thai-address-dropdown-item:hover .thai-address-crumb-amphoe,
+    .thai-address-dropdown-item:hover .thai-address-crumb-province,
+    .thai-address-dropdown-item:focus .thai-address-crumb-amphoe,
+    .thai-address-dropdown-item:focus .thai-address-crumb-province {
+      color: #166534;
+    }
+
+    .thai-address-zip-pill {
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: 800;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 2px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
     }
 
     .checkout-label {
@@ -5109,10 +5218,11 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <!-- Product Catalog & Cart Modules -->
-  <script src="js/products-data.js?v=20261120-v2"></script>
-  <script src="js/api-adapter.js?v=20261120-v2"></script>
-  <script src="js/site-profile.js?v=20261120-v2"></script>
-  <script src="js/shop-cart.js?v=20261120-v2"></script>
+  <script src="js/products-data.js?v=20261120-v3"></script>
+  <script src="js/api-adapter.js?v=20261120-v3"></script>
+  <script src="js/site-profile.js?v=20261120-v3"></script>
+  <script src="js/thai-address.js?v=20261120-v3"></script>
+  <script src="js/shop-cart.js?v=20261120-v3"></script>
 
   <!-- GSAP & ScrollTrigger -->
   <script src="js/gsap.min.js"></script>
