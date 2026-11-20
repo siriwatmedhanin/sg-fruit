@@ -16,7 +16,8 @@ import {
   Sparkles
 } from 'lucide-react';
 import type { AuthRole, SiteProfile, SiteProfileFormData } from '../types';
-import { fetchAdminSiteProfile, updateAdminSiteProfile, uploadSiteAsset } from '../services/api';
+import { fetchAdminSiteProfile, updateAdminSiteProfile, uploadSiteAsset, resolveImageUrl } from '../services/api';
+import { LogoCropperModal } from './LogoCropperModal';
 
 interface SiteProfileViewProps {
   role: AuthRole;
@@ -60,6 +61,9 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<'brand' | 'contact' | 'social' | 'announcement' | 'footer'>('brand');
+
+  const [logoCropperFile, setLogoCropperFile] = useState<File | null>(null);
+  const [isCropperModalOpen, setIsCropperModalOpen] = useState<boolean>(false);
 
   const logoInputRef = useRef<HTMLInputElement>(null);
   const faviconInputRef = useRef<HTMLInputElement>(null);
@@ -205,6 +209,34 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
     } finally {
       setSaving(false);
     }
+  };
+
+  // Handle Logo Selection (Open Cropper Modal)
+  const handleLogoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      setErrorMessage('ขนาดไฟล์เกินขีดจำกัดสำหรับโลโก้ (สูงสุด 2MB)');
+      if (logoInputRef.current) logoInputRef.current.value = '';
+      return;
+    }
+
+    if (!/^image\/(png|webp|jpe?g)$/i.test(file.type)) {
+      setErrorMessage('กรุณาเลือกไฟล์ภาพ PNG, WebP หรือ JPG เท่านั้น');
+      if (logoInputRef.current) logoInputRef.current.value = '';
+      return;
+    }
+
+    setLogoCropperFile(file);
+    setIsCropperModalOpen(true);
+    if (logoInputRef.current) logoInputRef.current.value = '';
+  };
+
+  const handleConfirmCroppedLogo = async (croppedFile: File) => {
+    await handleFileUpload('logo', croppedFile);
+    setIsCropperModalOpen(false);
+    setLogoCropperFile(null);
   };
 
   // Handle Asset Upload
@@ -397,25 +429,40 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
 
               {/* Logo Upload & URL */}
               <div style={{ borderTop: '1px solid var(--line)', paddingTop: '16px', marginBottom: '16px' }}>
-                <label className="form-label" style={{ fontWeight: '600' }}>โลโก้ร้านค้า (Store Logo: WebP / PNG, สูงสุด 2MB)</label>
+                <label className="form-label" style={{ fontWeight: '600' }}>โลโก้ร้านค้า (Store Logo: WebP / PNG / JPG, ตัดกรอบวงกลม)</label>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                  <div style={{ width: '80px', height: '80px', borderRadius: '8px', border: '1px solid var(--line)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      borderRadius: '50%',
+                      border: '2px solid var(--forest, #214d34)',
+                      background: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      flexShrink: 0,
+                    }}
+                  >
                     {formData.logo_url ? (
-                      <img src={formData.logo_url} alt="Logo" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                      <img
+                        src={resolveImageUrl(formData.logo_url)}
+                        alt="Logo"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
                     ) : (
-                      <span style={{ fontSize: '12px', color: '#888' }}>ไม่มีโลโก้</span>
+                      <span style={{ fontSize: '11px', color: '#888', textAlign: 'center' }}>ไม่มีโลโก้</span>
                     )}
                   </div>
                   <div style={{ flex: 1 }}>
                     <input
                       type="file"
                       ref={logoInputRef}
-                      accept="image/webp,image/png"
+                      accept="image/webp,image/png,image/jpeg,image/jpg"
                       style={{ display: 'none' }}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) handleFileUpload('logo', file);
-                      }}
+                      onChange={handleLogoSelect}
                     />
                     <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
                       <button
@@ -425,7 +472,7 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
                         disabled={uploadingAsset === 'logo'}
                         style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                       >
-                        <Upload size={14} /> {uploadingAsset === 'logo' ? 'กำลังอัปโหลด...' : 'อัปโหลด WebP/PNG'}
+                        <Upload size={14} /> {uploadingAsset === 'logo' ? 'กำลังอัปโหลด...' : 'Crop & อัปโหลดโลโก้'}
                       </button>
                     </div>
                     <input
@@ -882,6 +929,20 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
           </div>
         </div>
       </div>
+
+      {/* LOGO CROPPER & LIVE PREVIEW MODAL */}
+      {isCropperModalOpen && logoCropperFile && (
+        <LogoCropperModal
+          isOpen={isCropperModalOpen}
+          imageFile={logoCropperFile}
+          onClose={() => {
+            setIsCropperModalOpen(false);
+            setLogoCropperFile(null);
+          }}
+          onConfirm={handleConfirmCroppedLogo}
+          uploading={uploadingAsset === 'logo'}
+        />
+      )}
     </div>
   );
 };

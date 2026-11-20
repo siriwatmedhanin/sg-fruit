@@ -124,4 +124,31 @@ test('SG FRUIT - Step 7.10.5: Admin Site Profile & Store Settings Suite', async 
     assert.ok(appContent.includes('<SiteProfileView'), 'App.tsx must render SiteProfileView');
     assert.ok(appContent.includes("currentTab === 'settings'"), 'App.tsx must handle settings tab');
   });
+
+  // 6. Interactive Circular Logo Cropper Modal
+  await t.test('6.1 Logo Cropper: Modal component exists with Circular Mask, Zoom, Pan & Live Storefront Preview', async () => {
+    const cropperPath = path.join(adminRoot, 'src', 'components', 'LogoCropperModal.tsx');
+    assert.ok(fs.existsSync(cropperPath), 'LogoCropperModal.tsx file must exist');
+
+    const cropperContent = fs.readFileSync(cropperPath, 'utf8');
+    assert.ok(cropperContent.includes('export const LogoCropperModal'), 'LogoCropperModal must be exported');
+    assert.ok(cropperContent.includes('CROP_RADIUS'), 'Must define circular crop radius');
+    assert.ok(cropperContent.includes('handleMouseDown') && cropperContent.includes('handleMouseMove'), 'Must support interactive mouse drag');
+    assert.ok(cropperContent.includes('handleTouchStart') && cropperContent.includes('handleTouchMove'), 'Must support touch pan on mobile');
+    assert.ok(cropperContent.includes('ZoomIn') && cropperContent.includes('ZoomOut'), 'Must have zoom slider and +/- buttons');
+    assert.ok(cropperContent.includes('Cormorant Garamond') && cropperContent.includes('SG FRUIT'), 'Must have Live Storefront Header preview');
+    assert.ok(cropperContent.includes('512'), 'Must export 512x512 high-res image');
+    assert.ok(cropperContent.includes('image/webp'), 'Must export WebP format for optimal R2 storage');
+  });
+
+  await t.test('6.2 Logo Cropper Integration: SiteProfileView renders circular frame and opens modal on file pick', async () => {
+    const siteProfileViewPath = path.join(adminRoot, 'src', 'components', 'SiteProfileView.tsx');
+    const content = fs.readFileSync(siteProfileViewPath, 'utf8');
+
+    assert.ok(content.includes('LogoCropperModal'), 'SiteProfileView must import and render LogoCropperModal');
+    assert.ok(content.includes('borderRadius: \'50%\''), 'Logo preview in Brand section must be circular (50% radius)');
+    assert.ok(content.includes('handleLogoSelect'), 'Must have handleLogoSelect to intercept file before upload');
+    assert.ok(content.includes('2 * 1024 * 1024'), 'Must enforce 2MB maximum file limit');
+    assert.ok(content.includes('image/webp,image/png,image/jpeg,image/jpg'), 'Must accept WebP, PNG, and JPG');
+  });
 });
