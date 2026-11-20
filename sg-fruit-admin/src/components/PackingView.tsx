@@ -149,46 +149,142 @@ export const PackingView: React.FC<PackingViewProps> = ({ role, onRefreshStats }
         </div>
       )}
 
-      {/* TABS & SEARCH */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            type="button"
-            className={`btn ${activeTab === 'pending' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ fontSize: '13px', padding: '6px 14px' }}
-            onClick={() => setActiveTab('pending')}
-          >
-            <Clock size={16} /> รอจัดของ / กำลังแพ็ก
-          </button>
-          <button
-            type="button"
-            className={`btn ${activeTab === 'packed' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ fontSize: '13px', padding: '6px 14px' }}
-            onClick={() => setActiveTab('packed')}
-          >
-            <CheckCircle2 size={16} /> แพ็กเสร็จแล้ว
-          </button>
+      {/* UNIFIED PACKING OPERATIONS CARD */}
+      <div
+        style={{
+          background: '#FFFFFF',
+          borderRadius: '16px',
+          border: '1px solid #E5E7EB',
+          boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* TOOLBAR: TABS & SEARCH */}
+        <div
+          style={{
+            padding: '16px 20px',
+            borderBottom: '1px solid #E5E7EB',
+            background: '#FAFBFB',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '14px',
+          }}
+        >
+          {/* TABS */}
+          <div style={{ display: 'inline-flex', gap: '8px', background: '#F1F5F9', padding: '4px', borderRadius: '10px' }}>
+            <button
+              type="button"
+              style={{
+                border: 'none',
+                background: activeTab === 'pending' ? '#FFFFFF' : 'transparent',
+                color: activeTab === 'pending' ? '#1B4332' : '#64748B',
+                fontWeight: activeTab === 'pending' ? 700 : 500,
+                fontSize: '13px',
+                padding: '7px 16px',
+                borderRadius: '7px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: activeTab === 'pending' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                transition: 'all 0.15s ease',
+              }}
+              onClick={() => setActiveTab('pending')}
+            >
+              <Clock size={15} strokeWidth={activeTab === 'pending' ? 2 : 1.75} style={{ color: activeTab === 'pending' ? '#1B4332' : '#64748B' }} />
+              รอจัดของ / กำลังแพ็ก
+            </button>
+            <button
+              type="button"
+              style={{
+                border: 'none',
+                background: activeTab === 'packed' ? '#FFFFFF' : 'transparent',
+                color: activeTab === 'packed' ? '#1B4332' : '#64748B',
+                fontWeight: activeTab === 'packed' ? 700 : 500,
+                fontSize: '13px',
+                padding: '7px 16px',
+                borderRadius: '7px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: activeTab === 'packed' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                transition: 'all 0.15s ease',
+              }}
+              onClick={() => setActiveTab('packed')}
+            >
+              <CheckCircle2 size={15} strokeWidth={activeTab === 'packed' ? 2 : 1.75} style={{ color: activeTab === 'packed' ? '#10B981' : '#64748B' }} />
+              แพ็กเสร็จแล้ว
+            </button>
+          </div>
+
+          {/* SEARCH INPUT */}
+          <div style={{ flex: '1 1 280px', maxWidth: '380px', minWidth: '240px', position: 'relative' }}>
+            <Search
+              size={16}
+              strokeWidth={1.75}
+              style={{
+                position: 'absolute',
+                left: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#94A3B8',
+                pointerEvents: 'none',
+              }}
+            />
+            <input
+              type="text"
+              className="input-control"
+              style={{
+                height: '38px',
+                paddingLeft: '36px',
+                paddingRight: searchTerm ? '32px' : '12px',
+                fontSize: '13px',
+                borderRadius: '9px',
+                border: '1px solid #E2E8F0',
+                background: '#FFFFFF',
+                width: '100%',
+              }}
+              placeholder="ค้นหา Order ID, ผู้รับ, Tracking ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  border: 'none',
+                  background: '#E2E8F0',
+                  color: '#64748B',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+                title="ล้างคำค้นหา"
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
         </div>
 
-        <div style={{ width: '280px', position: 'relative' }}>
-          <Search
-            size={16}
-            style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}
-          />
-          <input
-            type="text"
-            className="input-control"
-            style={{ paddingLeft: '32px', fontSize: '13px' }}
-            placeholder="ค้นหา Order ID, ผู้รับ, Tracking ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
-
-      {/* QUEUE TABLE */}
-      <div style={{ background: '#FFFFFF', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+        {/* QUEUE TABLE */}
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
           <thead>
             <tr style={{ background: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
               <th style={{ padding: '10px 12px' }}>Order ID (แพลตฟอร์ม)</th>
@@ -284,6 +380,7 @@ export const PackingView: React.FC<PackingViewProps> = ({ role, onRefreshStats }
           </tbody>
         </table>
       </div>
+    </div>
 
       {/* INTERACTIVE PACKING CHECKLIST MODAL */}
       {packingOrder && (

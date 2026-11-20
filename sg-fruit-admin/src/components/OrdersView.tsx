@@ -11,6 +11,9 @@ import {
   Boxes,
   AlertCircle,
   X,
+  Calendar,
+  ChevronDown,
+  RotateCcw,
 } from 'lucide-react';
 import type { AuthRole, OrderRow, OrderItemDetail, PackingSlipData } from '../types';
 import {
@@ -42,6 +45,19 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
   const [packingFilter, setPackingFilter] = useState('all');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+
+  // Status Tab Counts
+  const [tabCounts, setTabCounts] = useState<{
+    all: number;
+    unpacked: number;
+    packing: number;
+    packed: number;
+  }>({
+    all: 0,
+    unpacked: 0,
+    packing: 0,
+    packed: 0,
+  });
 
   // Selected orders for export
   const [selectedOrderIds, setSelectedOrderIds] = useState<string[]>([]);
@@ -116,6 +132,27 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
       setLoading(false);
     }
   }, [role, searchTerm, statusFilter, packingFilter, dateFrom, dateTo]);
+
+  const loadTabCounts = useCallback(async () => {
+    try {
+      const res = await fetchOrderList(role, { limit: 200 });
+      if (res.ok && Array.isArray(res.data)) {
+        const rows = res.data as OrderRow[];
+        setTabCounts({
+          all: res.total || rows.length,
+          unpacked: rows.filter((r) => r.packing_status === 'unpacked').length,
+          packing: rows.filter((r) => r.packing_status === 'packing').length,
+          packed: rows.filter((r) => r.packing_status === 'packed').length,
+        });
+      }
+    } catch {
+      // Ignore count fetch errors
+    }
+  }, [role]);
+
+  useEffect(() => {
+    loadTabCounts();
+  }, [loadTabCounts]);
 
   useEffect(() => {
     loadOrders();
@@ -229,86 +266,6 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
         </div>
       </div>
 
-      {/* SEARCH & FILTERS BAR */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '12px',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          background: 'var(--surface-subtle)',
-          padding: '12px 16px',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid var(--border)',
-        }}
-      >
-        <div style={{ flex: '1 1 240px', position: 'relative' }}>
-          <Search
-            size={16}
-            strokeWidth={1.75}
-            style={{
-              position: 'absolute',
-              left: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-muted)',
-            }}
-          />
-          <input
-            type="text"
-            className="input-control"
-            style={{ paddingLeft: '36px', fontSize: '13px', borderRadius: '8px', border: '1px solid var(--border)' }}
-            placeholder="ค้นหา Order ID, ผู้รับ, เบอร์โทร, Tracking ID, สินค้า..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <select
-            className="input-control"
-            style={{ fontSize: '13px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
-            value={packingFilter}
-            onChange={(e) => setPackingFilter(e.target.value)}
-          >
-            <option value="all">สถานะแพ็กทั้งหมด</option>
-            <option value="unpacked">รอแพ็ก (Unpacked)</option>
-            <option value="packing">กำลังแพ็ก (Packing)</option>
-            <option value="packed">แพ็กเสร็จแล้ว (Packed)</option>
-          </select>
-
-          <select
-            className="input-control"
-            style={{ fontSize: '13px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="all">สถานะออเดอร์ทั้งหมด</option>
-            <option value="pending">รอดำเนินการ</option>
-            <option value="confirmed">ยืนยันแล้ว</option>
-            <option value="packed">แพ็กแล้ว</option>
-            <option value="shipped">จัดส่งแล้ว</option>
-          </select>
-
-          <input
-            type="date"
-            className="input-control"
-            style={{ fontSize: '12.5px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            title="ตั้งแต่วันที่"
-          />
-          <input
-            type="date"
-            className="input-control"
-            style={{ fontSize: '12.5px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            title="ถึงวันที่"
-          />
-        </div>
-      </div>
-
       {/* ERROR BANNER */}
       {error && (
         <div className="banner-error">
@@ -317,9 +274,355 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
         </div>
       )}
 
-      {/* ORDERS TABLE */}
-      <div style={{ background: '#FFFFFF', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+      {/* UNIFIED ORDERS CARD (Tabs + Filters + Table) */}
+      <div
+        style={{
+          background: '#FFFFFF',
+          borderRadius: '16px',
+          border: '1px solid #E5E7EB',
+          boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* 1. STATUS UNDERLINE TABS */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '24px',
+            padding: '0 20px',
+            borderBottom: '1px solid #E5E7EB',
+            background: '#FFFFFF',
+            overflowX: 'auto',
+          }}
+        >
+          {[
+            { key: 'all', label: 'ทั้งหมด', count: tabCounts.all },
+            { key: 'unpacked', label: 'รอแพ็ก', count: tabCounts.unpacked },
+            { key: 'packing', label: 'กำลังแพ็ก', count: tabCounts.packing },
+            { key: 'packed', label: 'แพ็กเสร็จแล้ว', count: tabCounts.packed },
+          ].map((tab) => {
+            const isActive = packingFilter === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setPackingFilter(tab.key)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: '14px 4px',
+                  cursor: 'pointer',
+                  fontSize: '13.5px',
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? '#1B4332' : '#64748B',
+                  position: 'relative',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                <span>{tab.label}</span>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '2px 7px',
+                    borderRadius: '12px',
+                    background: isActive ? '#E8F5E9' : '#F1F5F9',
+                    color: isActive ? '#1B4332' : '#64748B',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {tab.count}
+                </span>
+                {isActive && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '2.5px',
+                      backgroundColor: '#1B4332',
+                      borderRadius: '2px 2px 0 0',
+                    }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 2. MODERN FILTER TOOLBAR */}
+        <div
+          style={{
+            padding: '16px 20px',
+            background: '#FAFBFB',
+            borderBottom: '1px solid #E5E7EB',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+          }}
+        >
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            {/* SEARCH INPUT */}
+            <div style={{ flex: '1 1 300px', minWidth: '280px', position: 'relative' }}>
+              <Search
+                size={16}
+                strokeWidth={1.75}
+                style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#94A3B8',
+                  pointerEvents: 'none',
+                }}
+              />
+              <input
+                type="text"
+                className="input-control"
+                style={{
+                  height: '38px',
+                  paddingLeft: '36px',
+                  paddingRight: searchTerm ? '32px' : '12px',
+                  fontSize: '13px',
+                  borderRadius: '9px',
+                  border: '1px solid #E2E8F0',
+                  background: '#FFFFFF',
+                  width: '100%',
+                }}
+                placeholder="ค้นหา Order ID, ผู้รับ, เบอร์โทร, Tracking ID..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
+                <button
+                  type="button"
+                  onClick={() => setSearchTerm('')}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    border: 'none',
+                    background: '#E2E8F0',
+                    color: '#64748B',
+                    width: '18px',
+                    height: '18px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                  title="ล้างคำค้นหา"
+                >
+                  <X size={12} />
+                </button>
+              )}
+            </div>
+
+            {/* DROPDOWN PACKING FILTER */}
+            <div style={{ position: 'relative' }}>
+              <select
+                className="input-control"
+                style={{
+                  height: '38px',
+                  fontSize: '13px',
+                  padding: '0 32px 0 12px',
+                  borderRadius: '9px',
+                  border: `1px solid ${packingFilter !== 'all' ? '#10B981' : '#E2E8F0'}`,
+                  background: packingFilter !== 'all' ? '#ECFDF5' : '#FFFFFF',
+                  color: packingFilter !== 'all' ? '#065F46' : '#334155',
+                  fontWeight: packingFilter !== 'all' ? 600 : 400,
+                  cursor: 'pointer',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                }}
+                value={packingFilter}
+                onChange={(e) => setPackingFilter(e.target.value)}
+              >
+                <option value="all">สถานะแพ็กทั้งหมด</option>
+                <option value="unpacked">รอแพ็ก (Unpacked)</option>
+                <option value="packing">กำลังแพ็ก (Packing)</option>
+                <option value="packed">แพ็กเสร็จแล้ว (Packed)</option>
+              </select>
+              <ChevronDown
+                size={14}
+                strokeWidth={2}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: packingFilter !== 'all' ? '#065F46' : '#94A3B8',
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
+
+            {/* DROPDOWN ORDER STATUS FILTER */}
+            <div style={{ position: 'relative' }}>
+              <select
+                className="input-control"
+                style={{
+                  height: '38px',
+                  fontSize: '13px',
+                  padding: '0 32px 0 12px',
+                  borderRadius: '9px',
+                  border: `1px solid ${statusFilter !== 'all' ? '#10B981' : '#E2E8F0'}`,
+                  background: statusFilter !== 'all' ? '#ECFDF5' : '#FFFFFF',
+                  color: statusFilter !== 'all' ? '#065F46' : '#334155',
+                  fontWeight: statusFilter !== 'all' ? 600 : 400,
+                  cursor: 'pointer',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                }}
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">สถานะออเดอร์ทั้งหมด</option>
+                <option value="pending">รอดำเนินการ</option>
+                <option value="confirmed">ยืนยันแล้ว</option>
+                <option value="packed">แพ็กแล้ว</option>
+                <option value="shipped">จัดส่งแล้ว</option>
+              </select>
+              <ChevronDown
+                size={14}
+                strokeWidth={2}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: statusFilter !== 'all' ? '#065F46' : '#94A3B8',
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
+
+            {/* UNIFIED DATE RANGE BOX */}
+            <div
+              style={{
+                height: '38px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '0 10px',
+                borderRadius: '9px',
+                border: `1px solid ${dateFrom || dateTo ? '#10B981' : '#E2E8F0'}`,
+                background: dateFrom || dateTo ? '#ECFDF5' : '#FFFFFF',
+                color: dateFrom || dateTo ? '#065F46' : '#334155',
+              }}
+            >
+              <Calendar size={15} strokeWidth={1.75} style={{ color: dateFrom || dateTo ? '#10B981' : '#94A3B8' }} />
+              <input
+                type="date"
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  fontSize: '12.5px',
+                  color: 'inherit',
+                  fontFamily: 'inherit',
+                  outline: 'none',
+                  cursor: 'pointer',
+                }}
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                title="วันที่เริ่มต้น"
+              />
+              <span style={{ color: '#94A3B8', fontSize: '13px' }}>—</span>
+              <input
+                type="date"
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  fontSize: '12.5px',
+                  color: 'inherit',
+                  fontFamily: 'inherit',
+                  outline: 'none',
+                  cursor: 'pointer',
+                }}
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                title="ถึงวันที่"
+              />
+              {(dateFrom || dateTo) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDateFrom('');
+                    setDateTo('');
+                  }}
+                  style={{
+                    border: 'none',
+                    background: '#D1FAE5',
+                    color: '#065F46',
+                    width: '18px',
+                    height: '18px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                  title="ล้างช่วงวันที่"
+                >
+                  <X size={12} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* SUMMARY & CLEAR ROW */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12.5px', marginTop: '2px' }}>
+            <div style={{ color: '#64748B' }}>
+              พบคำสั่งซื้อ <strong style={{ color: '#1B4332' }}>{total.toLocaleString()}</strong> รายการ
+              {(searchTerm || packingFilter !== 'all' || statusFilter !== 'all' || dateFrom || dateTo) && (
+                <span style={{ color: '#047857', marginLeft: '6px', fontWeight: 500 }}>(ผ่านการกรองข้อมูล)</span>
+              )}
+            </div>
+            {(searchTerm || packingFilter !== 'all' || statusFilter !== 'all' || dateFrom || dateTo) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchTerm('');
+                  setPackingFilter('all');
+                  setStatusFilter('all');
+                  setDateFrom('');
+                  setDateTo('');
+                }}
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  color: '#DC2626',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  cursor: 'pointer',
+                  padding: '2px 6px',
+                  borderRadius: '4px',
+                }}
+              >
+                <RotateCcw size={12} strokeWidth={2} /> ล้างตัวกรองทั้งหมด
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* 3. ORDERS TABLE */}
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
           <thead>
             <tr style={{ background: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
               <th style={{ padding: '10px 12px', width: '36px' }}>
@@ -493,6 +796,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
           </tbody>
         </table>
       </div>
+    </div>
 
       {/* ORDER DETAIL MODAL */}
       {detailOrder && (

@@ -801,22 +801,36 @@ body {
   color: var(--red);
 }
 
-.form-input, .form-select, .form-textarea {
+.form-input, .form-select, .form-textarea, .form-control, .input-control {
   width: 100%;
   padding: 9px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  border: 1px solid #E2E8F0;
   background: #ffffff;
   font-size: 13.5px;
   color: var(--ink);
   outline: none;
   font-family: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  box-sizing: border-box;
 }
 
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--sage);
-  box-shadow: 0 0 0 3px rgba(115, 153, 56, 0.15);
+textarea.form-input, textarea.form-textarea, textarea.form-control, textarea.input-control {
+  min-height: 80px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus, .form-control:focus, .input-control:focus {
+  border-color: #1B4332;
+  box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.12);
+  background-color: #ffffff;
+}
+
+.form-control-sm, .input-control-sm {
+  padding: 6px 10px;
+  font-size: 12.5px;
+  border-radius: 7px;
 }
 
 .form-hint {
