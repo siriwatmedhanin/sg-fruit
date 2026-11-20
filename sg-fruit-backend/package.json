@@ -1,0 +1,25 @@
+{
+  "name": "sg-fruit-backend",
+  "version": "1.0.0",
+  "description": "SG FRUIT Cloudflare Workers Backend Foundation (Workers + D1 + R2 + Access)",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run",
+    "typecheck": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply sg-fruit-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply sg-fruit-db --remote",
+    "test": "npx tsx --test --test-concurrency=1 tests/staging_preflight_security.test.ts tests/r2_backup_restore.test.ts tests/excel_formula_integrity.test.ts tests/admin_seed_validation.test.ts tests/backend_crud_integration.test.ts tests/site_profile_integration.test.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.10",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241112.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^3.88.0"
+  }
+}

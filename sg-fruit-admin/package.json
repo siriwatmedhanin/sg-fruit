@@ -1,0 +1,30 @@
+{
+  "name": "sg-fruit-admin",
+  "version": "1.0.0",
+  "description": "SG FRUIT Admin Dashboard Foundation (Connecting to Cloudflare Workers API)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173",
+    "build": "tsc && vite build",
+    "build:staging": "tsc && vite build --mode staging",
+    "verify:staging": "node scripts/verify_bundle.js",
+    "test": "node scripts/test_admin_suite.js && node scripts/test_order_export_suite.js && node scripts/test_site_profile_suite.js",
+    "build:production": "tsc && vite build --mode production",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.1"
+  }
+}

@@ -1,0 +1,13 @@
+# SG FRUIT Backend — Local Environment Variables Example
+# Copy this file to .dev.vars for local development (DO NOT commit .dev.vars to Git)
+
+ENVIRONMENT=development
+APP_NAME="SG FRUIT API"
+CORS_ALLOW_ORIGIN="https://sg-fruit.siriwatmedhanin.com,http://localhost:8892"
+
+# Cloudflare Access Configuration (Required for verifying Access JWT in Production)
+CF_ACCESS_TEAM_NAME="your-team-name"
+CF_ACCESS_AUD="your-cloudflare-access-application-aud-tag"
+
+# Local Development Secret Mock (Used only when ENVIRONMENT=development and testing auth locally)
+DEV_AUTH_MOCK_ENABLED=true

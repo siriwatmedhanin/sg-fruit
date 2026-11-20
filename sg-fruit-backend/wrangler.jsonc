@@ -1,0 +1,101 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sg-fruit-backend",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-11-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sg-fruit-db",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "PRODUCT_IMAGES",
+      "bucket_name": "sg-fruit-products"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "development",
+    "APP_NAME": "SG FRUIT API (Local Dev)",
+    "CORS_ALLOW_ORIGIN": "http://localhost:8892,http://localhost:5173",
+    "DEV_AUTH_MOCK_ENABLED": "false"
+  },
+  "env": {
+    "staging": {
+      "name": "sg-fruit-backend-staging",
+      "compatibility_date": "2024-11-18",
+      "compatibility_flags": ["nodejs_compat"],
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [
+        {
+          "pattern": "staging-api.siriwatmedhanin.com",
+          "custom_domain": true
+        },
+        {
+          "pattern": "staging-admin-api.siriwatmedhanin.com",
+          "custom_domain": true
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "sg-fruit-db-staging",
+          "database_id": "c1b34cca-24bc-4561-9f57-78f33a7fe2e1",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "PRODUCT_IMAGES",
+          "bucket_name": "sg-fruit-products-staging"
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "APP_NAME": "SG FRUIT API (Staging)",
+        "CORS_ADMIN_ORIGINS": "https://staging-admin.siriwatmedhanin.com,https://sg-fruit-admin-staging.pages.dev",
+        "CORS_PUBLIC_ORIGINS": "https://sg-fruit.siriwatmedhanin.com,https://staging.siriwatmedhanin.com,https://sg-fruit-storefront-staging.pages.dev",
+        "CORS_ALLOW_ORIGIN": "https://staging-admin.siriwatmedhanin.com",
+        "DEV_AUTH_MOCK_ENABLED": "false"
+      }
+    },
+    "production": {
+      "name": "sg-fruit-backend-production",
+      "compatibility_date": "2024-11-18",
+      "compatibility_flags": ["nodejs_compat"],
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [
+        {
+          "pattern": "api.siriwatmedhanin.com",
+          "custom_domain": true
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "sg-fruit-db-prod",
+          "database_id": "REPLACE_WITH_PROD_D1_ID",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "PRODUCT_IMAGES",
+          "bucket_name": "sg-fruit-products-prod"
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "APP_NAME": "SG FRUIT API",
+        "CORS_ALLOW_ORIGIN": "https://sg-fruit.siriwatmedhanin.com,https://admin.siriwatmedhanin.com",
+        "DEV_AUTH_MOCK_ENABLED": "false"
+      }
+    }
+  }
+}

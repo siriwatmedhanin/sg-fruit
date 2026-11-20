@@ -16,3 +16,7 @@ node_modules/
 Thumbs.db
 .vscode/
 .idea/
+.wrangler/
+
+# Local Backups
+sg-fruit-backups/
