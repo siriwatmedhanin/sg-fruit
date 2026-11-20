@@ -1204,7 +1204,7 @@
             </div>
 
             <!-- ตัวเลือกที่ 2: เก็บเงินปลายทาง (COD) -->
-            <div class="payment-option-card ${isCod ? 'is-selected' : ''} ${!isCodAllowed ? 'is-disabled' : ''}" id="payment-card-cod" role="button" tabindex="${isCodAllowed ? '0' : '-1'}">
+            <div class="payment-option-card ${isCod ? 'is-selected' : ''} ${!isCodAllowed ? 'is-disabled' : ''}" id="payment-card-cod" role="button" tabindex="${isCodAllowed ? '0' : '-1'}" ${!isCodAllowed ? 'aria-disabled="true"' : 'aria-disabled="false"'}>
               <div class="payment-option-header">
                 <div class="payment-option-title-group">
                   <div class="payment-radio-custom"></div>
