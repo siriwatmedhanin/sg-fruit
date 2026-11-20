@@ -153,6 +153,8 @@
     var postalEl = options.postalEl;
     var onSelect = options.onSelect;
 
+    var isSelecting = false;
+
     var fields = [
       { el: subdistrictEl, type: 'district', label: 'ตำบล/แขวง' },
       { el: districtEl, type: 'amphoe', label: 'อำเภอ/เขต' },
@@ -167,7 +169,7 @@
 
       function renderDropdown(items) {
         closeAllDropdowns();
-        if (!items || items.length === 0) return;
+        if (!items || items.length === 0 || isSelecting) return;
 
         var dropdown = document.createElement('div');
         dropdown.className = 'thai-address-dropdown';
@@ -196,6 +198,9 @@
               e.stopPropagation();
             }
 
+            isSelecting = true;
+            closeAllDropdowns();
+
             // 1. Fill all 4 fields
             if (subdistrictEl) subdistrictEl.value = item.district;
             if (districtEl) districtEl.value = item.amphoe;
@@ -212,15 +217,18 @@
               onSelect(item);
             }
 
-            // 4. Trigger input event
+            // 4. Trigger change events without re-triggering dropdown
             [subdistrictEl, districtEl, provinceEl, postalEl].forEach(function (input) {
               if (input) {
-                var evt = new Event('input', { bubbles: true });
+                var evt = new Event('change', { bubbles: true });
                 input.dispatchEvent(evt);
               }
             });
 
-            closeAllDropdowns();
+            setTimeout(function () {
+              isSelecting = false;
+              closeAllDropdowns();
+            }, 100);
           }
 
           row.addEventListener('mousedown', selectItem);
@@ -240,6 +248,7 @@
 
       var debounceTimer = null;
       f.el.addEventListener('input', function () {
+        if (isSelecting) return;
         clearTimeout(debounceTimer);
         var val = f.el.value.trim();
         if (!val || val.length < 1) {
@@ -248,6 +257,7 @@
         }
 
         debounceTimer = setTimeout(function () {
+          if (isSelecting) return;
           var matched = search(val, f.type, 12);
           renderDropdown(matched);
         }, 30);
