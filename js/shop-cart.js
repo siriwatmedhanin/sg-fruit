@@ -41,7 +41,8 @@
     isDrawerOpen: false,
     isProductModalOpen: false,
     isOrderModalOpen: false,
-    isPolicyModalOpen: false
+    isPolicyModalOpen: false,
+    isTrackingModalOpen: false
   };
 
   // Load persisted cart safely (supports both key and legacy id)
@@ -101,7 +102,7 @@
 
   // Body scroll lock that preserves exact scroll position without resetting ScrollTrigger
   function updateBodyScrollLock() {
-    const shouldLock = state.isDrawerOpen || state.isProductModalOpen || state.isOrderModalOpen || state.isPolicyModalOpen;
+    const shouldLock = state.isDrawerOpen || state.isProductModalOpen || state.isOrderModalOpen || state.isPolicyModalOpen || state.isTrackingModalOpen;
     const body = document.body;
     const html = document.documentElement;
     if (shouldLock) {
@@ -1721,6 +1722,15 @@
 
             const createdOrder = orderJson.data;
 
+            // Save to recent orders in localStorage
+            saveRecentOrder({
+              orderNumber: createdOrder.order_no,
+              phone: rawPhone,
+              totalAmount: createdOrder.total_amount,
+              paymentMethod: createdOrder.payment_method,
+              createdAt: createdOrder.created_at
+            });
+
             // 3. Clear cart
             state.cart = [];
             saveCart();
@@ -1738,7 +1748,12 @@
                 <div class="order-success-card">
                   <div class="order-success-row">
                     <span>เลขที่คำสั่งซื้อ (Order No.):</span>
-                    <span class="order-success-orderno">${escapeHtml(createdOrder.order_no)}</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span class="order-success-orderno" id="order-success-orderno-text">${escapeHtml(createdOrder.order_no)}</span>
+                      <button type="button" class="checkout-copy-btn" id="order-success-copy-btn" title="คลิกเพื่อคัดลอกเลขคำสั่งซื้อ" style="padding: 3px 8px; font-size: 11px;">
+                        คัดลอกเลขคำสั่งซื้อ
+                      </button>
+                    </div>
                   </div>
                   <div class="order-success-row">
                     <span>ช่องทางการชำระเงิน:</span>
@@ -1758,7 +1773,12 @@
                   </div>
                 </div>
 
-                <div style="padding: 12px 14px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 12.5px; color: #166534; line-height: 1.5; margin-bottom: 20px; text-align: left;">
+                <div style="padding: 10px 14px; background: #fffbeb; border-radius: 10px; border: 1px solid #fef3c7; font-size: 12px; color: #b45309; line-height: 1.5; margin-bottom: 14px; text-align: left; display: flex; align-items: flex-start; gap: 8px;">
+                  <span style="font-size: 16px; line-height: 1;">📸</span>
+                  <span><strong>คำแนะนำ:</strong> กรุณาแคปหน้าจอหน้านี้เก็บไว้เพื่อเป็นหลักฐานในการรับสินค้าและเช็กสถานะการจัดส่ง</span>
+                </div>
+
+                <div style="padding: 12px 14px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 12.5px; color: #166534; line-height: 1.5; margin-bottom: 18px; text-align: left;">
                   ✓ ข้อมูลคำสั่งซื้อถูกบันทึกเข้าสู่ระบบหลังบ้านเรียบร้อยแล้ว เจ้าหน้าที่จะดำเนินการเตรียมคัดเกรดผลไม้สดและแพ็กจัดส่งให้ท่านโดยเร็วที่สุด
                 </div>
 
@@ -1777,11 +1797,43 @@
                   `;
                 })()}
 
-                <button type="button" class="primary-cta" id="order-success-done-btn" style="width: 100%; padding: 14px; border-radius: 12px; background: #16a34a; color: #ffffff; font-weight: 800; font-size: 15px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28);">
-                  เสร็จสิ้น / กลับสู่หน้าร้าน
-                </button>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <button type="button" class="primary-cta" id="order-success-track-btn" style="width: 100%; padding: 13px; border-radius: 12px; background: #15803d; color: #ffffff; font-weight: 800; font-size: 14.5px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 14px rgba(21, 128, 61, 0.25);">
+                    <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>
+                    <span>ติดตามสถานะคำสั่งซื้อนี้</span>
+                  </button>
+                  <button type="button" class="primary-cta" id="order-success-done-btn" style="width: 100%; padding: 12px; border-radius: 12px; background: #f8fafc; color: #475569; font-weight: 700; font-size: 14px; border: 1px solid #cbd5e1; cursor: pointer;">
+                    เสร็จสิ้น / กลับสู่หน้าร้าน
+                  </button>
+                </div>
               </div>
             `;
+
+            // Copy Order Number button handler
+            const copyOrderBtn = document.getElementById('order-success-copy-btn');
+            if (copyOrderBtn) {
+              copyOrderBtn.addEventListener('click', () => {
+                const orderText = createdOrder.order_no;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(orderText).then(() => {
+                    showToast(`คัดลอกเลขคำสั่งซื้อ ${orderText} สำเร็จ`);
+                    copyOrderBtn.textContent = 'คัดลอกแล้ว ✓';
+                    setTimeout(() => { if (copyOrderBtn) copyOrderBtn.textContent = 'คัดลอกเลขคำสั่งซื้อ'; }, 2000);
+                  }).catch(() => fallbackCopy(orderText));
+                } else {
+                  fallbackCopy(orderText);
+                }
+              });
+            }
+
+            // Track Order button handler
+            const trackOrderBtn = document.getElementById('order-success-track-btn');
+            if (trackOrderBtn) {
+              trackOrderBtn.addEventListener('click', () => {
+                closeOrderSummaryModal();
+                openOrderTrackingModal(createdOrder.order_no, rawPhone);
+              });
+            }
 
             const doneBtn = document.getElementById('order-success-done-btn');
             if (doneBtn) {
@@ -1820,6 +1872,493 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     updateBodyScrollLock();
+  }
+
+  // ==========================================
+  // GUEST ORDER TRACKING & RECENT ORDERS
+  // ==========================================
+  const RECENT_ORDERS_STORAGE_KEY = 'sg_fruit_recent_orders';
+
+  function copyTextToClipboard(text, successMsg) {
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (successMsg) showToast(successMsg);
+      }).catch(() => {
+        fallbackCopyGeneral(text, successMsg);
+      });
+    } else {
+      fallbackCopyGeneral(text, successMsg);
+    }
+  }
+
+  function fallbackCopyGeneral(text, successMsg) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (successMsg) showToast(successMsg);
+    } catch {
+      if (successMsg) showToast(successMsg);
+    }
+  }
+
+  function getRecentOrders() {
+    try {
+      const raw = localStorage.getItem(RECENT_ORDERS_STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRecentOrder(orderData) {
+    if (!orderData || !orderData.orderNumber) return;
+    try {
+      const list = getRecentOrders();
+      const filtered = list.filter(o => o.orderNumber !== orderData.orderNumber);
+      filtered.unshift({
+        orderNumber: orderData.orderNumber,
+        phone: orderData.phone || '',
+        totalAmount: orderData.totalAmount || 0,
+        paymentMethod: orderData.paymentMethod || '',
+        createdAt: orderData.createdAt || new Date().toISOString()
+      });
+      const trimmed = filtered.slice(0, 5);
+      localStorage.setItem(RECENT_ORDERS_STORAGE_KEY, JSON.stringify(trimmed));
+      updateRecentOrderPill();
+    } catch (err) {
+      console.warn('Failed to save recent order to localStorage:', err);
+    }
+  }
+
+  function updateRecentOrderPill() {
+    const pill = document.getElementById('recent-order-pill');
+    if (!pill) return;
+    const isDismissed = sessionStorage.getItem('sg_dismiss_recent_pill') === '1';
+    if (isDismissed) {
+      pill.style.display = 'none';
+      return;
+    }
+    const recents = getRecentOrders();
+    if (recents.length === 0) {
+      pill.style.display = 'none';
+      return;
+    }
+    const latest = recents[0];
+    const textEl = document.getElementById('recent-order-pill-text');
+    if (textEl) {
+      textEl.textContent = `ติดตามออเดอร์ล่าสุด (${latest.orderNumber})`;
+    }
+    pill.style.display = 'flex';
+  }
+
+  function openOrderTrackingModal(prefillOrderNo, prefillPhone) {
+    const modal = document.getElementById('order-tracking-modal');
+    if (!modal) return;
+    state.isTrackingModalOpen = true;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    updateBodyScrollLock();
+
+    const bodyEl = document.getElementById('order-tracking-body');
+    if (bodyEl) {
+      renderOrderTrackingForm(bodyEl, prefillOrderNo, prefillPhone);
+    }
+    const closeBtn = document.getElementById('order-tracking-close');
+    if (closeBtn) setTimeout(() => closeBtn.focus({ preventScroll: true }), 50);
+  }
+
+  function closeOrderTrackingModal() {
+    const modal = document.getElementById('order-tracking-modal');
+    if (!modal) return;
+    state.isTrackingModalOpen = false;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    updateBodyScrollLock();
+  }
+
+  function renderOrderTrackingForm(containerEl, prefillOrderNo, prefillPhone) {
+    const recents = getRecentOrders();
+    const defaultOrderNo = prefillOrderNo || (recents.length > 0 ? recents[0].orderNumber : '');
+    const defaultPhone = prefillPhone || (recents.length > 0 ? (recents[0].phone || '') : '');
+
+    let recentChipsHtml = '';
+    if (recents.length > 0) {
+      const chips = recents.map(r => {
+        const dateStr = r.createdAt ? new Date(r.createdAt).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' }) : '';
+        return `
+          <button type="button" class="recent-order-chip" data-orderno="${escapeHtml(r.orderNumber)}" data-phone="${escapeHtml(r.phone || '')}">
+            <span>📦</span>
+            <strong>${escapeHtml(r.orderNumber)}</strong>
+            ${r.totalAmount ? `<span style="color: #64748b;">(฿${Number(r.totalAmount).toLocaleString()})</span>` : ''}
+            ${dateStr ? `<span style="font-size: 11px; color: #94a3b8;">${dateStr}</span>` : ''}
+          </button>
+        `;
+      }).join('');
+
+      recentChipsHtml = `
+        <div style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
+          <div style="font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span>🕒 คำสั่งซื้อล่าสุดในเครื่องของคุณ (แตะเพื่อกรอกทันที):</span>
+          </div>
+          <div class="recent-orders-chips-wrap">
+            ${chips}
+          </div>
+        </div>
+      `;
+    }
+
+    containerEl.innerHTML = `
+      ${recentChipsHtml}
+      <form id="order-tracking-form" style="margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--forest); margin-bottom: 6px;">
+              เลขที่คำสั่งซื้อ (Order Number) <span style="color: #dc2626;">*</span>
+            </label>
+            <input type="text" id="track-input-orderno" class="checkout-input" placeholder="เช่น SG-261120-1234" value="${escapeHtml(defaultOrderNo)}" required style="width: 100%; box-sizing: border-box;" autocomplete="off" autocapitalize="characters" />
+          </div>
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--forest); margin-bottom: 6px;">
+              เบอร์โทรศัพท์ (10 หลัก) <span style="color: #dc2626;">*</span>
+            </label>
+            <input type="tel" id="track-input-phone" class="checkout-input" placeholder="เช่น 0812345678" value="${escapeHtml(defaultPhone)}" maxlength="10" required style="width: 100%; box-sizing: border-box;" autocomplete="tel" inputmode="numeric" />
+          </div>
+        </div>
+        <button type="submit" class="primary-cta" id="track-submit-btn" style="width: 100%; padding: 13px; border-radius: 12px; background: #16a34a; color: #ffffff; font-weight: 800; font-size: 15px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28);">
+          <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span id="track-btn-text">ค้นหาสถานะคำสั่งซื้อ</span>
+        </button>
+      </form>
+      <div id="order-tracking-result"></div>
+    `;
+
+    // Chip click listeners
+    const chipBtns = containerEl.querySelectorAll('.recent-order-chip');
+    chipBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const orderNo = btn.getAttribute('data-orderno');
+        const phone = btn.getAttribute('data-phone');
+        const orderInput = document.getElementById('track-input-orderno');
+        const phoneInput = document.getElementById('track-input-phone');
+        if (orderInput && orderNo) orderInput.value = orderNo;
+        if (phoneInput && phone) phoneInput.value = phone;
+        if (orderNo && phone) {
+          executeTrackOrder(orderNo, phone, containerEl);
+        }
+      });
+    });
+
+    // Form submit listener
+    const form = containerEl.querySelector('#order-tracking-form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const orderInput = document.getElementById('track-input-orderno');
+        const phoneInput = document.getElementById('track-input-phone');
+        const orderNo = orderInput ? orderInput.value.trim() : '';
+        const phone = phoneInput ? phoneInput.value.trim() : '';
+        if (!orderNo) {
+          showToast('กรุณากรอกเลขที่คำสั่งซื้อ');
+          if (orderInput) orderInput.focus();
+          return;
+        }
+        if (!phone || phone.replace(/\D/g, '').length !== 10) {
+          showToast('กรุณากรอกเบอร์โทรศัพท์ 10 หลัก');
+          if (phoneInput) phoneInput.focus();
+          return;
+        }
+        executeTrackOrder(orderNo, phone, containerEl);
+      });
+    }
+
+    // Auto-search if both parameters are provided
+    if (prefillOrderNo && prefillPhone && prefillPhone.replace(/\D/g, '').length === 10) {
+      executeTrackOrder(prefillOrderNo, prefillPhone, containerEl);
+    }
+  }
+
+  function executeTrackOrder(orderNo, phone, containerEl) {
+    const resultBox = document.getElementById('order-tracking-result');
+    const submitBtn = document.getElementById('track-submit-btn');
+    const btnText = document.getElementById('track-btn-text');
+    if (!resultBox) return;
+
+    if (submitBtn) submitBtn.disabled = true;
+    if (btnText) btnText.textContent = 'กำลังค้นหาข้อมูล...';
+
+    resultBox.innerHTML = `
+      <div style="text-align: center; padding: 36px 16px; color: var(--muted);">
+        <div class="cart-spinner" style="width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top-color: #16a34a; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px;"></div>
+        <div style="font-size: 14px; font-weight: 600;">กำลังตรวจสอบข้อมูลคำสั่งซื้อ...</div>
+      </div>
+    `;
+
+    const apiBase = (global.SG_API_ADAPTER && typeof global.SG_API_ADAPTER.getApiBaseUrl === 'function')
+      ? global.SG_API_ADAPTER.getApiBaseUrl()
+      : 'https://staging-api.siriwatmedhanin.com/api';
+
+    const cleanPhone = phone.replace(/\D/g, '');
+
+    fetch(`${apiBase}/orders/track`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderNumber: orderNo.trim(), phone: cleanPhone })
+    })
+      .then(async (res) => {
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(json.message || 'ไม่พบข้อมูลคำสั่งซื้อ');
+        }
+        return json.data;
+      })
+      .then((data) => {
+        saveRecentOrder({
+          orderNumber: data.orderNumber,
+          phone: cleanPhone,
+          totalAmount: data.totalAmount,
+          paymentMethod: data.paymentMethod,
+          createdAt: data.createdAt
+        });
+        renderTrackingResult(resultBox, data, containerEl);
+      })
+      .catch((err) => {
+        resultBox.innerHTML = `
+          <div style="padding: 16px 18px; background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 12px; color: #991b1b; text-align: left; line-height: 1.5; font-size: 13.5px;">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <span style="font-size: 20px; line-height: 1;">⚠️</span>
+              <div>
+                <strong style="display: block; font-size: 14.5px; margin-bottom: 4px; color: #b91c1c;">ไม่พบข้อมูลคำสั่งซื้อ</strong>
+                <div>กรุณาตรวจสอบ <strong>เลขที่คำสั่งซื้อ</strong> และ <strong>เบอร์โทรศัพท์ 10 หลัก</strong> ให้ถูกต้องตรงกับที่ใช้ตอนสั่งซื้อ หรือหากเพิ่งสั่งซื้อ ระบบอาจใช้เวลา 1-2 นาทีในการอัปเดตข้อมูล</div>
+              </div>
+            </div>
+          </div>
+        `;
+      })
+      .finally(() => {
+        if (submitBtn) submitBtn.disabled = false;
+        if (btnText) btnText.textContent = 'ค้นหาสถานะคำสั่งซื้อ';
+      });
+  }
+
+  function renderTrackingResult(resultBox, data, containerEl) {
+    const rawStatus = data.status || 'pending';
+    const statusMap = {
+      pending: { label: 'รอตรวจสอบชำระเงิน', badgeClass: 'checkout-status-pending', stepIdx: 1 },
+      confirmed: { label: 'ชำระเงินเรียบร้อยแล้ว', badgeClass: 'checkout-status-confirmed', stepIdx: 2 },
+      processing: { label: 'กำลังแพ็กสินค้า', badgeClass: 'checkout-status-processing', stepIdx: 3 },
+      shipped: { label: 'จัดส่งแล้ว', badgeClass: 'checkout-status-shipped', stepIdx: 4 },
+      cancelled: { label: 'ยกเลิกแล้ว', badgeClass: 'checkout-status-cancelled', stepIdx: 0 }
+    };
+
+    const isCod = data.paymentMethod === 'cod';
+    const currentStatusInfo = statusMap[rawStatus] || { label: rawStatus, badgeClass: '', stepIdx: 1 };
+    const currentStepIdx = isCod && rawStatus === 'pending' ? 1 : currentStatusInfo.stepIdx;
+
+    const steps = [
+      { num: 1, title: 'ได้รับคำสั่งซื้อ', desc: 'บันทึกเข้าระบบ' },
+      { num: 2, title: isCod ? 'ยืนยันออเดอร์' : 'ชำระเงินแล้ว', desc: isCod ? 'ปลายทาง COD' : 'ตรวจสลิปเรียบร้อย' },
+      { num: 3, title: 'กำลังแพ็กสินค้า', desc: 'คัดสรรและแพ็กสด' },
+      { num: 4, title: 'จัดส่งแล้ว', desc: 'ส่งมอบให้ขนส่ง' }
+    ];
+
+    const progressPercent = currentStepIdx <= 1 ? 0 : Math.min(100, Math.round(((currentStepIdx - 1) / (steps.length - 1)) * 100));
+
+    const stepsHtml = steps.map((s, idx) => {
+      let stateClass = '';
+      if (currentStepIdx > s.num) {
+        stateClass = 'is-completed';
+      } else if (currentStepIdx === s.num) {
+        stateClass = 'is-active';
+      }
+      return `
+        <div class="tracking-step ${stateClass}">
+          <div class="tracking-step-circle">
+            ${currentStepIdx > s.num ? '✓' : s.num}
+          </div>
+          <div class="tracking-step-label">${s.title}</div>
+        </div>
+      `;
+    }).join('');
+
+    let trackingInfoHtml = '';
+    if (data.trackingNumber) {
+      trackingInfoHtml = `
+        <div style="margin: 16px 0; padding: 14px 16px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 2px;">
+              🚚 พัสดุจัดส่งแล้ว (${escapeHtml(data.carrier || 'ไปรษณีย์ไทย/Flash')})
+            </div>
+            <div style="font-size: 16px; font-weight: 800; color: #14532d; letter-spacing: 0.5px;">
+              ${escapeHtml(data.trackingNumber)}
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="checkout-copy-btn" id="track-copy-tracking-btn" style="padding: 6px 12px; font-size: 12px;">
+              คัดลอกเลขพัสดุ
+            </button>
+            ${data.trackingUrl ? `
+              <a href="${escapeHtml(data.trackingUrl)}" target="_blank" rel="noopener noreferrer" class="recent-order-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px;">
+                <span>เช็กพัสดุ</span>
+                <span>↗</span>
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    } else {
+      trackingInfoHtml = `
+        <div style="margin: 16px 0; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 12.5px; color: #64748b; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 16px;">📦</span>
+          <span>ขณะนี้เจ้าหน้าที่กำลังจัดเตรียมสินค้า เมื่อพัสดุถูกจัดส่ง เลขติดตามจะปรากฏที่นี่ทันที</span>
+        </div>
+      `;
+    }
+
+    const formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString('th-TH', {
+      year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    }) : '-';
+
+    const itemsHtml = Array.isArray(data.items) ? data.items.map(item => `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px;">
+        <div>
+          <strong style="color: var(--forest);">${escapeHtml(item.productName || item.product_name || 'สินค้า')}</strong>
+          <span style="color: var(--muted); font-size: 12px;"> × ${item.quantity} ${item.sku ? `(${escapeHtml(item.sku)})` : ''}</span>
+        </div>
+        <div style="font-weight: 700; color: var(--ink);">
+          ฿${Number(item.subtotal || (item.price * item.quantity)).toLocaleString()}
+        </div>
+      </div>
+    `).join('') : '';
+
+    const paymentLabel = isCod ? 'เก็บเงินปลายทาง (COD)' : 'โอนเงินชำระ (QR PromptPay)';
+
+    const siteProfile = global.__SG_SITE_PROFILE__ || {};
+    const cleanLineId = (siteProfile.line_oa_id || '@sgfruit').replace(/^@?/, '@');
+    const rawLineUrl = siteProfile.line_oa_url || `https://line.me/R/ti/p/${encodeURIComponent(cleanLineId)}`;
+    const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${encodeURIComponent(cleanLineId)}`;
+
+    resultBox.innerHTML = `
+      <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; animation: pillFadeIn 0.3s ease;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-size: 11.5px; color: var(--muted); text-transform: uppercase; font-weight: 700;">เลขที่คำสั่งซื้อ</div>
+            <div style="font-size: 18px; font-weight: 800; color: var(--forest); display: flex; align-items: center; gap: 8px;">
+              <span>${escapeHtml(data.orderNumber)}</span>
+              <button type="button" class="checkout-copy-btn" id="track-copy-orderno-btn" title="คัดลอกเลขที่คำสั่งซื้อ" style="padding: 2px 8px; font-size: 11px;">
+                คัดลอก
+              </button>
+            </div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">สั่งซื้อเมื่อ: ${formattedDate}</div>
+          </div>
+          <div style="text-align: right;">
+            <span style="display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: ${rawStatus === 'shipped' ? '#dcfce7; color: #15803d;' : (rawStatus === 'processing' ? '#eff6ff; color: #1d4ed8;' : '#fef3c7; color: #b45309;')}">
+              ● ${currentStatusInfo.label}
+            </span>
+            <div style="font-size: 11.5px; color: var(--muted); margin-top: 4px;">${paymentLabel}</div>
+          </div>
+        </div>
+
+        <div class="tracking-timeline">
+          <div class="tracking-timeline-line"></div>
+          <div class="tracking-timeline-line-fill" style="width: ${progressPercent}%;"></div>
+          ${stepsHtml}
+        </div>
+
+        ${trackingInfoHtml}
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 16px; font-size: 13px;">
+          <div style="font-weight: 700; color: var(--forest); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <svg class="ui-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            ข้อมูลผู้รับและที่อยู่จัดส่ง (PDPA Protected)
+          </div>
+          <div style="display: grid; grid-template-columns: 100px 1fr; gap: 6px 12px; line-height: 1.5;">
+            <span style="color: var(--muted);">ชื่อผู้รับ:</span>
+            <span style="font-weight: 700; color: var(--ink);">${escapeHtml(data.customerName || '-')}</span>
+
+            <span style="color: var(--muted);">เบอร์โทรศัพท์:</span>
+            <span style="font-weight: 700; color: var(--ink);">${escapeHtml(data.phone || '-')}</span>
+
+            <span style="color: var(--muted);">ที่อยู่ปลายทาง:</span>
+            <span style="color: var(--ink);">${escapeHtml(data.maskedAddress || '-')}</span>
+          </div>
+
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed #cbd5e1;">
+            <button type="button" id="track-change-address-btn" style="width: 100%; padding: 10px; border-radius: 8px; background: #ffffff; border: 1.5px solid #16a34a; color: #15803d; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+              <svg class="ui-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span>แจ้งแก้ไขที่อยู่จัดส่ง</span>
+            </button>
+            <div style="font-size: 11px; color: #94a3b8; text-align: center; margin-top: 6px; line-height: 1.4;">
+              * สามารถแจ้งแก้ไขที่อยู่ได้ก่อนสถานะเปลี่ยนเป็น "กำลังแพ็กสินค้า" เท่านั้น (ไม่สามารถยกเลิกคำสั่งซื้อผ่านหน้าเว็บได้)
+            </div>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+          <div style="font-weight: 700; color: var(--forest); margin-bottom: 8px;">รายการสินค้าที่สั่งซื้อ</div>
+          <div style="margin-bottom: 10px;">
+            ${itemsHtml}
+          </div>
+          <div style="font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; padding-top: 6px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span>ยอดรวมสินค้า:</span>
+              <span>฿${Number(data.subtotalAmount || data.totalAmount).toLocaleString()}</span>
+            </div>
+            ${data.shippingFee ? `
+              <div style="display: flex; justify-content: space-between;">
+                <span>ค่าจัดส่ง:</span>
+                <span>฿${Number(data.shippingFee).toLocaleString()}</span>
+              </div>
+            ` : '<div style="display: flex; justify-content: space-between;"><span>ค่าจัดส่ง:</span><span style="color: #16a34a; font-weight: 700;">ส่งฟรี</span></div>'}
+            ${data.discountAmount ? `
+              <div style="display: flex; justify-content: space-between; color: #16a34a;">
+                <span>ส่วนลดโอนชำระ:</span>
+                <span>-฿${Number(data.discountAmount).toLocaleString()}</span>
+              </div>
+            ` : ''}
+            <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; color: var(--forest); padding-top: 6px; border-top: 1.5px solid #e2e8f0; margin-top: 4px;">
+              <span>ยอดสุทธิ:</span>
+              <span style="color: #15803d;">฿${Number(data.totalAmount).toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const copyOrderBtn = resultBox.querySelector('#track-copy-orderno-btn');
+    if (copyOrderBtn) {
+      copyOrderBtn.addEventListener('click', () => {
+        copyTextToClipboard(data.orderNumber, `คัดลอกเลขคำสั่งซื้อ ${data.orderNumber} สำเร็จ`);
+        copyOrderBtn.textContent = 'คัดลอกแล้ว ✓';
+        setTimeout(() => { if (copyOrderBtn) copyOrderBtn.textContent = 'คัดลอก'; }, 2000);
+      });
+    }
+
+    const copyTrackingBtn = resultBox.querySelector('#track-copy-tracking-btn');
+    if (copyTrackingBtn && data.trackingNumber) {
+      copyTrackingBtn.addEventListener('click', () => {
+        copyTextToClipboard(data.trackingNumber, `คัดลอกเลขพัสดุ ${data.trackingNumber} สำเร็จ`);
+        copyTrackingBtn.textContent = 'คัดลอกแล้ว ✓';
+        setTimeout(() => { if (copyTrackingBtn) copyTrackingBtn.textContent = 'คัดลอกเลขพัสดุ'; }, 2000);
+      });
+    }
+
+    const changeAddressBtn = resultBox.querySelector('#track-change-address-btn');
+    if (changeAddressBtn) {
+      changeAddressBtn.addEventListener('click', () => {
+        const msg = `ขอแจ้งแก้ไขที่อยู่จัดส่ง เลขที่คำสั่งซื้อ: ${data.orderNumber} (เบอร์โทร: ${data.phone || ''})`;
+        copyTextToClipboard(msg, 'คัดลอกข้อความแจ้งแก้ไขที่อยู่แล้ว กำลังนำท่านไปยัง LINE...');
+        setTimeout(() => { window.open(cleanLineUrl, '_blank'); }, 600);
+      });
+    }
   }
 
   // Policy Content Data & Modal Management
@@ -2181,7 +2720,9 @@
     // Global Keydown Handler: Escape & Gallery Arrow Navigation
     global.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (state.isPolicyModalOpen) {
+        if (state.isTrackingModalOpen) {
+          closeOrderTrackingModal();
+        } else if (state.isPolicyModalOpen) {
           closePolicyModal();
         } else if (state.isOrderModalOpen) {
           closeOrderSummaryModal();
@@ -2201,6 +2742,64 @@
       }
     });
 
+    // Floating Recent Order Pill
+    const pillBtn = document.getElementById('recent-order-pill-btn');
+    if (pillBtn) {
+      pillBtn.addEventListener('click', () => {
+        const recents = getRecentOrders();
+        if (recents.length > 0) {
+          openOrderTrackingModal(recents[0].orderNumber, recents[0].phone);
+        } else {
+          openOrderTrackingModal();
+        }
+      });
+    }
+    const pillDismissBtn = document.getElementById('recent-order-dismiss-btn');
+    if (pillDismissBtn) {
+      pillDismissBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const pill = document.getElementById('recent-order-pill');
+        if (pill) pill.style.display = 'none';
+        sessionStorage.setItem('sg_dismiss_recent_pill', '1');
+      });
+    }
+
+    // Desktop navbar & Mobile drawer track links
+    const navTrackLink = document.getElementById('nav-track-link');
+    if (navTrackLink) {
+      navTrackLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openOrderTrackingModal();
+      });
+    }
+    const mobileTrackLink = document.getElementById('mobile-track-link');
+    if (mobileTrackLink) {
+      mobileTrackLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const mobileNav = document.getElementById('mobile-nav');
+        if (mobileNav && mobileNav.classList.contains('is-open')) {
+          mobileNav.classList.remove('is-open');
+        }
+        openOrderTrackingModal();
+      });
+    }
+
+    // Order Tracking Modal backdrop & close button
+    const trackModal = document.getElementById('order-tracking-modal');
+    if (trackModal) {
+      const backdrop = trackModal.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.addEventListener('click', closeOrderTrackingModal);
+      }
+      const closeBtn = document.getElementById('order-tracking-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeOrderTrackingModal);
+      }
+    }
+
+    // Initialize Recent Order Pill on load
+    updateRecentOrderPill();
+
     // Initialize Policy Modals
     initPolicyModals();
   }
@@ -2217,6 +2816,11 @@
     closeProductModal,
     openOrderSummaryModal,
     closeOrderSummaryModal,
+    openOrderTrackingModal,
+    closeOrderTrackingModal,
+    getRecentOrders,
+    saveRecentOrder,
+    updateRecentOrderPill,
     openPolicyModal,
     closePolicyModal,
     reloadCatalog,
