@@ -116,16 +116,17 @@ publicRouter.get('/products/featured', async (c) => {
 
     // Fetch Public Variants (Sanitized: NO SKU, NO cost_price)
     const variantsResult = await c.env.DB.prepare(`
-      SELECT product_id, unit, price, stock_quantity
+      SELECT id, product_id, unit, price, stock_quantity
       FROM product_variants
       WHERE product_id IN (${placeholders}) AND is_active = 1
       ORDER BY price ASC;
-    `).bind(...productIds).all<{ product_id: string; unit: string; price: number; stock_quantity: number }>();
+    `).bind(...productIds).all<{ id: string; product_id: string; unit: string; price: number; stock_quantity: number }>();
 
-    const variantMap = new Map<string, Array<{ unit: string; price: number; in_stock: boolean }>>();
+    const variantMap = new Map<string, Array<{ id: string; unit: string; price: number; in_stock: boolean }>>();
     (variantsResult.results || []).forEach((v) => {
       const list = variantMap.get(v.product_id) || [];
       list.push({
+        id: v.id,
         unit: v.unit,
         price: v.price,
         in_stock: v.stock_quantity > 0,
@@ -248,16 +249,17 @@ publicRouter.get('/products', async (c) => {
 
     // Fetch Public Variants (STRICTLY NO SKU, NO cost_price)
     const variantsResult = await c.env.DB.prepare(`
-      SELECT product_id, unit, price, stock_quantity
+      SELECT id, product_id, unit, price, stock_quantity
       FROM product_variants
       WHERE product_id IN (${placeholders}) AND is_active = 1
       ORDER BY price ASC;
-    `).bind(...productIds).all<{ product_id: string; unit: string; price: number; stock_quantity: number }>();
+    `).bind(...productIds).all<{ id: string; product_id: string; unit: string; price: number; stock_quantity: number }>();
 
-    const variantMap = new Map<string, Array<{ unit: string; price: number; in_stock: boolean }>>();
+    const variantMap = new Map<string, Array<{ id: string; unit: string; price: number; in_stock: boolean }>>();
     (variantsResult.results || []).forEach((v) => {
       const list = variantMap.get(v.product_id) || [];
       list.push({
+        id: v.id,
         unit: v.unit,
         price: v.price,
         in_stock: v.stock_quantity > 0,
@@ -356,13 +358,14 @@ publicRouter.get('/products/:id', async (c) => {
     const primaryImg = images.find(img => img.is_primary) || images[0] || null;
 
     const variantsResult = await c.env.DB.prepare(`
-      SELECT unit, price, stock_quantity
+      SELECT id, unit, price, stock_quantity
       FROM product_variants
       WHERE product_id = ? AND is_active = 1
       ORDER BY price ASC;
-    `).bind(id).all<{ unit: string; price: number; stock_quantity: number }>();
+    `).bind(id).all<{ id: string; unit: string; price: number; stock_quantity: number }>();
 
     const variants = (variantsResult.results || []).map(v => ({
+      id: v.id,
       unit: v.unit,
       price: v.price,
       in_stock: v.stock_quantity > 0,
@@ -522,6 +525,60 @@ publicRouter.post('/orders', async (c) => {
       return c.json({ ok: false, error: 'EMPTY_CART', message: 'ไม่มีรายการสินค้าในคำสั่งซื้อ' }, 400);
     }
 
+    // 1.1 Pre-validate cart items against D1 products and variants
+    const rawProductIds = items.map((i: any) => i.product_id).filter(Boolean);
+    if (rawProductIds.length !== items.length) {
+      return c.json({
+        ok: false,
+        error: 'INVALID_CART_ITEMS',
+        message: 'มีสินค้าบางรายการในตะกร้าถูกอัปเดตหรือหมดแล้ว กรุณารีเฟรชและเลือกสินค้าใหม่อีกครั้ง'
+      }, 400);
+    }
+
+    const uniqueProductIds = [...new Set(rawProductIds)];
+    const prodPlaceholders = uniqueProductIds.map(() => '?').join(',');
+    const dbProducts = await c.env.DB.prepare(`
+      SELECT id, name, is_active
+      FROM products
+      WHERE id IN (${prodPlaceholders});
+    `).bind(...uniqueProductIds).all<{ id: string; name: string; is_active: number }>();
+
+    const productMap = new Map((dbProducts.results || []).map(p => [p.id, p]));
+
+    for (const itm of items) {
+      const p = itm.product_id ? productMap.get(itm.product_id) : undefined;
+      if (!p) {
+        return c.json({
+          ok: false,
+          error: 'INVALID_CART_ITEMS',
+          message: 'มีสินค้าบางรายการในตะกร้าถูกอัปเดตหรือหมดแล้ว กรุณารีเฟรชและเลือกสินค้าใหม่อีกครั้ง'
+        }, 400);
+      }
+      if (p.is_active === 0) {
+        return c.json({
+          ok: false,
+          error: 'PRODUCT_INACTIVE',
+          message: `สินค้า "${p.name || itm.product_name}" ถูกปิดการจำหน่ายแล้ว กรุณาเลือกสินค้าอื่น`
+        }, 400);
+      }
+    }
+
+    // Fetch active variants for resolution and foreign key integrity
+    const dbVariants = await c.env.DB.prepare(`
+      SELECT id, product_id, unit, price, is_active
+      FROM product_variants
+      WHERE product_id IN (${prodPlaceholders}) AND is_active = 1
+      ORDER BY price ASC;
+    `).bind(...uniqueProductIds).all<{ id: string; product_id: string; unit: string; price: number; is_active: number }>();
+
+    const variantById = new Map((dbVariants.results || []).map(v => [v.id, v]));
+    const variantsByProd = new Map<string, Array<{ id: string; product_id: string; unit: string; price: number }>>();
+    (dbVariants.results || []).forEach(v => {
+      const list = variantsByProd.get(v.product_id) || [];
+      list.push(v);
+      variantsByProd.set(v.product_id, list);
+    });
+
     const isCod = payment_method === 'cod';
 
     // Remote area restriction: COD is strictly prohibited
@@ -557,7 +614,7 @@ publicRouter.post('/orders', async (c) => {
     const paymentLabel = isCod ? 'เก็บเงินปลายทาง (COD)' : 'โอนเงินผ่านบัญชีธนาคาร';
     const fullAddress = `${customer.address.trim()} ต.${customer.subdistrict.trim()} อ.${customer.district.trim()} จ.${customer.province.trim()} ${cleanZip}`;
 
-    // 3. Batch insert order and order_items
+    // 3. Batch insert order and order_items (Strict parent-then-child sequence)
     const statements: any[] = [];
 
     statements.push(
@@ -604,6 +661,20 @@ publicRouter.post('/orders', async (c) => {
       const price = Number(itm.price) || 0;
       const itmSubtotal = Number(itm.subtotal) || (qty * price);
 
+      // Resolve valid variant_id strictly
+      let resolvedVariantId: string | null = null;
+      if (itm.variant_id && variantById.has(itm.variant_id) && variantById.get(itm.variant_id)!.product_id === itm.product_id) {
+        resolvedVariantId = itm.variant_id;
+      } else {
+        const prodVars = itm.product_id ? (variantsByProd.get(itm.product_id) || []) : [];
+        const matchingUnit = prodVars.find(v => v.unit === itm.unit || v.unit === itm.variation);
+        if (matchingUnit) {
+          resolvedVariantId = matchingUnit.id;
+        } else if (prodVars.length > 0) {
+          resolvedVariantId = prodVars[0].id;
+        }
+      }
+
       statements.push(
         c.env.DB.prepare(`
           INSERT INTO order_items (
@@ -621,7 +692,7 @@ publicRouter.post('/orders', async (c) => {
           );
         `).bind(
           itemId, orderId, orderNo, i + 1,
-          itm.product_id || null, itm.variant_id || null, itm.product_name, itm.variation || null, itm.unit || null, itm.sku || null,
+          itm.product_id, resolvedVariantId, itm.product_name, itm.variation || null, itm.unit || null, itm.sku || null,
           qty, price, price, itmSubtotal, itmSubtotal,
           nowIso, nowIso
         )
@@ -641,6 +712,14 @@ publicRouter.post('/orders', async (c) => {
       },
     });
   } catch (err: any) {
+    const errMsg = String(err?.message || '');
+    if (errMsg.includes('FOREIGN KEY') || errMsg.includes('SQLITE_CONSTRAINT') || errMsg.includes('D1_ERROR')) {
+      return c.json({
+        ok: false,
+        error: 'INVALID_CART_ITEMS',
+        message: 'มีสินค้าบางรายการในตะกร้าถูกอัปเดตหรือหมดแล้ว กรุณารีเฟรชและเลือกสินค้าใหม่อีกครั้ง'
+      }, 400);
+    }
     return c.json({ ok: false, error: 'ORDER_SUBMIT_FAILED', message: err.message || 'ไม่สามารถบันทึกคำสั่งซื้อได้' }, 500);
   }
 });

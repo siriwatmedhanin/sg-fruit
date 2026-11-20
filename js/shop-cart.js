@@ -75,6 +75,59 @@
     }
   }
 
+  // ป้องกันตะกร้าค้างรหัสเก่า: ตรวจสอบและประสานรายการในตะกร้ากับแคตตาล็อกล่าสุด
+  function validateAndSyncCart(notify = false) {
+    if (!Array.isArray(products) || products.length === 0) return false;
+    if (!Array.isArray(state.cart) || state.cart.length === 0) return false;
+
+    let prunedCount = 0;
+    let updatedCount = 0;
+    const cleanCart = [];
+
+    for (const item of state.cart) {
+      const pid = item.productId || item.id;
+      const prod = products.find((p) => p.id === pid || p.sku === pid);
+      if (!prod || prod.available === false) {
+        prunedCount++;
+        continue;
+      }
+
+      // ตรวจสอบและจับคู่ Variant ID จริงจากแคตตาล็อก
+      let matchedVar = null;
+      if (Array.isArray(prod.variants) && prod.variants.length > 0) {
+        matchedVar = prod.variants.find((v) => v.id === item.variantId || v.unit === item.unit);
+        if (!matchedVar) {
+          matchedVar = prod.variants.find((v) => v.in_stock) || prod.variants[0];
+        }
+      }
+
+      if (matchedVar && matchedVar.in_stock === false) {
+        prunedCount++;
+        continue;
+      }
+
+      if (matchedVar && matchedVar.id && (!item.variantId || item.variantId !== matchedVar.id || item.variantId.startsWith('v-'))) {
+        item.variantId = matchedVar.id;
+        item.unit = matchedVar.unit || item.unit;
+        item.price = matchedVar.price || item.price;
+        item.key = `${prod.id}__${matchedVar.id}`;
+        updatedCount++;
+      }
+
+      cleanCart.push(item);
+    }
+
+    if (prunedCount > 0 || updatedCount > 0) {
+      state.cart = cleanCart;
+      saveCart();
+      if (prunedCount > 0 && (notify || state.isOrderModalOpen)) {
+        showToast('⚠️ มีสินค้าบางรายการในตะกร้าถูกอัปเดตหรือหมดแล้ว ระบบได้ปรับปรุงตะกร้าสินค้าให้คุณแล้ว');
+      }
+      return true;
+    }
+    return false;
+  }
+
   function getProductById(id) {
     if (!id) return null;
     return products.find((p) => p.id === id || p.sku === id) || null;
@@ -1071,6 +1124,7 @@
 
   // Checkout & Order Summary Modal
   function openOrderSummaryModal() {
+    validateAndSyncCart(true);
     if (state.cart.length === 0) {
       showToast('กรุณาเลือกสินค้าลงตะกร้าก่อนดำเนินการสั่งซื้อ');
       return;
@@ -1690,17 +1744,27 @@
               },
               payment_method: isCod ? 'cod' : 'transfer',
               slip_url: slipUrl,
-              items: state.cart.map(i => ({
-                product_id: i.productId || i.id,
-                product_name: i.name,
-                variant_id: i.variantId || null,
-                variation: i.unit || null,
-                unit: i.unit || 'หน่วย',
-                sku: i.sku || null,
-                price: i.price,
-                quantity: i.qty,
-                subtotal: i.price * i.qty
-              })),
+              items: state.cart.map(i => {
+                const prod = getProductById(i.productId || i.id);
+                let realVariantId = i.variantId;
+                if (prod && Array.isArray(prod.variants) && prod.variants.length > 0) {
+                  const matchingVar = prod.variants.find(v => v.id === i.variantId || v.unit === i.unit) || prod.variants[0];
+                  if (matchingVar && matchingVar.id && !matchingVar.id.startsWith('v-')) {
+                    realVariantId = matchingVar.id;
+                  }
+                }
+                return {
+                  product_id: i.productId || i.id,
+                  product_name: i.name,
+                  variant_id: realVariantId && !realVariantId.startsWith('v-') ? realVariantId : null,
+                  variation: i.unit || null,
+                  unit: i.unit || 'หน่วย',
+                  sku: i.sku || null,
+                  price: i.price,
+                  quantity: i.qty,
+                  subtotal: i.price * i.qty
+                };
+              }),
               subtotal,
               discount_amount: discount,
               shipping_fee: shippingFee,
@@ -1717,6 +1781,11 @@
 
             const orderJson = await orderRes.json();
             if (!orderRes.ok || !orderJson.ok) {
+              if (orderJson.error === 'INVALID_CART_ITEMS' || orderJson.error === 'PRODUCT_NOT_FOUND' || orderJson.error === 'PRODUCT_INACTIVE') {
+                await reloadCatalog();
+                validateAndSyncCart(true);
+                closeOrderSummaryModal();
+              }
               throw new Error(orderJson.message || 'บันทึกคำสั่งซื้อไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
             }
 
@@ -1845,7 +1914,11 @@
           } catch (err) {
             isSubmitting = false;
             showToast(err.message || 'เกิดข้อผิดพลาดในการสั่งซื้อ');
-            renderModal();
+            if (state.cart.length === 0) {
+              closeOrderSummaryModal();
+            } else {
+              renderModal();
+            }
           }
         });
       }
@@ -2562,6 +2635,9 @@
     }
     products = catalog.products || [];
     categories = catalog.categories || [];
+
+    // ตรวจสอบและเคลียร์รายการเก่าที่หมดอายุหรือถูกลบออกจากระบบ
+    validateAndSyncCart(false);
 
     renderModeBadge();
     renderCategories();

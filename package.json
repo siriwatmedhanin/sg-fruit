@@ -4,9 +4,9 @@
   "description": "SG FRUIT Storefront (Vanilla JS + GSAP Scrollytelling)",
   "type": "module",
   "scripts": {
-    "test": "node --test scripts/test_storefront_site_profile.js scripts/test_thai_address.js scripts/test_remote_shipping.js scripts/test_guest_order_tracking.js",
+    "test": "node --test scripts/test_storefront_site_profile.js scripts/test_thai_address.js scripts/test_remote_shipping.js scripts/test_guest_order_tracking.js scripts/test_cart_foreign_key_resilience.js",
     "build": "node scripts/build_storefront.js",
-    "verify": "node --test scripts/test_storefront_site_profile.js scripts/test_thai_address.js scripts/test_remote_shipping.js scripts/test_guest_order_tracking.js && node scripts/build_storefront.js"
+    "verify": "node --test scripts/test_storefront_site_profile.js scripts/test_thai_address.js scripts/test_remote_shipping.js scripts/test_guest_order_tracking.js scripts/test_cart_foreign_key_resilience.js && node scripts/build_storefront.js"
   },
   "keywords": [
     "sg-fruit",
