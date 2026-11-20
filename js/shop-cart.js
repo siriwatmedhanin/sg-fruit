@@ -1047,6 +1047,27 @@
     return 50;                             // 500 บาทขึ้นไป -> ลด 50 บาท
   }
 
+  // ชุดข้อมูลรหัสไปรษณีย์พื้นที่ห่างไกล / ข้ามเกาะ (69 รหัส / 70 รายการมาตรฐาน)
+  const REMOTE_POSTAL_CODES = new Set([
+    '20120', '23170', '50160', '50240', '50250', '50260', '50270', '50310', '50350',
+    '57170', '57180', '57260', '58000', '58110', '58120', '58130', '58140', '58150',
+    '63150', '63170', '67260', '71180', '71240', '81150', '81210', '82160', '83000',
+    '83100', '83110', '83120', '83130', '83150', '84140', '84280', '84310', '84320',
+    '84330', '84360', '94000', '94110', '94120', '94130', '94140', '94150', '94160',
+    '94170', '94180', '94190', '94220', '94230', '95000', '95110', '95120', '95130',
+    '95140', '95150', '95160', '95170', '96000', '96110', '96120', '96130', '96140',
+    '96150', '96160', '96170', '96180', '96190', '96210', '96220'
+  ]);
+
+  function isRemotePostalCode(code) {
+    if (!code) return false;
+    const clean = String(code).trim().replace(/\s/g, '');
+    return REMOTE_POSTAL_CODES.has(clean);
+  }
+
+  global.SG_REMOTE_POSTAL_CODES = REMOTE_POSTAL_CODES;
+  global.isRemotePostalCode = isRemotePostalCode;
+
   // Checkout & Order Summary Modal
   function openOrderSummaryModal() {
     if (state.cart.length === 0) {
@@ -1126,9 +1147,19 @@
     }
 
     function renderModal() {
+      const isRemote = isRemotePostalCode(checkoutData.postalCode);
+      const shippingFee = isRemote ? 50 : 0;
+      const isCodOverLimit = subtotal > 800;
+      const isCodAllowed = !isRemote && !isCodOverLimit;
+
+      if (!isCodAllowed && checkoutData.paymentMethod === 'cod') {
+        checkoutData.paymentMethod = 'promptpay';
+        saveCheckoutInfo(checkoutData);
+      }
+
       const isCod = checkoutData.paymentMethod === 'cod' && isCodAllowed;
       const discount = isCod ? 0 : tierDiscount;
-      const netTotal = Math.max(0, subtotal - discount);
+      const netTotal = Math.max(0, subtotal + shippingFee - discount);
 
       bodyEl.innerHTML = `
         <div class="order-summary-trust-card" role="region" aria-label="ข้อมูลความปลอดภัยการจัดส่งและชำระเงิน">
@@ -1216,10 +1247,10 @@
                   <div class="payment-radio-custom"></div>
                   <span class="payment-option-name">โอนเงินผ่านบัญชีธนาคาร</span>
                 </div>
-                <span class="payment-badge is-green">แนะนำ · ส่งฟรี + ลดเพิ่มทันที</span>
+                <span class="payment-badge is-green">แนะนำ · ส่วนลดพิเศษทันที</span>
               </div>
               <div class="payment-option-desc">
-                รับส่วนลดพิเศษทันที <strong class="payment-discount-highlight">ลดทันที ${tierDiscount} บาท</strong> (ยอดชำระเพียง ฿${formatPrice(subtotal - tierDiscount)})
+                รับส่วนลดพิเศษทันที <strong class="payment-discount-highlight">ลดทันที ${tierDiscount} บาท</strong> (ยอดชำระเพียง ฿${formatPrice(subtotal + shippingFee - tierDiscount)})
               </div>
 
               ${!isCod ? `
@@ -1279,17 +1310,21 @@
                   <div class="payment-radio-custom"></div>
                   <span class="payment-option-name">เก็บเงินปลายทาง (COD)</span>
                 </div>
-                <span class="payment-badge is-gray">ส่งฟรี ไม่มีบวกเพิ่ม</span>
+                <span class="payment-badge is-gray">${isRemote ? 'ไม่รองรับพื้นที่ห่างไกล' : 'ไม่มีบวกเพิ่ม'}</span>
               </div>
-              ${isCodAllowed ? `
-                <div class="payment-option-desc">
-                  ชำระเงินสดหรือโอนกับพนักงานขนส่งเมื่อได้รับสินค้าที่บ้าน
+              ${isRemote ? `
+                <div class="payment-disabled-alert">
+                  ⚠️ พื้นที่ห่างไกล/ข้ามเกาะ มีค่าจัดส่งเพิ่ม 50 บาท และสงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น
                 </div>
-              ` : `
+              ` : (isCodOverLimit ? `
                 <div class="payment-disabled-alert">
                   ⚠️ ออเดอร์ยอดเกิน 800 บาท สงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น (รับส่วนลดเพิ่มทันที 50.-)
                 </div>
-              `}
+              ` : `
+                <div class="payment-option-desc">
+                  ชำระเงินสดหรือโอนกับพนักงานขนส่งเมื่อได้รับสินค้าที่บ้าน
+                </div>
+              `)}
             </div>
           </div>
 
@@ -1325,10 +1360,17 @@
               <span>ยอดรวมสินค้า (${totalItems} รายการ)</span>
               <strong>฿${formatPrice(subtotal)}</strong>
             </div>
-            <div class="order-summary-row is-free-ship">
-              <span>ค่าจัดส่ง (จัดส่งปกติ)</span>
-              <strong style="color: #15803d;">ฟรี</strong>
-            </div>
+            ${isRemote ? `
+              <div class="order-summary-row is-shipping">
+                <span>ค่าจัดส่งพื้นที่ห่างไกล / ข้ามเกาะ</span>
+                <strong style="color: #ea580c;">+฿50</strong>
+              </div>
+            ` : `
+              <div class="order-summary-row is-free-ship">
+                <span>ค่าจัดส่ง (จัดส่งปกติ)</span>
+                <strong style="color: #15803d;">ฟรี</strong>
+              </div>
+            `}
             ${!isCod && discount > 0 ? `
               <div class="order-summary-row is-discount">
                 <span>ส่วนลดพิเศษโอนจ่าย</span>
@@ -1342,7 +1384,7 @@
           </div>
 
           <div class="checkout-remote-area-note">
-            หมายเหตุ: พื้นที่ห่างไกล/ข้ามเกาะ/3 จังหวัดชายแดนใต้ อาจมีค่าจัดส่งเพิ่มเติมตามเรตขนส่ง หรือสงวนสิทธิ์เฉพาะแบบโอนจ่าย
+            หมายเหตุ: พื้นที่ห่างไกล/ข้ามเกาะ มีค่าจัดส่งเพิ่ม 50 บาท และสงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น
           </div>
         </div>
 
@@ -1431,7 +1473,12 @@
       if (codCard) {
         codCard.addEventListener('click', () => {
           syncFormValuesFromDOM();
-          if (!isCodAllowed) {
+          const isRemoteNow = isRemotePostalCode(checkoutData.postalCode);
+          if (isRemoteNow) {
+            showToast('พื้นที่ห่างไกล/ข้ามเกาะ มีค่าจัดส่งเพิ่ม 50 บาท และสงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น');
+            return;
+          }
+          if (subtotal > 800) {
             showToast('ออเดอร์ยอดเกิน 800 บาท สงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น (รับส่วนลดเพิ่มทันที 50.-)');
             return;
           }
@@ -1460,6 +1507,33 @@
         });
       });
 
+      const postalInput = document.getElementById('checkout-postal');
+      if (postalInput) {
+        postalInput.addEventListener('input', () => {
+          const oldVal = checkoutData.postalCode;
+          const newVal = postalInput.value;
+          checkoutData.postalCode = newVal;
+          saveCheckoutInfo(checkoutData);
+
+          const wasRemote = isRemotePostalCode(oldVal);
+          const nowRemote = isRemotePostalCode(newVal);
+          if (wasRemote !== nowRemote) {
+            const start = postalInput.selectionStart;
+            const end = postalInput.selectionEnd;
+            renderModal();
+            const reInput = document.getElementById('checkout-postal');
+            if (reInput) {
+              reInput.focus();
+              try { reInput.setSelectionRange(start, end); } catch (e) {}
+            }
+          }
+        });
+        postalInput.addEventListener('change', () => {
+          syncFormValuesFromDOM();
+          renderModal();
+        });
+      }
+
       // Bind Thai Address Autocomplete across all 4 fields
       if (global.THAI_ADDRESS_AUTOCOMPLETE && typeof global.THAI_ADDRESS_AUTOCOMPLETE.bindAutocomplete === 'function') {
         global.THAI_ADDRESS_AUTOCOMPLETE.bindAutocomplete({
@@ -1473,6 +1547,10 @@
             checkoutData.province = item.province;
             checkoutData.postalCode = item.zipcode;
             saveCheckoutInfo(checkoutData);
+            if (global.THAI_ADDRESS_AUTOCOMPLETE && typeof global.THAI_ADDRESS_AUTOCOMPLETE.closeAllDropdowns === 'function') {
+              global.THAI_ADDRESS_AUTOCOMPLETE.closeAllDropdowns();
+            }
+            renderModal();
           }
         });
       }
@@ -1593,8 +1671,10 @@
             }
 
             // 2. Submit Order
+            const isRemoteOrder = isRemotePostalCode(rawPostal);
+            const shippingFee = isRemoteOrder ? 50 : 0;
             const discount = isCod ? 0 : tierDiscount;
-            const netTotal = Math.max(0, subtotal - discount);
+            const netTotal = Math.max(0, subtotal + shippingFee - discount);
 
             const orderPayload = {
               customer: {
@@ -1622,7 +1702,7 @@
               })),
               subtotal,
               discount_amount: discount,
-              shipping_fee: 0,
+              shipping_fee: shippingFee,
               total_amount: netTotal
             };
 
