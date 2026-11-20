@@ -606,6 +606,9 @@
       .join('');
   }
 
+  // Alias for backward-compatibility
+  const updateCartUI = renderCartUI;
+
   // Open / Close Cart Drawer
   function openCartDrawer() {
     const drawer = document.getElementById('cart-drawer');
@@ -1699,6 +1702,14 @@
           }
 
           isSubmitting = true;
+          if (confirmBtn) {
+            confirmBtn.disabled = true;
+            confirmBtn.style.pointerEvents = 'none';
+            confirmBtn.style.opacity = '0.7';
+            confirmBtn.style.cursor = 'not-allowed';
+            const btnSpan = confirmBtn.querySelector('span');
+            if (btnSpan) btnSpan.textContent = 'กำลังบันทึกคำสั่งซื้อ...';
+          }
           renderModal();
 
           try {
@@ -1803,7 +1814,7 @@
             // 3. Clear cart
             state.cart = [];
             saveCart();
-            updateCartUI();
+            renderCartUI();
 
             // 4. Render Success Screen inside modal
             bodyEl.innerHTML = `
