@@ -976,10 +976,81 @@
     updateBodyScrollLock();
   }
 
-  // Demo Order Summary Modal (Checkout Demo Requirement)
+  const CHECKOUT_STORAGE_KEY = 'sg_fruit_checkout_info';
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function loadCheckoutInfo() {
+    try {
+      const raw = global.localStorage.getItem(CHECKOUT_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            recipientName: String(parsed.recipientName || ''),
+            phone: String(parsed.phone || ''),
+            address: String(parsed.address || ''),
+            subdistrict: String(parsed.subdistrict || ''),
+            district: String(parsed.district || ''),
+            province: String(parsed.province || ''),
+            postalCode: String(parsed.postalCode || ''),
+            note: String(parsed.note || ''),
+            paymentMethod: parsed.paymentMethod === 'cod' ? 'cod' : 'promptpay',
+            codAgreed: false
+          };
+        }
+      }
+    } catch (e) {}
+    return {
+      recipientName: '',
+      phone: '',
+      address: '',
+      subdistrict: '',
+      district: '',
+      province: '',
+      postalCode: '',
+      note: '',
+      paymentMethod: 'promptpay',
+      codAgreed: false
+    };
+  }
+
+  function saveCheckoutInfo(info) {
+    try {
+      global.localStorage.setItem(CHECKOUT_STORAGE_KEY, JSON.stringify({
+        recipientName: info.recipientName,
+        phone: info.phone,
+        address: info.address,
+        subdistrict: info.subdistrict,
+        district: info.district,
+        province: info.province,
+        postalCode: info.postalCode,
+        note: info.note,
+        paymentMethod: info.paymentMethod
+      }));
+    } catch (e) {}
+  }
+
+  // คำนวณส่วนลดโอนจ่าย PromptPay ตามยอดรวมสินค้าแบบขั้นบันได
+  function getPromptPayDiscount(subtotal) {
+    if (subtotal <= 0) return 0;
+    if (subtotal <= 299) return 15;        // ไม่เกิน 299 บาท -> ลด 15 บาท
+    if (subtotal <= 499) return 30;        // 300–499 บาท -> ลด 30 บาท
+    return 50;                             // 500 บาทขึ้นไป -> ลด 50 บาท
+  }
+
+  // Checkout & Order Summary Modal
   function openOrderSummaryModal() {
     if (state.cart.length === 0) {
-      showToast('กรุณาเลือกสินค้าลงตะกร้าก่อนดูสรุปรายการ');
+      showToast('กรุณาเลือกสินค้าลงตะกร้าก่อนดำเนินการสั่งซื้อ');
       return;
     }
     const modal = document.getElementById('order-summary-modal');
@@ -987,6 +1058,11 @@
     if (!modal || !bodyEl) return;
 
     const { totalItems, subtotal } = getCartTotals();
+    const checkoutData = loadCheckoutInfo();
+    const isCodAllowed = subtotal <= 800;
+    if (!isCodAllowed && checkoutData.paymentMethod === 'cod') {
+      checkoutData.paymentMethod = 'promptpay';
+    }
 
     const rowsHtml = state.cart
       .map((item) => {
@@ -996,7 +1072,7 @@
           <div class="order-summary-item">
             <div class="order-summary-item-left">
               <strong>${item.name}${unitSuffix}</strong>
-              <span>รหัส ${item.sku} · จำนวน ${item.qty} ชิ้น (× ฿${formatPrice(item.price)})</span>
+              <span>จำนวน ${item.qty} ชิ้น (× ฿${formatPrice(item.price)})</span>
             </div>
             <div class="order-summary-item-right">฿${formatPrice(lineTotal)}</div>
           </div>
@@ -1004,73 +1080,387 @@
       })
       .join('');
 
-    // Format text for easy LINE ordering with complete details and customer input prompt
-    const lineOrderText = encodeURIComponent(
-      `สวัสดีครับ/ค่ะ สนใจสั่งซื้อผลไม้ SG FRUIT:\n` +
-      state.cart.map(i => `- ${i.name} (${i.unit || 'หน่วย'}): ${i.qty} ชิ้น (ชิ้นละ ฿${formatPrice(i.price)} = ฿${formatPrice(i.price * i.qty)})`).join('\n') +
-      `\nรวมทั้งหมด: ${totalItems} รายการ\nยอดรวมสินค้า: ฿${formatPrice(subtotal)}\n\n` +
-      `--- ข้อมูลผู้สั่งซื้อ (โปรดระบุ) ---\n` +
-      `ชื่อผู้รับ:\n` +
-      `เบอร์โทรศัพท์:\n` +
-      `ที่อยู่จัดส่ง:`
-    );
+    const tierDiscount = getPromptPayDiscount(subtotal);
 
-    const rawLineId = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_id) || '@sgfruit';
-    const cleanLineId = String(rawLineId).replace(/[^a-zA-Z0-9_@.-]/g, '');
-    const rawLineUrl = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_url) || `https://line.me/R/ti/p/${cleanLineId}`;
-    const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${cleanLineId}`;
-    const lineOrderUrl = cleanLineUrl.includes('?') ? `${cleanLineUrl}&text=${lineOrderText}` : `${cleanLineUrl}?text=${lineOrderText}`;
+    function syncFormValuesFromDOM() {
+      const nameEl = document.getElementById('checkout-name');
+      const phoneEl = document.getElementById('checkout-phone');
+      const addrEl = document.getElementById('checkout-address');
+      const subEl = document.getElementById('checkout-subdistrict');
+      const distEl = document.getElementById('checkout-district');
+      const provEl = document.getElementById('checkout-province');
+      const postEl = document.getElementById('checkout-postal');
+      const noteEl = document.getElementById('checkout-note');
+      const codCheckEl = document.getElementById('checkout-cod-agreed');
 
-    bodyEl.innerHTML = `
-      <div class="order-summary-trust-card" role="region" aria-label="ข้อมูลการจัดส่งและชำระเงิน">
-        <div class="order-trust-grid">
-          <div class="order-trust-chip">
-            <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
-            <span>ส่งด่วนคุมอุณหภูมิ</span>
+      if (nameEl) checkoutData.recipientName = nameEl.value;
+      if (phoneEl) checkoutData.phone = phoneEl.value;
+      if (addrEl) checkoutData.address = addrEl.value;
+      if (subEl) checkoutData.subdistrict = subEl.value;
+      if (distEl) checkoutData.district = distEl.value;
+      if (provEl) checkoutData.province = provEl.value;
+      if (postEl) checkoutData.postalCode = postEl.value;
+      if (noteEl) checkoutData.note = noteEl.value;
+      if (codCheckEl) checkoutData.codAgreed = codCheckEl.checked;
+      saveCheckoutInfo(checkoutData);
+    }
+
+    function renderModal() {
+      const isCod = checkoutData.paymentMethod === 'cod' && isCodAllowed;
+      const discount = isCod ? 0 : tierDiscount;
+      const netTotal = Math.max(0, subtotal - discount);
+
+      bodyEl.innerHTML = `
+        <div class="order-summary-trust-card" role="region" aria-label="ข้อมูลความปลอดภัยการจัดส่งและชำระเงิน">
+          <div class="order-trust-grid">
+            <div class="order-trust-chip">
+              <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
+              <span>ส่งด่วนคุมอุณหภูมิ</span>
+            </div>
+            <div class="order-trust-chip">
+              <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>รับประกันเคลม 100%</span>
+            </div>
+            <div class="order-trust-chip">
+              <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 15h.01"/><path d="M10 15h2"/></svg>
+              <span>โอนผ่าน QR / COD</span>
+            </div>
           </div>
-          <div class="order-trust-chip">
-            <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>รับประกันเคลม 100%</span>
+        </div>
+
+        <!-- 1. รายการสินค้า -->
+        <div class="checkout-form-section">
+          <div class="checkout-section-title">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span>รายการสินค้าในคำสั่งซื้อ (${totalItems} รายการ)</span>
           </div>
-          <div class="order-trust-chip">
-            <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 15h.01"/><path d="M10 15h2"/></svg>
-            <span>โอนผ่าน QR / บัญชีบริษัท</span>
+          <div class="order-summary-list">
+            ${rowsHtml}
           </div>
         </div>
-      </div>
 
-      <div class="order-summary-list">
-        ${rowsHtml}
-      </div>
+        <!-- 2. ฟอร์มที่อยู่จัดส่ง -->
+        <div class="checkout-form-section">
+          <div class="checkout-section-title">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>ข้อมูลที่อยู่จัดส่งสินค้า</span>
+          </div>
+          <div class="checkout-grid">
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-name">ชื่อ-นามสกุล ผู้รับ <span class="required">*</span></label>
+              <input type="text" id="checkout-name" class="checkout-input" placeholder="ระบุชื่อและนามสกุลจริง" value="${escapeHtml(checkoutData.recipientName)}" autocomplete="name" />
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-phone">เบอร์โทรศัพท์ (10 หลัก) <span class="required">*</span></label>
+              <input type="tel" id="checkout-phone" class="checkout-input" placeholder="เช่น 0812345678" maxlength="10" inputmode="numeric" value="${escapeHtml(checkoutData.phone)}" autocomplete="tel" />
+            </div>
+            <div class="checkout-field is-full">
+              <label class="checkout-label" for="checkout-address">ที่อยู่จัดส่ง (บ้านเลขที่ / หมู่ / ซอย / ถนน) <span class="required">*</span></label>
+              <input type="text" id="checkout-address" class="checkout-input" placeholder="บ้านเลขที่, หมู่, อาคาร, ซอย, ถนน" value="${escapeHtml(checkoutData.address)}" autocomplete="street-address" />
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-subdistrict">ตำบล / แขวง <span class="required">*</span></label>
+              <input type="text" id="checkout-subdistrict" class="checkout-input" placeholder="ระบุตำบลหรือแขวง" value="${escapeHtml(checkoutData.subdistrict)}" />
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-district">อำเภอ / เขต <span class="required">*</span></label>
+              <input type="text" id="checkout-district" class="checkout-input" placeholder="ระบุอำเภอหรือเขต" value="${escapeHtml(checkoutData.district)}" />
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-province">จังหวัด <span class="required">*</span></label>
+              <input type="text" id="checkout-province" class="checkout-input" placeholder="ระบุจังหวัด" value="${escapeHtml(checkoutData.province)}" />
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-postal">รหัสไปรษณีย์ (5 หลัก) <span class="required">*</span></label>
+              <input type="text" id="checkout-postal" class="checkout-input" placeholder="5 หลัก เช่น 10110" maxlength="5" inputmode="numeric" value="${escapeHtml(checkoutData.postalCode)}" autocomplete="postal-code" />
+            </div>
+            <div class="checkout-field is-full">
+              <label class="checkout-label" for="checkout-note">หมายเหตุเพิ่มเติมถึงขนส่ง (ไม่บังคับ)</label>
+              <input type="text" id="checkout-note" class="checkout-input" placeholder="เช่น วางไว้หน้าบ้าน, ฝากป้อมยาม, โทรแจ้งก่อนส่ง" value="${escapeHtml(checkoutData.note)}" />
+            </div>
+          </div>
+        </div>
 
-      <div class="order-summary-totals">
-        <div class="order-summary-row">
-          <span>จำนวนสินค้ารวม</span>
-          <strong>${totalItems} รายการ</strong>
-        </div>
-        <div class="order-summary-row is-grand">
-          <span>ยอดรวมสินค้า</span>
-          <strong>฿${formatPrice(subtotal)}</strong>
-        </div>
-      </div>
+        <!-- 3. ตัวเลือกช่องทางการชำระเงิน -->
+        <div class="checkout-form-section">
+          <div class="checkout-section-title">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 15h.01"/><path d="M10 15h2"/></svg>
+            <span>ตัวเลือกช่องทางการชำระเงิน</span>
+          </div>
 
-      <div class="order-summary-actions" style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-        <a
-          href="${lineOrderUrl}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="primary-cta order-line-btn"
-          id="order-line-confirm-btn"
-          style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;background:#06C755;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(6,199,85,0.25);"
-        >
-          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C6.48 2 2 5.82 2 10.53c0 2.91 1.7 5.48 4.31 6.94-.19.7-.68 2.54-.78 2.93-.12.48.18.47.37.35.16-.1 2.21-1.5 3.12-2.12.32.05.65.07.98.07 5.52 0 10-3.82 10-8.53S17.52 2 12 2z"/></svg>
-          <span>สั่งซื้อและส่งรายการเข้า LINE (${cleanLineId})</span>
-        </a>
-        <div class="order-summary-note" style="text-align:center;font-size:11px;color:var(--muted);line-height:1.5;margin-top:4px;">
-          * หมายเหตุ: การกดปุ่มนี้เป็นการเปิด LINE พร้อมข้อความรายการสินค้าเพื่อให้ลูกค้าส่งยืนยันกับเจ้าหน้าที่โดยตรง ยังไม่ใช่การตัดสต็อกหรือบันทึกคำสั่งซื้ออัตโนมัติในระบบ จนกว่าจะได้รับการยืนยันและชำระเงินเรียบร้อย
+          <div class="checkout-payment-options">
+            <!-- ตัวเลือกที่ 1 (Default): โอนจ่าย / สแกน QR PromptPay -->
+            <div class="payment-option-card ${!isCod ? 'is-selected' : ''}" id="payment-card-promptpay" role="button" tabindex="0">
+              <div class="payment-option-header">
+                <div class="payment-option-title-group">
+                  <div class="payment-radio-custom"></div>
+                  <span class="payment-option-name">โอนจ่าย / สแกน QR PromptPay</span>
+                </div>
+                <span class="payment-badge is-green">แนะนำ · ส่งฟรี + ลดเพิ่มทันที</span>
+              </div>
+              <div class="payment-option-desc">
+                รับส่วนลดพิเศษทันที <strong class="payment-discount-highlight">ลดทันที ${tierDiscount} บาท</strong> (ยอดชำระเพียง ฿${formatPrice(subtotal - tierDiscount)})
+              </div>
+            </div>
+
+            <!-- ตัวเลือกที่ 2: เก็บเงินปลายทาง (COD) -->
+            <div class="payment-option-card ${isCod ? 'is-selected' : ''} ${!isCodAllowed ? 'is-disabled' : ''}" id="payment-card-cod" role="button" tabindex="${isCodAllowed ? '0' : '-1'}">
+              <div class="payment-option-header">
+                <div class="payment-option-title-group">
+                  <div class="payment-radio-custom"></div>
+                  <span class="payment-option-name">เก็บเงินปลายทาง (COD)</span>
+                </div>
+                <span class="payment-badge is-gray">ส่งฟรี ไม่มีบวกเพิ่ม</span>
+              </div>
+              ${isCodAllowed ? `
+                <div class="payment-option-desc">
+                  ชำระเงินสดหรือโอนกับพนักงานขนส่งเมื่อได้รับสินค้าที่บ้าน
+                </div>
+              ` : `
+                <div class="payment-disabled-alert">
+                  ⚠️ ออเดอร์ยอดเกิน 800 บาท สงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น (รับส่วนลดเพิ่มทันที 50.-)
+                </div>
+              `}
+            </div>
+          </div>
+
+          <!-- กล่องแจ้งเตือนเงื่อนไขและข้อกฎหมาย COD (แสดงเมื่อเลือก COD) -->
+          ${isCod ? `
+            <div class="checkout-cod-alert" id="checkout-cod-box">
+              <div class="checkout-cod-alert-header">
+                <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <strong>เงื่อนไขและข้อกฎหมายการเก็บเงินปลายทาง (COD):</strong>
+              </div>
+              <ul>
+                <li>กรุณาตรวจสอบเบอร์โทรศัพท์และรับสายเจ้าหน้าที่ขนส่ง เนื่องจากสินค้าเป็นผักและผลไม้สด</li>
+                <li>การกดสั่งซื้อถือเป็นการทำสัญญาซื้อขายที่สมบูรณ์ตาม ป.พ.พ. มาตรา 168 และมาตรา 458</li>
+                <li>หากปฏิเสธการรับสินค้าโดยไม่มีเหตุอันสมควร ถือเป็นการผิดสัญญาซื้อขาย ทางร้านมีสิทธิเรียกร้องค่าเสียหายที่เกิดขึ้นจริงตาม ป.พ.พ. มาตรา 213 และมาตรา 222 (ครอบคลุมค่าจัดส่งไป-กลับ และมูลค่าสินค้าสดที่เน่าเสียจากการตีกลับ)</li>
+              </ul>
+              <label class="checkout-cod-checkbox-wrap" id="checkout-cod-checkbox-wrap">
+                <input type="checkbox" id="checkout-cod-agreed" ${checkoutData.codAgreed ? 'checked' : ''} />
+                <span>ข้าพเจ้ารับทราบเงื่อนไขและยืนยันว่าจะรอรับสินค้าตามที่อยู่ที่ระบุ</span>
+              </label>
+            </div>
+          ` : ''}
         </div>
-      </div>
-    `;
+
+        <!-- 4. สรุปยอดชำระเงินสุทธิ -->
+        <div class="checkout-form-section">
+          <div class="checkout-section-title">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>สรุปยอดชำระเงินสุทธิ (Order Summary)</span>
+          </div>
+
+          <div class="order-summary-totals">
+            <div class="order-summary-row">
+              <span>ยอดรวมสินค้า (${totalItems} รายการ)</span>
+              <strong>฿${formatPrice(subtotal)}</strong>
+            </div>
+            <div class="order-summary-row is-free-ship">
+              <span>ค่าจัดส่ง (คุมอุณหภูมิ/ด่วนพิเศษ)</span>
+              <strong style="color: #15803d;">ฟรี</strong>
+            </div>
+            ${!isCod && discount > 0 ? `
+              <div class="order-summary-row is-discount">
+                <span>ส่วนลดพิเศษโอนจ่าย (PromptPay)</span>
+                <strong style="color: #15803d;">-฿${formatPrice(discount)}</strong>
+              </div>
+            ` : ''}
+            <div class="order-summary-row is-grand">
+              <span>ยอดสุทธิที่ต้องชำระ</span>
+              <strong style="color: var(--forest); font-size: 20px;">฿${formatPrice(netTotal)}</strong>
+            </div>
+          </div>
+
+          <div class="checkout-remote-area-note">
+            หมายเหตุ: พื้นที่ห่างไกล/ข้ามเกาะ/3 จังหวัดชายแดนใต้ อาจมีค่าจัดส่งเพิ่มเติมตามเรตขนส่ง หรือสงวนสิทธิ์เฉพาะแบบโอนจ่าย
+          </div>
+        </div>
+
+        <!-- 5. ปุ่มยืนยันสั่งซื้อ -->
+        <div class="checkout-actions" style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <button
+            type="button"
+            class="primary-cta order-line-btn"
+            id="checkout-confirm-btn"
+            style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; border-radius: 14px; background: #06C755; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 15px; box-shadow: 0 4px 14px rgba(6, 199, 85, 0.28); border: none; cursor: pointer; transition: all 0.2s;"
+          >
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.48 2 2 5.82 2 10.53c0 2.91 1.7 5.48 4.31 6.94-.19.7-.68 2.54-.78 2.93-.12.48.18.47.37.35.16-.1 2.21-1.5 3.12-2.12.32.05.65.07.98.07 5.52 0 10-3.82 10-8.53S17.52 2 12 2z"/></svg>
+            <span>${!isCod ? `ยืนยันสั่งซื้อและโอนจ่าย (฿${formatPrice(netTotal)})` : `ยืนยันสั่งซื้อแบบเก็บเงินปลายทาง (฿${formatPrice(netTotal)})`}</span>
+          </button>
+          <div style="text-align: center; font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-top: 4px;">
+            เมื่อกดยืนยัน ระบบจะเปิด LINE พร้อมส่งข้อมูลคำสั่งซื้อและที่อยู่จัดส่งให้เจ้าหน้าที่ทันที
+          </div>
+        </div>
+      `;
+
+      attachModalEvents();
+    }
+
+    function attachModalEvents() {
+      const promptpayCard = document.getElementById('payment-card-promptpay');
+      const codCard = document.getElementById('payment-card-cod');
+      const codCheck = document.getElementById('checkout-cod-agreed');
+      const confirmBtn = document.getElementById('checkout-confirm-btn');
+
+      if (promptpayCard) {
+        promptpayCard.addEventListener('click', () => {
+          syncFormValuesFromDOM();
+          if (checkoutData.paymentMethod !== 'promptpay') {
+            checkoutData.paymentMethod = 'promptpay';
+            saveCheckoutInfo(checkoutData);
+            renderModal();
+          }
+        });
+      }
+
+      if (codCard) {
+        codCard.addEventListener('click', () => {
+          syncFormValuesFromDOM();
+          if (!isCodAllowed) {
+            showToast('ออเดอร์ยอดเกิน 800 บาท สงวนสิทธิ์เฉพาะแบบโอนจ่ายเท่านั้น (รับส่วนลดเพิ่มทันที 50.-)');
+            return;
+          }
+          if (checkoutData.paymentMethod !== 'cod') {
+            checkoutData.paymentMethod = 'cod';
+            saveCheckoutInfo(checkoutData);
+            renderModal();
+          }
+        });
+      }
+
+      if (codCheck) {
+        codCheck.addEventListener('change', (e) => {
+          checkoutData.codAgreed = e.target.checked;
+          const wrap = document.getElementById('checkout-cod-checkbox-wrap');
+          if (wrap && e.target.checked) wrap.classList.remove('is-invalid');
+        });
+      }
+
+      // Input listener to save and clear invalid styling
+      const inputs = bodyEl.querySelectorAll('.checkout-input');
+      inputs.forEach((input) => {
+        input.addEventListener('input', () => {
+          input.classList.remove('is-invalid');
+          syncFormValuesFromDOM();
+        });
+      });
+
+      // Confirm Order Handler
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+          syncFormValuesFromDOM();
+
+          const name = checkoutData.recipientName.trim();
+          const rawPhone = checkoutData.phone.replace(/[\s-]/g, '');
+          const address = checkoutData.address.trim();
+          const subdistrict = checkoutData.subdistrict.trim();
+          const district = checkoutData.district.trim();
+          const province = checkoutData.province.trim();
+          const rawPostal = checkoutData.postalCode.replace(/\s/g, '');
+          const note = checkoutData.note.trim();
+          const isCod = checkoutData.paymentMethod === 'cod' && isCodAllowed;
+
+          // Validation
+          if (!name) {
+            showToast('กรุณากรอกชื่อ-นามสกุล ผู้รับ');
+            const el = document.getElementById('checkout-name');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (!/^0[0-9]{9}$/.test(rawPhone)) {
+            showToast('กรุณากรอกเบอร์โทรศัพท์ 10 หลัก (เช่น 0812345678)');
+            const el = document.getElementById('checkout-phone');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (!address) {
+            showToast('กรุณากรอกที่อยู่จัดส่ง (บ้านเลขที่ / ซอย / ถนน)');
+            const el = document.getElementById('checkout-address');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (!subdistrict) {
+            showToast('กรุณากรอกตำบล / แขวง');
+            const el = document.getElementById('checkout-subdistrict');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (!district) {
+            showToast('กรุณากรอกอำเภอ / เขต');
+            const el = document.getElementById('checkout-district');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (!province) {
+            showToast('กรุณากรอกจังหวัด');
+            const el = document.getElementById('checkout-province');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (!/^[0-9]{5}$/.test(rawPostal)) {
+            showToast('กรุณากรอกรหัสไปรษณีย์ 5 หลัก (เช่น 10110)');
+            const el = document.getElementById('checkout-postal');
+            if (el) { el.classList.add('is-invalid'); el.focus(); }
+            return;
+          }
+
+          if (isCod && !checkoutData.codAgreed) {
+            showToast('กรุณาติ๊กรับทราบเงื่อนไขและข้อกฎหมายการเก็บเงินปลายทาง (COD)');
+            const wrap = document.getElementById('checkout-cod-checkbox-wrap');
+            if (wrap) {
+              wrap.classList.add('is-invalid');
+              wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            const chk = document.getElementById('checkout-cod-agreed');
+            if (chk) chk.focus();
+            return;
+          }
+
+          // Build structured message for LINE
+          const discount = isCod ? 0 : tierDiscount;
+          const netTotal = Math.max(0, subtotal - discount);
+          const paymentLabel = isCod ? 'เก็บเงินปลายทาง (COD)' : 'โอนจ่าย / สแกน QR PromptPay';
+          const discountLine = (!isCod && discount > 0) ? `\nส่วนลดพิเศษโอนจ่าย: -฿${formatPrice(discount)}` : '';
+          const noteLine = note ? `\nหมายเหตุถึงขนส่ง: ${note}` : '';
+          const codNotice = isCod ? `\n* ลูกค้ายืนยันรับทราบเงื่อนไขและข้อกฎหมาย COD พร้อมรอรับสายและรับสินค้าเรียบร้อยแล้ว` : '';
+
+          const lineOrderText = encodeURIComponent(
+            `สวัสดีครับ/ค่ะ สั่งซื้อสินค้า SG FRUIT:\n` +
+            state.cart.map(i => `- ${i.name} (${i.unit || 'หน่วย'}): ${i.qty} ชิ้น (฿${formatPrice(i.price * i.qty)})`).join('\n') +
+            `\n--------------------------------\n` +
+            `ยอดรวมสินค้า (${totalItems} รายการ): ฿${formatPrice(subtotal)}\n` +
+            `ค่าจัดส่ง: ฟรี (ส่งด่วนคุมอุณหภูมิ)` +
+            discountLine + `\n` +
+            `ช่องทางการชำระเงิน: ${paymentLabel}\n` +
+            `ยอดสุทธิที่ต้องชำระ: ฿${formatPrice(netTotal)}\n\n` +
+            `--- ข้อมูลผู้รับและการจัดส่ง ---\n` +
+            `ชื่อผู้รับ: ${name}\n` +
+            `เบอร์โทรศัพท์: ${rawPhone}\n` +
+            `ที่อยู่จัดส่ง: ${address} ต.${subdistrict} อ.${district} จ.${province} ${rawPostal}` +
+            noteLine +
+            codNotice
+          );
+
+          const rawLineId = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_id) || '@sgfruit';
+          const cleanLineId = String(rawLineId).replace(/[^a-zA-Z0-9_@.-]/g, '');
+          const rawLineUrl = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_url) || `https://line.me/R/ti/p/${cleanLineId}`;
+          const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${cleanLineId}`;
+          const lineOrderUrl = cleanLineUrl.includes('?') ? `${cleanLineUrl}&text=${lineOrderText}` : `${cleanLineUrl}?text=${lineOrderText}`;
+
+          showToast('กำลังเปิด LINE เพื่อส่งคำสั่งซื้อ...');
+          global.open(lineOrderUrl, '_blank', 'noopener,noreferrer');
+        });
+      }
+    }
+
+    renderModal();
 
     state.isOrderModalOpen = true;
     modal.classList.add('is-open');
