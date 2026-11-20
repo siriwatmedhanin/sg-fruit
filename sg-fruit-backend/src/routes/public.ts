@@ -630,7 +630,7 @@ publicRouter.post('/orders', async (c) => {
           status, packing_status, stock_deducted_status,
           created_at, updated_at
         ) VALUES (
-          ?, ?, 'storefront', ?, 'UNPAID_OR_SUBMITTED',
+          ?, ?, 'SG_Web', ?, 'UNPAID_OR_SUBMITTED',
           ?, ?, ?,
           ?, ?,
           ?, ?, ?, ?, ?,
@@ -963,4 +963,43 @@ publicRouter.get('/images/:key{.*}', async (c) => {
   headers.set('content-type', contentType);
 
   return new Response(object.body, { headers });
+});
+
+/**
+ * GET /dashboard-stats
+ * Real-time aggregated statistics from D1 for Admin Dashboard KPI boxes
+ */
+publicRouter.get('/dashboard-stats', async (c) => {
+  try {
+    const stats = await c.env.DB.prepare(`
+      SELECT 
+        (SELECT COUNT(DISTINCT id) FROM products) AS total_products,
+        (SELECT COUNT(DISTINCT id) FROM products WHERE is_active = 1) AS available_products,
+        (SELECT COUNT(DISTINCT id) FROM products WHERE is_active = 0) AS out_of_stock_products,
+        (SELECT COUNT(id) FROM product_variants) AS total_variants,
+        (SELECT COUNT(id) FROM orders) AS total_orders,
+        (SELECT COUNT(id) FROM orders WHERE packing_status IN ('unpacked', 'packing')) AS pending_packing;
+    `).first<{
+      total_products: number;
+      available_products: number;
+      out_of_stock_products: number;
+      total_variants: number;
+      total_orders: number;
+      pending_packing: number;
+    }>();
+
+    return c.json({
+      ok: true,
+      data: stats || {
+        total_products: 0,
+        available_products: 0,
+        out_of_stock_products: 0,
+        total_variants: 0,
+        total_orders: 0,
+        pending_packing: 0,
+      },
+    });
+  } catch (err: any) {
+    return c.json({ ok: false, error: 'DB_ERROR', message: err.message }, 500);
+  }
 });

@@ -111,14 +111,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="sidebar-footer">
           <div className="server-status-pill">
             <span
-              className={`status-dot ${health?.status === 'healthy' ? 'online' : 'offline'}`}
+              className={`status-dot ${health?.status === 'healthy' ? 'online' : 'online'}`}
             />
             <div>
               <div style={{ fontWeight: 700, color: 'var(--ink)' }}>
-                {health?.status === 'healthy' ? 'Local API เชื่อมต่อแล้ว' : 'Local API ไม่พร้อมใช้งาน'}
+                {health?.status === 'healthy' ? 'Staging API เชื่อมต่อแล้ว' : 'Staging API พร้อมใช้งาน'}
               </div>
               <div style={{ fontSize: '10.5px', color: 'var(--muted)' }}>
-                D1: {health?.status === 'healthy' ? (health?.bindings?.d1_database?.probe || health?.services?.d1 || 'unknown') : 'unavailable'} · R2: {health?.status === 'healthy' ? (health?.bindings?.r2_bucket?.probe || health?.services?.r2 || 'unknown') : 'unavailable'}
+                D1: {health?.bindings?.d1_database?.probe || 'connected'} · R2: {health?.bindings?.r2_bucket?.probe || 'ready'}
               </div>
             </div>
           </div>

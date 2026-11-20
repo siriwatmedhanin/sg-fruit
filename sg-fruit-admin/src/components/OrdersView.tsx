@@ -194,7 +194,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
             จัดการคำสั่งซื้อ (Orders Management)
           </h2>
           <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            ระบบคำสั่งซื้อจากแพลตฟอร์ม (TikTok Shop 65 คอลัมน์) — รวม {total.toLocaleString()} ออเดอร์
+            จัดการคำสั่งซื้อจากหน้าเว็บ (SG_Web) และช่องทางอื่น — รวม {total.toLocaleString()} ออเดอร์
           </span>
         </div>
 
@@ -203,24 +203,27 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
             type="button"
             className="btn btn-secondary"
             onClick={loadOrders}
-            title="รีเฟรช"
+            title="รีเฟรชข้อมูลคำสั่งซื้อ"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <RefreshCw size={15} /> รีเฟรช
+            <RefreshCw size={15} strokeWidth={1.75} /> รีเฟรช
           </button>
           <button
             type="button"
             className="btn btn-secondary"
             onClick={() => setIsExportModalOpen(true)}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <Download size={15} /> ส่งออก Excel
+            <Download size={15} strokeWidth={1.75} /> ส่งออก Excel
           </button>
           {role === 'admin' && (
             <button
               type="button"
               className="btn btn-primary"
               onClick={() => setIsImportModalOpen(true)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
-              <FileSpreadsheet size={16} /> นำเข้า Excel
+              <FileSpreadsheet size={16} strokeWidth={1.75} /> นำเข้า Excel
             </button>
           )}
         </div>
@@ -242,9 +245,10 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
         <div style={{ flex: '1 1 240px', position: 'relative' }}>
           <Search
             size={16}
+            strokeWidth={1.75}
             style={{
               position: 'absolute',
-              left: '10px',
+              left: '12px',
               top: '50%',
               transform: 'translateY(-50%)',
               color: 'var(--text-muted)',
@@ -253,7 +257,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
           <input
             type="text"
             className="input-control"
-            style={{ paddingLeft: '32px', fontSize: '13px' }}
+            style={{ paddingLeft: '36px', fontSize: '13px', borderRadius: '8px', border: '1px solid var(--border)' }}
             placeholder="ค้นหา Order ID, ผู้รับ, เบอร์โทร, Tracking ID, สินค้า..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -263,7 +267,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <select
             className="input-control"
-            style={{ fontSize: '13px', width: 'auto' }}
+            style={{ fontSize: '13px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
             value={packingFilter}
             onChange={(e) => setPackingFilter(e.target.value)}
           >
@@ -275,7 +279,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
 
           <select
             className="input-control"
-            style={{ fontSize: '13px', width: 'auto' }}
+            style={{ fontSize: '13px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -289,7 +293,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
           <input
             type="date"
             className="input-control"
-            style={{ fontSize: '12.5px', width: 'auto' }}
+            style={{ fontSize: '12.5px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
             value={dateFrom}
             onChange={(e) => setDateFrom(e.target.value)}
             title="ตั้งแต่วันที่"
@@ -297,7 +301,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
           <input
             type="date"
             className="input-control"
-            style={{ fontSize: '12.5px', width: 'auto' }}
+            style={{ fontSize: '12.5px', width: 'auto', borderRadius: '8px', border: '1px solid var(--border)' }}
             value={dateTo}
             onChange={(e) => setDateTo(e.target.value)}
             title="ถึงวันที่"
@@ -328,6 +332,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
               <th style={{ padding: '10px 12px' }}>Order ID (แพลตฟอร์ม)</th>
               <th style={{ padding: '10px 12px' }}>ผู้รับสินค้า / ที่อยู่</th>
               <th style={{ padding: '10px 12px' }}>ช่องทาง</th>
+              <th style={{ padding: '10px 12px' }}>สถานะ / การชำระเงิน</th>
               <th style={{ padding: '10px 12px', textAlign: 'center' }}>รายการสินค้า</th>
               {role === 'admin' && <th style={{ padding: '10px 12px', textAlign: 'right' }}>ยอดรวม</th>}
               <th style={{ padding: '10px 12px' }}>Tracking ID</th>
@@ -338,17 +343,17 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={role === 'admin' ? 9 : 8} style={{ padding: '30px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                <td colSpan={role === 'admin' ? 10 : 9} style={{ padding: '30px', textAlign: 'center', color: 'var(--text-muted)' }}>
                   กำลังโหลดข้อมูลคำสั่งซื้อ...
                 </td>
               </tr>
             ) : orders.length === 0 ? (
               <tr>
-                <td colSpan={role === 'admin' ? 9 : 8} style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>
-                  <ShoppingBag size={36} style={{ color: 'var(--border)', margin: '0 auto 8px auto' }} />
+                <td colSpan={role === 'admin' ? 10 : 9} style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                  <ShoppingBag size={36} strokeWidth={1.75} style={{ color: 'var(--border)', margin: '0 auto 8px auto' }} />
                   <p style={{ margin: 0, fontWeight: 500 }}>ยังไม่มีข้อมูลคำสั่งซื้อ</p>
                   <span style={{ fontSize: '12px' }}>
-                    {role === 'admin' ? 'คลิกปุ่ม "นำเข้า Excel" เพื่อนำเข้าไฟล์ OrderSKUList จาก TikTok Shop' : 'ยังไม่มีคำสั่งซื้อที่ส่งเข้ามา'}
+                    {role === 'admin' ? 'คำสั่งซื้อจากหน้าเว็บ (SG_Web) หรือการนำเข้า Excel จะปรากฏที่นี่' : 'ยังไม่มีคำสั่งซื้อที่ส่งเข้ามา'}
                   </span>
                 </td>
               </tr>
@@ -375,26 +380,64 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
                     </div>
                   </td>
                   <td style={{ padding: '10px 12px' }}>
-                    <span style={{ padding: '2px 6px', borderRadius: '4px', background: ord.platform === 'storefront' ? '#ECFDF5' : '#F1F5F9', color: ord.platform === 'storefront' ? '#047857' : '#334155', fontSize: '11px', fontWeight: 600 }}>
-                      {ord.platform === 'storefront' ? 'หน้าร้าน (Storefront)' : 'TikTok Shop'}
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        background: (ord.platform === 'SG_Web' || ord.platform === 'storefront') ? '#ECFDF5' : '#F1F5F9',
+                        color: (ord.platform === 'SG_Web' || ord.platform === 'storefront') ? '#047857' : '#334155',
+                        border: `1px solid ${(ord.platform === 'SG_Web' || ord.platform === 'storefront') ? '#A7F3D0' : '#CBD5E1'}`,
+                        fontSize: '11.5px',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {(ord.platform === 'SG_Web' || ord.platform === 'storefront') ? '🌐 SG_Web' : 'TikTok Shop'}
                     </span>
-                    {ord.payment_method && (
-                      <div style={{ fontSize: '11px', color: '#475569', marginTop: '3px' }}>
-                        {ord.payment_method}
-                      </div>
-                    )}
-                    {ord.slip_url && (
-                      <div>
-                        <button
-                          type="button"
-                          onClick={() => setFullSlipUrl(resolveImageUrl(ord.slip_url))}
-                          style={{ border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '3px', color: '#16a34a', fontSize: '11px', fontWeight: 600, marginTop: '3px' }}
-                          title="คลิกดูสลิปโอนเงิน"
-                        >
-                          🧾 ดูสลิป
-                        </button>
-                      </div>
-                    )}
+                  </td>
+                  <td style={{ padding: '10px 12px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                      <span
+                        style={{
+                          fontSize: '12px',
+                          fontWeight: 600,
+                          color: ord.payment_method?.includes('โอน') ? '#15803d' : '#334155',
+                        }}
+                      >
+                        {ord.payment_method || (ord.platform === 'SG_Web' || ord.platform === 'storefront' ? 'โอนเงินผ่านบัญชีธนาคาร' : 'TikTok Shop')}
+                      </span>
+                      {ord.slip_url ? (
+                        <div>
+                          <button
+                            type="button"
+                            onClick={() => setFullSlipUrl(resolveImageUrl(ord.slip_url))}
+                            style={{
+                              border: '1px solid #86EFAC',
+                              background: '#F0FDF4',
+                              borderRadius: '4px',
+                              padding: '2px 7px',
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              color: '#166534',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              marginTop: '2px',
+                            }}
+                            title="คลิกดูสลิปโอนเงิน"
+                          >
+                            🧾 ดูสลิป
+                          </button>
+                        </div>
+                      ) : (
+                        ord.payment_method?.includes('โอน') && (
+                          <span style={{ fontSize: '10.5px', color: '#94A3B8' }}>(ยังไม่มีสลิป)</span>
+                        )
+                      )}
+                    </div>
                   </td>
                   <td style={{ padding: '10px 12px', textAlign: 'center' }}>
                     <strong style={{ color: '#2563EB' }}>{ord.items_count} รายการ</strong>
@@ -482,7 +525,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({ role, onRefreshStats }) 
                 <div style={{ padding: '12px', background: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)' }}>
                   <span style={{ fontSize: '11.5px', color: 'var(--text-muted)' }}>ช่องทางชำระเงิน</span>
                   <div style={{ fontWeight: 600, marginTop: '2px', color: detailOrder.payment_method?.includes('โอน') ? '#15803d' : 'var(--ink)' }}>
-                    {detailOrder.payment_method || (detailOrder.platform === 'storefront' ? 'โอนเงินผ่านบัญชีธนาคาร' : 'TikTok Shop')}
+                    {detailOrder.payment_method || ((detailOrder.platform === 'SG_Web' || detailOrder.platform === 'storefront') ? 'โอนเงินผ่านบัญชีธนาคาร' : 'TikTok Shop')}
                   </div>
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                     ยอดสุทธิ: ฿{Number(detailOrder.total_amount || 0).toLocaleString()} {detailOrder.discount_amount ? `(ส่วนลด ฿${detailOrder.discount_amount})` : ''}

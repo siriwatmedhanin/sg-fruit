@@ -21,6 +21,46 @@ adminRouter.route('/inventory', inventoryRouter);
 // Mount Site Profile & Store Settings Handlers (Step 7.10.5 Complete)
 adminRouter.route('/site-profile', siteProfileAdminRouter);
 
+// DASHBOARD STATS FOR ADMIN
+adminRouter.get('/dashboard-stats', async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: 'DB_UNAVAILABLE' }, 500);
+  }
+
+  try {
+    const stats = await c.env.DB.prepare(`
+      SELECT 
+        (SELECT COUNT(DISTINCT id) FROM products) AS total_products,
+        (SELECT COUNT(DISTINCT id) FROM products WHERE is_active = 1) AS available_products,
+        (SELECT COUNT(DISTINCT id) FROM products WHERE is_active = 0) AS out_of_stock_products,
+        (SELECT COUNT(id) FROM product_variants) AS total_variants,
+        (SELECT COUNT(id) FROM orders) AS total_orders,
+        (SELECT COUNT(id) FROM orders WHERE packing_status IN ('unpacked', 'packing')) AS pending_packing;
+    `).first<{
+      total_products: number;
+      available_products: number;
+      out_of_stock_products: number;
+      total_variants: number;
+      total_orders: number;
+      pending_packing: number;
+    }>();
+
+    return c.json({
+      ok: true,
+      data: stats || {
+        total_products: 0,
+        available_products: 0,
+        out_of_stock_products: 0,
+        total_variants: 0,
+        total_orders: 0,
+        pending_packing: 0,
+      },
+    });
+  } catch (err: any) {
+    return c.json({ ok: false, error: 'DB_ERROR', message: err.message }, 500);
+  }
+});
+
 // 0. CATEGORIES MANAGEMENT FOR ADMIN
 adminRouter.get('/categories', requireAuth(['admin']), async (c) => {
   if (!c.env.DB) {

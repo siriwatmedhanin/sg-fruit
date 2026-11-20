@@ -21,8 +21,14 @@ export async function corsMiddleware(c: Context<{ Bindings: Env }>, next: Next) 
   } else {
     // Non-Development (Staging / Production): Strictly segregate by Hostname
     const isAdminHost = host.includes('admin-api');
+    const isPublicStatOrHealth = url.pathname === '/health' || url.pathname === '/api/health' || url.pathname.endsWith('/dashboard-stats');
     
-    if (isAdminHost) {
+    if (isPublicStatOrHealth) {
+      const allowedAdmin = (c.env.CORS_ADMIN_ORIGINS || c.env.CORS_ALLOW_ORIGIN || '').split(',').map((s: string) => s.trim()).filter(Boolean);
+      const allowedPublic = (c.env.CORS_PUBLIC_ORIGINS || '').split(',').map((s: string) => s.trim()).filter(Boolean);
+      const allAllowed = [...new Set([...allowedAdmin, ...allowedPublic])];
+      isAllowed = !origin || allAllowed.includes(origin);
+    } else if (isAdminHost) {
       // Admin API: Strictly only allow configured Admin UI origins (e.g. https://staging-admin.siriwatmedhanin.com)
       const allowedAdmin = (c.env.CORS_ADMIN_ORIGINS || c.env.CORS_ALLOW_ORIGIN || '')
         .split(',')

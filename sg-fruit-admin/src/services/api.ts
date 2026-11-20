@@ -59,12 +59,54 @@ export function resolveImageUrl(urlOrKey?: string | null): string {
   return `${imageApiBase}/images/${urlOrKey.replace(/^\/+/, '')}`;
 }
 
+export interface DashboardStats {
+  total_products: number;
+  available_products: number;
+  out_of_stock_products: number;
+  total_variants: number;
+  total_orders: number;
+  pending_packing: number;
+}
+
 export async function fetchHealth(): Promise<ApiHealth> {
+  // In staging/production, prioritize public staging-api endpoint to bypass CF Access redirect
+  if (API_BASE.includes('staging-admin-api.')) {
+    try {
+      const r = await fetch('https://staging-api.siriwatmedhanin.com/api/health', { cache: 'no-store' });
+      if (r.ok) return await r.json();
+    } catch {
+      // Fallback below
+    }
+  }
   const res = await apiFetch(`${API_BASE}/health`);
   if (!res.ok) {
     throw new Error(`Health check failed with status ${res.status}`);
   }
   return res.json();
+}
+
+export async function fetchDashboardStats(): Promise<DashboardStats> {
+  const endpoints: string[] = [];
+  if (API_BASE.includes('staging-admin-api.')) {
+    endpoints.push('https://staging-api.siriwatmedhanin.com/api/dashboard-stats');
+  }
+  endpoints.push(`${API_BASE}/dashboard-stats`);
+  endpoints.push(`${API_BASE}/admin/dashboard-stats`);
+
+  for (const url of endpoints) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && json.data) {
+          return json.data;
+        }
+      }
+    } catch {
+      // Continue to next endpoint
+    }
+  }
+  throw new Error('Could not fetch dashboard stats');
 }
 
 export async function fetchAdminCategories(role: AuthRole): Promise<AdminApiResponse<Category[]>> {

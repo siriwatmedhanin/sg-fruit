@@ -59,7 +59,7 @@
         "ENVIRONMENT": "staging",
         "APP_NAME": "SG FRUIT API (Staging)",
         "CORS_ADMIN_ORIGINS": "https://staging-admin.siriwatmedhanin.com,https://sg-fruit-admin-staging.pages.dev",
-        "CORS_PUBLIC_ORIGINS": "https://sg-fruit.siriwatmedhanin.com,https://staging.siriwatmedhanin.com,https://sg-fruit-storefront-staging.pages.dev",
+        "CORS_PUBLIC_ORIGINS": "https://sg-fruit.siriwatmedhanin.com,https://staging.siriwatmedhanin.com,https://sg-fruit-storefront-staging.pages.dev,https://staging-admin.siriwatmedhanin.com,https://sg-fruit-admin-staging.pages.dev",
         "CORS_ALLOW_ORIGIN": "https://staging-admin.siriwatmedhanin.com",
         "DEV_AUTH_MOCK_ENABLED": "false"
       }
