@@ -3717,6 +3717,201 @@
       font-style: italic;
     }
 
+    /* Bank Transfer Box & Details */
+    .checkout-bank-details {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: #ffffff;
+      border: 1.5px solid #bbf7d0;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .checkout-bank-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .checkout-bank-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .checkout-bank-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .checkout-bank-val {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .checkout-bank-acc-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkout-bank-acc-num {
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: 800;
+      color: #15803d;
+      letter-spacing: 0.5px;
+    }
+
+    .checkout-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid #15803d;
+      background: #f0fdf4;
+      color: #15803d;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .checkout-copy-btn:hover {
+      background: #15803d;
+      color: #ffffff;
+    }
+
+    /* Slip Upload Section */
+    .checkout-slip-box {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed #d1d5db;
+    }
+
+    .checkout-slip-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .checkout-slip-uploader {
+      position: relative;
+      border: 2px dashed #86efac;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .checkout-slip-uploader:hover {
+      border-color: #22c55e;
+      background: #f0fdf4;
+    }
+
+    .checkout-slip-uploader.is-invalid {
+      border-color: #ef4444 !important;
+      background: #fef2f2 !important;
+    }
+
+    .checkout-slip-file-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .checkout-slip-preview-container {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .checkout-slip-preview-img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* Order Success Modal Screen */
+    .order-success-screen {
+      text-align: center;
+      padding: 24px 16px 16px;
+    }
+
+    .order-success-icon-wrap {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #dcfce7;
+      color: #16a34a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(22, 163, 74, 0.2);
+    }
+
+    .order-success-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #14532d;
+      margin-bottom: 6px;
+    }
+
+    .order-success-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .order-success-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+
+    .order-success-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .order-success-row:last-child {
+      border-bottom: none;
+      padding-top: 10px;
+      font-weight: 700;
+    }
+
+    .order-success-orderno {
+      font-family: monospace;
+      font-weight: 800;
+      color: #15803d;
+      font-size: 15px;
+    }
+
     .toast {
       position: fixed;
       bottom: 26px;
@@ -4546,7 +4741,7 @@
                   </svg>
                 </div>
                 <div class="trust-text">
-                  <strong>แพ็กกันกระแทก &amp; ส่งด่วนคุมอุณหภูมิ</strong>
+                  <strong>แพ็กกันกระแทก &amp; จัดส่งรวดเร็วทั่วไทย</strong>
                   <span>หุ้มโฟมและตาข่ายทุกลูก ป้องกันการช้ำเสียหาย</span>
                 </div>
               </div>
@@ -4822,7 +5017,7 @@
         </div>
         <div class="cart-trust-item">
           <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
-          <span>แพ็กกันกระแทกอย่างดี · จัดส่งด่วนแบบคุมอุณหภูมิ</span>
+          <span>แพ็กกันกระแทกอย่างดี · จัดส่งรวดเร็วทั่วไทย</span>
         </div>
       </div>
       <div class="cart-drawer-body">
@@ -4914,10 +5109,10 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <!-- Product Catalog & Cart Modules -->
-  <script src="js/products-data.js?v=20261120-v1"></script>
-  <script src="js/api-adapter.js?v=20261120-v1"></script>
-  <script src="js/site-profile.js?v=20261120-v1"></script>
-  <script src="js/shop-cart.js?v=20261120-v1"></script>
+  <script src="js/products-data.js?v=20261120-v2"></script>
+  <script src="js/api-adapter.js?v=20261120-v2"></script>
+  <script src="js/site-profile.js?v=20261120-v2"></script>
+  <script src="js/shop-cart.js?v=20261120-v2"></script>
 
   <!-- GSAP & ScrollTrigger -->
   <script src="js/gsap.min.js"></script>

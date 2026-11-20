@@ -744,7 +744,7 @@
             </div>
             <div class="pmodal-trust-pill">
               <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
-              <span>แพ็กกันกระแทก &amp; ส่งด่วนคุมอุณหภูมิ</span>
+              <span>แพ็กกันกระแทก &amp; จัดส่งรวดเร็วทั่วไทย</span>
             </div>
           </div>
           <div class="pmodal-actions">
@@ -1081,6 +1081,26 @@
       .join('');
 
     const tierDiscount = getPromptPayDiscount(subtotal);
+    let uploadedSlipFile = null;
+    let uploadedSlipPreview = null;
+    let uploadedSlipName = '';
+    let isSubmitting = false;
+
+    function fallbackCopy(text) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('คัดลอกเลขบัญชี 2412502003 สำเร็จแล้ว');
+      } catch (e) {
+        showToast('เลขบัญชี: 2412502003');
+      }
+    }
 
     function syncFormValuesFromDOM() {
       const nameEl = document.getElementById('checkout-name');
@@ -1115,7 +1135,7 @@
           <div class="order-trust-grid">
             <div class="order-trust-chip">
               <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l3 3v4a2 2 0 0 1-2 2h-1"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 9V6"/></svg>
-              <span>ส่งด่วนคุมอุณหภูมิ</span>
+              <span>จัดส่งด่วนแบบปกติ (แพ็กกันกระแทก)</span>
             </div>
             <div class="order-trust-chip">
               <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -1123,7 +1143,7 @@
             </div>
             <div class="order-trust-chip">
               <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 15h.01"/><path d="M10 15h2"/></svg>
-              <span>โอนผ่าน QR / COD</span>
+              <span>โอนผ่านบัญชี / COD</span>
             </div>
           </div>
         </div>
@@ -1189,18 +1209,67 @@
           </div>
 
           <div class="checkout-payment-options">
-            <!-- ตัวเลือกที่ 1 (Default): โอนจ่าย / สแกน QR PromptPay -->
+            <!-- ตัวเลือกที่ 1 (Default): โอนเงินผ่านบัญชีธนาคาร -->
             <div class="payment-option-card ${!isCod ? 'is-selected' : ''}" id="payment-card-promptpay" role="button" tabindex="0">
               <div class="payment-option-header">
                 <div class="payment-option-title-group">
                   <div class="payment-radio-custom"></div>
-                  <span class="payment-option-name">โอนจ่าย / สแกน QR PromptPay</span>
+                  <span class="payment-option-name">โอนเงินผ่านบัญชีธนาคาร</span>
                 </div>
                 <span class="payment-badge is-green">แนะนำ · ส่งฟรี + ลดเพิ่มทันที</span>
               </div>
               <div class="payment-option-desc">
                 รับส่วนลดพิเศษทันที <strong class="payment-discount-highlight">ลดทันที ${tierDiscount} บาท</strong> (ยอดชำระเพียง ฿${formatPrice(subtotal - tierDiscount)})
               </div>
+
+              ${!isCod ? `
+                <div class="checkout-bank-details" id="checkout-bank-details-box">
+                  <div class="checkout-bank-row">
+                    <span class="checkout-bank-label">ธนาคาร:</span>
+                    <span class="checkout-bank-val">ธนาคารกสิกรไทย (KBANK)</span>
+                  </div>
+                  <div class="checkout-bank-row">
+                    <span class="checkout-bank-label">ชื่อบัญชี:</span>
+                    <span class="checkout-bank-val">บจก. ศิริวัตร์เมธานินท์ กรุ๊ป</span>
+                  </div>
+                  <div class="checkout-bank-row">
+                    <span class="checkout-bank-label">เลขที่บัญชี:</span>
+                    <div class="checkout-bank-acc-wrap">
+                      <span class="checkout-bank-acc-num">241-2-50200-3</span>
+                      <button type="button" class="checkout-copy-btn" id="checkout-copy-acc-btn" title="คลิกเพื่อคัดลอกเลขที่บัญชี">
+                        <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        <span id="copy-btn-label">คัดลอกเลขบัญชี</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="checkout-slip-box">
+                    <label class="checkout-slip-label" for="checkout-slip-input">
+                      แนบสลิปหลักฐานการโอนเงิน <span class="required" style="color: #dc2626;">*</span>
+                    </label>
+                    <div class="checkout-slip-uploader" id="checkout-slip-uploader">
+                      <input type="file" id="checkout-slip-input" class="checkout-slip-file-input" accept="image/*" />
+                      <div id="checkout-slip-upload-prompt" style="${uploadedSlipPreview ? 'display: none;' : ''}">
+                        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px; display: block; color: #16a34a;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span style="font-size: 13px; font-weight: 700; color: #15803d;">คลิกหรือแตะเพื่อแนบรูปสลิป</span>
+                        <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">รองรับไฟล์รูปภาพ PNG, JPG, JPEG, WebP (สูงสุด 10MB)</div>
+                      </div>
+                      ${uploadedSlipPreview ? `
+                        <div class="checkout-slip-preview-container" id="checkout-slip-preview-box">
+                          <img src="${uploadedSlipPreview}" class="checkout-slip-preview-img" alt="ตัวอย่างสลิปโอนเงิน" />
+                          <div style="flex: 1; min-width: 0; text-align: left;">
+                            <div style="font-size: 12px; font-weight: 700; color: #15803d;">แนบไฟล์สลิปเรียบร้อย ✓</div>
+                            <div style="font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(uploadedSlipName || 'slip.jpg')}</div>
+                          </div>
+                          <span class="checkout-copy-btn" style="border-color: #64748b; color: #475569; background: #fff;">
+                            เปลี่ยนรูป
+                          </span>
+                        </div>
+                      ` : ''}
+                    </div>
+                  </div>
+                </div>
+              ` : ''}
             </div>
 
             <!-- ตัวเลือกที่ 2: เก็บเงินปลายทาง (COD) -->
@@ -1257,12 +1326,12 @@
               <strong>฿${formatPrice(subtotal)}</strong>
             </div>
             <div class="order-summary-row is-free-ship">
-              <span>ค่าจัดส่ง (คุมอุณหภูมิ/ด่วนพิเศษ)</span>
+              <span>ค่าจัดส่ง (จัดส่งปกติ)</span>
               <strong style="color: #15803d;">ฟรี</strong>
             </div>
             ${!isCod && discount > 0 ? `
               <div class="order-summary-row is-discount">
-                <span>ส่วนลดพิเศษโอนจ่าย (PromptPay)</span>
+                <span>ส่วนลดพิเศษโอนจ่าย</span>
                 <strong style="color: #15803d;">-฿${formatPrice(discount)}</strong>
               </div>
             ` : ''}
@@ -1283,13 +1352,14 @@
             type="button"
             class="primary-cta order-line-btn"
             id="checkout-confirm-btn"
-            style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; border-radius: 14px; background: #06C755; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 15px; box-shadow: 0 4px 14px rgba(6, 199, 85, 0.28); border: none; cursor: pointer; transition: all 0.2s;"
+            ${isSubmitting ? 'disabled' : ''}
+            style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; border-radius: 14px; background: #16a34a; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 15px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28); border: none; cursor: ${isSubmitting ? 'not-allowed' : 'pointer'}; opacity: ${isSubmitting ? '0.7' : '1'}; transition: all 0.2s;"
           >
-            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.48 2 2 5.82 2 10.53c0 2.91 1.7 5.48 4.31 6.94-.19.7-.68 2.54-.78 2.93-.12.48.18.47.37.35.16-.1 2.21-1.5 3.12-2.12.32.05.65.07.98.07 5.52 0 10-3.82 10-8.53S17.52 2 12 2z"/></svg>
-            <span>${!isCod ? `ยืนยันสั่งซื้อและโอนจ่าย (฿${formatPrice(netTotal)})` : `ยืนยันสั่งซื้อแบบเก็บเงินปลายทาง (฿${formatPrice(netTotal)})`}</span>
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>${isSubmitting ? 'กำลังบันทึกคำสั่งซื้อ...' : (!isCod ? `ยืนยันสั่งซื้อและส่งสลิป (฿${formatPrice(netTotal)})` : `ยืนยันสั่งซื้อแบบเก็บเงินปลายทาง (฿${formatPrice(netTotal)})`)}</span>
           </button>
           <div style="text-align: center; font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-top: 4px;">
-            เมื่อกดยืนยัน ระบบจะเปิด LINE พร้อมส่งข้อมูลคำสั่งซื้อและที่อยู่จัดส่งให้เจ้าหน้าที่ทันที
+            คำสั่งซื้อจะถูกส่งตรงเข้าสู่ระบบหลังบ้านเพื่อเตรียมแพ็กจัดส่งสินค้าทันที
           </div>
         </div>
       `;
@@ -1302,15 +1372,59 @@
       const codCard = document.getElementById('payment-card-cod');
       const codCheck = document.getElementById('checkout-cod-agreed');
       const confirmBtn = document.getElementById('checkout-confirm-btn');
+      const copyBtn = document.getElementById('checkout-copy-acc-btn');
+      const slipInput = document.getElementById('checkout-slip-input');
 
       if (promptpayCard) {
-        promptpayCard.addEventListener('click', () => {
+        promptpayCard.addEventListener('click', (e) => {
+          if (e.target.closest('#checkout-bank-details-box')) return;
           syncFormValuesFromDOM();
           if (checkoutData.paymentMethod !== 'promptpay') {
             checkoutData.paymentMethod = 'promptpay';
             saveCheckoutInfo(checkoutData);
             renderModal();
           }
+        });
+      }
+
+      if (copyBtn) {
+        copyBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const accNumber = '2412502003';
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(accNumber).then(() => {
+              showToast('คัดลอกเลขบัญชี 2412502003 สำเร็จแล้ว');
+              const lbl = document.getElementById('copy-btn-label');
+              if (lbl) {
+                lbl.textContent = 'คัดลอกแล้ว ✓';
+                setTimeout(() => { if (lbl) lbl.textContent = 'คัดลอกเลขบัญชี'; }, 2000);
+              }
+            }).catch(() => {
+              fallbackCopy(accNumber);
+            });
+          } else {
+            fallbackCopy(accNumber);
+          }
+        });
+      }
+
+      if (slipInput) {
+        slipInput.addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          if (file.size > 10 * 1024 * 1024) {
+            showToast('ขนาดไฟล์รูปภาพสลิปต้องไม่เกิน 10MB');
+            return;
+          }
+          uploadedSlipFile = file;
+          uploadedSlipName = file.name;
+          const reader = new FileReader();
+          reader.onload = (loadEvt) => {
+            uploadedSlipPreview = loadEvt.target.result;
+            syncFormValuesFromDOM();
+            renderModal();
+          };
+          reader.readAsDataURL(file);
         });
       }
 
@@ -1348,7 +1462,8 @@
 
       // Confirm Order Handler
       if (confirmBtn) {
-        confirmBtn.addEventListener('click', () => {
+        confirmBtn.addEventListener('click', async () => {
+          if (isSubmitting) return;
           syncFormValuesFromDOM();
 
           const name = checkoutData.recipientName.trim();
@@ -1423,39 +1538,166 @@
             return;
           }
 
-          // Build structured message for LINE
-          const discount = isCod ? 0 : tierDiscount;
-          const netTotal = Math.max(0, subtotal - discount);
-          const paymentLabel = isCod ? 'เก็บเงินปลายทาง (COD)' : 'โอนจ่าย / สแกน QR PromptPay';
-          const discountLine = (!isCod && discount > 0) ? `\nส่วนลดพิเศษโอนจ่าย: -฿${formatPrice(discount)}` : '';
-          const noteLine = note ? `\nหมายเหตุถึงขนส่ง: ${note}` : '';
-          const codNotice = isCod ? `\n* ลูกค้ายืนยันรับทราบเงื่อนไขและข้อกฎหมาย COD พร้อมรอรับสายและรับสินค้าเรียบร้อยแล้ว` : '';
+          if (!isCod && !uploadedSlipFile) {
+            showToast('กรุณาแนบสลิปหลักฐานการโอนเงิน');
+            const uploader = document.getElementById('checkout-slip-uploader');
+            if (uploader) {
+              uploader.classList.add('is-invalid');
+              uploader.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+          }
 
-          const lineOrderText = encodeURIComponent(
-            `สวัสดีครับ/ค่ะ สั่งซื้อสินค้า SG FRUIT:\n` +
-            state.cart.map(i => `- ${i.name} (${i.unit || 'หน่วย'}): ${i.qty} ชิ้น (฿${formatPrice(i.price * i.qty)})`).join('\n') +
-            `\n--------------------------------\n` +
-            `ยอดรวมสินค้า (${totalItems} รายการ): ฿${formatPrice(subtotal)}\n` +
-            `ค่าจัดส่ง: ฟรี (ส่งด่วนคุมอุณหภูมิ)` +
-            discountLine + `\n` +
-            `ช่องทางการชำระเงิน: ${paymentLabel}\n` +
-            `ยอดสุทธิที่ต้องชำระ: ฿${formatPrice(netTotal)}\n\n` +
-            `--- ข้อมูลผู้รับและการจัดส่ง ---\n` +
-            `ชื่อผู้รับ: ${name}\n` +
-            `เบอร์โทรศัพท์: ${rawPhone}\n` +
-            `ที่อยู่จัดส่ง: ${address} ต.${subdistrict} อ.${district} จ.${province} ${rawPostal}` +
-            noteLine +
-            codNotice
-          );
+          isSubmitting = true;
+          renderModal();
 
-          const rawLineId = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_id) || '@sgfruit';
-          const cleanLineId = String(rawLineId).replace(/[^a-zA-Z0-9_@.-]/g, '');
-          const rawLineUrl = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_url) || `https://line.me/R/ti/p/${cleanLineId}`;
-          const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${cleanLineId}`;
-          const lineOrderUrl = cleanLineUrl.includes('?') ? `${cleanLineUrl}&text=${lineOrderText}` : `${cleanLineUrl}?text=${lineOrderText}`;
+          try {
+            const apiBase = (global.SG_API_ADAPTER && typeof global.SG_API_ADAPTER.getApiBaseUrl === 'function')
+              ? global.SG_API_ADAPTER.getApiBaseUrl()
+              : 'https://staging-api.siriwatmedhanin.com/api';
 
-          showToast('กำลังเปิด LINE เพื่อส่งคำสั่งซื้อ...');
-          global.open(lineOrderUrl, '_blank', 'noopener,noreferrer');
+            let slipUrl = null;
+
+            // 1. Upload slip if transfer
+            if (!isCod && uploadedSlipFile) {
+              const formData = new FormData();
+              formData.append('slip', uploadedSlipFile);
+
+              const slipRes = await fetch(`${apiBase}/orders/upload-slip`, {
+                method: 'POST',
+                body: formData,
+              });
+
+              const slipJson = await slipRes.json();
+              if (!slipRes.ok || !slipJson.ok) {
+                throw new Error(slipJson.message || 'อัปโหลดสลิปไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+              }
+              slipUrl = slipJson.data.slip_url;
+            }
+
+            // 2. Submit Order
+            const discount = isCod ? 0 : tierDiscount;
+            const netTotal = Math.max(0, subtotal - discount);
+
+            const orderPayload = {
+              customer: {
+                name,
+                phone: rawPhone,
+                address,
+                subdistrict,
+                district,
+                province,
+                zipcode: rawPostal,
+                note
+              },
+              payment_method: isCod ? 'cod' : 'transfer',
+              slip_url: slipUrl,
+              items: state.cart.map(i => ({
+                product_id: i.productId || i.id,
+                product_name: i.name,
+                variant_id: i.variantId || null,
+                variation: i.unit || null,
+                unit: i.unit || 'หน่วย',
+                sku: i.sku || null,
+                price: i.price,
+                quantity: i.qty,
+                subtotal: i.price * i.qty
+              })),
+              subtotal,
+              discount_amount: discount,
+              shipping_fee: 0,
+              total_amount: netTotal
+            };
+
+            const orderRes = await fetch(`${apiBase}/orders`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(orderPayload)
+            });
+
+            const orderJson = await orderRes.json();
+            if (!orderRes.ok || !orderJson.ok) {
+              throw new Error(orderJson.message || 'บันทึกคำสั่งซื้อไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+            }
+
+            const createdOrder = orderJson.data;
+
+            // 3. Clear cart
+            state.cart = [];
+            saveCart();
+            updateCartUI();
+
+            // 4. Render Success Screen inside modal
+            bodyEl.innerHTML = `
+              <div class="order-success-screen">
+                <div class="order-success-icon-wrap">
+                  <svg class="ui-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <h3 class="order-success-title">สั่งซื้อสินค้าสำเร็จ เรียบร้อยแล้ว!</h3>
+                <p class="order-success-subtitle">ขอบพระคุณที่เลือกซื้อผลไม้สดกับ SG FRUIT ทางร้านได้รับคำสั่งซื้อของท่านเรียบร้อยแล้ว</p>
+                
+                <div class="order-success-card">
+                  <div class="order-success-row">
+                    <span>เลขที่คำสั่งซื้อ (Order No.):</span>
+                    <span class="order-success-orderno">${escapeHtml(createdOrder.order_no)}</span>
+                  </div>
+                  <div class="order-success-row">
+                    <span>ช่องทางการชำระเงิน:</span>
+                    <strong>${escapeHtml(createdOrder.payment_method)}</strong>
+                  </div>
+                  <div class="order-success-row">
+                    <span>ชื่อผู้รับ / เบอร์โทร:</span>
+                    <span>${escapeHtml(name)} (${escapeHtml(rawPhone)})</span>
+                  </div>
+                  <div class="order-success-row">
+                    <span>สถานที่จัดส่ง:</span>
+                    <span style="max-width: 62%; text-align: right; line-height: 1.4;">${escapeHtml(address)} ต.${escapeHtml(subdistrict)} อ.${escapeHtml(district)} จ.${escapeHtml(province)} ${escapeHtml(rawPostal)}</span>
+                  </div>
+                  <div class="order-success-row">
+                    <span>ยอดสุทธิที่ชำระ:</span>
+                    <span style="font-size: 16px; color: #15803d; font-weight: 800;">฿${formatPrice(createdOrder.total_amount)}</span>
+                  </div>
+                </div>
+
+                <div style="padding: 12px 14px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 12.5px; color: #166534; line-height: 1.5; margin-bottom: 20px; text-align: left;">
+                  ✓ ข้อมูลคำสั่งซื้อถูกบันทึกเข้าสู่ระบบหลังบ้านเรียบร้อยแล้ว เจ้าหน้าที่จะดำเนินการเตรียมคัดเกรดผลไม้สดและแพ็กจัดส่งให้ท่านโดยเร็วที่สุด
+                </div>
+
+                ${(() => {
+                  const rawLineId = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_id) || '@sgfruit';
+                  const cleanLineId = String(rawLineId).replace(/[^a-zA-Z0-9_@.-]/g, '');
+                  const rawLineUrl = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_url) || `https://line.me/R/ti/p/${cleanLineId}`;
+                  const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${cleanLineId}`;
+                  return `
+                    <div style="margin-bottom: 16px; font-size: 12px; color: var(--muted);">
+                      มีข้อสงสัยเกี่ยวกับออเดอร์? ติดต่อเราได้ทาง LINE: 
+                      <a href="${cleanLineUrl}" target="_blank" rel="noopener noreferrer" style="color: #15803d; font-weight: 700; text-decoration: underline;">
+                        ${cleanLineId}
+                      </a>
+                    </div>
+                  `;
+                })()}
+
+                <button type="button" class="primary-cta" id="order-success-done-btn" style="width: 100%; padding: 14px; border-radius: 12px; background: #16a34a; color: #ffffff; font-weight: 800; font-size: 15px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28);">
+                  เสร็จสิ้น / กลับสู่หน้าร้าน
+                </button>
+              </div>
+            `;
+
+            const doneBtn = document.getElementById('order-success-done-btn');
+            if (doneBtn) {
+              doneBtn.addEventListener('click', () => {
+                closeOrderSummaryModal();
+              });
+            }
+
+          } catch (err) {
+            isSubmitting = false;
+            showToast(err.message || 'เกิดข้อผิดพลาดในการสั่งซื้อ');
+            renderModal();
+          }
         });
       }
     }
