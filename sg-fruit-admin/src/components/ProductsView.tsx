@@ -11,6 +11,8 @@ import {
   CheckCircle2,
   Star,
   X,
+  Link2,
+  Check,
 } from 'lucide-react';
 import type { AuthRole, Category, ProductStatus, ProductVariantRow } from '../types';
 import { ProductModal } from './ProductModal';
@@ -55,6 +57,44 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   // Toast Notification State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
+
+  // Copy Product Deep Link State
+  const [copiedProductId, setCopiedProductId] = useState<string | null>(null);
+
+  const handleCopyProductLink = (productId: string) => {
+    const url = `https://sg-fruit.siriwatmedhanin.com/?product=${encodeURIComponent(productId)}`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        setCopiedProductId(productId);
+        showToast(`คัดลอกลิงก์สินค้าสำหรับส่งในแชทแล้ว ✓ (${productId})`);
+        setTimeout(() => {
+          setCopiedProductId((curr) => (curr === productId ? null : curr));
+        }, 2000);
+      }).catch(() => {
+        fallbackCopy(url, productId);
+      });
+    } else {
+      fallbackCopy(url, productId);
+    }
+  };
+
+  const fallbackCopy = (text: string, productId: string) => {
+    try {
+      const input = document.createElement('input');
+      input.value = text;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      setCopiedProductId(productId);
+      showToast(`คัดลอกลิงก์สินค้าสำหรับส่งในแชทแล้ว ✓ (${productId})`);
+      setTimeout(() => {
+        setCopiedProductId((curr) => (curr === productId ? null : curr));
+      }, 2000);
+    } catch (e) {
+      console.error('Failed to copy', e);
+    }
+  };
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -454,8 +494,28 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                             )}
                           </div>
                           <div>
-                            <div style={{ fontWeight: 700, color: 'var(--ink)' }}>
-                              {row.product_name}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                              <span style={{ fontWeight: 700, color: 'var(--ink)' }}>
+                                {row.product_name}
+                              </span>
+                              <button
+                                type="button"
+                                className="btn-action-copy-link"
+                                onClick={() => handleCopyProductLink(row.product_id)}
+                                title="คัดลอกลิงก์สินค้าสำหรับส่งให้ลูกค้าในแชท"
+                              >
+                                {copiedProductId === row.product_id ? (
+                                  <>
+                                    <Check size={11} color="#059669" />
+                                    <span style={{ color: '#059669', fontWeight: 600 }}>คัดลอกแล้ว ✓</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Link2 size={11} />
+                                    <span>คัดลอกลิงก์</span>
+                                  </>
+                                )}
+                              </button>
                             </div>
                             {row.name_en && (
                               <div style={{ fontSize: '11px', color: 'var(--forest)', fontStyle: 'italic' }}>

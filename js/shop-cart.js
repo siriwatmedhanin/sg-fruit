@@ -663,6 +663,17 @@
     state.modalQty = 1;
     state.isProductModalOpen = true;
 
+    // Deep Linking: อัปเดต URL บน Address Bar โดยไม่รีโหลดหน้าเว็บ
+    try {
+      if (typeof window !== 'undefined' && window.location && window.history) {
+        const curUrl = new URL(window.location.href);
+        if (curUrl.searchParams.get('product') !== product.id) {
+          curUrl.searchParams.set('product', product.id);
+          window.history.replaceState({ modal: 'product', productId: product.id }, '', curUrl.toString());
+        }
+      }
+    } catch (_) {}
+
     // เตรียมรูปภาพ Gallery (สูงสุด 5 รูป)
     let galleryImages = [];
     if (Array.isArray(product.images) && product.images.length > 0) {
@@ -782,13 +793,28 @@
           ${galleryHtml}
         </div>
         <div class="pmodal-details">
-          <div class="pmodal-badges">
-            ${tagsHtml}
-            <span class="pmodal-status-pill ${isCurrentInStock ? 'is-available' : 'is-out-of-stock'}" id="pmodal-status-pill">
-              ${isCurrentInStock ? 'พร้อมจำหน่าย' : 'หมดชั่วคราว'}
-            </span>
+          <div class="pmodal-header-row">
+            <div class="pmodal-badges">
+              ${tagsHtml}
+              <span class="pmodal-status-pill ${isCurrentInStock ? 'is-available' : 'is-out-of-stock'}" id="pmodal-status-pill">
+                ${isCurrentInStock ? 'พร้อมจำหน่าย' : 'หมดชั่วคราว'}
+              </span>
+            </div>
+            <button
+              type="button"
+              class="pmodal-copy-btn"
+              id="pmodal-copy-link-btn"
+              title="คัดลอกลิงก์สินค้านี้"
+              aria-label="คัดลอกลิงก์สินค้านี้"
+              data-product-id="${product.id}"
+            >
+              <svg class="ui-icon ui-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+              <span class="copy-btn-text">คัดลอกลิงก์</span>
+            </button>
           </div>
-          <div class="pmodal-sku">รหัสสินค้า: ${product.sku}</div>
           <h3 class="pmodal-title">${product.name}</h3>
           <div class="pmodal-price">
             ฿<span id="pmodal-price-val">${formatPrice(currentVariant.price)}</span>
@@ -1021,6 +1047,47 @@
       });
     }
 
+    // ปุ่มคัดลอกลิงก์ตรงของสินค้า (Deep Link Copy Button)
+    const copyLinkBtn = document.getElementById('pmodal-copy-link-btn');
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener('click', async () => {
+        const origin = (typeof window !== 'undefined' && window.location && window.location.origin)
+          ? window.location.origin
+          : 'https://sg-fruit.siriwatmedhanin.com';
+        const link = `${origin}/?product=${encodeURIComponent(product.id)}`;
+
+        let success = false;
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(link);
+            success = true;
+          }
+        } catch (_) {}
+
+        if (!success) {
+          try {
+            const tempInput = document.createElement('input');
+            tempInput.value = link;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            success = true;
+          } catch (_) {}
+        }
+
+        const textEl = copyLinkBtn.querySelector('.copy-btn-text');
+        if (textEl) textEl.textContent = 'คัดลอกแล้ว ✓';
+        copyLinkBtn.classList.add('is-copied');
+        showToast('คัดลอกลิงก์สินค้าเรียบร้อยแล้ว');
+
+        setTimeout(() => {
+          if (textEl) textEl.textContent = 'คัดลอกลิงก์';
+          copyLinkBtn.classList.remove('is-copied');
+        }, 2000);
+      });
+    }
+
     const closeBtn = document.getElementById('product-modal-close');
     if (closeBtn) setTimeout(() => closeBtn.focus({ preventScroll: true }), 50);
   }
@@ -1033,6 +1100,20 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     updateBodyScrollLock();
+
+    // Deep Linking: คืน URL บน Address Bar กลับเป็นหน้าหลักเมื่อปิด Modal
+    try {
+      if (typeof window !== 'undefined' && window.location && window.history) {
+        const curUrl = new URL(window.location.href);
+        if (curUrl.searchParams.has('product') || curUrl.searchParams.has('p') || curUrl.pathname.startsWith('/p/')) {
+          curUrl.searchParams.delete('product');
+          curUrl.searchParams.delete('p');
+          const cleanPath = curUrl.pathname.startsWith('/p/') ? '/' : curUrl.pathname;
+          const newUrl = cleanPath + (curUrl.search ? curUrl.search : '') + (curUrl.hash ? curUrl.hash : '');
+          window.history.replaceState({}, '', newUrl);
+        }
+      }
+    } catch (_) {}
   }
 
   const CHECKOUT_STORAGE_KEY = 'sg_fruit_checkout_info';
@@ -2729,6 +2810,29 @@
 
     // สร้างและอัปเดต Structured Data (JSON-LD) ของสินค้าแบบ Dynamic
     updateProductStructuredData(products);
+
+    // Deep Linking: ตรวจสอบ URL พารามิเตอร์เพื่อเปิด Modal รายการสินค้าอัตโนมัติ
+    checkUrlProductDeepLink();
+  }
+
+  // Deep Linking: ตรวจสอบ URL พารามิเตอร์เพื่อเปิด Modal รายการสินค้าอัตโนมัติ
+  function checkUrlProductDeepLink() {
+    try {
+      if (typeof window === 'undefined' || !window.location) return;
+      const url = new URL(window.location.href);
+      let targetProductId = url.searchParams.get('product') || url.searchParams.get('p');
+      if (!targetProductId && url.pathname.startsWith('/p/')) {
+        targetProductId = url.pathname.replace(/^\/p\//, '').split('/')[0];
+      }
+      if (targetProductId) {
+        targetProductId = decodeURIComponent(targetProductId).trim();
+        if (targetProductId) {
+          openProductModal(targetProductId);
+        }
+      }
+    } catch (err) {
+      console.warn('[SG FRUIT] Deep link check failed:', err);
+    }
   }
 
   // Initialize Event Listeners
@@ -2746,6 +2850,22 @@
     global.addEventListener('sg:api-fallback', (e) => {
       showToast('⚠️ สลับเป็น Static Mode ชั่วคราว (ไม่สามารถติดต่อ API ได้)');
       reloadCatalog();
+    });
+
+    // Deep Linking: รองรับ Browser Back / Forward Button
+    global.addEventListener('popstate', () => {
+      try {
+        const curUrl = new URL(global.location.href);
+        let pid = curUrl.searchParams.get('product') || curUrl.searchParams.get('p');
+        if (!pid && curUrl.pathname.startsWith('/p/')) {
+          pid = curUrl.pathname.replace(/^\/p\//, '').split('/')[0];
+        }
+        if (pid) {
+          openProductModal(pid);
+        } else if (state.isProductModalOpen) {
+          closeProductModal();
+        }
+      } catch (_) {}
     });
 
     // Search Input

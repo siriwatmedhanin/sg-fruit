@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -85,6 +86,13 @@ function build() {
       console.log(`Copying ${file} to dist/...`);
       fs.copyFileSync(src, path.join(DIST_DIR, file));
     }
+  }
+
+  // 4.2 Cloudflare Pages Functions (Dynamic Open Graph Middleware)
+  if (fs.existsSync(path.join(ROOT_DIR, 'functions'))) {
+    console.log('[4.2] Copying Cloudflare Pages Functions to dist/functions...');
+    copyRecursive(path.join(ROOT_DIR, 'functions'), path.join(DIST_DIR, 'functions'));
+    console.log('[PASS] functions packaged for Cloudflare Pages successfully.');
   }
 
   // 5. Create Cloudflare Pages _headers file for security and SEO
