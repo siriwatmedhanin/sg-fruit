@@ -36,12 +36,13 @@ export async function corsMiddleware(c: Context<{ Bindings: Env }>, next: Next) 
         .filter(Boolean);
       isAllowed = Boolean(origin && allowedAdmin.includes(origin));
     } else {
-      // Public API: Strictly only allow configured Public Storefront origins
+      // Public API: Strictly only allow configured Public Storefront origins or staging pages.dev subdomains
       const allowedPublic = (c.env.CORS_PUBLIC_ORIGINS || '')
         .split(',')
         .map((s: string) => s.trim())
         .filter(Boolean);
-      isAllowed = Boolean(origin && allowedPublic.includes(origin));
+      const isPagesDev = origin.endsWith('.sg-fruit-storefront-staging.pages.dev') || origin === 'https://sg-fruit-storefront-staging.pages.dev';
+      isAllowed = Boolean(origin && (allowedPublic.includes(origin) || isPagesDev));
     }
   }
 
