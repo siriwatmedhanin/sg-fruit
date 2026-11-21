@@ -32,12 +32,13 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-  const [scale, setScale] = useState<number>(1);
+  // Relative Zoom System: actualScale = baseScale * zoom
+  const [baseScale, setBaseScale] = useState<number>(1);
+  const [zoom, setZoom] = useState<number>(1.0);
   const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [bgColor, setBgColor] = useState<'transparent' | 'white'>('transparent');
-  const [initialFitScale, setInitialFitScale] = useState<number>(1);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const headerPreviewCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -45,6 +46,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
 
   const CANVAS_SIZE = 360;
   const CROP_RADIUS = 135; // Diameter = 270px
+  const CROP_DIAMETER = CROP_RADIUS * 2; // 270px
 
   // 1. Read File with FileReader (readAsDataURL) - strictly NO crossOrigin = 'anonymous' on local data!
   useEffect(() => {
@@ -73,11 +75,13 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
         setImage(img);
         setImageLoading(false);
 
-        // Fit image nicely into circular aperture initially
-        const diameter = CROP_RADIUS * 2;
-        const fitScale = Math.max(diameter / img.width, diameter / img.height);
-        setInitialFitScale(fitScale);
-        setScale(fitScale);
+        // 1. Calculate baseScale so the image fits the crop circle diameter
+        const imgW = img.naturalWidth || img.width;
+        const imgH = img.naturalHeight || img.height;
+        const calculatedBaseScale = CROP_DIAMETER / Math.max(imgW, imgH);
+
+        setBaseScale(calculatedBaseScale);
+        setZoom(1.0);
         setOffset({ x: 0, y: 0 });
       };
 
@@ -136,10 +140,13 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
 
     // 2.2 Draw Image if Loaded
     if (image) {
+      const actualScale = baseScale * zoom;
+      const imgW = image.naturalWidth || image.width;
+      const imgH = image.naturalHeight || image.height;
       ctx.save();
       ctx.translate(centerX + offset.x, centerY + offset.y);
-      ctx.scale(scale, scale);
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.scale(actualScale, actualScale);
+      ctx.drawImage(image, -imgW / 2, -imgH / 2);
       ctx.restore();
     } else {
       // Loading placeholder in center of crop circle
@@ -190,7 +197,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.setLineDash([]);
 
     ctx.restore();
-  }, [image, imageLoading, scale, offset, bgColor]);
+  }, [image, imageLoading, baseScale, zoom, offset, bgColor]);
 
   // 3. Draw Header Preview Canvas (48x48)
   const drawHeaderPreview = useCallback(() => {
@@ -213,16 +220,19 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.clip();
 
     if (image) {
-      const ratio = 48 / (CROP_RADIUS * 2);
+      const ratio = 48 / CROP_DIAMETER;
+      const actualScale = baseScale * zoom * ratio;
+      const imgW = image.naturalWidth || image.width;
+      const imgH = image.naturalHeight || image.height;
       ctx.translate(24 + offset.x * ratio, 24 + offset.y * ratio);
-      ctx.scale(scale * ratio, scale * ratio);
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.scale(actualScale, actualScale);
+      ctx.drawImage(image, -imgW / 2, -imgH / 2);
     } else {
       ctx.fillStyle = '#F1F5F9';
       ctx.fillRect(0, 0, 48, 48);
     }
     ctx.restore();
-  }, [image, scale, offset, bgColor]);
+  }, [image, baseScale, zoom, offset, bgColor]);
 
   // 4. Draw Large Preview Canvas (88x88)
   const drawLargePreview = useCallback(() => {
@@ -245,16 +255,19 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.clip();
 
     if (image) {
-      const ratio = 88 / (CROP_RADIUS * 2);
+      const ratio = 88 / CROP_DIAMETER;
+      const actualScale = baseScale * zoom * ratio;
+      const imgW = image.naturalWidth || image.width;
+      const imgH = image.naturalHeight || image.height;
       ctx.translate(44 + offset.x * ratio, 44 + offset.y * ratio);
-      ctx.scale(scale * ratio, scale * ratio);
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.scale(actualScale, actualScale);
+      ctx.drawImage(image, -imgW / 2, -imgH / 2);
     } else {
       ctx.fillStyle = '#F1F5F9';
       ctx.fillRect(0, 0, 88, 88);
     }
     ctx.restore();
-  }, [image, scale, offset, bgColor]);
+  }, [image, baseScale, zoom, offset, bgColor]);
 
   // Render with requestAnimationFrame to ensure canvas has valid dimensions
   useEffect(() => {
@@ -309,17 +322,17 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     setIsDragging(false);
   };
 
-  // Wheel Zoom
+  // Wheel Zoom (Smooth relative adjustment)
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
     if (!image) return;
     e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.05 : 0.95;
-    setScale((prev) => Math.min(3.5, Math.max(0.3, prev * zoomFactor)));
+    const step = e.deltaY < 0 ? 0.05 : -0.05;
+    setZoom((prev) => Math.min(3.00, Math.max(0.50, parseFloat((prev + step).toFixed(2)))));
   };
 
   // Reset Position & Zoom
   const handleReset = () => {
-    setScale(initialFitScale);
+    setZoom(1.0);
     setOffset({ x: 0, y: 0 });
   };
 
@@ -353,11 +366,14 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
       eCtx.arc(256, 256, 256, 0, Math.PI * 2);
       eCtx.clip();
 
-      // Export scale ratio: 512 / (2 * CROP_RADIUS)
-      const exportRatio = 512 / (CROP_RADIUS * 2);
+      // Export scale ratio: 512 / CROP_DIAMETER
+      const exportRatio = 512 / CROP_DIAMETER;
+      const exportScale = baseScale * zoom * exportRatio;
+      const imgW = image.naturalWidth || image.width;
+      const imgH = image.naturalHeight || image.height;
       eCtx.translate(256 + offset.x * exportRatio, 256 + offset.y * exportRatio);
-      eCtx.scale(scale * exportRatio, scale * exportRatio);
-      eCtx.drawImage(image, -image.width / 2, -image.height / 2);
+      eCtx.scale(exportScale, exportScale);
+      eCtx.drawImage(image, -imgW / 2, -imgH / 2);
       eCtx.restore();
 
       // Convert to blob helper
@@ -586,7 +602,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                 <button
                   type="button"
                   disabled={!image || isBusy}
-                  onClick={() => setScale((prev) => Math.max(0.3, prev - 0.1))}
+                  onClick={() => setZoom((prev) => Math.max(0.50, parseFloat((prev - 0.05).toFixed(2))))}
                   style={{
                     border: '1px solid #cbd5e1',
                     background: '#fff',
@@ -596,24 +612,24 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                   }}
-                  title="ย่อขนาด"
+                  title="ย่อขนาด (-5%)"
                 >
                   <ZoomOut size={16} />
                 </button>
                 <input
                   type="range"
-                  min="0.3"
-                  max="3.0"
-                  step="0.05"
+                  min="0.50"
+                  max="3.00"
+                  step="0.01"
                   disabled={!image || isBusy}
-                  value={scale}
-                  onChange={(e) => setScale(parseFloat(e.target.value))}
+                  value={zoom}
+                  onChange={(e) => setZoom(parseFloat(e.target.value))}
                   style={{ flex: 1, accentColor: '#10b981', cursor: !image || isBusy ? 'not-allowed' : 'pointer' }}
                 />
                 <button
                   type="button"
                   disabled={!image || isBusy}
-                  onClick={() => setScale((prev) => Math.min(3.0, prev + 0.1))}
+                  onClick={() => setZoom((prev) => Math.min(3.00, parseFloat((prev + 0.05).toFixed(2))))}
                   style={{
                     border: '1px solid #cbd5e1',
                     background: '#fff',
@@ -623,12 +639,12 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                   }}
-                  title="ขยายขนาด"
+                  title="ขยายขนาด (+5%)"
                 >
                   <ZoomIn size={16} />
                 </button>
                 <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#475569', minWidth: '42px', textAlign: 'right' }}>
-                  {scale.toFixed(2)}x
+                  {zoom.toFixed(2)}x
                 </span>
                 <button
                   type="button"
@@ -646,7 +662,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                     fontSize: '11px',
                     color: '#475569',
                   }}
-                  title="รีเซ็ตตำแหน่งและขนาด"
+                  title="รีเซ็ตตำแหน่งและขนาด (1.00x)"
                 >
                   <RotateCcw size={12} /> รีเซ็ต
                 </button>
