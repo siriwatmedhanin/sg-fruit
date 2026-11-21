@@ -8,6 +8,8 @@ import {
   Move,
   Sparkles,
   ShoppingBag,
+  AlertCircle,
+  Loader2,
 } from 'lucide-react';
 
 interface LogoCropperModalProps {
@@ -26,6 +28,10 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
   uploading = false,
 }) => {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+
   const [scale, setScale] = useState<number>(1);
   const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -40,33 +46,71 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
   const CANVAS_SIZE = 360;
   const CROP_RADIUS = 135; // Diameter = 270px
 
-  // 1. Load Image from File
+  // 1. Read File with FileReader (readAsDataURL) - strictly NO crossOrigin = 'anonymous' on local data!
   useEffect(() => {
     if (!imageFile) return;
 
-    const objectUrl = URL.createObjectURL(imageFile);
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      setImage(img);
+    let isMounted = true;
+    setImage(null);
+    setImageLoading(true);
+    setErrorMsg(null);
 
-      // Calculate initial scale to cover the crop circle
-      const diameter = CROP_RADIUS * 2;
-      const fitScale = Math.max(diameter / img.width, diameter / img.height);
-      setInitialFitScale(fitScale);
-      setScale(fitScale);
-      setOffset({ x: 0, y: 0 });
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (!isMounted) return;
+      const dataUrl = e.target?.result as string;
+      if (!dataUrl) {
+        setErrorMsg('ไม่สามารถอ่านข้อมูลไฟล์รูปภาพได้');
+        setImageLoading(false);
+        return;
+      }
+
+      const img = new Image();
+      // IMPORTANT: DO NOT set img.crossOrigin for local data URLs!
+      img.onload = () => {
+        if (!isMounted) return;
+        setImage(img);
+        setImageLoading(false);
+
+        // Fit image nicely into circular aperture initially
+        const diameter = CROP_RADIUS * 2;
+        const fitScale = Math.max(diameter / img.width, diameter / img.height);
+        setInitialFitScale(fitScale);
+        setScale(fitScale);
+        setOffset({ x: 0, y: 0 });
+      };
+
+      img.onerror = (err) => {
+        console.error('Image decoding error:', err);
+        if (isMounted) {
+          setErrorMsg('ไฟล์รูปภาพเสียหายหรือไม่สามารถถอดรหัสได้ กรุณาเลือกไฟล์ภาพใหม่อีกครั้ง');
+          setImageLoading(false);
+        }
+      };
+
+      img.src = dataUrl;
     };
 
+    reader.onerror = (err) => {
+      console.error('FileReader read error:', err);
+      if (isMounted) {
+        setErrorMsg('เกิดข้อผิดพลาดในการเปิดไฟล์ภาพจากเครื่อง');
+        setImageLoading(false);
+      }
+    };
+
+    reader.readAsDataURL(imageFile);
+
     return () => {
-      URL.revokeObjectURL(objectUrl);
+      isMounted = false;
     };
   }, [imageFile]);
 
-  // 2. Render Main Cropper Canvas
+  // 2. Draw Main Cropper Canvas
   const drawMainCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !image) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -76,45 +120,65 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
 
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-    // If transparent, draw checkerboard pattern
+    // 2.1 Draw Background (Checkerboard or Solid White)
     if (bgColor === 'transparent') {
       const tileSize = 12;
       for (let y = 0; y < CANVAS_SIZE; y += tileSize) {
         for (let x = 0; x < CANVAS_SIZE; x += tileSize) {
-          ctx.fillStyle = (Math.floor(x / tileSize) + Math.floor(y / tileSize)) % 2 === 0 ? '#f3f4f6' : '#ffffff';
+          ctx.fillStyle = (Math.floor(x / tileSize) + Math.floor(y / tileSize)) % 2 === 0 ? '#E2E8F0' : '#FFFFFF';
           ctx.fillRect(x, y, tileSize, tileSize);
         }
       }
     } else {
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     }
 
-    // Draw transformed image
-    ctx.save();
-    ctx.translate(centerX + offset.x, centerY + offset.y);
-    ctx.scale(scale, scale);
-    ctx.drawImage(image, -image.width / 2, -image.height / 2);
-    ctx.restore();
+    // 2.2 Draw Image if Loaded
+    if (image) {
+      ctx.save();
+      ctx.translate(centerX + offset.x, centerY + offset.y);
+      ctx.scale(scale, scale);
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.restore();
+    } else {
+      // Loading placeholder in center of crop circle
+      ctx.save();
+      ctx.fillStyle = '#64748B';
+      ctx.font = '13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(imageLoading ? 'กำลังโหลดภาพ...' : 'ยังไม่มีภาพ', centerX, centerY);
+      ctx.restore();
+    }
 
-    // Draw Darkened Mask with Circular Cutout
+    // 2.3 Draw Dark Cutout Overlay (Outside of Circle is dimmed)
     ctx.save();
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.62)';
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
     ctx.beginPath();
     ctx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    // Counter-clockwise arc creates the transparent circle hole
+    // Counter-clockwise arc creates the transparent circular window
     ctx.arc(centerX, centerY, CROP_RADIUS, 0, Math.PI * 2, true);
     ctx.fill();
 
-    // Circular guideline border
+    // 2.4 Circular Guideline Border
     ctx.beginPath();
     ctx.arc(centerX, centerY, CROP_RADIUS, 0, Math.PI * 2);
-    ctx.strokeStyle = '#10b981'; // emerald-500
+    ctx.strokeStyle = '#10B981'; // emerald-500
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
-    // Center Crosshair
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+    // Subtle outer dashed ring
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, CROP_RADIUS + 3, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Center Crosshairs
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
     ctx.lineWidth = 1;
     ctx.setLineDash([4, 4]);
     ctx.beginPath();
@@ -126,12 +190,12 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.setLineDash([]);
 
     ctx.restore();
-  }, [image, scale, offset, bgColor]);
+  }, [image, imageLoading, scale, offset, bgColor]);
 
-  // 3. Render Header Preview Canvas (48x48)
+  // 3. Draw Header Preview Canvas (48x48)
   const drawHeaderPreview = useCallback(() => {
     const canvas = headerPreviewCanvasRef.current;
-    if (!canvas || !image) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -139,7 +203,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.clearRect(0, 0, 48, 48);
 
     if (bgColor === 'white') {
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, 48, 48);
     }
 
@@ -148,17 +212,22 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.arc(24, 24, 24, 0, Math.PI * 2);
     ctx.clip();
 
-    const ratio = 48 / (CROP_RADIUS * 2);
-    ctx.translate(24 + offset.x * ratio, 24 + offset.y * ratio);
-    ctx.scale(scale * ratio, scale * ratio);
-    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    if (image) {
+      const ratio = 48 / (CROP_RADIUS * 2);
+      ctx.translate(24 + offset.x * ratio, 24 + offset.y * ratio);
+      ctx.scale(scale * ratio, scale * ratio);
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    } else {
+      ctx.fillStyle = '#F1F5F9';
+      ctx.fillRect(0, 0, 48, 48);
+    }
     ctx.restore();
   }, [image, scale, offset, bgColor]);
 
-  // 4. Render Large Preview Canvas (88x88)
+  // 4. Draw Large Preview Canvas (88x88)
   const drawLargePreview = useCallback(() => {
     const canvas = largePreviewCanvasRef.current;
-    if (!canvas || !image) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -166,7 +235,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.clearRect(0, 0, 88, 88);
 
     if (bgColor === 'white') {
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, 88, 88);
     }
 
@@ -175,27 +244,40 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     ctx.arc(44, 44, 44, 0, Math.PI * 2);
     ctx.clip();
 
-    const ratio = 88 / (CROP_RADIUS * 2);
-    ctx.translate(44 + offset.x * ratio, 44 + offset.y * ratio);
-    ctx.scale(scale * ratio, scale * ratio);
-    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    if (image) {
+      const ratio = 88 / (CROP_RADIUS * 2);
+      ctx.translate(44 + offset.x * ratio, 44 + offset.y * ratio);
+      ctx.scale(scale * ratio, scale * ratio);
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    } else {
+      ctx.fillStyle = '#F1F5F9';
+      ctx.fillRect(0, 0, 88, 88);
+    }
     ctx.restore();
   }, [image, scale, offset, bgColor]);
 
+  // Render with requestAnimationFrame to ensure canvas has valid dimensions
   useEffect(() => {
-    drawMainCanvas();
-    drawHeaderPreview();
-    drawLargePreview();
+    let animId: number;
+    const renderAll = () => {
+      drawMainCanvas();
+      drawHeaderPreview();
+      drawLargePreview();
+    };
+
+    animId = requestAnimationFrame(renderAll);
+    return () => cancelAnimationFrame(animId);
   }, [drawMainCanvas, drawHeaderPreview, drawLargePreview]);
 
   // Mouse Drag Handlers
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!image) return;
     setIsDragging(true);
     setDragStart({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDragging) return;
+    if (!isDragging || !image) return;
     const dx = e.clientX - dragStart.x;
     const dy = e.clientY - dragStart.y;
     setOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
@@ -208,6 +290,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
 
   // Touch Drag Handlers (Mobile Support)
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!image) return;
     if (e.touches.length === 1) {
       setIsDragging(true);
       setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
@@ -215,7 +298,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDragging || e.touches.length !== 1) return;
+    if (!isDragging || !image || e.touches.length !== 1) return;
     const dx = e.touches[0].clientX - dragStart.x;
     const dy = e.touches[0].clientY - dragStart.y;
     setOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
@@ -228,6 +311,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
 
   // Wheel Zoom
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
+    if (!image) return;
     e.preventDefault();
     const zoomFactor = e.deltaY < 0 ? 1.05 : 0.95;
     setScale((prev) => Math.min(3.5, Math.max(0.3, prev * zoomFactor)));
@@ -239,55 +323,76 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
     setOffset({ x: 0, y: 0 });
   };
 
-  // Export 512x512 WebP / PNG
-  const handleConfirmCrop = () => {
-    if (!image) return;
-
-    const exportCanvas = document.createElement('canvas');
-    exportCanvas.width = 512;
-    exportCanvas.height = 512;
-    const eCtx = exportCanvas.getContext('2d');
-    if (!eCtx) return;
-
-    if (bgColor === 'white') {
-      eCtx.fillStyle = '#ffffff';
-      eCtx.fillRect(0, 0, 512, 512);
+  // 5. Render 512x512 High-Res Blob and Upload
+  const handleConfirmCrop = async () => {
+    if (!image) {
+      setErrorMsg('ยังโหลดภาพไม่เสร็จสมบูรณ์ กรุณารอสักครู่');
+      return;
     }
 
-    // Clip to circle so outside is transparent
-    eCtx.save();
-    eCtx.beginPath();
-    eCtx.arc(256, 256, 256, 0, Math.PI * 2);
-    eCtx.clip();
+    try {
+      setIsProcessing(true);
+      setErrorMsg(null);
 
-    // Export scale ratio: 512 / (2 * CROP_RADIUS)
-    const exportRatio = 512 / (CROP_RADIUS * 2);
-    eCtx.translate(256 + offset.x * exportRatio, 256 + offset.y * exportRatio);
-    eCtx.scale(scale * exportRatio, scale * exportRatio);
-    eCtx.drawImage(image, -image.width / 2, -image.height / 2);
-    eCtx.restore();
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = 512;
+      exportCanvas.height = 512;
+      const eCtx = exportCanvas.getContext('2d');
+      if (!eCtx) {
+        throw new Error('ไม่สามารถสร้าง Canvas Context สำหรับ Export ได้');
+      }
 
-    // Export as WebP (lossless or 0.95 quality)
-    exportCanvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          // Fallback to PNG
-          exportCanvas.toBlob((pngBlob) => {
-            if (!pngBlob) return;
-            const croppedFile = new File([pngBlob], 'sg-fruit-logo.png', { type: 'image/png' });
-            onConfirm(croppedFile);
-          }, 'image/png');
-          return;
-        }
-        const croppedFile = new File([blob], 'sg-fruit-logo.webp', { type: 'image/webp' });
-        onConfirm(croppedFile);
-      },
-      'image/webp',
-      0.95
-    );
+      if (bgColor === 'white') {
+        eCtx.fillStyle = '#FFFFFF';
+        eCtx.fillRect(0, 0, 512, 512);
+      }
+
+      // Clip to circle so outside is transparent
+      eCtx.save();
+      eCtx.beginPath();
+      eCtx.arc(256, 256, 256, 0, Math.PI * 2);
+      eCtx.clip();
+
+      // Export scale ratio: 512 / (2 * CROP_RADIUS)
+      const exportRatio = 512 / (CROP_RADIUS * 2);
+      eCtx.translate(256 + offset.x * exportRatio, 256 + offset.y * exportRatio);
+      eCtx.scale(scale * exportRatio, scale * exportRatio);
+      eCtx.drawImage(image, -image.width / 2, -image.height / 2);
+      eCtx.restore();
+
+      // Convert to blob helper
+      const getBlob = (type: string, quality?: number): Promise<Blob | null> => {
+        return new Promise((resolve) => exportCanvas.toBlob(resolve, type, quality));
+      };
+
+      let blob = await getBlob('image/webp', 0.92);
+      let filename = 'sg-fruit-logo.webp';
+      let mimeType = 'image/webp';
+
+      // Fallback to PNG if webp export returns null
+      if (!blob || blob.size === 0) {
+        blob = await getBlob('image/png');
+        filename = 'sg-fruit-logo.png';
+        mimeType = 'image/png';
+      }
+
+      if (!blob || blob.size === 0) {
+        throw new Error('ไม่สามารถแปลงรูปภาพเป็นไฟล์ Blob ได้');
+      }
+
+      const croppedFile = new File([blob], filename, { type: mimeType });
+      await onConfirm(croppedFile);
+    } catch (err: any) {
+      console.error('Error during logo crop and upload:', err);
+      setErrorMsg(err.message || 'เกิดข้อผิดพลาดในการครอบตัดและอัปโหลดโลโก้');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (!isOpen) return null;
+
+  const isBusy = isProcessing || uploading;
 
   return (
     <div
@@ -359,13 +464,13 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
             type="button"
             className="btn-icon"
             onClick={onClose}
-            disabled={uploading}
+            disabled={isBusy}
             style={{
               border: 'none',
               background: 'transparent',
               padding: '6px',
               borderRadius: '6px',
-              cursor: 'pointer',
+              cursor: isBusy ? 'not-allowed' : 'pointer',
               color: '#64748b',
             }}
           >
@@ -380,9 +485,29 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
             overflowY: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            gap: '20px',
+            gap: '16px',
           }}
         >
+          {/* ERROR ALERT */}
+          {errorMsg && (
+            <div
+              style={{
+                background: '#FEF2F2',
+                border: '1px solid #FCA5A5',
+                color: '#991B1B',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                fontSize: '12.5px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <AlertCircle size={16} style={{ flexShrink: 0 }} />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
           {/* MAIN EDITING AREA (2 Columns on Desktop) */}
           <div
             style={{
@@ -403,8 +528,9 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                   overflow: 'hidden',
                   border: '1px solid #cbd5e1',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
-                  cursor: isDragging ? 'grabbing' : 'grab',
+                  cursor: isDragging ? 'grabbing' : image ? 'grab' : 'default',
                   touchAction: 'none',
+                  background: '#F8FAFC',
                 }}
               >
                 <canvas
@@ -421,25 +547,27 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                   onWheel={handleWheel}
                   style={{ width: '100%', height: '100%', display: 'block' }}
                 />
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '8px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: 'rgba(15, 23, 42, 0.75)',
-                    color: '#ffffff',
-                    padding: '3px 10px',
-                    borderRadius: '20px',
-                    fontSize: '11px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <Move size={12} /> คลิกลากเพื่อเลื่อนตำแหน่ง
-                </div>
+                {image && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '8px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'rgba(15, 23, 42, 0.75)',
+                      color: '#ffffff',
+                      padding: '3px 10px',
+                      borderRadius: '20px',
+                      fontSize: '11px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <Move size={12} /> คลิกลากเพื่อเลื่อนตำแหน่ง
+                  </div>
+                )}
               </div>
 
               {/* CONTROLS: ZOOM SLIDER & BUTTONS */}
@@ -457,13 +585,14 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
               >
                 <button
                   type="button"
+                  disabled={!image || isBusy}
                   onClick={() => setScale((prev) => Math.max(0.3, prev - 0.1))}
                   style={{
                     border: '1px solid #cbd5e1',
                     background: '#fff',
                     borderRadius: '6px',
                     padding: '4px 8px',
-                    cursor: 'pointer',
+                    cursor: !image || isBusy ? 'not-allowed' : 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                   }}
@@ -476,19 +605,21 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                   min="0.3"
                   max="3.0"
                   step="0.05"
+                  disabled={!image || isBusy}
                   value={scale}
                   onChange={(e) => setScale(parseFloat(e.target.value))}
-                  style={{ flex: 1, accentColor: '#10b981', cursor: 'pointer' }}
+                  style={{ flex: 1, accentColor: '#10b981', cursor: !image || isBusy ? 'not-allowed' : 'pointer' }}
                 />
                 <button
                   type="button"
+                  disabled={!image || isBusy}
                   onClick={() => setScale((prev) => Math.min(3.0, prev + 0.1))}
                   style={{
                     border: '1px solid #cbd5e1',
                     background: '#fff',
                     borderRadius: '6px',
                     padding: '4px 8px',
-                    cursor: 'pointer',
+                    cursor: !image || isBusy ? 'not-allowed' : 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                   }}
@@ -501,13 +632,14 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                 </span>
                 <button
                   type="button"
+                  disabled={!image || isBusy}
                   onClick={handleReset}
                   style={{
                     border: '1px solid #cbd5e1',
                     background: '#fff',
                     borderRadius: '6px',
                     padding: '4px 8px',
-                    cursor: 'pointer',
+                    cursor: !image || isBusy ? 'not-allowed' : 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -527,6 +659,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setBgColor('transparent')}
+                    disabled={isBusy}
                     style={{
                       padding: '4px 10px',
                       borderRadius: '6px',
@@ -543,6 +676,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setBgColor('white')}
+                    disabled={isBusy}
                     style={{
                       padding: '4px 10px',
                       borderRadius: '6px',
@@ -721,7 +855,7 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
             type="button"
             className="btn btn-secondary"
             onClick={onClose}
-            disabled={uploading}
+            disabled={isBusy}
             style={{ fontSize: '13px' }}
           >
             ยกเลิก
@@ -730,22 +864,28 @@ export const LogoCropperModal: React.FC<LogoCropperModalProps> = ({
             type="button"
             className="btn btn-primary"
             onClick={handleConfirmCrop}
-            disabled={uploading}
+            disabled={!image || isBusy}
             style={{
               fontSize: '13px',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              background: '#2d5a27',
-              borderColor: '#2d5a27',
-              padding: '8px 18px',
+              background: !image || isBusy ? '#94A3B8' : '#1B4332',
+              borderColor: !image || isBusy ? '#94A3B8' : '#1B4332',
+              padding: '8px 20px',
+              cursor: !image || isBusy ? 'not-allowed' : 'pointer',
+              color: '#ffffff',
+              fontWeight: 600,
+              borderRadius: '8px',
             }}
           >
-            {uploading ? (
-              'กำลังอัปโหลด...'
+            {isBusy ? (
+              <>
+                <Loader2 size={16} className="spin" /> กำลังอัปโหลด...
+              </>
             ) : (
               <>
-                <Check size={16} /> ยืนยันและอัปโหลดโลโก้
+                <Check size={16} strokeWidth={2} /> ยืนยันและอัปโหลดโลโก้
               </>
             )}
           </button>

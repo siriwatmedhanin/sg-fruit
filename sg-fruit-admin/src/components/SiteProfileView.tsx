@@ -234,13 +234,20 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
   };
 
   const handleConfirmCroppedLogo = async (croppedFile: File) => {
-    await handleFileUpload('logo', croppedFile);
-    setIsCropperModalOpen(false);
-    setLogoCropperFile(null);
+    try {
+      const success = await handleFileUpload('logo', croppedFile);
+      if (success) {
+        setIsCropperModalOpen(false);
+        setLogoCropperFile(null);
+      }
+    } catch (err) {
+      // Re-throw so LogoCropperModal can catch and show error in modal
+      throw err;
+    }
   };
 
   // Handle Asset Upload
-  const handleFileUpload = async (assetType: 'logo' | 'favicon' | 'og-image', file: File) => {
+  const handleFileUpload = async (assetType: 'logo' | 'favicon' | 'og-image', file: File): Promise<boolean> => {
     try {
       setUploadingAsset(assetType);
       setErrorMessage(null);
@@ -257,9 +264,15 @@ export const SiteProfileView: React.FC<SiteProfileViewProps> = ({ role, onRefres
           handleChange('og_image_url', res.data.url);
         }
         await loadProfile();
+        return true;
+      } else {
+        const msg = res.error || `อัปโหลดไฟล์ ${assetType} ไม่สำเร็จ`;
+        setErrorMessage(msg);
+        throw new Error(msg);
       }
     } catch (err: any) {
       setErrorMessage(err.message || `อัปโหลดไฟล์ ${assetType} ล้มเหลว`);
+      throw err;
     } finally {
       setUploadingAsset(null);
     }
