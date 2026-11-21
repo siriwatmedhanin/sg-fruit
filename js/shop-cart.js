@@ -333,7 +333,9 @@
               <img
                 class="shop-card-img"
                 src="${imgSrc}"
-                alt="${item.name} - ${item.category}"
+                alt="${item.name} - ผลไม้สดคัดเกรด SG FRUIT"
+                loading="lazy"
+                decoding="async"
                 width="400"
                 height="400"
                 onerror="this.src='${global.SG_API_ADAPTER ? global.SG_API_ADAPTER.PLACEHOLDER_SVG : ''}'"
@@ -704,7 +706,7 @@
           <img
             id="pmodal-main-img"
             src="${mainImgSrc}"
-            alt="${product.name}"
+            alt="${product.name} - ผลไม้สดคัดเกรด SG FRUIT"
             width="480"
             height="480"
             onerror="this.src='${global.SG_API_ADAPTER ? global.SG_API_ADAPTER.PLACEHOLDER_SVG : ''}'"
@@ -2638,6 +2640,75 @@
     }
   }
 
+  // Dynamic JSON-LD Structured Data for Products & Offers (SEO / AEO)
+  function updateProductStructuredData(items) {
+    if (!Array.isArray(items) || items.length === 0) return;
+    try {
+      if (typeof document === 'undefined') return;
+      let scriptEl = document.getElementById('sg-products-jsonld');
+      if (!scriptEl) {
+        scriptEl = document.createElement('script');
+        scriptEl.id = 'sg-products-jsonld';
+        scriptEl.type = 'application/ld+json';
+        document.head.appendChild(scriptEl);
+      }
+
+      const origin = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'https://sg-fruit.siriwatmedhanin.com';
+      const productEntities = items.map((item) => {
+        const isAvailable = item.status === 'available' || (item.variants && item.variants.some((v) => Number(v.stock) > 0));
+        let fullImg = item.image;
+        if (!fullImg) {
+          fullImg = `${origin}/Pic/sg-fruit-logo.webp`;
+        } else if (!fullImg.startsWith('http')) {
+          fullImg = `${origin}/${fullImg.replace(/^\/+/, '')}`;
+        }
+
+        return {
+          '@type': 'Product',
+          '@id': `${origin}/#product-${item.id}`,
+          name: item.name,
+          description: `${item.name} ผลไม้สดคัดเกรดพรีเมียม SG FRUIT คัดสรรจากแหล่งปลูก ตลาดไท และตลาดสี่มุมเมือง จัดส่งทั่วไทย`,
+          image: fullImg,
+          sku: item.sku || `SG-SKU-${item.id}`,
+          category: item.category || 'ผลไม้ตามฤดูกาล',
+          brand: {
+            '@id': `${origin}/#organization`,
+            name: 'SG FRUIT'
+          },
+          offers: {
+            '@type': 'Offer',
+            price: item.price,
+            priceCurrency: 'THB',
+            priceValidUntil: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+            availability: isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            itemCondition: 'https://schema.org/NewCondition',
+            url: `${origin}/#shop`,
+            seller: {
+              '@id': `${origin}/#organization`,
+              name: 'บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด'
+            }
+          }
+        };
+      });
+
+      const itemListSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'รายการผลไม้สดและผักคัดเกรด SG FRUIT',
+        numberOfItems: productEntities.length,
+        itemListElement: productEntities.map((prod, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          item: prod
+        }))
+      };
+
+      scriptEl.textContent = JSON.stringify(itemListSchema);
+    } catch (e) {
+      console.warn('Failed to update product structured data:', e);
+    }
+  }
+
   // โหลดแคตตาล็อกใหม่ (เมื่อสลับโหมด หรือเมื่อ API พร้อม)
   async function reloadCatalog() {
     if (global.SG_API_ADAPTER) {
@@ -2655,6 +2726,9 @@
     renderCategories();
     renderProducts();
     renderCartUI();
+
+    // สร้างและอัปเดต Structured Data (JSON-LD) ของสินค้าแบบ Dynamic
+    updateProductStructuredData(products);
   }
 
   // Initialize Event Listeners

@@ -77,7 +77,17 @@ function build() {
     copyRecursive(path.join(ROOT_DIR, 'public'), path.join(DIST_DIR, 'public'));
   }
 
-  // 5. Create Cloudflare Pages _headers file for security
+  // 4.1 Copy SEO & Crawler Files (robots.txt, sitemap.xml, llms.txt, CNAME)
+  const seoFiles = ['robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME'];
+  for (const file of seoFiles) {
+    const src = path.join(ROOT_DIR, file);
+    if (fs.existsSync(src)) {
+      console.log(`Copying ${file} to dist/...`);
+      fs.copyFileSync(src, path.join(DIST_DIR, file));
+    }
+  }
+
+  // 5. Create Cloudflare Pages _headers file for security and SEO
   const headersContent = `/*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
@@ -89,6 +99,18 @@ function build() {
 
 /js/*
   Cache-Control: public, max-age=0, must-revalidate
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
 `;
   fs.writeFileSync(path.join(DIST_DIR, '_headers'), headersContent, 'utf8');
 

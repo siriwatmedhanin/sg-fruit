@@ -1,0 +1,44 @@
+# robots.txt for SG FRUIT (https://sg-fruit.siriwatmedhanin.com)
+# All search engines and AI / Answer Engine crawlers are welcomed to index public content.
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# AI Answer Engines & LLM Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://sg-fruit.siriwatmedhanin.com/sitemap.xml

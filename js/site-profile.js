@@ -194,11 +194,9 @@
     // Cache globally for shop-cart.js
     global.__SG_SITE_PROFILE__ = profile;
 
-    // 1. Title & Meta
+    // 1. Title & Meta (Preserve comprehensive SEO title/description if no custom override in profile)
     if (profile.seo && profile.seo.title) {
       document.title = profile.seo.title;
-    } else if (profile.site_name) {
-      document.title = profile.site_name + ' | ' + (profile.site_name_th || 'เอสจี ผลไม้ตามฤดูกาล') + ' — ' + (profile.tagline || 'Shop the Season');
     }
 
     if (profile.seo && profile.seo.description) {
