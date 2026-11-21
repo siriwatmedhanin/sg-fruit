@@ -151,4 +151,24 @@ test('SG FRUIT - Step 7.10.5: Admin Site Profile & Store Settings Suite', async 
     assert.ok(content.includes('2 * 1024 * 1024'), 'Must enforce 2MB maximum file limit');
     assert.ok(content.includes('image/webp,image/png,image/jpeg,image/jpg'), 'Must accept WebP, PNG, and JPG');
   });
+
+  await t.test('6.3 Logo Cropper: Relative Zoom system, Slider 0.50-3.00x, and Scale Synchronization', async () => {
+    const cropperPath = path.join(adminRoot, 'src', 'components', 'LogoCropperModal.tsx');
+    const content = fs.readFileSync(cropperPath, 'utf8');
+
+    // 1. Relative Zoom Formula
+    assert.ok(content.includes('baseScale'), 'Must calculate and store baseScale');
+    assert.ok(content.includes('actualScale = baseScale * zoom'), 'Must calculate actual scale as baseScale * zoom');
+    assert.ok(content.includes('setZoom(1.0)'), 'Initial relative zoom must be 1.00x');
+
+    // 2. Smooth Slider & Step Constraints
+    assert.ok(content.includes('min="0.50"') && content.includes('max="3.00"') && content.includes('step="0.01"'), 'Slider must be configured with min 0.50, max 3.00, and step 0.01');
+    assert.ok(content.includes('0.05'), 'Zoom +/- buttons must adjust in 0.05 steps');
+    assert.ok(content.includes('zoom.toFixed(2)}x'), 'Must display relative zoom formatted as 1.00x');
+
+    // 3. Mathematical scale synchronization across previews and export
+    assert.ok(content.includes('ratio = 48 / CROP_DIAMETER'), 'Header preview ratio must be derived from CROP_DIAMETER');
+    assert.ok(content.includes('exportRatio = 512 / CROP_DIAMETER'), '512px export ratio must be derived from CROP_DIAMETER');
+    assert.ok(content.includes('exportScale = baseScale * zoom * exportRatio'), 'Export scale must be accurately synchronized with zoom');
+  });
 });
