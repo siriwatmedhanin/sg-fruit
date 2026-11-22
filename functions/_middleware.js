@@ -89,6 +89,75 @@ export async function onRequest(context) {
 
     const canonicalUrl = `https://sg-fruit.siriwatmedhanin.com/?product=${encodeURIComponent(productId)}`;
 
+    // Product JSON-LD Structured Data for Merchant Listings & Google Search Console
+    const productJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      '@id': canonicalUrl,
+      name: productName,
+      description: rawDesc,
+      image: ogImage,
+      sku: product.sku || `SG-SKU-${productId}`,
+      category: 'Food, Beverages & Tobacco > Food Items > Fruits & Vegetables',
+      brand: {
+        '@type': 'Brand',
+        name: 'SG FRUIT'
+      },
+      offers: {
+        '@type': 'Offer',
+        price: Number(priceNum),
+        priceCurrency: 'THB',
+        validFrom: '2026-01-01T00:00:00+07:00',
+        priceValidUntil: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+        availability: (product.status === 'available' || (variant && Number(variant.stock) > 0))
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+        itemCondition: 'https://schema.org/NewCondition',
+        url: canonicalUrl,
+        seller: {
+          '@id': 'https://sg-fruit.siriwatmedhanin.com/#organization',
+          name: 'บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด'
+        },
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: 60,
+            currency: 'THB'
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'TH'
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 0,
+              maxValue: 1,
+              unitCode: 'DAY'
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 1,
+              maxValue: 3,
+              unitCode: 'DAY'
+            }
+          }
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'TH',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 1,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+          refundType: 'https://schema.org/FullRefund',
+          url: 'https://sg-fruit.siriwatmedhanin.com/'
+        }
+      }
+    };
+
     // 2. Fetch base HTML response
     let response;
     if (isPPath && env && env.ASSETS) {
@@ -161,6 +230,11 @@ export async function onRequest(context) {
             e.setAttribute('content', ogImage);
           }
         })
+        .on('head', {
+          element(e) {
+            e.append(`\n  <script type="application/ld+json" id="sg-product-deeplink-jsonld">${JSON.stringify(productJsonLd)}</script>`, { html: true });
+          }
+        })
         .transform(response);
     }
 
@@ -177,6 +251,7 @@ export async function onRequest(context) {
     transformedHtml = transformedHtml.replace(/<meta name="twitter:description" content=".*?" \/>/i, `<meta name="twitter:description" content="${ogDesc}" />`);
     transformedHtml = transformedHtml.replace(/<meta name="twitter:image" content=".*?" \/>/i, `<meta name="twitter:image" content="${ogImage}" />`);
     transformedHtml = transformedHtml.replace(/<link rel="canonical" href=".*?" \/>/i, `<link rel="canonical" href="${canonicalUrl}" />`);
+    transformedHtml = transformedHtml.replace('</head>', `  <script type="application/ld+json" id="sg-product-deeplink-jsonld">${JSON.stringify(productJsonLd)}</script>\n</head>`);
 
     return new Response(transformedHtml, {
       status: response.status,

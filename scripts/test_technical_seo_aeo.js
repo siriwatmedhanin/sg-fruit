@@ -131,5 +131,27 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     assert.ok(shopCartJs.includes('updateProductStructuredData'), 'shop-cart.js must define updateProductStructuredData');
     assert.ok(shopCartJs.includes('loading="lazy"'), 'shop-cart.js must include loading="lazy" for product card images');
     assert.ok(shopCartJs.includes('ผลไม้สดคัดเกรด SG FRUIT'), 'Product image alt must include keyword brand text');
+
+    // Merchant listings & Google Search Console Schema Validation
+    assert.ok(
+      shopCartJs.includes("'@type': 'Brand'") && shopCartJs.includes("name: 'SG FRUIT'"),
+      'Product Schema must define brand as Brand object'
+    );
+    assert.ok(
+      shopCartJs.includes("'Food, Beverages & Tobacco > Food Items > Fruits & Vegetables'"),
+      'Product Schema must define category using standard Google Product Taxonomy'
+    );
+    assert.ok(
+      shopCartJs.includes("'@type': 'OfferShippingDetails'"),
+      'Product Schema offers must include OfferShippingDetails'
+    );
+    assert.ok(
+      shopCartJs.includes("'@type': 'MerchantReturnPolicy'"),
+      'Product Schema offers must include MerchantReturnPolicy'
+    );
+    assert.ok(
+      shopCartJs.includes("validFrom: '2026-01-01T00:00:00+07:00'"),
+      'Product Schema offers must include validFrom'
+    );
   });
 });

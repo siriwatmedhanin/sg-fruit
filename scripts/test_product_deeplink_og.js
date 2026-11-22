@@ -130,6 +130,14 @@ test('SG FRUIT - Deep Linking, Dynamic OG & SKU Visibility Suite', async (t) => 
       middlewareJs.includes('controller.abort()'),
       'Middleware must protect against slow API responses with timeout'
     );
+    assert.ok(
+      middlewareJs.includes('sg-product-deeplink-jsonld'),
+      'Middleware must inject product JSON-LD script for search crawlers'
+    );
+    assert.ok(
+      middlewareJs.includes("'@type': 'Brand'") && middlewareJs.includes("'@type': 'OfferShippingDetails'"),
+      'Middleware product JSON-LD must contain Brand and OfferShippingDetails schemas'
+    );
   });
 
   // 6. Build Artifacts

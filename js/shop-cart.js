@@ -2744,29 +2744,73 @@
           fullImg = `${origin}/${fullImg.replace(/^\/+/, '')}`;
         }
 
+        const itemPrice = typeof item.price === 'number'
+          ? item.price
+          : ((item.variants && item.variants[0] && typeof item.variants[0].price === 'number')
+            ? item.variants[0].price
+            : (Number(item.price) || 0));
+
         return {
           '@type': 'Product',
-          '@id': `${origin}/#product-${item.id}`,
+          '@id': `${origin}/?product=${encodeURIComponent(item.id)}`,
           name: item.name,
           description: `${item.name} ผลไม้สดคัดเกรดพรีเมียม SG FRUIT คัดสรรจากแหล่งปลูก ตลาดไท และตลาดสี่มุมเมือง จัดส่งทั่วไทย`,
           image: fullImg,
           sku: item.sku || `SG-SKU-${item.id}`,
-          category: item.category || 'ผลไม้ตามฤดูกาล',
+          category: 'Food, Beverages & Tobacco > Food Items > Fruits & Vegetables',
           brand: {
-            '@id': `${origin}/#organization`,
+            '@type': 'Brand',
             name: 'SG FRUIT'
           },
           offers: {
             '@type': 'Offer',
-            price: item.price,
+            price: itemPrice,
             priceCurrency: 'THB',
+            validFrom: '2026-01-01T00:00:00+07:00',
             priceValidUntil: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
             availability: isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
             itemCondition: 'https://schema.org/NewCondition',
-            url: `${origin}/#shop`,
+            url: `${origin}/?product=${encodeURIComponent(item.id)}`,
             seller: {
               '@id': `${origin}/#organization`,
               name: 'บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด'
+            },
+            shippingDetails: {
+              '@type': 'OfferShippingDetails',
+              shippingRate: {
+                '@type': 'MonetaryAmount',
+                value: 60,
+                currency: 'THB'
+              },
+              shippingDestination: {
+                '@type': 'DefinedRegion',
+                addressCountry: 'TH'
+              },
+              deliveryTime: {
+                '@type': 'ShippingDeliveryTime',
+                handlingTime: {
+                  '@type': 'QuantitativeValue',
+                  minValue: 0,
+                  maxValue: 1,
+                  unitCode: 'DAY'
+                },
+                transitTime: {
+                  '@type': 'QuantitativeValue',
+                  minValue: 1,
+                  maxValue: 3,
+                  unitCode: 'DAY'
+                }
+              }
+            },
+            hasMerchantReturnPolicy: {
+              '@type': 'MerchantReturnPolicy',
+              applicableCountry: 'TH',
+              returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+              merchantReturnDays: 1,
+              returnMethod: 'https://schema.org/ReturnByMail',
+              returnFees: 'https://schema.org/FreeReturn',
+              refundType: 'https://schema.org/FullRefund',
+              url: `${origin}/`
             }
           }
         };
