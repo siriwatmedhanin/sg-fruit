@@ -130,7 +130,14 @@
 
   function getProductById(id) {
     if (!id) return null;
-    return products.find((p) => p.id === id || p.sku === id) || null;
+    const target = String(id).trim().toLowerCase();
+    return (
+      products.find(
+        (p) =>
+          String(p.id).toLowerCase() === target ||
+          (p.sku && String(p.sku).toLowerCase() === target)
+      ) || null
+    );
   }
 
   function formatPrice(num) {

@@ -33,13 +33,25 @@ export async function onRequest(context) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 2500);
 
-    const apiRes = await fetch(`${apiOrigin}/api/products/${encodeURIComponent(productId)}`, {
+    let apiRes = await fetch(`${apiOrigin}/api/products/${encodeURIComponent(productId)}`, {
       signal: controller.signal,
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'SGFruit-OpenGraph-Bot/1.0'
       }
     });
+
+    if (!apiRes.ok && productId !== productId.toLowerCase()) {
+      try {
+        apiRes = await fetch(`${apiOrigin}/api/products/${encodeURIComponent(productId.toLowerCase())}`, {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'SGFruit-OpenGraph-Bot/1.0'
+          }
+        });
+      } catch (_) {}
+    }
     clearTimeout(timeout);
 
     if (!apiRes.ok) {
