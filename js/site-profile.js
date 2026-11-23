@@ -221,12 +221,13 @@
       safeSetText('.footer-desc', profile.description);
     }
 
-    // 4. Contact & LINE OA
-    if (profile.line_oa_id) {
-      safeSetText('.footer-contact-list a[href*="line.me"]:not(.social-pill-btn)', profile.line_oa_id);
-    }
-    if (profile.line_oa_url && isValidUrl(profile.line_oa_url)) {
-      safeSetAttr('.footer-contact-list a[href*="line.me"]', 'href', profile.line_oa_url);
+    // 4. Contact & LINE OA: Fixed button with inline white SVG and SG FRUIT label
+    const lineBtn = document.getElementById('footer-line-btn') || document.querySelector('.footer-contact-list a[href*="line.me"]');
+    if (lineBtn) {
+      lineBtn.setAttribute('href', 'https://line.me/R/ti/p/@934wscfl');
+      if (!lineBtn.querySelector('svg') || !lineBtn.textContent.includes('SG FRUIT')) {
+        lineBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="#FFFFFF" style="width:14px;height:14px;fill:#FFFFFF;flex-shrink:0;" aria-hidden="true"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.019 9.605.39.084.922.256 1.056.586.12.3.079.769.039 1.071l-.173 1.157c-.053.324-.247 1.264 1.114.689 1.36-.575 7.34-4.316 10.025-7.382 1.85-2.138 1.92-3.728 1.92-5.728zm-13.473 3.511h-1.92a.48.48 0 0 1-.48-.48v-5.12a.48.48 0 0 1 .48-.48h1.92a.48.48 0 1 1 0 .96h-1.44v1.6h1.44a.48.48 0 1 1 0 .96h-1.44v1.6h1.44a.48.48 0 0 1 0 .96zm2.88 0a.48.48 0 0 1-.48-.48v-5.12a.48.48 0 0 1 .96 0v5.12a.48.48 0 0 1-.48.48zm4.8 0a.48.48 0 0 1-.389-.199l-2.355-3.242v2.961a.48.48 0 0 1-.96 0v-5.12a.48.48 0 0 1 .869-.281l2.355 3.242v-2.961a.48.48 0 0 1 .96 0v5.12a.48.48 0 0 1-.48.48zm3.84-2.88a.48.48 0 1 1 0-.96h1.44v-1.28h-1.44a.48.48 0 1 1 0-.96h1.92a.48.48 0 0 1 .48.48v5.12a.48.48 0 0 1-.48.48h-1.92a.48.48 0 1 1 0-.96h1.44v-1.28z"/></svg><span>SG FRUIT</span>';
+      }
     }
 
     if (profile.phone) {
