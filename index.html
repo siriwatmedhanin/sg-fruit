@@ -4999,6 +4999,195 @@
       margin-bottom: 12px;
     }
 
+    /* ================= PDPA COOKIE CONSENT BANNER ================= */
+    .cookie-consent-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 30px);
+      width: min(calc(100% - 32px), 920px);
+      z-index: 210; /* Above page content and recent-order-pill (z:150), strictly below modal-overlay (z:230) */
+      background: #ffffff;
+      border: 1px solid rgba(27, 67, 50, 0.14);
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(15, 34, 23, 0.16), 0 2px 8px rgba(0, 0, 0, 0.04);
+      padding: 16px 22px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cookie-consent-banner.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+    }
+
+    .cookie-consent-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .cookie-consent-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cookie-consent-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #eef7ee;
+      color: var(--forest);
+      flex-shrink: 0;
+    }
+
+    .cookie-consent-text {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #334155;
+      margin: 0;
+      font-family: inherit;
+    }
+
+    .cookie-privacy-link {
+      display: inline;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      color: var(--forest);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .cookie-privacy-link:hover,
+    .cookie-privacy-link:focus-visible {
+      color: #15803d;
+      outline: none;
+    }
+
+    .cookie-consent-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .cookie-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+
+    .cookie-btn-primary {
+      background: var(--forest);
+      color: #ffffff;
+      border: 1.5px solid var(--forest);
+      box-shadow: 0 2px 6px rgba(27, 67, 50, 0.18);
+    }
+
+    .cookie-btn-primary:hover,
+    .cookie-btn-primary:focus-visible {
+      background: #143527;
+      border-color: #143527;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(27, 67, 50, 0.25);
+    }
+
+    .cookie-btn-secondary {
+      background: #fbfbf9;
+      color: var(--forest);
+      border: 1.5px solid rgba(27, 67, 50, 0.22);
+    }
+
+    .cookie-btn-secondary:hover,
+    .cookie-btn-secondary:focus-visible {
+      background: #f0f5ed;
+      border-color: rgba(27, 67, 50, 0.4);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .cookie-consent-banner {
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        transform: translateY(24px);
+        padding: 14px 14px 12px;
+        border-radius: 16px;
+      }
+
+      .cookie-consent-banner.is-visible {
+        transform: translateY(0);
+      }
+
+      .cookie-consent-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .cookie-consent-content {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .cookie-consent-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        margin-top: 2px;
+      }
+
+      .cookie-consent-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .cookie-consent-text {
+        font-size: 12.5px;
+        line-height: 1.55;
+      }
+
+      .cookie-consent-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .cookie-btn {
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -5904,11 +6093,11 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <!-- Product Catalog & Cart Modules -->
-  <script src="js/products-data.js?v=20261122-v10"></script>
-  <script src="js/api-adapter.js?v=20261122-v10"></script>
-  <script src="js/site-profile.js?v=20261122-v10"></script>
-  <script src="js/thai-address.js?v=20261122-v10"></script>
-  <script src="js/shop-cart.js?v=20261122-v10"></script>
+  <script src="js/products-data.js?v=20261123-v11"></script>
+  <script src="js/api-adapter.js?v=20261123-v11"></script>
+  <script src="js/site-profile.js?v=20261123-v11"></script>
+  <script src="js/thai-address.js?v=20261123-v11"></script>
+  <script src="js/shop-cart.js?v=20261123-v11"></script>
 
   <!-- GSAP & ScrollTrigger -->
   <script src="js/gsap.min.js"></script>
@@ -6470,6 +6659,34 @@
       updateHUDAndTimeline();
     })();
   </script>
+
+  <!-- ================= PDPA COOKIE CONSENT BANNER ================= -->
+  <aside class="cookie-consent-banner" id="cookie-consent-banner" role="region" aria-label="การตั้งค่าคุกกี้และความเป็นส่วนตัว" aria-hidden="true" style="display: none;">
+    <div class="cookie-consent-container">
+      <div class="cookie-consent-content">
+        <div class="cookie-consent-icon" aria-hidden="true">
+          <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+            <path d="M8.5 8.5v.01"/>
+            <path d="M7 14v.01"/>
+            <path d="M11 17v.01"/>
+            <path d="M16 15v.01"/>
+          </svg>
+        </div>
+        <p class="cookie-consent-text">
+          เว็บไซต์ SG FRUIT ใช้คุกกี้เพื่อพัฒนาประสบการณ์การใช้งานและจดจำรายการสั่งซื้อของท่าน สามารถอ่านรายละเอียดเพิ่มเติมได้ที่ <button type="button" class="cookie-privacy-link" id="cookie-privacy-link">นโยบายความเป็นส่วนตัว</button>
+        </p>
+      </div>
+      <div class="cookie-consent-actions">
+        <button type="button" class="cookie-btn cookie-btn-secondary" id="cookie-accept-necessary-btn">
+          ยอมรับเฉพาะที่จำเป็น
+        </button>
+        <button type="button" class="cookie-btn cookie-btn-primary" id="cookie-accept-all-btn">
+          ยอมรับทั้งหมด
+        </button>
+      </div>
+    </div>
+  </aside>
 
   <!-- ================= POLICY INFO MODAL ================= -->
   <div class="modal-overlay" id="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title" aria-hidden="true">

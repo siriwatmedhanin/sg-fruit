@@ -2728,6 +2728,85 @@
     }
   }
 
+  // ================= PDPA COOKIE CONSENT SYSTEM =================
+  const COOKIE_CONSENT_KEY = 'sg_fruit_cookie_consent';
+
+  function getCookieConsent() {
+    try {
+      if (typeof window === 'undefined' || !window.localStorage) return null;
+      const raw = localStorage.getItem(COOKIE_CONSENT_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function setCookieConsent(consentType) {
+    const payload = {
+      status: consentType === 'all' ? 'all' : 'necessary',
+      timestamp: new Date().toISOString(),
+      version: '1.0'
+    };
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(payload));
+      }
+    } catch (_) {}
+
+    const banner = document.getElementById('cookie-consent-banner');
+    if (banner) {
+      banner.classList.remove('is-visible');
+      banner.setAttribute('aria-hidden', 'true');
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 350);
+    }
+    return payload;
+  }
+
+  function initCookieConsent() {
+    const banner = document.getElementById('cookie-consent-banner');
+    if (!banner) return;
+
+    const existingConsent = getCookieConsent();
+    if (existingConsent && existingConsent.status) {
+      banner.style.display = 'none';
+      banner.setAttribute('aria-hidden', 'true');
+      return;
+    }
+
+    // Show banner smoothly for visitors without prior consent
+    banner.style.display = 'block';
+    setTimeout(() => {
+      banner.classList.add('is-visible');
+      banner.setAttribute('aria-hidden', 'false');
+    }, 250);
+
+    const acceptAllBtn = document.getElementById('cookie-accept-all-btn');
+    const acceptNecessaryBtn = document.getElementById('cookie-accept-necessary-btn');
+    const privacyLink = document.getElementById('cookie-privacy-link');
+
+    if (acceptAllBtn) {
+      acceptAllBtn.addEventListener('click', () => {
+        setCookieConsent('all');
+      });
+    }
+
+    if (acceptNecessaryBtn) {
+      acceptNecessaryBtn.addEventListener('click', () => {
+        setCookieConsent('necessary');
+      });
+    }
+
+    if (privacyLink) {
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPolicyModal('privacy');
+      });
+    }
+  }
+
   // Dynamic JSON-LD Structured Data for Products & Offers (SEO / AEO)
   function updateProductStructuredData(items) {
     if (!Array.isArray(items) || items.length === 0) return;
@@ -3199,6 +3278,9 @@
 
     // Initialize Policy Modals
     initPolicyModals();
+
+    // Initialize PDPA Cookie Consent Banner
+    initCookieConsent();
   }
 
   // Expose public API for testing, automation & integration
@@ -3220,6 +3302,9 @@
     updateRecentOrderPill,
     openPolicyModal,
     closePolicyModal,
+    getCookieConsent,
+    setCookieConsent,
+    initCookieConsent,
     reloadCatalog,
     setCategory: (cat) => {
       state.category = cat || 'all';
