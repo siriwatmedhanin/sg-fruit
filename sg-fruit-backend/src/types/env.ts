@@ -22,6 +22,10 @@ export interface Env {
   CF_ACCESS_AUD?: string;
   DEV_AUTH_MOCK_ENABLED?: string;
   STAGING_ADMIN_EMAIL?: string;
+
+  // LINE Messaging API Notifications
+  LINE_CHANNEL_ACCESS_TOKEN?: string;
+  LINE_ADMIN_USER_ID?: string;
 }
 
 export type UserRole = 'admin';

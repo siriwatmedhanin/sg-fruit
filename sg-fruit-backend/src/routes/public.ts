@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import type { Env, PublicProduct } from '../types/env';
 import { defaultSiteProfileData, mapToPublicSiteProfile } from './siteProfile';
+import { sendLineOrderNotification, sendLineSlipNotification } from '../services/lineNotification';
 
 export const publicRouter = new Hono<{ Bindings: Env }>();
 
@@ -437,6 +438,42 @@ publicRouter.post('/orders/upload-slip', async (c) => {
     });
 
     const slipUrl = `/api/images/${slipKey}`;
+
+    // Optional: If order_no or order_id is provided, link the slip to the order and trigger LINE notification
+    const orderNoInput = formData.get('order_no') || formData.get('order_id');
+    if (orderNoInput && typeof orderNoInput === 'string' && c.env.DB) {
+      const orderNoStr = orderNoInput.trim();
+      try {
+        const existingOrder = await c.env.DB.prepare(`
+          SELECT id, order_no, total_amount, customer_name
+          FROM orders
+          WHERE order_no = ? OR id = ? OR platform_order_id = ?
+          LIMIT 1;
+        `).bind(orderNoStr, orderNoStr, orderNoStr).first<any>();
+
+        if (existingOrder) {
+          await c.env.DB.prepare(`
+            UPDATE orders
+            SET slip_url = ?, updated_at = ?
+            WHERE id = ?;
+          `).bind(slipUrl, new Date().toISOString(), existingOrder.id).run();
+
+          const slipPromise = sendLineSlipNotification(c.env, {
+            orderNo: existingOrder.order_no,
+            amount: Number(existingOrder.total_amount) || undefined,
+            slipUrl,
+            customerName: existingOrder.customer_name,
+          }).catch(err => console.error('[LINE_SLIP_NOTIFY_ERROR]', err));
+
+          if (c.executionCtx && typeof c.executionCtx.waitUntil === 'function') {
+            c.executionCtx.waitUntil(slipPromise);
+          }
+        }
+      } catch (attachErr) {
+        console.error('[ATTACH_SLIP_ERROR]', attachErr);
+      }
+    }
+
     return c.json({
       ok: true,
       data: {
@@ -446,6 +483,69 @@ publicRouter.post('/orders/upload-slip', async (c) => {
     });
   } catch (err: any) {
     return c.json({ ok: false, error: 'UPLOAD_FAILED', message: err.message || 'ไม่สามารถอัปโหลดสลิปได้' }, 500);
+  }
+});
+
+/**
+ * POST /api/orders/attach-slip
+ * Public endpoint to link an already uploaded slip to an existing order and notify via LINE
+ */
+publicRouter.post('/orders/attach-slip', async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: 'DATABASE_UNAVAILABLE', message: 'ฐานข้อมูลไม่พร้อมใช้งาน' }, 500);
+  }
+
+  try {
+    const body = await c.req.json<{
+      order_no?: string;
+      order_id?: string;
+      slip_url: string;
+    }>();
+
+    const orderNoInput = body.order_no || body.order_id;
+    if (!orderNoInput || !body.slip_url) {
+      return c.json({ ok: false, error: 'PARAMS_REQUIRED', message: 'กรุณาระบุเลขที่คำสั่งซื้อและ slip_url' }, 400);
+    }
+
+    const orderNoStr = orderNoInput.trim();
+    const existingOrder = await c.env.DB.prepare(`
+      SELECT id, order_no, total_amount, customer_name
+      FROM orders
+      WHERE order_no = ? OR id = ? OR platform_order_id = ?
+      LIMIT 1;
+    `).bind(orderNoStr, orderNoStr, orderNoStr).first<any>();
+
+    if (!existingOrder) {
+      return c.json({ ok: false, error: 'ORDER_NOT_FOUND', message: 'ไม่พบคำสั่งซื้อที่ระบุ' }, 404);
+    }
+
+    await c.env.DB.prepare(`
+      UPDATE orders
+      SET slip_url = ?, updated_at = ?
+      WHERE id = ?;
+    `).bind(body.slip_url.trim(), new Date().toISOString(), existingOrder.id).run();
+
+    const slipPromise = sendLineSlipNotification(c.env, {
+      orderNo: existingOrder.order_no,
+      amount: Number(existingOrder.total_amount) || undefined,
+      slipUrl: body.slip_url.trim(),
+      customerName: existingOrder.customer_name,
+    }).catch(err => console.error('[LINE_SLIP_NOTIFY_ERROR]', err));
+
+    if (c.executionCtx && typeof c.executionCtx.waitUntil === 'function') {
+      c.executionCtx.waitUntil(slipPromise);
+    }
+
+    return c.json({
+      ok: true,
+      message: 'แนบสลิปและส่งแจ้งเตือนเรียบร้อยแล้ว',
+      data: {
+        order_no: existingOrder.order_no,
+        slip_url: body.slip_url.trim(),
+      },
+    });
+  } catch (err: any) {
+    return c.json({ ok: false, error: 'ATTACH_FAILED', message: err.message || 'ไม่สามารถแนบสลิปได้' }, 500);
   }
 });
 
@@ -700,6 +800,40 @@ publicRouter.post('/orders', async (c) => {
     }
 
     await c.env.DB.batch(statements);
+
+    // Fault-tolerant asynchronous LINE Order Notification
+    try {
+      const orderNotifyPromise = sendLineOrderNotification(c.env, {
+        orderNo,
+        createdAt: now,
+        customerName: customer.name.trim(),
+        customerPhone: cleanPhone,
+        customerAddress: fullAddress,
+        note: customer.note?.trim() || null,
+        items: items.map(itm => ({
+          name: itm.product_name,
+          variation: itm.variation || null,
+          unit: itm.unit || null,
+          quantity: Math.max(1, Number(itm.quantity) || 1),
+          price: Number(itm.price) || 0,
+          subtotal: Number(itm.subtotal) || ((Math.max(1, Number(itm.quantity) || 1)) * (Number(itm.price) || 0)),
+        })),
+        subtotal,
+        shippingFee: finalShippingFee,
+        discountAmount: discount_amount,
+        totalAmount: finalTotalAmount,
+        paymentMethod: paymentLabel,
+        slipUrl: slip_url || null,
+      }).catch(notifyErr => {
+        console.error('[LINE_NOTIFICATION_FAILED]', notifyErr);
+      });
+
+      if (c.executionCtx && typeof c.executionCtx.waitUntil === 'function') {
+        c.executionCtx.waitUntil(orderNotifyPromise);
+      }
+    } catch (triggerErr) {
+      console.error('[LINE_TRIGGER_FAILED]', triggerErr);
+    }
 
     return c.json({
       ok: true,

@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "db:migrate:local": "wrangler d1 migrations apply sg-fruit-db --local",
     "db:migrate:prod": "wrangler d1 migrations apply sg-fruit-db --remote",
-    "test": "npx tsx --test --test-concurrency=1 tests/staging_preflight_security.test.ts tests/r2_backup_restore.test.ts tests/excel_formula_integrity.test.ts tests/admin_seed_validation.test.ts tests/backend_crud_integration.test.ts tests/site_profile_integration.test.ts"
+    "test": "npx tsx --test --test-concurrency=1 tests/staging_preflight_security.test.ts tests/r2_backup_restore.test.ts tests/excel_formula_integrity.test.ts tests/admin_seed_validation.test.ts tests/line_notification.test.ts tests/backend_crud_integration.test.ts tests/site_profile_integration.test.ts"
   },
   "dependencies": {
     "hono": "^4.6.10",
