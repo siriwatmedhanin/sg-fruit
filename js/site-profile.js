@@ -30,8 +30,8 @@
     site_name_th: 'เอสจี ผลไม้ตามฤดูกาล',
     tagline: 'A Brand by Siriwatmedhanin Group',
     description: 'คัดสรรผลไม้ไทย ผลไม้นำเข้า ผลไม้ตามฤดูกาล และผักสดหลากหลายชนิด เพื่อส่งมอบความสดใหม่สู่ทุกวันของคุณ',
-    line_oa_id: '@sgfruit',
-    line_oa_url: 'https://line.me/R/ti/p/@sgfruit',
+    line_oa_id: '@934wscfl',
+    line_oa_url: 'https://line.me/R/ti/p/@934wscfl',
     phone: '091-909-8902',
     email: 'contact@siriwatmedhanin.com',
     business_hours: 'เปิดบริการทุกวัน 08:00 - 18:00 น.',
@@ -223,7 +223,7 @@
 
     // 4. Contact & LINE OA
     if (profile.line_oa_id) {
-      safeSetText('.footer-contact-list a[href*="line.me"]', profile.line_oa_id);
+      safeSetText('.footer-contact-list a[href*="line.me"]:not(.social-pill-btn)', profile.line_oa_id);
     }
     if (profile.line_oa_url && isValidUrl(profile.line_oa_url)) {
       safeSetAttr('.footer-contact-list a[href*="line.me"]', 'href', profile.line_oa_url);

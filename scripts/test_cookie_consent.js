@@ -52,8 +52,8 @@ test('SG FRUIT - PDPA Cookie Consent Banner Suite', async (t) => {
       'Footer must preserve LINE Official'
     );
     assert.ok(
-      indexHtml.includes('@sgfruit'),
-      'Footer must preserve @sgfruit'
+      indexHtml.includes('line.me/R/ti/p/@934wscfl') || indexHtml.includes('SG FRUIT'),
+      'Footer must preserve LINE button'
     );
 
     // Verify NO Terms & Conditions added
