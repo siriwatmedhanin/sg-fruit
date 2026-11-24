@@ -235,7 +235,7 @@ describe('SG FRUIT - LINE Notification Service', () => {
           orderNo: 'SG-261123-9999',
           createdAt: new Date('2026-11-23T08:00:00.000Z'),
           customerName: 'คุณสุดา งามดี',
-          customerPhone: '0812345678',
+          customerPhone: '0899999999',
           customerAddress: '12 ซอย 5 ต.ช้างเผือก อ.เมือง จ.เชียงใหม่ 50300',
           items: [
             {

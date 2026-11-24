@@ -102,7 +102,7 @@ test('SG FRUIT - Step 7.10: Order Management & Excel Export Suite', async (t) =>
         unit_price: 159,
         subtotal: 159,
         recipient_name: 'คุณวิชัย สวนสุข',
-        recipient_phone: '0812345678',
+        recipient_phone: '0899999999',
         zipcode: '01000',
         tracking_id: 'TH0192837482'
       },
@@ -118,7 +118,7 @@ test('SG FRUIT - Step 7.10: Order Management & Excel Export Suite', async (t) =>
         unit_price: 129,
         subtotal: 258,
         recipient_name: 'คุณวิชัย สวนสุข',
-        recipient_phone: '0812345678',
+        recipient_phone: '0899999999',
         zipcode: '01000',
         tracking_id: 'TH0192837482'
       },
@@ -134,7 +134,7 @@ test('SG FRUIT - Step 7.10: Order Management & Excel Export Suite', async (t) =>
         unit_price: 159,
         subtotal: 159,
         recipient_name: 'คุณวิชัย สวนสุข',
-        recipient_phone: '0812345678',
+        recipient_phone: '0899999999',
         zipcode: '01000',
         tracking_id: 'TH0192837482'
       }

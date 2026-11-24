@@ -1351,7 +1351,7 @@
             </div>
             <div class="checkout-field">
               <label class="checkout-label" for="checkout-phone">เบอร์โทรศัพท์ (10 หลัก) <span class="required">*</span></label>
-              <input type="tel" id="checkout-phone" class="checkout-input" placeholder="เช่น 0812345678" maxlength="10" inputmode="numeric" value="${escapeHtml(checkoutData.phone)}" autocomplete="tel" />
+              <input type="tel" id="checkout-phone" class="checkout-input" placeholder="เช่น 0XXXXXXXXX" maxlength="10" inputmode="numeric" value="${escapeHtml(checkoutData.phone)}" autocomplete="tel" />
             </div>
             <div class="checkout-field is-full">
               <label class="checkout-label" for="checkout-address">ที่อยู่จัดส่ง (บ้านเลขที่ / หมู่ / ซอย / ถนน) <span class="required">*</span></label>
@@ -1728,7 +1728,7 @@
           }
 
           if (!/^0[0-9]{9}$/.test(rawPhone)) {
-            showToast('กรุณากรอกเบอร์โทรศัพท์ 10 หลัก (เช่น 0812345678)');
+            showToast('กรุณากรอกเบอร์โทรศัพท์ 10 หลัก (เช่น 0XXXXXXXXX)');
             const el = document.getElementById('checkout-phone');
             if (el) { el.classList.add('is-invalid'); el.focus(); }
             return;
@@ -2208,7 +2208,7 @@
             <label style="display: block; font-size: 13px; font-weight: 700; color: var(--forest); margin-bottom: 6px;">
               เบอร์โทรศัพท์ (10 หลัก) <span style="color: #dc2626;">*</span>
             </label>
-            <input type="tel" id="track-input-phone" class="checkout-input" placeholder="เช่น 0812345678" value="${escapeHtml(defaultPhone)}" maxlength="10" required style="width: 100%; box-sizing: border-box;" autocomplete="tel" inputmode="numeric" />
+            <input type="tel" id="track-input-phone" class="checkout-input" placeholder="เช่น 0XXXXXXXXX" value="${escapeHtml(defaultPhone)}" maxlength="10" required style="width: 100%; box-sizing: border-box;" autocomplete="tel" inputmode="numeric" />
           </div>
         </div>
         <button type="submit" class="primary-cta" id="track-submit-btn" style="width: 100%; padding: 13px; border-radius: 12px; background: #16a34a; color: #ffffff; font-weight: 800; font-size: 15px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28);">
