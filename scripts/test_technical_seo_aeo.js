@@ -92,6 +92,13 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     assert.ok(indexHtml.includes('contact@siriwatmedhanin.com'), 'Footer must include contact email');
   });
 
+  await t.test('4.4 UI: Navbar and Mobile Drawer contain admin portal link to staging-admin', () => {
+    assert.ok(indexHtml.includes('class="nav-admin-btn"'), 'Desktop navbar must include nav-admin-btn');
+    assert.ok(indexHtml.includes('class="mobile-admin-link"'), 'Mobile drawer must include mobile-admin-link');
+    assert.ok(indexHtml.includes('href="https://staging-admin.siriwatmedhanin.com"'), 'Admin links must point to staging-admin portal');
+    assert.ok(indexHtml.includes('aria-label="เข้าสู่ระบบหลังบ้านสำหรับแอดมิน"'), 'Admin links must have aria-label');
+  });
+
   // 5. Bot Crawler & Search Navigation Files
   await t.test('5.1 robots.txt, sitemap.xml, and llms.txt exist with proper content', () => {
     const robotsTxt = fs.readFileSync(path.join(ROOT_DIR, 'robots.txt'), 'utf8');
