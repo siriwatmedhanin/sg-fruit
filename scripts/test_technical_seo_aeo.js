@@ -99,6 +99,13 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     assert.ok(indexHtml.includes('aria-label="เข้าสู่ระบบหลังบ้านสำหรับแอดมิน"'), 'Admin links must have aria-label');
   });
 
+  await t.test('4.5 UI: Corporate parent website links in Footer and About section', () => {
+    assert.ok(indexHtml.includes('class="footer-corp-link"'), 'Footer must contain footer-corp-link');
+    assert.ok(indexHtml.includes('class="about-corp-btn"'), 'About section must contain about-corp-btn');
+    assert.ok(indexHtml.includes('href="https://siriwatmedhanin.com"'), 'Must link to https://siriwatmedhanin.com');
+    assert.ok(indexHtml.includes('aria-label="เยี่ยมชมเว็บไซต์ บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด"'), 'Footer corporate link must have aria-label');
+  });
+
   // 5. Bot Crawler & Search Navigation Files
   await t.test('5.1 robots.txt, sitemap.xml, and llms.txt exist with proper content', () => {
     const robotsTxt = fs.readFileSync(path.join(ROOT_DIR, 'robots.txt'), 'utf8');

@@ -2588,6 +2588,40 @@
       border-top: 1px solid var(--line);
     }
 
+    .about-corp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border: 1px solid rgba(33, 77, 52, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--forest);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(24, 53, 38, 0.04);
+    }
+
+    .about-corp-btn:hover {
+      background: var(--forest);
+      color: #ffffff;
+      border-color: var(--forest);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(33, 77, 52, 0.16);
+    }
+
+    .about-corp-btn .corp-arrow {
+      font-size: 14px;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .about-corp-btn:hover .corp-arrow {
+      transform: translate(2px, -2px);
+    }
+
     .about-pillars {
       display: grid;
       gap: 14px;
@@ -5035,6 +5069,43 @@
       color: #b7d2b9;
     }
 
+    .footer-corp-link {
+      color: #b7d2b9;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.18s ease, text-decoration 0.18s ease;
+    }
+
+    .footer-corp-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer-corp-link .footer-corp-arrow {
+      font-size: 11px;
+      display: inline-block;
+      transition: transform 0.18s ease;
+    }
+
+    .footer-corp-link:hover .footer-corp-arrow {
+      transform: translate(1px, -1px);
+    }
+
+    .footer-corp-link-muted {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.18s ease, text-decoration 0.18s ease;
+    }
+
+    .footer-corp-link-muted:hover {
+      color: #ffffff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
     .footer-policy-btn {
       background: none;
       border: none;
@@ -5854,6 +5925,12 @@
               <a href="https://www.tiktok.com/@sg_fruit?_r=1&_t=ZS-9BaDvzLju8y" target="_blank" rel="noopener noreferrer" class="about-social-link" style="color:var(--forest);font-size:12.5px;font-weight:600;text-decoration:underline;">TikTok Shop</a>
             </div>
           </div>
+          <div style="margin-top: 18px;">
+            <a href="https://siriwatmedhanin.com" target="_blank" rel="noopener noreferrer" class="about-corp-btn" aria-label="เยี่ยมชมเว็บไซต์ บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด (siriwatmedhanin.com)">
+              <span>เยี่ยมชมเว็บไซต์บริษัทแม่ (siriwatmedhanin.com)</span>
+              <span class="corp-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
 
         <div class="about-pillars">
@@ -6029,7 +6106,12 @@
           <li class="footer-contact-item">
             <span class="contact-label">อีเมลติดต่อ:</span>
             <a href="mailto:contact@siriwatmedhanin.com" class="contact-value highlight">contact@siriwatmedhanin.com</a>
-            <small>บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด</small>
+            <small>
+              <a href="https://siriwatmedhanin.com" target="_blank" rel="noopener noreferrer" class="footer-corp-link" aria-label="เยี่ยมชมเว็บไซต์ บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด">
+                <span>บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด</span>
+                <span class="footer-corp-arrow" aria-hidden="true">↗</span>
+              </a>
+            </small>
           </li>
           <li class="footer-contact-item">
             <span class="contact-label">LINE Official:</span>
@@ -6065,7 +6147,7 @@
     </div>
 
     <div class="footer-bottom">
-      <div>© 2026 SG FRUIT · เอสจี ผลไม้ตามฤดูกาล (A Brand by Siriwatmedhanin Group)</div>
+      <div>© 2026 SG FRUIT · เอสจี ผลไม้ตามฤดูกาล (A Brand by <a href="https://siriwatmedhanin.com" target="_blank" rel="noopener noreferrer" class="footer-corp-link-muted" aria-label="เยี่ยมชมเว็บไซต์ บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด (Siriwatmedhanin Group)">Siriwatmedhanin Group ↗</a>)</div>
       <div class="footer-policies">
         <button type="button" class="footer-policy-btn" id="policy-shipping-btn">นโยบายการจัดส่ง &amp; การรับประกันเคลมสินค้า</button>
         <span class="footer-policy-sep" aria-hidden="true">·</span>
