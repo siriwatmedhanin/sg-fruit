@@ -187,11 +187,12 @@
   function getFilteredProducts() {
     const q = state.searchQuery.trim().toLowerCase();
     let list = products.filter((item) => {
-      // Category or Tag match
+      // Category or Tag match (ผลไม้ตามฤดูกาล includes both direct seasonal tags and Thai seasonal fruit items)
       if (state.category !== 'all') {
         const inCategory = item.category === state.category;
         const inTags = Array.isArray(item.tags) && item.tags.includes(state.category);
-        if (!inCategory && !inTags) return false;
+        const isSeasonalMatch = state.category === 'ผลไม้ตามฤดูกาล' && (item.category === 'ผลไม้ไทย' || (Array.isArray(item.tags) && item.tags.includes('ผลไม้ไทย')));
+        if (!inCategory && !inTags && !isSeasonalMatch) return false;
       }
       // Available only filter
       const isItemAvailable = item.available && (Array.isArray(item.variants) && item.variants.length > 0 ? item.variants.some((v) => v.in_stock) : true);
@@ -2941,8 +2942,56 @@
     // สร้างและอัปเดต Structured Data (JSON-LD) ของสินค้าแบบ Dynamic
     updateProductStructuredData(products);
 
+    // Deep Linking: ตรวจสอบ URL พารามิเตอร์หมวดหมู่เพื่อเปลี่ยนแท็บและเลื่อนไปที่ร้านค้าอัตโนมัติ
+    checkUrlCategoryDeepLink();
+
     // Deep Linking: ตรวจสอบ URL พารามิเตอร์เพื่อเปิด Modal รายการสินค้าอัตโนมัติ
     checkUrlProductDeepLink();
+  }
+
+  // Deep Linking: ตรวจสอบ URL พารามิเตอร์หมวดหมู่เพื่อเปลี่ยนแท็บและเลื่อนไปที่ร้านค้าอัตโนมัติ
+  function checkUrlCategoryDeepLink() {
+    try {
+      if (typeof window === 'undefined' || !window.location) return;
+      const url = new URL(window.location.href);
+      const catParam = (url.searchParams.get('category') || url.searchParams.get('cat') || '').trim();
+      if (!catParam) return;
+
+      const slugMap = {
+        'seasonal-fruits': 'ผลไม้ตามฤดูกาล',
+        'seasonal': 'ผลไม้ตามฤดูกาล',
+        'imported-produce': 'ผลไม้นำเข้า',
+        'imported-fruits': 'ผลไม้นำเข้า',
+        'imported': 'ผลไม้นำเข้า',
+        'fresh-vegetables': 'ผักสด',
+        'vegetables': 'ผักสด',
+        'thai-fruits': 'ผลไม้ไทย',
+        'all': 'all'
+      };
+
+      const decodedCat = decodeURIComponent(catParam);
+      const targetCat = slugMap[decodedCat.toLowerCase()] || decodedCat;
+
+      const exists = categories.some((c) => c.id === targetCat);
+      if (exists || targetCat === 'all') {
+        state.category = targetCat;
+        state.currentPage = 1;
+        renderCategories();
+        renderProducts();
+
+        if (window.location.hash === '#shop' || url.searchParams.has('category') || url.searchParams.has('cat')) {
+          setTimeout(() => {
+            const shopSec = document.getElementById('shop');
+            if (shopSec) {
+              const top = shopSec.getBoundingClientRect().top + (global.scrollY || window.pageYOffset || 0) - 82;
+              global.scrollTo({ top, behavior: 'smooth' });
+            }
+          }, 120);
+        }
+      }
+    } catch (err) {
+      console.warn('[SG FRUIT] Category deep link check failed:', err);
+    }
   }
 
   // Deep Linking: ตรวจสอบ URL พารามิเตอร์เพื่อเปิด Modal รายการสินค้าอัตโนมัติ

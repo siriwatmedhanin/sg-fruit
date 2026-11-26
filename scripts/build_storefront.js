@@ -88,9 +88,20 @@ function build() {
     }
   }
 
-  // 4.2 Cloudflare Pages Functions (Dynamic Open Graph Middleware)
+  // 4.2 Copy Category SEO Landing Pages (Cloudflare Pages cleanly serves <slug>.html as /<slug> with 200)
+  const categorySlugs = ['seasonal-fruits', 'imported-produce', 'fresh-vegetables'];
+  for (const slug of categorySlugs) {
+    const htmlFile = `${slug}.html`;
+    const srcHtml = path.join(ROOT_DIR, htmlFile);
+    if (fs.existsSync(srcHtml)) {
+      console.log(`Copying ${htmlFile} to dist/...`);
+      fs.copyFileSync(srcHtml, path.join(DIST_DIR, htmlFile));
+    }
+  }
+
+  // 4.3 Cloudflare Pages Functions (Dynamic Open Graph Middleware)
   if (fs.existsSync(path.join(ROOT_DIR, 'functions'))) {
-    console.log('[4.2] Copying Cloudflare Pages Functions to dist/functions...');
+    console.log('[4.3] Copying Cloudflare Pages Functions to dist/functions...');
     copyRecursive(path.join(ROOT_DIR, 'functions'), path.join(DIST_DIR, 'functions'));
     console.log('[PASS] functions packaged for Cloudflare Pages successfully.');
   }

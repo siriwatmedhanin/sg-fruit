@@ -168,4 +168,68 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
       'Product Schema offers must include validFrom'
     );
   });
+
+  // 8. Dedicated Category SEO Landing Pages Suite
+  await t.test('8.1 About section cards in index.html link to 3 category landing pages', () => {
+    assert.ok(indexHtml.includes('href="/seasonal-fruits"'), 'Must link to /seasonal-fruits');
+    assert.ok(indexHtml.includes('href="/imported-produce"'), 'Must link to /imported-produce');
+    assert.ok(indexHtml.includes('href="/fresh-vegetables"'), 'Must link to /fresh-vegetables');
+    assert.ok(indexHtml.includes('about-pillar-more'), 'Must have about-pillar-more class');
+    assert.ok(indexHtml.includes('อ่านรายละเอียดเพิ่มเติม →'), 'Must have "อ่านรายละเอียดเพิ่มเติม →" text');
+  });
+
+  await t.test('8.2 Category landing pages exist with valid content, schemas, and CTAs', () => {
+    const pages = [
+      {
+        slug: 'seasonal-fruits',
+        h1: 'ผลไม้ไทยและผลไม้ตามฤดูกาล คัดสดจากตลาดไท ตลาดสี่มุมเมือง และสวนเกษตรกร',
+        cta: '/?category=seasonal-fruits#shop',
+        ctaText: 'เลือกซื้อผลไม้ตามฤดูกาลเลย ↗'
+      },
+      {
+        slug: 'imported-produce',
+        h1: 'ผลไม้นำเข้าพรีเมียมและวัตถุดิบคัดเกรด ส่งตรงจากแหล่งค้าส่งตลาดไท-ตลาดสี่มุมเมือง',
+        cta: '/?category=imported-produce#shop',
+        ctaText: 'เลือกซื้อผลไม้นำเข้าคัดเกรดเลย ↗'
+      },
+      {
+        slug: 'fresh-vegetables',
+        h1: 'ผักสดสะอาดเพื่อสุขภาพและซูเปอร์ฟู้ด คัดสดใหม่ทุกวันจากตลาดไท-ตลาดสี่มุมเมือง',
+        cta: '/?category=fresh-vegetables#shop',
+        ctaText: 'เลือกซื้อผักสดเพื่อสุขภาพเลย ↗'
+      }
+    ];
+
+    for (const p of pages) {
+      const htmlPath = path.join(ROOT_DIR, `${p.slug}.html`);
+      assert.ok(fs.existsSync(htmlPath), `${p.slug}.html must exist`);
+
+      const content = fs.readFileSync(htmlPath, 'utf8');
+      assert.ok(content.includes(p.h1), `${p.slug} must include H1`);
+      assert.ok(content.includes(p.cta), `${p.slug} must include CTA link`);
+      assert.ok(content.includes(p.ctaText), `${p.slug} must include CTA text`);
+      assert.ok(content.includes('ดูผักและผลไม้ทั้งหมด'), `${p.slug} must include outline button`);
+      assert.ok(content.includes('href="/?category=all#shop"'), `${p.slug} outline button must link to all#shop`);
+
+      // Schemas
+      assert.ok(content.includes('"@type": "FAQPage"'), `${p.slug} must have FAQPage schema`);
+      assert.ok(content.includes('"@type": "BreadcrumbList"'), `${p.slug} must have BreadcrumbList schema`);
+      assert.ok(content.includes('<link rel="canonical" href="https://sg-fruit.siriwatmedhanin.com/' + p.slug + '" />'), `${p.slug} must have canonical`);
+    }
+  });
+
+  await t.test('8.3 sitemap.xml contains 3 category landing pages', () => {
+    const sitemap = fs.readFileSync(path.join(ROOT_DIR, 'sitemap.xml'), 'utf8');
+    assert.ok(sitemap.includes('https://sg-fruit.siriwatmedhanin.com/seasonal-fruits'), 'Sitemap must contain seasonal-fruits');
+    assert.ok(sitemap.includes('https://sg-fruit.siriwatmedhanin.com/imported-produce'), 'Sitemap must contain imported-produce');
+    assert.ok(sitemap.includes('https://sg-fruit.siriwatmedhanin.com/fresh-vegetables'), 'Sitemap must contain fresh-vegetables');
+  });
+
+  await t.test('8.4 shop-cart.js supports category deep linking', () => {
+    const shopCartJs = fs.readFileSync(path.join(ROOT_DIR, 'js', 'shop-cart.js'), 'utf8');
+    assert.ok(shopCartJs.includes('checkUrlCategoryDeepLink'), 'shop-cart.js must define checkUrlCategoryDeepLink');
+    assert.ok(shopCartJs.includes('seasonal-fruits'), 'shop-cart.js must map seasonal-fruits');
+    assert.ok(shopCartJs.includes('imported-produce'), 'shop-cart.js must map imported-produce');
+    assert.ok(shopCartJs.includes('fresh-vegetables'), 'shop-cart.js must map fresh-vegetables');
+  });
 });

@@ -221,6 +221,10 @@
 
     const categoryName = raw.category_name || (raw.category_id === 'cat-thai' ? 'ผลไม้ไทย' : raw.category_id === 'cat-imported' ? 'ผลไม้นำเข้า' : raw.category_id === 'cat-veg' ? 'ผักสด' : 'ผลไม้ตามฤดูกาล');
     const tags = [categoryName];
+    if (categoryName === 'ผลไม้ไทย' || categoryName === 'ผลไม้ตามฤดูกาล') {
+      if (!tags.includes('ผลไม้ไทย')) tags.push('ผลไม้ไทย');
+      if (!tags.includes('ผลไม้ตามฤดูกาล')) tags.push('ผลไม้ตามฤดูกาล');
+    }
     if (raw.tags && Array.isArray(raw.tags)) {
       raw.tags.forEach((t) => { if (!tags.includes(t)) tags.push(t); });
     }

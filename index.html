@@ -2628,10 +2628,23 @@
     }
 
     .about-pillar {
+      display: block;
+      text-decoration: none;
       background: var(--cream-1);
       border: 1px solid rgba(33, 77, 52, 0.10);
       border-radius: 20px;
       padding: 18px 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      color: inherit;
+    }
+
+    .about-pillar:hover,
+    .about-pillar:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(33, 77, 52, 0.28);
+      box-shadow: 0 8px 20px rgba(33, 77, 52, 0.08);
+      outline: none;
     }
 
     .about-pillar strong {
@@ -2639,12 +2652,33 @@
       font-size: 15px;
       color: var(--ink);
       margin-bottom: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .about-pillar:hover strong {
+      color: var(--forest);
     }
 
     .about-pillar span {
+      display: block;
       font-size: 13px;
       color: var(--muted);
       line-height: 1.6;
+    }
+
+    .about-pillar-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--forest);
+      margin-top: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .about-pillar:hover .about-pillar-more {
+      transform: translateX(3px);
     }
 
     /* Screen Reader & Accessible Heading Utility */
@@ -5934,18 +5968,21 @@
         </div>
 
         <div class="about-pillars">
-          <div class="about-pillar">
+          <a href="/seasonal-fruits" class="about-pillar" title="อ่านรายละเอียด ผลไม้ไทยและผลไม้ตามฤดูกาล">
             <strong>ผลไม้ไทยและผลไม้ตามฤดูกาล</strong>
             <span>คัดสรรผลไม้ไทยคุณภาพดีประจำฤดูกาล ส่งมอบความสดใหม่ที่เหมาะกับทุกมื้อของครอบครัว</span>
-          </div>
-          <div class="about-pillar">
+            <span class="about-pillar-more">อ่านรายละเอียดเพิ่มเติม →</span>
+          </a>
+          <a href="/imported-produce" class="about-pillar" title="อ่านรายละเอียด ผลไม้นำเข้าและแหล่งคัดสรรตลาดไท-สี่มุมเมือง">
             <strong>ผลไม้นำเข้าและแหล่งคัดสรรตลาดไท-สี่มุมเมือง</strong>
             <span>รวบรวมผลไม้นำเข้าและผลไม้คัดเกรดพิเศษจากแหล่งค้าส่งชั้นนำ ผ่านการดูแลอย่างพิถีพิถัน</span>
-          </div>
-          <div class="about-pillar">
+            <span class="about-pillar-more">อ่านรายละเอียดเพิ่มเติม →</span>
+          </a>
+          <a href="/fresh-vegetables" class="about-pillar" title="อ่านรายละเอียด ผักสดสะอาดเพื่อสุขภาพ">
             <strong>ผักสดสะอาดเพื่อสุขภาพ</strong>
             <span>ผักสดและชุดสลัดพร้อมสำหรับปรุงอาหารและจัดจานสุขภาพในทุกวันของคุณ</span>
-          </div>
+            <span class="about-pillar-more">อ่านรายละเอียดเพิ่มเติม →</span>
+          </a>
         </div>
       </div>
     </section>
