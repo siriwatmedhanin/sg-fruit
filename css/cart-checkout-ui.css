@@ -1205,6 +1205,47 @@ body.is-modal-open {
   font-size: 15px;
 }
 
+.order-success-support-wrap {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.order-success-support-lead {
+  font-size: 12.5px;
+  color: var(--muted, #5c7265);
+  font-weight: 600;
+}
+
+.order-success-line-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: #f0fdf4;
+  border: 1.5px solid #06C755;
+  color: #059640;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(6, 199, 85, 0.12);
+}
+
+.order-success-line-btn:hover {
+  background: #06C755;
+  color: #ffffff;
+  border-color: #06C755;
+  box-shadow: 0 4px 14px rgba(6, 199, 85, 0.28);
+  transform: translateY(-1px);
+}
+
 /* ================= ORDER TRACKING MODAL & TIMELINE ================= */
 .tracking-timeline {
   display: flex;

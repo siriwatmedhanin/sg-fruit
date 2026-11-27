@@ -1979,20 +1979,25 @@
                   ✓ ข้อมูลคำสั่งซื้อถูกบันทึกเข้าสู่ระบบหลังบ้านเรียบร้อยแล้ว เจ้าหน้าที่จะดำเนินการเตรียมคัดเกรดผลไม้สดและแพ็กจัดส่งให้ท่านโดยเร็วที่สุด
                 </div>
 
-                ${(() => {
-                  const rawLineId = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_id) || '@sgfruit';
-                  const cleanLineId = String(rawLineId).replace(/[^a-zA-Z0-9_@.-]/g, '');
-                  const rawLineUrl = (global.__SG_SITE_PROFILE__ && global.__SG_SITE_PROFILE__.line_oa_url) || `https://line.me/R/ti/p/${cleanLineId}`;
-                  const cleanLineUrl = /^https?:\/\//i.test(rawLineUrl) ? rawLineUrl : `https://line.me/R/ti/p/${cleanLineId}`;
-                  return `
-                    <div style="margin-bottom: 16px; font-size: 12px; color: var(--muted);">
-                      มีข้อสงสัยเกี่ยวกับออเดอร์? ติดต่อเราได้ทาง LINE: 
-                      <a href="${cleanLineUrl}" target="_blank" rel="noopener noreferrer" style="color: #15803d; font-weight: 700; text-decoration: underline;">
-                        ${cleanLineId}
-                      </a>
-                    </div>
-                  `;
-                })()}
+                <div class="order-success-support-wrap" style="margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center;">
+                  <span class="order-success-support-lead" style="font-size: 12.5px; color: var(--muted); font-weight: 600;">มีข้อสงสัยเกี่ยวกับออเดอร์?</span>
+                  <a
+                    href="https://line.me/R/ti/p/@934wscfl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="order-success-line-btn"
+                    id="order-success-line-btn"
+                    aria-label="ติดต่อ LINE Official: SG FRUIT"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 16px; border-radius: 999px; background: #f0fdf4; border: 1.5px solid #06C755; color: #059640; font-size: 13px; font-weight: 700; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(6, 199, 85, 0.12);"
+                    onmouseover="this.style.background='#06C755';this.style.color='#ffffff';this.style.boxShadow='0 4px 14px rgba(6, 199, 85, 0.28)';"
+                    onmouseout="this.style.background='#f0fdf4';this.style.color='#059640';this.style.boxShadow='0 2px 8px rgba(6, 199, 85, 0.12)';"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="width:16px;height:16px;flex-shrink:0;" aria-hidden="true">
+                      <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+                    </svg>
+                    <span>LINE Official: SG FRUIT</span>
+                  </a>
+                </div>
 
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                   <button type="button" class="primary-cta" id="order-success-track-btn" style="width: 100%; padding: 13px; border-radius: 12px; background: #15803d; color: #ffffff; font-weight: 800; font-size: 14.5px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 14px rgba(21, 128, 61, 0.25);">
