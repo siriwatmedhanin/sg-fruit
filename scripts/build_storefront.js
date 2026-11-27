@@ -86,6 +86,13 @@ async function build() {
     copyRecursive(path.join(ROOT_DIR, 'public'), path.join(DIST_DIR, 'public'));
   }
 
+  // 4.0 Copy css/ directory (centralized cart drawer & checkout ui)
+  if (fs.existsSync(path.join(ROOT_DIR, 'css'))) {
+    console.log('[4.0] Copying css/ directory to dist/css...');
+    copyRecursive(path.join(ROOT_DIR, 'css'), path.join(DIST_DIR, 'css'));
+    console.log('[PASS] css packaged for Cloudflare Pages successfully.');
+  }
+
   // 4.1 Copy SEO & Crawler Files (robots.txt, sitemap.xml, llms.txt, CNAME)
   const seoFiles = ['robots.txt', 'sitemap.xml', 'llms.txt', 'CNAME'];
   for (const file of seoFiles) {
@@ -130,6 +137,9 @@ async function build() {
 
 /Pic/*
   Cache-Control: public, max-age=604800, immutable
+
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate
 
 /js/*
   Cache-Control: public, max-age=0, must-revalidate

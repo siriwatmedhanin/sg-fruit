@@ -33,12 +33,25 @@ test('SG FRUIT - Product Detail Page Cart, Buy-Now Checkout & Admin Lock SVG Sui
     assert.ok(sampleHtml.includes('id="toast"'), 'Must include #toast element');
   });
 
-  await t.test('1.3 CSS: Contains styles for Cart Drawer, Modals, Checkout Form, and Thai Address Dropdown', () => {
-    assert.ok(sampleHtml.includes('.cart-drawer'), 'Must contain .cart-drawer CSS');
-    assert.ok(sampleHtml.includes('.modal-overlay'), 'Must contain .modal-overlay CSS');
-    assert.ok(sampleHtml.includes('.checkout-form-section'), 'Must contain .checkout-form-section CSS');
-    assert.ok(sampleHtml.includes('.checkout-input'), 'Must contain .checkout-input CSS');
-    assert.ok(sampleHtml.includes('.thai-address-dropdown'), 'Must contain .thai-address-dropdown CSS');
+  await t.test('1.3 CSS: Loads centralized /css/cart-checkout-ui.css with all Cart Drawer, Modals, Checkout Form, and Thai Address Dropdown rules', () => {
+    assert.ok(sampleHtml.includes('/css/cart-checkout-ui.css'), 'Product page must link to /css/cart-checkout-ui.css');
+    const cssPath = path.join(ROOT_DIR, 'css', 'cart-checkout-ui.css');
+    assert.ok(fs.existsSync(cssPath), 'css/cart-checkout-ui.css must exist');
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+
+    assert.ok(cssContent.includes('.cart-drawer'), 'CSS must contain .cart-drawer');
+    assert.ok(cssContent.includes('.cart-item'), 'CSS must contain .cart-item');
+    assert.ok(cssContent.includes('.cart-item-remove'), 'CSS must contain .cart-item-remove');
+    assert.ok(cssContent.includes('.cart-qty-btn'), 'CSS must contain .cart-qty-btn');
+    assert.ok(cssContent.includes('.modal-overlay'), 'CSS must contain .modal-overlay');
+    assert.ok(cssContent.includes('.checkout-form-section'), 'CSS must contain .checkout-form-section');
+    assert.ok(cssContent.includes('.checkout-input'), 'CSS must contain .checkout-input');
+    assert.ok(cssContent.includes('.thai-address-dropdown'), 'CSS must contain .thai-address-dropdown');
+    assert.ok(cssContent.includes('.checkout-copy-btn'), 'CSS must contain .checkout-copy-btn');
+    assert.ok(
+      cssContent.includes('.checkout-slip-file-input') && cssContent.includes('opacity: 0'),
+      'CSS must contain file input opacity: 0 rule to hide browser default file upload button'
+    );
   });
 
   await t.test('1.4 Actions: Wire add-to-cart (open drawer) and buy-now (direct checkout)', () => {
@@ -68,10 +81,10 @@ test('SG FRUIT - Product Detail Page Cart, Buy-Now Checkout & Admin Lock SVG Sui
     assert.ok(fnCode.includes('id="cart-drawer"'), 'SSR function must include #cart-drawer');
     assert.ok(fnCode.includes('id="order-summary-modal"'), 'SSR function must include #order-summary-modal');
     assert.ok(fnCode.includes('openOrderSummaryModal'), 'SSR function must wire openOrderSummaryModal on buy-now');
-    assert.ok(fnCode.includes('.checkout-form-section'), 'SSR function must include checkout CSS');
+    assert.ok(fnCode.includes('/css/cart-checkout-ui.css'), 'SSR function must link to /css/cart-checkout-ui.css');
   });
 
-  await t.test('3.1 Category SEO landing pages have functional Cart Drawer and lock SVG', () => {
+  await t.test('3.1 Category SEO landing pages have functional Cart Drawer, lock SVG, and centralized CSS', () => {
     const categories = ['seasonal-fruits.html', 'imported-produce.html', 'fresh-vegetables.html'];
     for (const catFile of categories) {
       const catPath = path.join(ROOT_DIR, catFile);
@@ -82,7 +95,22 @@ test('SG FRUIT - Product Detail Page Cart, Buy-Now Checkout & Admin Lock SVG Sui
       assert.ok(catHtml.includes('data-cart-count'), `${catFile} must include data-cart-count`);
       assert.ok(catHtml.includes('https://staging-admin.siriwatmedhanin.com'), `${catFile} must link to staging-admin`);
       assert.ok(catHtml.includes('<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>'), `${catFile} must include lock SVG`);
-      assert.ok(catHtml.includes('.checkout-form-section'), `${catFile} must include checkout CSS`);
+      assert.ok(catHtml.includes('/css/cart-checkout-ui.css'), `${catFile} must link to /css/cart-checkout-ui.css`);
     }
+  });
+
+  await t.test('4.1 Specific product page (/products/prod-be303c53.html) loads centralized CSS and styles correctly', () => {
+    const targetProductHtmlPath = path.join(ROOT_DIR, 'products', 'prod-be303c53.html');
+    assert.ok(fs.existsSync(targetProductHtmlPath), 'products/prod-be303c53.html must exist');
+    const targetHtml = fs.readFileSync(targetProductHtmlPath, 'utf8');
+
+    assert.ok(targetHtml.includes('/css/cart-checkout-ui.css'), 'prod-be303c53.html must link to /css/cart-checkout-ui.css');
+
+    const cssPath = path.join(ROOT_DIR, 'css', 'cart-checkout-ui.css');
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+    assert.ok(cssContent.includes('.checkout-slip-file-input') && cssContent.includes('opacity: 0'), 'CSS hides raw input[type="file"]');
+    assert.ok(cssContent.includes('.cart-item-remove'), 'CSS styles delete button');
+    assert.ok(cssContent.includes('.cart-qty-btn'), 'CSS styles -/+ buttons');
+    assert.ok(cssContent.includes('.checkout-copy-btn'), 'CSS styles copy bank button');
   });
 });
