@@ -184,6 +184,25 @@ ${JSON.stringify(schemaJson, null, 2)}
     html { scroll-behavior: smooth; font-family: var(--font-th); background: var(--bg); color: var(--ink); }
     body { min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
+    /* ================= SVG ICON SYSTEM ================= */
+    .ui-icon {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      stroke-width: 1.85;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      pointer-events: none;
+      transition: transform 0.2s ease, stroke 0.2s ease, color 0.2s ease;
+    }
+    .ui-icon-xs { width: 13px; height: 13px; stroke-width: 2.2; }
+    .ui-icon-sm { width: 16px; height: 16px; stroke-width: 2; }
+    .ui-icon-lg { width: 22px; height: 22px; }
+
     .p-nav {
       position: sticky; top: 0; z-index: 100; height: var(--header-h);
       background: rgba(247, 245, 233, 0.94); backdrop-filter: blur(14px);
@@ -383,22 +402,29 @@ ${JSON.stringify(schemaJson, null, 2)}
 
     /* MODAL OVERLAYS */
     .modal-overlay {
-      position: fixed; inset: 0; z-index: 230; pointer-events: none; visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px;
+      position: fixed; inset: 0; z-index: 230; display: flex; align-items: center; justify-content: center; padding: 20px;
+      pointer-events: none; visibility: hidden; opacity: 0; transition: opacity 0.25s, visibility 0.25s;
     }
-    .modal-overlay.is-active { pointer-events: auto; visibility: visible; }
+    .modal-overlay.is-open,
+    .modal-overlay.is-active { pointer-events: auto; visibility: visible; opacity: 1; }
     .modal-backdrop {
-      position: absolute; inset: 0; background: rgba(15, 34, 23, 0.55); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      position: absolute; inset: 0; background: rgba(15, 34, 23, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity 0.25s;
     }
+    .modal-overlay.is-open .modal-backdrop,
+    .modal-overlay.is-active .modal-backdrop { opacity: 1; }
     .modal-dialog {
-      position: relative; z-index: 1; width: min(100%, 640px); max-height: 90vh; overflow-y: auto; background: #fffef9; border: 1px solid var(--line); border-radius: 24px; padding: 28px; box-shadow: 0 24px 60px rgba(15, 34, 23, 0.28);
+      position: relative; z-index: 2; width: min(100%, 760px); max-height: 90svh; overflow-y: auto; background: #fffef9; border: 1px solid rgba(33, 77, 52, 0.16); border-radius: 28px; padding: clamp(22px, 3.5vw, 36px); box-shadow: 0 24px 64px rgba(15, 34, 23, 0.28); transform: translateY(16px) scale(0.98); opacity: 0; transition: transform 0.25s ease, opacity 0.25s ease;
     }
+    .modal-overlay.is-open .modal-dialog,
+    .modal-overlay.is-active .modal-dialog { transform: translateY(0) scale(1); opacity: 1; }
     .modal-close-btn {
       position: absolute; top: 20px; right: 20px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(33, 77, 52, 0.16); background: #fff; color: var(--ink-soft); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2;
     }
     .toast {
-      position: fixed; bottom: 28px; left: 50%; transform: translate(-50%, 80px); background: #183526; color: #fff; padding: 12px 24px; border-radius: 999px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.25); opacity: 0; pointer-events: none; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s; z-index: 300;
+      position: fixed; bottom: 26px; left: 50%; transform: translate(-50%, 30px); background: #1c4630; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.5; padding: 12px 22px; border-radius: 999px; box-shadow: 0 16px 40px rgba(15, 34, 23, 0.35); opacity: 0; pointer-events: none; transition: transform 0.25s ease, opacity 0.25s ease; z-index: 300; display: inline-flex; align-items: center; gap: 8px; max-width: min(90vw, 520px); text-align: center;
     }
-    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .toast .ui-icon { color: #bbf77b; width: 16px; height: 16px; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
     /* CHECKOUT & ORDER SUMMARY FORM */
     .checkout-form-section { background: #fff; border: 1px solid rgba(33, 77, 52, 0.12); border-radius: 18px; padding: 18px 20px; margin-bottom: 16px; }
