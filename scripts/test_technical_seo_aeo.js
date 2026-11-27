@@ -19,11 +19,11 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
   await t.test('1.1 Head tags: html lang="th", canonical, title, and description', () => {
     assert.ok(indexHtml.includes('<html lang="th">'), 'HTML lang must be "th"');
     assert.ok(
-      indexHtml.includes('SG FRUIT (เอสจี ฟรุ๊ต) | ผลไม้สด ผลไม้ตามฤดูกาล คัดเกรดจากสวน ตลาดไท และตลาดสี่มุมเมือง ส่งทั่วไทย'),
+      indexHtml.includes('SG FRUIT | สั่งผักสด ผลไม้ตามฤดูกาล ผลไม้นำเข้า คัดตรงจากตลาดไท-ตลาดสี่มุมเมือง'),
       'Must contain exact comprehensive SEO title'
     );
     assert.ok(
-      indexHtml.includes('สั่งซื้อผลไม้สด ผลไม้ตามฤดูกาล ผลไม้ไทยและนำเข้า ผักสดคัดเกรดพรีเมียม ส่งตรงจากสวน แหล่งคัดสรรตลาดไทและตลาดสี่มุมเมือง โดย SG FRUIT บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด'),
+      indexHtml.includes('สั่งผักสด ผลไม้ไทยตามฤดูกาล ผลไม้นำเข้า คัดสดใหม่จากตลาดไท ตลาดสี่มุมเมือง จัดส่งด่วนทั่วไทย รองรับเก็บเงินปลายทาง (COD) รับประกันเคลม 100% โดย SG FRUIT'),
       'Must contain comprehensive meta description'
     );
     assert.ok(
@@ -54,9 +54,11 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     const org = schema['@graph'].find((e) => e['@id']?.includes('#organization'));
     assert.ok(org, 'Must include Organization entity');
     assert.strictEqual(org.legalName, 'บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด');
+    assert.ok(org.sameAs.includes('https://siriwatmedhanin.com'), 'Organization sameAs must include Corporate Website');
     assert.ok(org.sameAs.includes('https://www.facebook.com/share/1E7H4sXEYz/?mibextid=wwXIfr'), 'Organization sameAs must include Facebook Page');
     assert.ok(org.sameAs.includes('https://www.tiktok.com/@sg_fruit?_r=1&_t=ZS-9BaDvzLju8y'), 'Organization sameAs must include TikTok');
     assert.strictEqual(org.email, 'contact@siriwatmedhanin.com');
+    assert.strictEqual(org.telephone, '091-909-8902');
     assert.strictEqual(org.address?.postalCode, '93000');
 
     const founder = schema['@graph'].find((e) => e['@id']?.includes('#founder'));
@@ -112,11 +114,13 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     assert.ok(robotsTxt.includes('User-agent: Googlebot'));
     assert.ok(robotsTxt.includes('User-agent: GPTBot'));
     assert.ok(robotsTxt.includes('User-agent: PerplexityBot'));
+    assert.ok(robotsTxt.includes('Disallow: /api/'), 'robots.txt must disallow /api/');
     assert.ok(robotsTxt.includes('Sitemap: https://sg-fruit.siriwatmedhanin.com/sitemap.xml'));
 
     const sitemapXml = fs.readFileSync(path.join(ROOT_DIR, 'sitemap.xml'), 'utf8');
     assert.ok(sitemapXml.includes('<loc>https://sg-fruit.siriwatmedhanin.com/</loc>'));
     assert.ok(sitemapXml.includes('<loc>https://sg-fruit.siriwatmedhanin.com/#faq</loc>'));
+    assert.ok(sitemapXml.includes('/products/'), 'sitemap.xml must include product pages');
 
     const llmsTxt = fs.readFileSync(path.join(ROOT_DIR, 'llms.txt'), 'utf8');
     assert.ok(llmsTxt.includes('บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด'));
@@ -144,7 +148,8 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     const shopCartJs = fs.readFileSync(path.join(ROOT_DIR, 'js', 'shop-cart.js'), 'utf8');
     assert.ok(shopCartJs.includes('updateProductStructuredData'), 'shop-cart.js must define updateProductStructuredData');
     assert.ok(shopCartJs.includes('loading="lazy"'), 'shop-cart.js must include loading="lazy" for product card images');
-    assert.ok(shopCartJs.includes('ผลไม้สดคัดเกรด SG FRUIT'), 'Product image alt must include keyword brand text');
+    assert.ok(shopCartJs.includes('getProductAltText'), 'shop-cart.js must define getProductAltText');
+    assert.ok(shopCartJs.includes('คัดสดจากตลาดไท ตลาดสี่มุมเมือง โดย SG FRUIT'), 'Product image alt must include keyword brand text');
 
     // Merchant listings & Google Search Console Schema Validation
     assert.ok(
@@ -231,5 +236,39 @@ test('SG FRUIT - Technical SEO, AEO, Entity SEO & Official Channels Suite', asyn
     assert.ok(shopCartJs.includes('seasonal-fruits'), 'shop-cart.js must map seasonal-fruits');
     assert.ok(shopCartJs.includes('imported-produce'), 'shop-cart.js must map imported-produce');
     assert.ok(shopCartJs.includes('fresh-vegetables'), 'shop-cart.js must map fresh-vegetables');
+  });
+
+  // 9. Dedicated Product SEO Pages & Edge Infrastructure Suite
+  await t.test('9.1 Product card buttons link to /products/:slug', () => {
+    const shopCartJs = fs.readFileSync(path.join(ROOT_DIR, 'js', 'shop-cart.js'), 'utf8');
+    assert.ok(shopCartJs.includes('class="shop-btn-detail"'), 'Detail button must exist');
+    assert.ok(shopCartJs.includes('class="shop-card-title-link"'), 'Title must link to product page');
+    assert.ok(shopCartJs.includes('getProductAltText'), 'Must use getProductAltText helper');
+  });
+
+  await t.test('9.2 Static product pages generated and valid', () => {
+    const productsDir = path.join(ROOT_DIR, 'products');
+    assert.ok(fs.existsSync(productsDir), 'products/ directory must exist');
+    const files = fs.readdirSync(productsDir).filter(f => f.endsWith('.html'));
+    assert.ok(files.length >= 30, 'Must generate at least 30 product pages');
+
+    const sampleFile = path.join(productsDir, 'prod-e29dec06.html');
+    assert.ok(fs.existsSync(sampleFile), 'prod-e29dec06.html must exist');
+    const content = fs.readFileSync(sampleFile, 'utf8');
+    assert.ok(content.includes('<title>'), 'Must have title');
+    assert.ok(content.includes('ผักสด คัดสดจากตลาดไท ตลาดสี่มุมเมือง | SG FRUIT'), 'Must have SEO title formula');
+    assert.ok(content.includes('<h1 class="p-title">'), 'Must have H1');
+    assert.ok(content.includes('id="product-hero-image"'), 'Must have hero image');
+    assert.ok(content.includes('— ผักสด คัดสดจากตลาดไท ตลาดสี่มุมเมือง โดย SG FRUIT'), 'Alt must follow formula without "- ผลไม้" for vegetables');
+    assert.ok(content.includes('"@type": "Product"'), 'Must contain Product schema');
+    assert.ok(content.includes('"@type": "BreadcrumbList"'), 'Must contain BreadcrumbList schema');
+    assert.ok(content.includes('p-trust-section'), 'Must contain procurement trust block');
+  });
+
+  await t.test('9.3 Cloudflare Pages Functions & edge routing exist', () => {
+    const funcProd = path.join(ROOT_DIR, 'functions', 'products', '[slug].js');
+    const funcSitemap = path.join(ROOT_DIR, 'functions', 'sitemap.xml.js');
+    assert.ok(fs.existsSync(funcProd), 'functions/products/[slug].js must exist');
+    assert.ok(fs.existsSync(funcSitemap), 'functions/sitemap.xml.js must exist');
   });
 });

@@ -144,6 +144,22 @@
     return Number(num || 0).toLocaleString('th-TH');
   }
 
+  // Technical SEO alt text formula for product images:
+  // [ชื่อสินค้า] — [ชื่อหมวดหมู่] คัดสดจากตลาดไท ตลาดสี่มุมเมือง โดย SG FRUIT
+  function getProductAltText(item) {
+    if (!item) return 'SG FRUIT ผลไม้สดและผักสดคุณภาพ คัดตรงจากตลาดไท-ตลาดสี่มุมเมือง';
+    const cat = item.category || (item.tags && item.tags[0]) || '';
+    let catName = 'ผลไม้ไทยตามฤดูกาล';
+    if (cat.includes('ผัก') || cat === 'fresh-vegetables') {
+      catName = 'ผักสด';
+    } else if (cat.includes('นำเข้า') || cat === 'imported-produce' || cat === 'imported-fruits') {
+      catName = 'ผลไม้นำเข้า';
+    } else if (cat.includes('ฤดูกาล') || cat.includes('ไทย') || cat === 'seasonal-fruits') {
+      catName = 'ผลไม้ไทยตามฤดูกาล';
+    }
+    return `${item.name} — ${catName} คัดสดจากตลาดไท ตลาดสี่มุมเมือง โดย SG FRUIT`;
+  }
+
   // Toast helper with Lucide check icon
   function showToast(message) {
     const el = document.getElementById('toast');
@@ -328,10 +344,12 @@
 
         // รูปภาพหลัก (พร้อม Fallback)
         const imgSrc = item.image || (global.SG_API_ADAPTER ? global.SG_API_ADAPTER.PLACEHOLDER_SVG : '');
+        const itemSlug = item.slug || item.id;
+        const productUrl = `/products/${encodeURIComponent(itemSlug)}`;
 
         return `
           <article class="shop-card${!isAvailable ? ' is-out-of-stock' : ''}" data-sku="${item.sku}" data-product-id="${item.id}" data-category="${item.category}">
-            <div class="shop-card-media" data-action="detail" data-id="${item.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${item.name}">
+            <a href="${productUrl}" class="shop-card-media" aria-label="ดูรายละเอียด ${item.name}">
               ${hasSeasonalTag ? `
                 <div class="shop-card-badges-top">
                   <span class="shop-badge shop-badge-seasonal">ตามฤดูกาล</span>
@@ -341,14 +359,14 @@
               <img
                 class="shop-card-img"
                 src="${imgSrc}"
-                alt="${item.name} - ผลไม้สดคัดเกรด SG FRUIT"
+                alt="${getProductAltText(item)}"
                 loading="lazy"
                 decoding="async"
                 width="400"
                 height="400"
                 onerror="this.src='${global.SG_API_ADAPTER ? global.SG_API_ADAPTER.PLACEHOLDER_SVG : ''}'"
               />
-            </div>
+            </a>
             <div class="shop-card-body">
               <div class="shop-card-meta-row">
                 <span class="shop-card-status ${statusClass}">
@@ -356,7 +374,7 @@
                 </span>
               </div>
               <h3 class="shop-card-title">
-                <button type="button" class="shop-card-title-btn" data-action="detail" data-id="${item.id}">${item.name}</button>
+                <a href="${productUrl}" class="shop-card-title-link">${item.name}</a>
               </h3>
               <div class="shop-card-unit">หน่วยจำหน่าย: <strong>${item.unit}</strong></div>
               <div class="shop-card-price-row">
@@ -367,9 +385,9 @@
                 ${inCartBadge}
               </div>
               <div class="shop-card-actions">
-                <button type="button" class="shop-btn-detail" data-action="detail" data-id="${item.id}" aria-label="ดูรายละเอียด ${item.name}">
+                <a href="${productUrl}" class="shop-btn-detail" aria-label="ดูรายละเอียด ${item.name}">
                   ดูรายละเอียด
-                </button>
+                </a>
                 <button type="button" class="shop-btn-add${!isAvailable ? ' is-disabled' : ''}" data-action="add-to-cart" data-id="${item.id}" ${!isAvailable ? 'disabled' : ''} aria-label="${isAvailable ? `เพิ่ม ${item.name} ลงตะกร้า` : `${item.name} หมดชั่วคราว`}">
                   ${isAvailable ? ICONS.plus : ''}
                   <span>${isAvailable ? 'ใส่ตะกร้า' : 'หมดชั่วคราว'}</span>
@@ -387,7 +405,7 @@
       if (totalPages > 1) {
         for (let p = 1; p <= totalPages; p++) {
           pageButtonsHtml.push(
-            `<button type="button" class="shop-page-btn${p === state.currentPage ? ' is-active' : ''}" data-page="${p}" aria-label="หน้า ${p}">${p}</button>`
+            `<a href="?page=${p}#shop" class="shop-page-btn${p === state.currentPage ? ' is-active' : ''}" data-page="${p}" aria-label="หน้า ${p}">${p}</a>`
           );
         }
       }
@@ -409,11 +427,19 @@
       `;
 
       paginationEl.querySelectorAll('.shop-page-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
           const p = Number(btn.getAttribute('data-page')) || 1;
           if (p === state.currentPage) return;
           state.currentPage = p;
+          try {
+            history.pushState(null, '', `?page=${p}#shop`);
+          } catch (_) {}
           renderProducts();
+          const shopSection = document.getElementById('shop');
+          if (shopSection) {
+            shopSection.scrollIntoView({ behavior: 'smooth' });
+          }
         });
       });
 
@@ -725,7 +751,7 @@
           <img
             id="pmodal-main-img"
             src="${mainImgSrc}"
-            alt="${product.name} - ผลไม้สดคัดเกรด SG FRUIT"
+            alt="${getProductAltText(product)}"
             width="480"
             height="480"
             onerror="this.src='${global.SG_API_ADAPTER ? global.SG_API_ADAPTER.PLACEHOLDER_SVG : ''}'"
@@ -2837,11 +2863,14 @@
             ? item.variants[0].price
             : (Number(item.price) || 0));
 
+        const itemSlug = item.slug || item.id;
+        const itemUrl = `${origin}/products/${encodeURIComponent(itemSlug)}`;
+
         return {
           '@type': 'Product',
-          '@id': `${origin}/?product=${encodeURIComponent(item.id)}`,
+          '@id': `${itemUrl}#product`,
           name: item.name,
-          description: `${item.name} ผลไม้สดคัดเกรดพรีเมียม SG FRUIT คัดสรรจากแหล่งปลูก ตลาดไท และตลาดสี่มุมเมือง จัดส่งทั่วไทย`,
+          description: `${item.name} คัดสดใหม่วันต่อวันจากตลาดไท ตลาดสี่มุมเมือง และสวนเกษตรกร โดย SG FRUIT จัดส่งด่วนทั่วไทย รับประกันเคลม 100%`,
           image: fullImg,
           sku: item.sku || `SG-SKU-${item.id}`,
           category: 'Food, Beverages & Tobacco > Food Items > Fruits & Vegetables',
@@ -2857,7 +2886,7 @@
             priceValidUntil: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
             availability: isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
             itemCondition: 'https://schema.org/NewCondition',
-            url: `${origin}/?product=${encodeURIComponent(item.id)}`,
+            url: itemUrl,
             seller: {
               '@id': `${origin}/#organization`,
               name: 'บริษัท ศิริวัตร์เมธานินท์ กรุ๊ป จำกัด'
@@ -2934,6 +2963,9 @@
     // ตรวจสอบและเคลียร์รายการเก่าที่หมดอายุหรือถูกลบออกจากระบบ
     validateAndSyncCart(false);
 
+    // Deep Linking: ตรวจสอบ URL query parameter ?page=
+    checkUrlPageDeepLink();
+
     renderModeBadge();
     renderCategories();
     renderProducts();
@@ -2942,11 +2974,35 @@
     // สร้างและอัปเดต Structured Data (JSON-LD) ของสินค้าแบบ Dynamic
     updateProductStructuredData(products);
 
-    // Deep Linking: ตรวจสอบ URL พารามิเตอร์หมวดหมู่เพื่อเปลี่ยนแท็บและเลื่อนไปที่ร้านค้าอัตโนมัติ
+    // Pagination Deep Linking: ตรวจสอบ URL query parameter ?page= เพื่อเปิดหน้าที่กำหนด
+  function checkUrlPageDeepLink() {
+    try {
+      if (typeof window === 'undefined' || !window.location) return;
+      const url = new URL(window.location.href);
+      const pageParam = parseInt(url.searchParams.get('page'), 10);
+      if (!isNaN(pageParam) && pageParam > 0) {
+        state.currentPage = pageParam;
+      }
+    } catch (_) {}
+  }
+
+  // Deep Linking: ตรวจสอบ URL พารามิเตอร์หมวดหมู่เพื่อเปลี่ยนแท็บและเลื่อนไปที่ร้านค้าอัตโนมัติ
     checkUrlCategoryDeepLink();
 
     // Deep Linking: ตรวจสอบ URL พารามิเตอร์เพื่อเปิด Modal รายการสินค้าอัตโนมัติ
     checkUrlProductDeepLink();
+  }
+
+  // Pagination Deep Linking: ตรวจสอบ URL query parameter ?page= เพื่อเปิดหน้าที่กำหนด
+  function checkUrlPageDeepLink() {
+    try {
+      if (typeof window === 'undefined' || !window.location) return;
+      const url = new URL(window.location.href);
+      const pageParam = parseInt(url.searchParams.get('page'), 10);
+      if (!isNaN(pageParam) && pageParam > 0) {
+        state.currentPage = pageParam;
+      }
+    } catch (_) {}
   }
 
   // Deep Linking: ตรวจสอบ URL พารามิเตอร์หมวดหมู่เพื่อเปลี่ยนแท็บและเลื่อนไปที่ร้านค้าอัตโนมัติ

@@ -5,56 +5,272 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/seasonal-fruits</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/imported-produce</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/fresh-vegetables</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/#shop</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/#story</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/#about</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/#faq</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sg-fruit.siriwatmedhanin.com/#contact</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-e29dec06</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-be303c53</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-fc00fa89</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-ef4e3e17</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-4f7c346c</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-013</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-015</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-006</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-008</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-009</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-010</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-7dea4c3c</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-c0742b5b</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-ecbfe19b</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-cd82b7b4</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-25c02199</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-694c1f06</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-79cffc2b</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-87fc9fc8</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-f6dcc373</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-6dd785ec</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-2fc64938</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-a2ba641a</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-a84bf509</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-staging-001b</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-011</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-012</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-014</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-staging-001</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/prod-staging-002</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-001</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-004</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-005</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-007</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-002</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sg-fruit.siriwatmedhanin.com/products/sg-003</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
   </url>
 </urlset>

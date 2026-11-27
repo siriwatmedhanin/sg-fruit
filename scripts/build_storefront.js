@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
+import { buildProductPages } from './build_product_pages.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,7 +52,7 @@ function copyRecursive(src, dest) {
   }
 }
 
-function build() {
+async function build() {
   console.log('===============================================================');
   console.log('SG FRUIT STOREFRONT — CLOUDFLARE PAGES BUILD PIPELINE');
   console.log(`Source: ${ROOT_DIR}`);
@@ -59,6 +60,13 @@ function build() {
   console.log('===============================================================\n');
 
   cleanDist();
+
+  // 0. Pre-render Dedicated Product SEO Pages & update sitemap.xml
+  try {
+    await buildProductPages();
+  } catch (err) {
+    console.warn('[WARN] buildProductPages had a warning:', err.message);
+  }
 
   // 1. Copy index.html
   console.log('[1/4] Copying index.html...');
@@ -99,9 +107,16 @@ function build() {
     }
   }
 
-  // 4.3 Cloudflare Pages Functions (Dynamic Open Graph Middleware)
+  // 4.3 Copy Dedicated Product SEO Landing Pages (Cloudflare Pages cleanly serves products/<slug>.html as /products/<slug> with 200)
+  if (fs.existsSync(path.join(ROOT_DIR, 'products'))) {
+    console.log('[4.3] Copying products/ directory to dist/products...');
+    copyRecursive(path.join(ROOT_DIR, 'products'), path.join(DIST_DIR, 'products'));
+    console.log('[PASS] products packaged for Cloudflare Pages successfully.');
+  }
+
+  // 4.4 Cloudflare Pages Functions (Dynamic Open Graph Middleware & SSR)
   if (fs.existsSync(path.join(ROOT_DIR, 'functions'))) {
-    console.log('[4.3] Copying Cloudflare Pages Functions to dist/functions...');
+    console.log('[4.4] Copying Cloudflare Pages Functions to dist/functions...');
     copyRecursive(path.join(ROOT_DIR, 'functions'), path.join(DIST_DIR, 'functions'));
     console.log('[PASS] functions packaged for Cloudflare Pages successfully.');
   }
@@ -166,4 +181,7 @@ function build() {
   console.log('[PASS] Build completed successfully. dist/ is ready for Cloudflare Pages deployment.');
 }
 
-build();
+build().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

@@ -9,11 +9,15 @@ export async function onRequest(context) {
   const { request, next, env } = context;
   const url = new URL(request.url);
 
-  // Check for product deep link parameter (?product=... or ?p=... or /p/...)
+  // Check for product deep link parameter (?product=... or ?p=... or /p/... or /products/...)
   let productId = url.searchParams.get('product') || url.searchParams.get('p');
   const isPPath = url.pathname.startsWith('/p/');
+  const isProductsPath = url.pathname.startsWith('/products/');
   if (!productId && isPPath) {
     const parts = url.pathname.replace(/^\/p\//, '').split('/');
+    productId = parts[0];
+  } else if (!productId && isProductsPath) {
+    const parts = url.pathname.replace(/^\/products\//, '').split('/');
     productId = parts[0];
   }
 

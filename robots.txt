@@ -3,42 +3,56 @@
 
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
 
 User-agent: Applebot
 Allow: /
+Disallow: /api/
 
 User-agent: DuckDuckBot
 Allow: /
+Disallow: /api/
 
 User-agent: YandexBot
 Allow: /
+Disallow: /api/
 
 # AI Answer Engines & LLM Crawlers
 User-agent: GPTBot
 Allow: /
+Disallow: /api/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /api/
 
 User-agent: meta-externalagent
 Allow: /
+Disallow: /api/
 
 User-agent: Bytespider
 Allow: /
+Disallow: /api/
 
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://sg-fruit.siriwatmedhanin.com/sitemap.xml
+
